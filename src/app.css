@@ -1,0 +1,18 @@
+@import "../src/assets/fonts/iconfont.css";
+@unocss all;
+page{
+    
+    height: 100%;
+    background: #ededed;
+}
+
+.home {
+    display:flex;
+    flex-direction: column;
+    height:100%
+}
+
+.home .main{
+    flex:1;
+    overflow:hidden;
+}

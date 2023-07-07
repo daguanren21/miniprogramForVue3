@@ -1,0 +1,13 @@
+{
+  "miniprogramRoot": "./",
+  "projectname": "miniprogram_aedms",
+  "description": "用于政府维护AED设备的一系列解决方案",
+  "appid": "touristappid",
+  "setting": {
+    "urlCheck": true,
+    "es6": false,
+    "postcss": false,
+    "minified": false
+  },
+  "compileType": "miniprogram"
+}
