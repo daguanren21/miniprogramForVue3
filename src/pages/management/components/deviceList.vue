@@ -1,12 +1,10 @@
 <template>
-    <div class="h-full">
-        <nut-cell class="h-full">
-            <nut-list :height="50" :listData="count" @scroll-bottom="handleScroll">
-                <template v-slot="{ item, index }">
-                    <div class="list-item" style="height:50px"> {{ index }} </div>
-                </template>
-            </nut-list>
-        </nut-cell>
+    <div class="h-full overflow-hidden">
+        <nut-list :height="50" :listData="count" @scroll-bottom="handleScroll">
+            <template v-slot="{ item, index }">
+                <div class="list-item"> {{ index }} </div>
+            </template>
+        </nut-list>
     </div>
 </template>
 
@@ -16,12 +14,13 @@ defineOptions({
 })
 const count = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
 function handleScroll() {
+    debugger
     console.log("scroll")
 }
 </script>
 
 <style lang="scss">
- .list-item {
+.list-item {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -30,5 +29,5 @@ function handleScroll() {
     margin-bottom: 10px;
     background-color: #f4a8b6;
     border-radius: 10px;
-  }
+}
 </style>

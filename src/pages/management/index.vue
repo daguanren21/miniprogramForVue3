@@ -1,15 +1,5 @@
 <template>
-    <div class="home">
-        <jx-nav-bar title="设备管理">
-            <template #left>
-                <div class="absolute text-hex-fa2c19">新增设备</div>
-            </template>
-        </jx-nav-bar>
-        <div class="main">
-             <device-list></device-list>
-        </div>
-        <jx-tab-bar></jx-tab-bar>
-    </div>
+    <device-list></device-list>
 </template>
 
 <script setup lang="ts">

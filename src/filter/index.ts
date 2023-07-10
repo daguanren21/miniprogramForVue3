@@ -13,6 +13,7 @@ const enum DevicePublicType {
     NEVER = "NEVER",
     BUSINESS_HOURS = "BUSINESS_HOURS"
 }
+export type DotType = 'success' | 'error' | 'info' | 'warning' | 'default'
 export const devicePublicFilter = (key: "PUBLIC" | "HALF" | "NEVER" | "BUSINESS_HOURS") => {
     let str = ""
     switch (key) {
@@ -59,4 +60,38 @@ export const distanceFilter = (distance: number) => {
     } else if (!distance) {
         return '未知'
     }
+}
+
+/**
+ * @description 运行状态
+ */
+export const deviceRunningStateFilter = (key: 'UNKNOWN' | 'NORMAL' | 'ABNORMAL' | 'WARNING') => {
+    let state: {
+        type: DotType,
+        text: string
+    } = {
+        type: 'default',
+        text: ''
+    }
+    switch (key) {
+        case 'UNKNOWN':
+            state.type = 'default'
+            state.text = '未知'
+            break;
+        case 'NORMAL':
+            state.type = 'success'
+            state.text = '正常'
+            break;
+        case 'ABNORMAL':
+            state.type = 'error'
+            state.text = '异常'
+            break;
+        case 'WARNING':
+            state.type = 'warning'
+            state.text = '预警'
+            break;
+        default:
+            break;
+    }
+    return state
 }

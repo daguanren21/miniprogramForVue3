@@ -1,6 +1,6 @@
 const enum Server {
     DEVELOPMENT = 'https://demo.jousing.cn/api',
-    LOCAL = 'http://192.168.10.3:8080/services/',
+    LOCAL = 'http://192.168.10.22:8080/services/',
     PRODUCTION = 'https://www.jousing.cn/api'
 }
 const enum MapKey {

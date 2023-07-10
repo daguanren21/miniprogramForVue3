@@ -22,7 +22,7 @@ declare module '@tarojs/components' {
 }
 declare namespace Filter {
   type PublicType = 'PUBLIC' | 'HALF' | 'NEVER' | 'BUSINESS_HOURS'
-  type RunningState = 'UNKNOWN' | 'HALF' | 'ABNORMAL' | 'WARNING'
+  type RunningState = 'UNKNOWN' | 'NORMAL' | 'ABNORMAL' | 'WARNING'
 }
 declare namespace Index {
 

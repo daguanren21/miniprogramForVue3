@@ -3,6 +3,7 @@ import Taro from '@tarojs/taro'
 import * as QQMapWX from 'qqmap-wx-jssdk'
 import { type DeviceMap, fetchRegionDevices, fetchRegionDeviceInfo } from '~/api/device'
 import normalImage from '~/assets/images/map_jx.png'
+import normalSelectImage from '~/assets/images/jx_select.png'
 export const useQQMapSdk = () => {
     const mapCtx = Taro.createMapContext('indexMap')
     const qqmapsdk = new QQMapWX({ key: qqMapKey })
@@ -18,6 +19,7 @@ export const useQQMapSdk = () => {
     }[]>([])
     const deviceInfo = ref<Index.DeviceInfo>()
     const deviceVisible = ref(false)
+    const deviceSelectId = ref(0)
     const getSuggestion = (option: { keyword: string }): Promise<Index.Suggestion[]> => {
         return new Promise((resolve, reject) => {
             qqmapsdk.getSuggestion({
@@ -88,14 +90,15 @@ export const useQQMapSdk = () => {
         let devices = deviceList.value
         if (devices.length) {
             let deviceMarkers = devices.map(device => {
+                let isSelect = device.id === deviceSelectId.value
                 return {
                     id: device.id,
                     deviceId: device.id,
                     latitude: device.deployedAreaLatitude,
                     longitude: device.deployedAreaLongitude,
-                    iconPath: normalImage,
-                    width: 50,
-                    height: 50
+                    iconPath: isSelect ? normalSelectImage : normalImage,
+                    width: isSelect ? 55 : 50,
+                    height: isSelect ? 55 : 50
                 }
             })
             markers.value = deviceMarkers
@@ -105,7 +108,18 @@ export const useQQMapSdk = () => {
     //点击设备点查看详情
     const markertap = async (e: { detail: { markerId: number } }) => {
         let deviceId = e.detail.markerId
+        deviceSelectId.value = deviceId
         let { latitude, longitude } = await getCenterLocation()
+        markers.value = markers.value.map(i => {
+            let isSelect = i.id === deviceId
+            return {
+                ...i,
+                width: isSelect ? 55 : 50,
+                height: isSelect ? 55 : 50,
+                iconPath: isSelect ? normalSelectImage : normalImage
+
+            }
+        })
         let res = await fetchRegionDeviceInfo({
             deviceId,
             latFrom: latitude,
@@ -114,6 +128,7 @@ export const useQQMapSdk = () => {
         deviceInfo.value = res
         deviceVisible.value = true
     }
+   
     return {
         getSuggestion,
         getRegion,
@@ -121,6 +136,8 @@ export const useQQMapSdk = () => {
         markers,
         markertap,
         deviceInfo,
-        deviceVisible
+        deviceVisible,
+        deviceSelectId,
+        renderMarkerDevices,
     }
 }

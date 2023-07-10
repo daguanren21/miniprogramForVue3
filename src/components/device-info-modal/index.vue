@@ -15,7 +15,7 @@
                     </view>
                     <view class="time"> 品牌：{{ detail.brandName }} </view>
                     <view class="item-m">
-                        <!-- <jx-dot :state="'NORMAL'" /> -->
+                        <jx-dot :state="deviceRunningStateFilter(detail.runningState)" />
                     </view>
                     <view class="item-b">
                         <view class="address">
@@ -47,7 +47,8 @@
 
 <script setup lang="ts">
 import { IconFont } from '@nutui/icons-vue-taro';
-import { devicePublicFilter, noDataFilter, distanceFilter } from '~/filter'
+import Taro from '@tarojs/taro';
+import { devicePublicFilter, noDataFilter, distanceFilter, deviceRunningStateFilter } from '~/filter'
 import { showWeekDays } from '~/utils'
 defineOptions({
     name: 'DeviceInfoModal'
@@ -61,8 +62,21 @@ const emit = defineEmits<{
     toPage
 }>()
 
-const showMapNavigation = (info: any) => {
-
+const showMapNavigation = (info: Index.DeviceInfo) => {
+    let { address, deployedAreaLatitude: lat, deployedAreaLongitude: lng } = info
+    if (lat) {
+        Taro.showToast({
+            title: '设备位置信息未完善',
+            icon: 'none'
+        })
+        return
+    }
+    Taro.openLocation({
+        latitude: lat,
+        longitude: lng,
+        name: address,
+        scale: 20
+    })
 }
 </script>
 

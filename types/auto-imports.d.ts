@@ -17,6 +17,7 @@ declare global {
   const defineComponent: typeof import('vue')['defineComponent']
   const defineStore: typeof import('pinia')['defineStore']
   const devicePublicFilter: typeof import('../src/filter/index')['devicePublicFilter']
+  const deviceRunningStateFilter: typeof import('../src/filter/index')['deviceRunningStateFilter']
   const distanceFilter: typeof import('../src/filter/index')['distanceFilter']
   const effectScope: typeof import('vue')['effectScope']
   const getActivePinia: typeof import('pinia')['getActivePinia']
