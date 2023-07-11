@@ -14,7 +14,6 @@ defineOptions({
 })
 const count = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
 function handleScroll() {
-    debugger
     console.log("scroll")
 }
 </script>

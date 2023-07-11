@@ -3,6 +3,12 @@ export default defineAppConfig({
     'pages/index/index',
     'pages/management/index'
   ],
+  // subPackages: [{
+  //   root: 'Index/',
+  //   pages: [
+  //     'nearby/index'//附近的AED
+  //   ]
+  // }],
   window: {
     backgroundTextStyle: 'light',
     navigationBarBackgroundColor: '#fff',

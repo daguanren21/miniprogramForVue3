@@ -46,3 +46,21 @@ export function fetchRegionDeviceInfo(data: {
         method: Method.GET
     })
 }
+
+/**
+ * 查询附近的AED
+ * @param distance 距离
+ * @param latFrom:用户所在纬度
+ * @param lngFrom:用户所在经度
+ */
+export function fetchLatelyDevices(data:{
+    distance:number,
+    latFrom: number,
+    lngFrom: number,
+}): Promise<Index.DeviceInfo[]> {
+    return request({
+        url: api.public + 'device/nearby-device',
+        data: data,
+        method: Method.GET
+    })
+}

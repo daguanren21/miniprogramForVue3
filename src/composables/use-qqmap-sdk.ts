@@ -128,7 +128,12 @@ export const useQQMapSdk = () => {
         deviceInfo.value = res
         deviceVisible.value = true
     }
-   
+    //回到用户当前位置
+    const moveToLocation = () => {
+        mapCtx.moveToLocation({
+
+        })
+    }
     return {
         getSuggestion,
         getRegion,
@@ -139,5 +144,6 @@ export const useQQMapSdk = () => {
         deviceVisible,
         deviceSelectId,
         renderMarkerDevices,
+        moveToLocation
     }
 }

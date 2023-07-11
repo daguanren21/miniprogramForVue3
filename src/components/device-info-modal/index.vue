@@ -64,7 +64,7 @@ const emit = defineEmits<{
 
 const showMapNavigation = (info: Index.DeviceInfo) => {
     let { address, deployedAreaLatitude: lat, deployedAreaLongitude: lng } = info
-    if (lat) {
+    if (!lat || !lng){
         Taro.showToast({
             title: '设备位置信息未完善',
             icon: 'none'

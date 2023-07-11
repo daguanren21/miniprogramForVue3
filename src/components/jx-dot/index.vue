@@ -27,22 +27,22 @@ defineProps<{
 
 }>()
 const filter = (type: DotType) => {
-    let color = '#33CC33'
+    let color = ''
     switch (type) {
         case 'success':
-            color == '#33CC33'
+            color = '#33CC33'
             break;
         case 'info':
-            color == '#6190E8'
+            color = '#6190E8'
             break;
         case 'error':
-            color == '#C30D23'
+            color = '#C30D23'
             break;
         case 'warning':
-            color == '#FF6216'
+            color = '#FF6216'
             break;
         case 'default':
-            color == '#B4B4B4'
+            color = '#B4B4B4'
             break;
         default:
             break;

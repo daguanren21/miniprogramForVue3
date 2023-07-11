@@ -309,3 +309,11 @@
 .fa-video-link:before {
   content: "\e65d";
 }
+
+.fa-nearby:before {
+ content:"\e69b" 
+}
+
+.fa-myLoc:before {
+  content:"\fb5a"
+}
