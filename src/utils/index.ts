@@ -25,3 +25,14 @@ export const showWeekDays = (workDay: string) => {
         .map((v) => weekShowDays[v])
         .join('、') : ''
 }
+
+/**
+ * @description 保证图片个数（4个）
+ */
+export  const getImages = (deployedImageUrls:string,len:number=4) => {
+    let images:string[] = deployedImageUrls.split(';');
+    if (images.length < len) {
+        images = images.concat(new Array(len - images.length).fill(null))
+    }
+    return images
+}

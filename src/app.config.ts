@@ -1,14 +1,15 @@
 export default defineAppConfig({
   pages: [
     'pages/index/index',
-    'pages/management/index'
+    'pages/management/index',
+    'pages/center/index',
   ],
-  // subPackages: [{
-  //   root: 'Index/',
-  //   pages: [
-  //     'nearby/index'//附近的AED
-  //   ]
-  // }],
+  subPackages: [{
+    root: 'Manage/',//运维管理
+    pages: [
+      'deviceInfo/index'//运维管理设备详情
+    ]
+  }],
   window: {
     backgroundTextStyle: 'light',
     navigationBarBackgroundColor: '#fff',
@@ -28,6 +29,10 @@ export default defineAppConfig({
       {
         pagePath: 'pages/management/index',
         text: '运维管理'
+      },
+      {
+        pagePath: 'pages/center/index',
+        text: '个人中心'
       }
     ]
   },

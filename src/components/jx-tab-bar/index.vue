@@ -16,7 +16,7 @@
                     <My></My>
                 </template>
             </nut-tabbar-item>
-            <nut-tabbar-item name="" tab-title="个人中心">
+            <nut-tabbar-item name="center" tab-title="个人中心">
                 <template #icon>
                     <My></My>
                 </template>

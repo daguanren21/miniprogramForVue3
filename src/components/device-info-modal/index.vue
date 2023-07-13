@@ -48,6 +48,7 @@
 <script setup lang="ts">
 import { IconFont } from '@nutui/icons-vue-taro';
 import Taro from '@tarojs/taro';
+import { useQQMapSdk } from '~/composables/use-qqmap-sdk';
 import { devicePublicFilter, noDataFilter, distanceFilter, deviceRunningStateFilter } from '~/filter'
 import { showWeekDays } from '~/utils'
 defineOptions({
@@ -61,22 +62,18 @@ const emit = defineEmits<{
     close,
     toPage
 }>()
-
-const showMapNavigation = (info: Index.DeviceInfo) => {
+let { openLocation } = useQQMapSdk()
+const showMapNavigation = async (info: Index.DeviceInfo) => {
     let { address, deployedAreaLatitude: lat, deployedAreaLongitude: lng } = info
-    if (!lat || !lng){
+    try {
+        await openLocation(lat, lng, address)
+
+    } catch (error) {
         Taro.showToast({
-            title: '设备位置信息未完善',
+            title:error,
             icon: 'none'
         })
-        return
     }
-    Taro.openLocation({
-        latitude: lat,
-        longitude: lng,
-        name: address,
-        scale: 20
-    })
 }
 </script>
 

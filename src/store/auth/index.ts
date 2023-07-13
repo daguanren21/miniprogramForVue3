@@ -5,9 +5,7 @@ export const useAuthStore = defineStore('auth', {
     state: () => ({
         authInfo: {
             id_token: '',
-            openid: '',
             unionid: '',
-            phoneNumber: '',
         } as Auth,
         tabName: 'index'
     }),

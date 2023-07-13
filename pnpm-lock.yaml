@@ -59,6 +59,9 @@ dependencies:
   '@tarojs/taro':
     specifier: 3.6.1
     version: 3.6.1(vue@3.3.4)
+  dayjs:
+    specifier: ^1.11.9
+    version: 1.11.9
   pinia:
     specifier: ^2.1.4
     version: 2.1.4(typescript@4.1.2)(vue@3.3.4)
@@ -7095,7 +7098,6 @@ packages:
 
   /dayjs@1.11.9:
     resolution: {integrity: sha512-QvzAURSbQ0pKdIye2txOzNaHmxtUBXerpY0FJsFXUMKbIZeFm5ht1LS/jFsrncjnmtv8HsG0W2g6c0zUjZWmpA==}
-    dev: true
 
   /debug@2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}

@@ -39,11 +39,10 @@ const NormalRquestData: RequestBase = {
 }
 
 export const request = async (data: RequestBase): Promise<any> => {
-    // const auth = useAuthStore()
-    let token: string = ''
+    const auth = useAuthStore()
     let req: RequestBase = { ...NormalRquestData, ...data }
-    req.header!.Authorization = `Bearer ${token}`
-    Taro.showLoading({ title: req.title || '数据加载中', mask: req.mask })
+    req.header!.Authorization = `Bearer ${auth.authInfo.id_token}`
+    // Taro.showLoading({ title: req.title || '数据加载中', mask: req.mask })
     let res = await Taro.request({
         url: baseUrl + req.url, //引入我的接口是特殊声明的，所以我就不检测http/https了
         method: req.method,
@@ -51,10 +50,40 @@ export const request = async (data: RequestBase): Promise<any> => {
         header: req.header
     })
     if (res.statusCode === 200 || res.statusCode === 204) {
-        Taro.hideLoading()
+        // Taro.hideLoading()
         return Promise.resolve(res.data)
     } else {
-        Taro.hideLoading()
+        // Taro.hideLoading()
+        // 如果失败 检测是否直接提示信息
+        let { title, detail, message } = res.data
+        if (res.statusCode == 500) {
+            // reject('服务器内部异常')
+            return Promise.reject('服务器内部异常')
+        } else {
+            // reject() // 失败
+            return Promise.reject(detail || message || title || '服务器内部异常')
+        }
+    }
+
+}
+
+export const commonRequest = async (data: RequestBase): Promise<any> => {
+    // const auth = useAuthStore()
+    let token: string = ''
+    let req: RequestBase = { ...NormalRquestData, ...data }
+    req.header!.Authorization = `Bearer ${token}`
+    // Taro.showLoading({ title: req.title || '数据加载中', mask: req.mask })
+    let res = await Taro.request({
+        url: gatewayUrl + req.url, //引入我的接口是特殊声明的，所以我就不检测http/https了
+        method: req.method,
+        data: req.data,
+        header: req.header
+    })
+    if (res.statusCode === 200 || res.statusCode === 204) {
+        // Taro.hideLoading()
+        return Promise.resolve(res.data)
+    } else {
+        // Taro.hideLoading()
         // 如果失败 检测是否直接提示信息
         let { title, detail, message } = res.data
         if (res.statusCode == 500) {

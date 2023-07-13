@@ -1,9 +1,8 @@
 import { Method, request } from "~/request"
 
 const api = {
-    base: '/v1/mini-program/public',
-    auth: '/v1/authenticate/mini-aed',
-    feedBack: '/v1/mini-program/feed-backs',
+    login: 'api/v1/authenticate/mini-program/wx-login',
+    oneKeyLogin: 'api/v1/authenticate/mini-program/one-key-login',
 }
 /**
  * 获取wx登录信息
@@ -13,15 +12,24 @@ const api = {
 export interface Auth {
     id_token: string,
     unionid: string,
-    openid: string,
-    phoneNumber: string
 }
-export function wxLogin(data: {
+export function fetchWxLogin(data: {
     appId: string,
     code: string
 }): Promise<Auth> {
-    return request({
-        url: api.auth + '/wx',
+    return commonRequest({
+        url: api.login,
+        data: data,
+        method: Method.POST
+    })
+}
+export function fetchOneKeyLogin(data: {
+    unionid:string,
+    iv: string,
+    encryptedData: string
+}): Promise<Auth> {
+    return commonRequest({
+        url: api.oneKeyLogin,
         data: data,
         method: Method.POST
     })

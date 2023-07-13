@@ -1,6 +1,13 @@
+//services服务
 const enum Server {
     DEVELOPMENT = 'https://demo.jousing.cn/api',
-    LOCAL = 'http://192.168.10.22:8080/services/',
+    LOCAL = 'http://192.168.10.105:8080/services/',
+    PRODUCTION = 'https://www.jousing.cn/api'
+}
+//Gateway服务
+const enum Gateway {
+    DEVELOPMENT = 'https://demo.jousing.cn/api',
+    LOCAL = 'http://192.168.10.105:8080/',
     PRODUCTION = 'https://www.jousing.cn/api'
 }
 const enum MapKey {
@@ -9,5 +16,6 @@ const enum MapKey {
 }
 //配置请求路径
 export const baseUrl = Server.LOCAL
+export const gatewayUrl = Gateway.LOCAL
 //配置map jssdk key
 export const qqMapKey = MapKey.DEVELOPMENT

@@ -13,10 +13,10 @@
 import Taro, { useDidShow } from "@tarojs/taro"
 import { reactive, toRefs } from "vue";
 defineOptions({
-    name:'JxNavBar'
+    name: 'JxNavBar'
 })
 defineProps<{
-    title:string
+    title: string
 }>()
 const navBar = reactive({
     totalHeight: 0,
@@ -38,4 +38,11 @@ const { statusBarHeight, navBarHeight, totalHeight } = toRefs(navBar)
 
 </script>
 
-<style scoped></style>
+<style lang="scss">
+.nut-navbar__title {
+    .title {
+        font-size: 30px;
+        color: black;
+    }
+}
+</style>

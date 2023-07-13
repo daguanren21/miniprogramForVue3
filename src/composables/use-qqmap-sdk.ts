@@ -134,6 +134,31 @@ export const useQQMapSdk = () => {
 
         })
     }
+    //打开导航
+    const openLocation = (lat: number, lng: number, address: string) => {
+        return new Promise((resolve, reject) => {
+            if (!lat || !lng) {
+                reject('设备位置信息未完善')
+            }
+            Taro.openLocation({
+                latitude: lat,
+                longitude: lng,
+                name: address,
+                scale: 20
+            })
+            resolve(true)
+        })
+    }
+    //拨打电话
+    const makePhoneCall = (phoneNumber: string) => {
+        if (!phoneNumber) {
+          return
+        }
+        Taro.makePhoneCall({
+          phoneNumber: phoneNumber
+        })
+      }
+
     return {
         getSuggestion,
         getRegion,
@@ -144,6 +169,8 @@ export const useQQMapSdk = () => {
         deviceVisible,
         deviceSelectId,
         renderMarkerDevices,
-        moveToLocation
+        moveToLocation,
+        openLocation,
+        makePhoneCall
     }
 }

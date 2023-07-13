@@ -1,6 +1,7 @@
 /**
  * @author zhangqihui
  */
+import dayjs from 'dayjs'
 /**
  * @description 设备公开类型
  */
@@ -94,4 +95,136 @@ export const deviceRunningStateFilter = (key: 'UNKNOWN' | 'NORMAL' | 'ABNORMAL' 
             break;
     }
     return state
+}
+
+/**
+ * @description 电池状态
+ */
+export const batteryStateFilter = (key: 'UNKNOWN' | 'NORMAL' | 'POWER_LOW' | 'POWER_RUN_OUT') => {
+    let state: {
+        type: DotType,
+        text: string
+    } = {
+        type: 'default',
+        text: ''
+    }
+    switch (key) {
+        case 'UNKNOWN':
+            state.type = 'default'
+            state.text = '未知'
+            break;
+        case 'NORMAL':
+            state.type = 'success'
+            state.text = '正常'
+            break;
+        case 'POWER_RUN_OUT':
+            state.type = 'error'
+            state.text = '电量耗尽'
+            break;
+        case 'POWER_LOW':
+            state.type = 'warning'
+            state.text = '电量低'
+            break;
+        default:
+            break;
+    }
+    return state
+}
+/**
+ * @description 网络状态
+ */
+export const deviceNetworkStateFilter = (key: 'UNKNOWN' | 'ONLINE' | 'OFFLINE' | 'UNSTABLE') => {
+    let state: {
+        type: DotType,
+        text: string
+    } = {
+        type: 'default',
+        text: ''
+    }
+    switch (key) {
+        case 'UNKNOWN':
+            state.type = 'default'
+            state.text = '未知'
+            break;
+        case 'ONLINE':
+            state.type = 'success'
+            state.text = '在线'
+            break;
+        case 'OFFLINE':
+            state.type = 'error'
+            state.text = '离线'
+            break;
+        case 'UNSTABLE':
+            state.type = 'warning'
+            state.text = '网络波动'
+            break;
+        default:
+            break;
+    }
+    return state
+}
+
+/**
+ * @description 位置状态
+ */
+export const positionStateFilter = (key: 'UNKNOWN' | 'IN_POSITION' | 'OUT_OF_POSITION') => {
+    let state: {
+        type: DotType,
+        text: string
+    } = {
+        type: 'default',
+        text: ''
+    }
+    switch (key) {
+        case 'UNKNOWN':
+            state.type = 'default'
+            state.text = '未知'
+            break;
+        case 'IN_POSITION':
+            state.type = 'success'
+            state.text = '在位'
+            break;
+        case 'OUT_OF_POSITION':
+            state.type = 'error'
+            state.text = '离位'
+            break;
+        default:
+            break;
+    }
+    return state
+}
+
+/**
+ * @description 质保状态
+ */
+export const qualityAssuranceStateFilter = (key: 'UNKNOWN' | 'IN' | 'OUT') => {
+    let state: {
+        type: DotType,
+        text: string
+    } = {
+        type: 'default',
+        text: ''
+    }
+    switch (key) {
+        case 'UNKNOWN':
+            state.type = 'default'
+            state.text = '未知'
+            break;
+        case 'IN':
+            state.type = 'success'
+            state.text = '质保中'
+            break;
+        case 'OUT':
+            state.type = 'error'
+            state.text = '已过保'
+            break;
+        default:
+            break;
+    }
+    return state
+}
+
+
+export const dateFilter = (value: string, format: string = "YYYY-MM-DD HH:mm:ss") => {
+    return dayjs(value).format(format)
 }

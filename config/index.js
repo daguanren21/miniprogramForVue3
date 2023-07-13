@@ -43,6 +43,9 @@ const config = {
     data: `@import "@nutui/nutui-taro/dist/styles/variables.scss";`
   },
   mini: {
+    miniCssExtractPluginOption:{
+      ignoreOrder:true
+    },
     webpackChain(chain) {
       chain.plugin('unplugin-vue-components/webpack').use(Components({
         include: [/\.[tj]sx?$/, /\.vue$/, /\.vue\?vue/],

@@ -2,7 +2,7 @@
   "miniprogramRoot": "./dist",
   "projectname": "miniprogram_aedms",
   "description": "用于政府维护AED设备的一系列解决方案",
-  "appid": "wx53f7a8f88ed71bad",
+  "appid": "wx87eed2c15caaca73",
   "setting": {
     "ignoreDevUnusedFiles":false,
     "urlCheck": true,

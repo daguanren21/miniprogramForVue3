@@ -1,3 +1,3 @@
 export default definePageConfig({
-  navigationBarTitleText: 'AED分布'
+  navigationBarTitleText: 'AED分布',
 })
