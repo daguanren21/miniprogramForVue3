@@ -7,7 +7,8 @@ export default defineAppConfig({
   subPackages: [{
     root: 'Manage/',//运维管理
     pages: [
-      'deviceInfo/index'//运维管理设备详情
+      'deviceInfo/index',//运维管理设备详情
+      'deviceInstall/index'//设备新增或编辑
     ]
   }],
   window: {

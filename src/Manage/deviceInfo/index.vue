@@ -9,7 +9,7 @@
             </div>
             <div class="sn"> {{ noDataFilter(info.serialNumber) }} </div>
             <div class="action">
-                <div class="item">
+                <div class="item" @click="toDeviceInstall">
                     <!-- <AtIcon prefixClass="fa" value="edit" class="icon"></AtIcon> -->
                     <text class="ft">完善信息</text>
                 </div>
@@ -247,6 +247,11 @@ const showMapNavigation = async (info: Manage.DeviceList) => {
             icon: 'none'
         })
     }
+}
+const toDeviceInstall = () => {
+    Taro.navigateTo({
+        url: '/Manage/deviceInstall/index?id=' + router.params.id
+    })
 }
 </script>
 

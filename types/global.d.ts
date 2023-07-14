@@ -19,8 +19,8 @@ declare namespace NodeJS {
 declare module '@tarojs/components' {
   export * from '@tarojs/components/types/index.vue3'
 }
-declare module "*.vue" {
-  import { defineComponent } from "vue";
+declare module '*.vue' {
+  import { defineComponent } from 'vue';
   const Component: ReturnType<typeof defineComponent>;
   export default Component;
 }
@@ -53,23 +53,23 @@ declare namespace Index {
     title: string
   }
   interface DeviceInfo {
-    "id": number,
-    "brandId": number,
-    "address": string,
-    "brandLogo": string,
-    "brandName": string,
-    "calDistance": number,
-    "deployedAreaLatitude": number,
-    "deployedAreaLongitude": number,
-    "deployedImagePath": string,
-    "distance": number,
-    "duration": number,
-    "publicTimeFrom": string,
-    "publicTimeTo": string,
-    "publicType": Filter.PublicType
-    "runningState": Filter.RunningState,
-    "serialNumber": string,
-    "workDay": string
+    id: number,
+    brandId: number,
+    address: string,
+    brandLogo: string,
+    brandName: string,
+    calDistance: number,
+    deployedAreaLatitude: number,
+    deployedAreaLongitude: number,
+    deployedImagePath: string,
+    distance: number,
+    duration: number,
+    publicTimeFrom: string,
+    publicTimeTo: string,
+    publicType: Filter.PublicType
+    runningState: Filter.RunningState,
+    serialNumber: string,
+    workDay: string
   }
 }
 
@@ -158,4 +158,38 @@ declare namespace Manage {
     unitName: string,
     workDay: string
   }
+  /**
+   * @description 新增设备or编辑设备
+   */
+  interface DeviceSaveForm {
+    id?:number;
+    address: string;
+    batteryInvalidDate: string;
+    brandId: number;
+    configInstitutionId: number;
+    contactName: string;
+    contactPhone: string;
+    deployedImagePath: string,
+    deployedLatitude: number,
+    deployedLongitude: number,
+    description: string,
+    deviceNetworkState: Filter.DeviceNetworkState,
+    electrodeInvalidDate: string,
+    installDate: string,
+    investor: string,
+    maintainInstitutionId: number,
+    mobile: boolean,
+    model: string,
+    placeId: number,
+    publicTimeFrom: string,
+    publicTimeTo: string,
+    publicType: Filter.PublicType,
+    qualityAssuranceDate: string,
+    regionId: number[]
+    runningState: Filter.RunningState,
+    serialNumber: string,
+    unitName: string,
+    workDay: string
+  }
+
 }
