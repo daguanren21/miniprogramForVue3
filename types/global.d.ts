@@ -114,7 +114,7 @@ declare namespace Manage {
     deployedLatitude: number;
     deployedLongitude: number;
     brandName: string;
-    brandId: number;
+    brandId: number | string;
     brandLogo: string;
     batteryState: Filter.BatteryState;
     address: string;
@@ -148,6 +148,7 @@ declare namespace Manage {
     placeId: number,
     placeName: string,
     publicDate: string,
+    publicType:Filter.PublicType
     publicTimeFrom: string,
     publicTimeTo: string,
     qualityAssuranceDate: string,

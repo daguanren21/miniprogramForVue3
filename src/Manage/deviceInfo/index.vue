@@ -225,7 +225,6 @@ defineOptions({
     name: 'manageDeviceInfo'
 })
 import { useRouter, useDidShow } from '@tarojs/taro'
-import { fetchManageDeviceInfo } from '~/api/device'
 import { getImages } from '~/utils/index'
 import { dateFilter, deviceRunningStateFilter, deviceNetworkStateFilter, positionStateFilter, qualityAssuranceStateFilter, batteryStateFilter, noDataFilter } from '~/filter/index'
 import { useQQMapSdk } from '~/composables/use-qqmap-sdk';
@@ -233,9 +232,14 @@ import Taro from '@tarojs/taro';
 const router = useRouter()
 let { openLocation, makePhoneCall } = useQQMapSdk()
 const info = ref<Manage.DeviceInfo>()
+const manage = useManageStore()
 useDidShow(async () => {
-    let res = await fetchManageDeviceInfo(Number(router.params.id))
-    info.value = res
+    await manage.getDeviceInfo(Number(router.params.id))
+})
+watch(() => manage.deviceInfo, (val) => {
+    info.value = val
+}, {
+    deep: true
 })
 const showMapNavigation = async (info: Manage.DeviceList) => {
     let { address, deployedLatitude: lat, deployedLongitude: lng } = info

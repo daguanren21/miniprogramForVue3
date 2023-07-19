@@ -8,7 +8,8 @@ export default defineAppConfig({
     root: 'Manage/',//运维管理
     pages: [
       'deviceInfo/index',//运维管理设备详情
-      'deviceInstall/index'//设备新增或编辑
+      'deviceInstall/index',//设备新增或编辑
+      'institutionSearch/index',//单位搜索（维保或配置单位）
     ]
   }],
   window: {

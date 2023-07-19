@@ -1,13 +1,13 @@
 //services服务
 const enum Server {
     DEVELOPMENT = 'https://demo.jousing.cn/api',
-    LOCAL = 'http://192.168.10.4:8080/services/',
+    LOCAL = 'http://192.168.10.13:8080/services/',
     PRODUCTION = 'https://www.jousing.cn/api'
 }
 //Gateway服务
 const enum Gateway {
     DEVELOPMENT = 'https://demo.jousing.cn/api',
-    LOCAL = 'http://192.168.10.4:8080/',
+    LOCAL = 'http://192.168.10.13:8080/',
     PRODUCTION = 'https://www.jousing.cn/api'
 }
 const enum MapKey {
@@ -19,3 +19,26 @@ export const baseUrl = Server.LOCAL
 export const gatewayUrl = Gateway.LOCAL
 //配置map jssdk key
 export const qqMapKey = MapKey.DEVELOPMENT
+//工作日
+export const workDayOptions = [{
+    value: '1',
+    label: '周一',
+}, {
+    value: '2',
+    label: '周二',
+}, {
+    value: '3',
+    label: '周三',
+}, {
+    value: '4',
+    label: '周四',
+}, {
+    value: '5',
+    label: '周五',
+}, {
+    value: '6',
+    label: '周六',
+}, {
+    value: '7',
+    label: '周日',
+},]

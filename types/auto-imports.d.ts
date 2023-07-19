@@ -82,6 +82,7 @@ declare global {
   const useAuthStore: typeof import('../src/store/auth/index')['useAuthStore']
   const useCssModule: typeof import('vue')['useCssModule']
   const useCssVars: typeof import('vue')['useCssVars']
+  const useManageStore: typeof import('../src/store/manage/index')['useManageStore']
   const useSlots: typeof import('vue')['useSlots']
   const watch: typeof import('vue')['watch']
   const watchEffect: typeof import('vue')['watchEffect']
@@ -89,6 +90,7 @@ declare global {
   const watchSyncEffect: typeof import('vue')['watchSyncEffect']
   const weekDays: typeof import('../src/utils/index')['weekDays']
   const weekShowDays: typeof import('../src/utils/index')['weekShowDays']
+  const workDayOptions: typeof import('../src/utils/constant')['workDayOptions']
 }
 // for type re-export
 declare global {

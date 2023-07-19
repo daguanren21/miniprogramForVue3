@@ -16,10 +16,14 @@ declare module '@vue/runtime-core' {
     NutActionSheet: typeof import('@nutui/nutui-taro')['ActionSheet']
     NutBacktop: typeof import('@nutui/nutui-taro')['Backtop']
     NutButton: typeof import('@nutui/nutui-taro')['Button']
+    NutCascader: typeof import('@nutui/nutui-taro')['Cascader']
     NutCell: typeof import('@nutui/nutui-taro')['Cell']
     NutCellGroup: typeof import('@nutui/nutui-taro')['CellGroup']
+    NutCheckbox: typeof import('@nutui/nutui-taro')['Checkbox']
+    NutCheckboxGroup: typeof import('@nutui/nutui-taro')['CheckboxGroup']
     NutCol: typeof import('@nutui/nutui-taro')['Col']
     NutDatePicker: typeof import('@nutui/nutui-taro')['DatePicker']
+    NutElevator: typeof import('@nutui/nutui-taro')['Elevator']
     NutForm: typeof import('@nutui/nutui-taro')['Form']
     NutFormItem: typeof import('@nutui/nutui-taro')['FormItem']
     NutImagePreview: typeof import('@nutui/nutui-taro')['ImagePreview']
@@ -32,5 +36,7 @@ declare module '@vue/runtime-core' {
     NutSteps: typeof import('@nutui/nutui-taro')['Steps']
     NutTabbar: typeof import('@nutui/nutui-taro')['Tabbar']
     NutTabbarItem: typeof import('@nutui/nutui-taro')['TabbarItem']
+    NutTextarea: typeof import('@nutui/nutui-taro')['Textarea']
+    NutUploader: typeof import('@nutui/nutui-taro')['Uploader']
   }
 }

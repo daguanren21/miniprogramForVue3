@@ -43,9 +43,32 @@ export interface CoordinateToAddress {
     province: AddressInfo,
     street: AddressInfo
 }
-export function fetchDeviceCoordinate(): Promise<Places[]> {
+export function fetchDeviceCoordinate(data: { latitude: number, longitude: number }): Promise<CoordinateToAddress> {
     return request({
         url: api.public + 'districts/coordinate',
+        data,
+        method: Method.GET
+    })
+}
+
+/**
+ * @description 查询地区列表
+ */
+export interface DistrictAreas {
+    cnName: string,
+    code: string,
+    districtLevel: number,
+    enName: string,
+    haveChildren: boolean,
+    id: number,
+    lat: number,
+    lng: number,
+    parentId: number
+}
+export function fetchDistrictAreas(data?: { parentId: number | string }): Promise<DistrictAreas[]> {
+    return request({
+        url: api.public + 'districts/areas',
+        data,
         method: Method.GET
     })
 }

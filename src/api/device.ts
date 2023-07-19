@@ -100,3 +100,36 @@ export function fetchManageDeviceInfo(id: number): Promise<Manage.DeviceInfo> {
         method: Method.GET
     })
 }
+
+/**
+ * @description 保存设备信息
+ * @returns 
+ */
+export function saveDevices(data: Manage.DeviceSaveForm): Promise<void> {
+    return request({
+        url: api.manage + 'devices/improve-device-info',
+        data,
+        method: Method.POST
+    })
+}
+
+/**
+ * @description 根据编号查询
+ * @returns 
+ */
+export interface DeviceBySearialNumber {
+    brandId: number,
+    brandName: string,
+    deviceId: number,
+    runningState: Filter.RunningState,
+    serialNumber: string
+}
+export function fetchDevicesBySearialNumber(serialNumber: string): Promise<DeviceBySearialNumber[]> {
+    return request({
+        url: api.manage + 'devices/by-serialNumber',
+        data: {
+            serialNumber
+        },
+        method: Method.GET
+    })
+}

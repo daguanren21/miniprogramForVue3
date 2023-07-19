@@ -5,9 +5,6 @@
                 <nut-form-item label="电极片有效期">
                     <nut-input class="nut-input-text" v-model="form.batteryInvalidDate"
                         @click-input="handleChangeDate('batteryInvalidDate')" placeholder="请选择电极片有效期" type="text">
-                        <template #right>
-                            <jx-icon value="scan"></jx-icon>
-                        </template>
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item label="电池有效期">
@@ -20,14 +17,24 @@
                         @click-input="handleChangeDate('qualityAssuranceDate')" placeholder="请选择质保有效期" type="text">
                     </nut-input>
                 </nut-form-item>
+                <nut-form-item label="设备状态">
+                    <nut-input class="nut-input-text" v-model="form.runningStateName"
+                        @click-input="handleChangeSelect('runningState')" placeholder="请选择设备状态" type="text">
+                    </nut-input>
+                </nut-form-item>
+                <nut-form-item label="网络状态">
+                    <nut-input class="nut-input-text" v-model="form.deviceNetworkStateName"
+                        @click-input="handleChangeSelect('deviceNetworkState')" placeholder="请选择网络状态" type="text">
+                    </nut-input>
+                </nut-form-item>
                 <nut-form-item label="移动设备">
                     <nut-input class="nut-input-text" v-model="form.mobileName" @click-input="handleChangeSelect('mobile')"
-                        placeholder="请选择质保有效期" type="text">
+                        placeholder="请选择是否是移动设备" type="text">
                     </nut-input>
                 </nut-form-item>
             </nut-form>
             <nut-popup position="bottom" v-model:visible="datePop.show">
-                <nut-date-picker v-model="currentDate" @confirm="datePop.methods.confirm">
+                <nut-date-picker v-model="datePop.value" @confirm="datePop.methods.confirm" @cancel="datePop.show = false">
                 </nut-date-picker>
             </nut-popup>
             <nut-popup position="bottom" v-model:visible="selectPop.show">
@@ -36,8 +43,9 @@
                 </nut-picker>
             </nut-popup>
         </div>
-        <div class="flex-x-center">
-            <nut-button size="mini" style="width:80%;height: 70rpx;" type="primary" class="h-70px"
+        <div class="flex-center h-120px">
+            <nut-button size="mini" style="width:49%;height: 70rpx;" class="h-70px mr-20px" @click="prev">上一步</nut-button>
+            <nut-button size="mini" style="width:49%;height: 70rpx;" type="primary" class="h-70px"
                 @click="next">下一步</nut-button>
         </div>
     </div>
@@ -45,7 +53,7 @@
 
 <script setup lang="ts">
 import { useStep } from '~/composables/use-device-install';
-
+import { dateFilter } from '~/filter'
 defineOptions({
     name: 'parts'
 })
@@ -55,56 +63,83 @@ const props = defineProps<{
 const emits = defineEmits<{
     change: [value: number]
 }>()
-const { next } = useStep(props, emits)
-const columns = ref([{
-    text: '是',
-    value: "true"
-}, {
-    text: '否',
-    value: "false"
-}])
-const currentDate = ref()
-const datePop = reactive({
-    show: false,
-    key: 'batteryInvalidDate',
-    methods: {
-        confirm({ selectedValue, selectedOptions }) {
-            console.log(selectedOptions)
-            currentDate.value = selectedOptions.map((val: any) => val.text).join('')
-            form[datePop.key] = selectedOptions.map((val: any) => val.text).join('-')
-            datePop.show = false
-        }
-    }
-})
-const selectPop = reactive({
-    show: false,
-    key: '',
-    value: ['false'],
-    methods: {
-        confirm({ selectedValue, selectedOptions }) {
-            form[selectPop.key + 'Name'] = selectedOptions.map((val: any) => val.text).join('')
-            form[selectPop.key] = selectedOptions.map((val: any) => val.value).join('')
-            selectPop.show = false
-        }
-    }
-})
+const manage = useManageStore()
 const form = reactive({
     batteryInvalidDate: '',
     electrodeInvalidDate: '',
     qualityAssuranceDate: '',
-    mobileName: '否',
-    mobile: "false"
+    deviceNetworkStateName: '',
+    deviceNetworkState: '',
+    runningStateName: '',
+    runningState: '',
+    mobileName: '',
+    mobile: ''
 })
-//日期选择
-type DatePicker = keyof Omit<typeof form, 'mobile'>
-const handleChangeDate = (key: DatePicker) => {
+const options = {
+    mobile: [{
+        text: '是',
+        value: "true"
+    }, {
+        text: '否',
+        value: "false"
+    }],
+    deviceNetworkState: [{
+        text: '未知',
+        value: "UNKNOWN"
+    }, {
+        text: '在线',
+        value: "ONLINE"
+    }, {
+        text: '离线',
+        value: "OFFLINE"
+    }, {
+        text: '网络波动',
+        value: "UNSTABLE"
+    }],
+    runningState: [{
+        text: '未知',
+        value: "UNKNOWN"
+    }, {
+        text: '正常',
+        value: "NORMAL"
+    }, {
+        text: '异常',
+        value: "ABNORMAL"
+    }, {
+        text: '预警',
+        value: "WARNING"
+    }]
+}
+watch(() => manage.deviceInfo, (value) => {
+    form.mobile = value.mobile.toString()
+    form.runningState = value.runningState
+    form.deviceNetworkState = value.deviceNetworkState
+    form.qualityAssuranceDate = dateFilter(value.qualityAssuranceDate, 'YYYY-MM-DD')
+    form.electrodeInvalidDate = dateFilter(value.electrodeInvalidDate, 'YYYY-MM-DD')
+    form.batteryInvalidDate = dateFilter(value.batteryInvalidDate, 'YYYY-MM-DD')
+    form.deviceNetworkStateName = options.deviceNetworkState.find(i => i.value === value.deviceNetworkState)?.text || ''
+    form.runningStateName = options.runningState.find(i => i.value === value.runningState)?.text || ''
+    form.mobileName = options.mobile.find(i => i.value === value.mobile.toString())?.text || ''
+}, {
+    immediate: true
+})
+const { next, prev, datePop, selectPop, columns } = useStep(props, emits, form)
+
+//日期
+const handleChangeDate = (key: string) => {
     datePop.key = key
     datePop.show = true
+    if (form[key]) {
+        let [year, month, day] = form[key].split('-')
+        datePop.value = new Date(year, month - 1, day)
+    }
 }
+
 //下拉选选择
 const handleChangeSelect = (key: string) => {
     selectPop.key = key
     selectPop.value = [form[key]]
+    columns.value = options[key]
     selectPop.show = true
 }
 </script>
