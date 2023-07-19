@@ -56,6 +56,8 @@ declare global {
   const onServerPrefetch: typeof import('vue')['onServerPrefetch']
   const onUnmounted: typeof import('vue')['onUnmounted']
   const onUpdated: typeof import('vue')['onUpdated']
+  const phoneAndFixPattern: typeof import('../src/utils/constant')['phoneAndFixPattern']
+  const phonePattern: typeof import('../src/utils/constant')['phonePattern']
   const positionStateFilter: typeof import('../src/filter/index')['positionStateFilter']
   const provide: typeof import('vue')['provide']
   const qqMapKey: typeof import('../src/utils/constant')['qqMapKey']

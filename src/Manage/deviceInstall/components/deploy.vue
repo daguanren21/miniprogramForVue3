@@ -1,13 +1,14 @@
 <template>
     <div class="flex-col wh-full overflow-hidden">
+        <nut-notify :type="message.type" v-model:visible="message.show" :msg="message.desc" />
         <div class="flex-1 overflow-auto">
             <nut-form :model-value="form" ref="ruleForm">
-                <nut-form-item label="安装场所">
+                <nut-form-item label="安装场所" required>
                     <nut-input class="nut-input-text" v-model="form.placeName" @click-input="handleChangePlace"
                         placeholder="请选择安装场所" type="text">
                     </nut-input>
                 </nut-form-item>
-                <nut-form-item label="安装区域">
+                <nut-form-item label="安装区域" required>
                     <!-- @click-input="handleChangeSelect('mobile') -->
                     <nut-input class="nut-input-text" v-model="form.regionName" placeholder="请选择区域" type="text"
                         @click-input="handleChangeLocal">
@@ -15,9 +16,12 @@
                             <jx-icon @click="chooseLocation" value="dingwei" color="#ff6216" :size="24"> </jx-icon>
                         </template>
                     </nut-input>
-                    <nut-cascader title="地址选择" v-model:visible="region.visible" v-model="form.regionId"
-                        @change="events.change" @pathChange="events.pathChange" lazy
-                        :lazyLoad="region.lazyLoad"></nut-cascader>
+                    <nut-popup round closeable @close="events.closeRegion" position="bottom" title="地址选择"
+                        v-model:visible="region.visible">
+                        <nut-cascader :poppable="false" v-model="form.regionId" @change="events.change"
+                            @pathChange="events.pathChange" lazy :lazyLoad="region.lazyLoad"></nut-cascader>
+                    </nut-popup>
+
                 </nut-form-item>
                 <nut-form-item label="详细地址">
                     <!-- <jx-icon @click="addressTip" value="help" color="#ccc" class="absolute left--80 top-8" :size="15">
@@ -26,7 +30,7 @@
                         minHeight: 80
                     }" placeholder="请具体到xx区xx路xx号xx大楼xx层xx门牌号xx处" v-model="form.address" limit-show max-length="200" />
                 </nut-form-item>
-                <nut-form-item label="安装图片">
+                <nut-form-item label="安装图片" required>
                     <nut-uploader @delete="deleteFiles" :file-list="_fileList" :url="uploadUrl"
                         :before-xhr-upload="beforeXhrUpload" maximum="4"></nut-uploader>
                 </nut-form-item>
@@ -72,6 +76,7 @@
 import Taro from '@tarojs/taro';
 import { fetchDeviceCoordinate, fetchDevicePlaces, fetchDistrictAreas } from '~/api/common';
 import { useStep } from '~/composables/use-device-install';
+import { useNotify } from '~/composables/use-notify';
 import { useUpload } from '~/composables/use-upload';
 defineOptions({
     name: 'deploy'
@@ -83,6 +88,8 @@ const emits = defineEmits<{
     change: [value: number]
 }>()
 const form = reactive({
+    deployedLatitude: 0,
+    deployedLongitude: 0,
     address: '',
     regionName: '',
     placeName: '',
@@ -101,6 +108,8 @@ const columns = ref([{
 const manage = useManageStore()
 
 watch(() => manage.deviceInfo, (value) => {
+    form.deployedLatitude = value.deployedLatitude
+    form.deployedLongitude = value.deployedLongitude
     form.address = value.address
     form.regionName = value.regionName
     form.placeId = value.placeId.toString()
@@ -123,7 +132,11 @@ async function handleChangePlace() {
             value: i.id.toString()
         }
     })
-    selectPop.show = true
+    form.placeId = columns.value[0].value
+    setTimeout(() => {
+        selectPop.value = [form.placeId]
+        selectPop.show = true
+    }, 500)
 }
 //详细地址填写规范
 // const addressTip = () => {
@@ -164,7 +177,8 @@ async function chooseLocation(option: { latitude?: number, longitude?: number } 
         form.regionName = _name
         form.regionId = _id
         form.address = locRes.address || address
-
+        form.deployedLatitude = locRes.latitude
+        form.deployedLongitude = locRes.longitude
     } catch (error) {
         Taro.showToast({
             icon: 'none',
@@ -191,10 +205,15 @@ const region = reactive({
         if (node.root) {
             resolve(getAreas());
         } else {
-            resolve(getAreas(node.value))
+            if (node.haveChildren) {
+                resolve(getAreas(node.value))
+            } else {
+                resolve([])
+            }
         }
     }
 })
+const lastArea = ref<any>()
 const events = {
     change(...args: number[]) {
         console.log('change', ...args);
@@ -204,9 +223,16 @@ const events = {
         form.regionId = _args.map(v => v.value)
         form.regionName = _args.map(v => v.text).join('/')
         let item = _args[_args.length - 1]
+        lastArea.value = item
+    },
+    closeRegion() {
+        if (!lastArea.value) {
+            region.visible = false
+            return
+        }
         chooseLocation({
-            latitude: item.lat,
-            longitude: item.lng,
+            latitude: lastArea.value.lat,
+            longitude: lastArea.value.lng,
         })
     }
 };
@@ -219,8 +245,21 @@ function _prev() {
     form.deployedImagePath = _fileList.value.map(v => v.url).join(';')
     prev()
 }
+const { state: message, notify } = useNotify('danger')
 function _next() {
     form.deployedImagePath = _fileList.value.map(v => v.url).join(';')
+    if (!form.placeId) {
+        notify('安装场所不能为空！')
+        return
+    }
+    if (!form.regionId.length) {
+        notify('安装区域不能为空！')
+        return
+    }
+    if (!form.deployedImagePath) {
+        notify('安装图片不能为空！')
+        return
+    }
     next()
 }
 </script>

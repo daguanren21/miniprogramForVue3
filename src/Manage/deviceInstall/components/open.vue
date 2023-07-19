@@ -1,5 +1,6 @@
 <template>
     <div class="flex-col wh-full overflow-hidden">
+        <nut-notify :type="message.type" v-model:visible="message.show" :msg="message.desc" />
         <div class="flex-1">
             <nut-form :model-value="form" ref="ruleForm">
                 <!--  @click-input="handleChangeDate('qualityAssuranceDate')" -->
@@ -18,7 +19,7 @@
                         </nut-input>
                     </div>
                 </nut-form-item>
-                <nut-form-item label="开放日" v-if="form.publicType == 'PUBLIC' || form.publicType == 'HALF'">
+                <nut-form-item required label="开放日" v-if="form.publicType == 'PUBLIC' || form.publicType == 'HALF'">
                     <nut-input class="nut-input-text" @click-input="workDay.open" :model-value="workDay.text"
                         placeholder="请选择开放日" type="text">
                     </nut-input>
@@ -60,14 +61,16 @@
         <div class="flex-center h-120px">
             <nut-button size="mini" style="width:49%;height: 70rpx;" class="h-70px mr-20px" @click="prev">返回</nut-button>
             <nut-button size="mini" style="width:49%;height: 70rpx;" type="primary" class="h-70px"
-                @click="save">保存</nut-button>
+                @click="confirm">保存</nut-button>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
+import Taro from '@tarojs/taro';
 import { saveDevices } from '~/api/device';
 import { useStep } from '~/composables/use-device-install';
+import { useNotify } from '~/composables/use-notify';
 import { workDayOptions } from '~/utils/constant'
 defineOptions({
     name: 'parts'
@@ -181,12 +184,12 @@ const publicType = reactive({
 const { prev } = useStep(props, emits, form)
 const manage = useManageStore()
 watch(() => manage.deviceInfo, (value) => {
-    form.publicType = value.publicType
-    form.publicTimeFrom = value.publicTimeFrom
-    form.publicTimeTo = value.publicTimeTo
+    form.publicType = value.publicType || 'PUBLIC'
+    form.publicTimeFrom = value.publicTimeFrom || "00:00"
+    form.publicTimeTo = value.publicTimeTo || "23:59"
     form.workDay = value.workDay
     form.description = value.description
-    publicType.text = publicType.columns.find(i => i.value === value.publicType)?.text || ''
+    publicType.text = publicType.columns.find(i => i.value === form.publicType)?.text || ''
 }, {
     immediate: true
 })
@@ -196,8 +199,32 @@ async function save() {
     Object.keys(form).forEach(i => {
         manage.$state.deviceInfo[i] = form[i]
     })
-    await saveDevices(manage.deviceInfo as any)
+    try {
+        await saveDevices(manage.deviceInfo as any)
+        Taro.showToast({
+            icon: 'none',
+            title: '设备信息已完善'
+        })
+        setTimeout(() => {
+            Taro.switchTab({
+                url: '/pages/management/index'
+            })
+        }, 500);
 
+    } catch (error) {
+        notify(error)
+        return
+    }
+
+}
+const { state: message, notify } = useNotify('danger')
+function confirm() {
+    let isExistDay = form.publicType == 'PUBLIC' || form.publicType == 'HALF'
+    if (isExistDay && !form.workDay) {
+        notify('开放日不能为空！')
+        return
+    }
+    save()
 }
 </script>
 

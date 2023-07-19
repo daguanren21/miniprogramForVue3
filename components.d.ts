@@ -28,6 +28,7 @@ declare module '@vue/runtime-core' {
     NutFormItem: typeof import('@nutui/nutui-taro')['FormItem']
     NutImagePreview: typeof import('@nutui/nutui-taro')['ImagePreview']
     NutInput: typeof import('@nutui/nutui-taro')['Input']
+    NutNotify: typeof import('@nutui/nutui-taro')['Notify']
     NutPicker: typeof import('@nutui/nutui-taro')['Picker']
     NutPopup: typeof import('@nutui/nutui-taro')['Popup']
     NutRow: typeof import('@nutui/nutui-taro')['Row']

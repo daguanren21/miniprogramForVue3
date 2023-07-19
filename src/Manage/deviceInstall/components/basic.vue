@@ -1,17 +1,9 @@
 <template>
     <div class="flex-col wh-full overflow-hidden">
+        <nut-notify :type="message.type" v-model:visible="message.show" :msg="message.desc" />
         <div class="flex-1">
             <nut-form :model-value="form" ref="ruleForm">
-                <nut-form-item label="设备编号">
-                    <nut-input @blur="getDeviceBySerialNumber" v-model="form.serialNumber" class="nut-input-text"
-                        placeholder="请输入设备编号" type="text">
-                    </nut-input>
-                </nut-form-item>
-                <nut-form-item label="设备型号">
-                    <nut-input class="nut-input-text" v-model="form.model" placeholder="请输入设备型号" type="text">
-                    </nut-input>
-                </nut-form-item>
-                <nut-form-item label="品牌">
+                <nut-form-item label="品牌" required>
                     <nut-input class="nut-input-text" v-model="form.brandName" @click-input="handleChangeBrand"
                         placeholder="请选择品牌" type="text" />
                     <nut-popup position="bottom" v-model:visible="selectPop.show">
@@ -19,6 +11,15 @@
                             @cancel="selectPop.show = false">
                         </nut-picker>
                     </nut-popup>
+                </nut-form-item>
+                <nut-form-item label="设备编号" required>
+                    <nut-input @blur="getDeviceBySerialNumber" v-model="form.serialNumber" class="nut-input-text"
+                        placeholder="请输入设备编号" type="text">
+                    </nut-input>
+                </nut-form-item>
+                <nut-form-item label="设备型号">
+                    <nut-input class="nut-input-text" v-model="form.model" placeholder="请输入设备型号" type="text">
+                    </nut-input>
                 </nut-form-item>
             </nut-form>
         </div>
@@ -28,7 +29,7 @@
         </nut-popup>
         <div class="flex-center h-120px">
             <nut-button size="mini" style="width:80%;height: 70rpx;" type="primary" class="h-70px"
-                @click="next">下一步</nut-button>
+                @click="confirm">下一步</nut-button>
         </div>
     </div>
 </template>
@@ -37,6 +38,7 @@
 import { fetchDeviceBrands } from '~/api/common';
 import { DeviceBySearialNumber, fetchDevicesBySearialNumber } from '~/api/device';
 import { useStep } from '~/composables/use-device-install'
+import { useNotify } from '~/composables/use-notify';
 defineOptions({
     name: 'basic'
 })
@@ -48,7 +50,7 @@ const emits = defineEmits<{
     change: [value: number]
 }>()
 const form = reactive({
-    id: 0,
+    id: 0 as number | null,
     serialNumber: '',
     model: '',
     brandName: '',
@@ -56,12 +58,12 @@ const form = reactive({
 })
 const { next, selectPop, columns } = useStep(props, emits, form)
 watch(() => manage.deviceInfo, (value) => {
-    form.id = value.id
+    form.id = value.id || null
     form.serialNumber = value.serialNumber
     form.brandName = value.brandName
     form.model = value.model
-    form.brandId = value.brandId.toString()
-    selectPop.value = [value.brandId.toString()]
+    form.brandId = value.brandId ? value.brandId.toString() : ''
+    selectPop.value = value.brandId ? [value.brandId.toString()] : []
 }, {
     immediate: true
 })
@@ -76,6 +78,7 @@ async function handleChangeBrand() {
             value: i.id.toString()
         }
     })
+    form.brandId =columns.value[0].value
     setTimeout(() => {
         selectPop.value = [form.brandId]
         selectPop.show = true
@@ -97,10 +100,33 @@ const searialNumber = reactive({
     }
 })
 async function getDeviceBySerialNumber() {
-    let res = await fetchDevicesBySearialNumber(form.serialNumber)
-    deviceList.value = res
-    if (deviceList.value.length === 1 && form.id) return
-    searialNumber.show = true
+    if (!form.serialNumber) return
+    try {
+        let res = await fetchDevicesBySearialNumber(form.serialNumber)
+        deviceList.value = res
+        if (deviceList.value.length === 1 && form.id) return
+        searialNumber.show = true
+    } catch (error) {
+        console.error(error)
+    }
+
+}
+//校验并进行下一步
+const { state: message, notify } = useNotify('danger')
+function confirm() {
+    if (!form.serialNumber) {
+        notify('设备编号不能为空！')
+        return
+    }
+    if (form.serialNumber.length > 30) {
+        notify('设备编号长度不能超过30个字符！')
+        return
+    }
+    if (!form.brandId) {
+        notify('品牌不能为空！')
+        return
+    }
+    next()
 }
 </script>
 

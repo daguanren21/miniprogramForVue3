@@ -42,3 +42,8 @@ export const workDayOptions = [{
     value: '7',
     label: '周日',
 },]
+
+//手机号和固定号码校验
+export const phoneAndFixPattern = /^1\d{10}$|^(0\d{2,3}-?|\(0\d{2,3}\))?[1-9]\d{4,7}(-?\d{1,8})?$/
+//手机号校验
+export const phonePattern = /^1\d{10}$/

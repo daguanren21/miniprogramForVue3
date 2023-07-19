@@ -226,5 +226,5 @@ export const qualityAssuranceStateFilter = (key: 'UNKNOWN' | 'IN' | 'OUT') => {
 
 
 export const dateFilter = (value: string, format: string = "YYYY-MM-DD HH:mm:ss") => {
-    return dayjs(value).format(format)
+    return value ? dayjs(value).format(format) : ''
 }

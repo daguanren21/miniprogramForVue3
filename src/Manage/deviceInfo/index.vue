@@ -145,7 +145,7 @@
                             <jx-icon value="search-ins" color="#7659B1"></jx-icon>
                         </template>
                         <template v-slot:link>
-                            <span>{{ info.unitName }}</span>
+                            <span>{{ noDataFilter(info.unitName) }}</span>
                         </template>
                     </nut-cell>
                     <nut-cell title="出资人">
@@ -153,7 +153,7 @@
                             <jx-icon value="contributor" color="#5F1985"></jx-icon>
                         </template>
                         <template v-slot:link>
-                            <span>{{ info.investor }}</span>
+                            <span>{{ noDataFilter(info.investor) }}</span>
                         </template>
                     </nut-cell>
                 </nut-cell-group>

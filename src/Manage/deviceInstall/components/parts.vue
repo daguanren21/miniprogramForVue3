@@ -1,13 +1,14 @@
 <template>
     <div class="flex-col wh-full overflow-hidden">
+        <nut-notify :type="message.type" v-model:visible="message.show" :msg="message.desc" />
         <div class="flex-1">
             <nut-form :model-value="form" ref="ruleForm">
-                <nut-form-item label="电极片有效期">
+                <nut-form-item label="电极片有效期" required>
                     <nut-input class="nut-input-text" v-model="form.batteryInvalidDate"
                         @click-input="handleChangeDate('batteryInvalidDate')" placeholder="请选择电极片有效期" type="text">
                     </nut-input>
                 </nut-form-item>
-                <nut-form-item label="电池有效期">
+                <nut-form-item label="电池有效期" required>
                     <nut-input class="nut-input-text" v-model="form.electrodeInvalidDate"
                         @click-input="handleChangeDate('electrodeInvalidDate')" placeholder="请选择电极片有效期" type="text">
                     </nut-input>
@@ -46,13 +47,14 @@
         <div class="flex-center h-120px">
             <nut-button size="mini" style="width:49%;height: 70rpx;" class="h-70px mr-20px" @click="prev">上一步</nut-button>
             <nut-button size="mini" style="width:49%;height: 70rpx;" type="primary" class="h-70px"
-                @click="next">下一步</nut-button>
+                @click="confirm">下一步</nut-button>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
 import { useStep } from '~/composables/use-device-install';
+import { useNotify } from '~/composables/use-notify';
 import { dateFilter } from '~/filter'
 defineOptions({
     name: 'parts'
@@ -111,15 +113,15 @@ const options = {
     }]
 }
 watch(() => manage.deviceInfo, (value) => {
-    form.mobile = value.mobile.toString()
-    form.runningState = value.runningState
-    form.deviceNetworkState = value.deviceNetworkState
+    form.mobile = value.mobile.toString() || "false"
+    form.runningState = value.runningState || 'NORMAL'
+    form.deviceNetworkState = value.deviceNetworkState || 'ONLINE'
     form.qualityAssuranceDate = dateFilter(value.qualityAssuranceDate, 'YYYY-MM-DD')
     form.electrodeInvalidDate = dateFilter(value.electrodeInvalidDate, 'YYYY-MM-DD')
     form.batteryInvalidDate = dateFilter(value.batteryInvalidDate, 'YYYY-MM-DD')
-    form.deviceNetworkStateName = options.deviceNetworkState.find(i => i.value === value.deviceNetworkState)?.text || ''
-    form.runningStateName = options.runningState.find(i => i.value === value.runningState)?.text || ''
-    form.mobileName = options.mobile.find(i => i.value === value.mobile.toString())?.text || ''
+    form.deviceNetworkStateName = options.deviceNetworkState.find(i => i.value === form.deviceNetworkState)?.text || ''
+    form.runningStateName = options.runningState.find(i => i.value === form.runningState)?.text || ''
+    form.mobileName = options.mobile.find(i => i.value === form.mobile)?.text || ''
 }, {
     immediate: true
 })
@@ -132,6 +134,8 @@ const handleChangeDate = (key: string) => {
     if (form[key]) {
         let [year, month, day] = form[key].split('-')
         datePop.value = new Date(year, month - 1, day)
+    } else {
+        datePop.value = new Date(Date.now())
     }
 }
 
@@ -141,6 +145,20 @@ const handleChangeSelect = (key: string) => {
     selectPop.value = [form[key]]
     columns.value = options[key]
     selectPop.show = true
+}
+
+//校验并进行下一步
+const { state: message, notify } = useNotify('danger')
+function confirm() {
+    if (!form.electrodeInvalidDate) {
+        notify('电极片有效期不能为空！')
+        return
+    }
+    if (!form.batteryInvalidDate) {
+        notify('电池有效期不能为空！')
+        return
+    }
+    next()
 }
 </script>
 

@@ -1,12 +1,12 @@
 <template>
     <div class="flex-col wh-full overflow-hidden">
+        <nut-notify :type="message.type" v-model:visible="message.show" :msg="message.desc" />
         <div class="flex-1">
             <nut-form :model-value="form" ref="ruleForm">
                 <!--  @click-input="handleChangeDate('qualityAssuranceDate')" -->
                 <nut-form-item label="配置单位">
-                    <nut-input class="nut-input-text" @click-input="toPage('CONFIGURATION')" v-model="form.configInstitutionName"
-                        placeholder="请选择配置单位" type="text">
-
+                    <nut-input class="nut-input-text" @click-input="toPage('CONFIGURATION')"
+                        v-model="form.configInstitutionName" placeholder="请选择配置单位" type="text">
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item label="归属单位">
@@ -18,12 +18,12 @@
                         v-model="form.maintainInstitutionName" placeholder="请选择维保单位" type="text">
                     </nut-input>
                 </nut-form-item>
-                <nut-form-item label="设备联系人">
+                <nut-form-item label="设备联系人" required>
                     <nut-input class="nut-input-text" v-model="form.contactName" placeholder="请输入联系人" type="text">
                     </nut-input>
                 </nut-form-item>
-                <nut-form-item label="设备联系电话">
-                    <nut-input class="nut-input-text" v-model="form.contactPhone" placeholder="请输入联系电话" type="text">
+                <nut-form-item label="设备联系电话" required>
+                    <nut-input class="nut-input-text" v-model="form.contactPhone" placeholder="请输入联系电话" type="number">
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item label="出资人">
@@ -40,7 +40,7 @@
         <div class="flex-center h-120px">
             <nut-button size="mini" style="width:49%;height: 70rpx;" class="h-70px mr-20px" @click="prev">上一步</nut-button>
             <nut-button size="mini" style="width:49%;height: 70rpx;" type="primary" class="h-70px"
-                @click="next">下一步</nut-button>
+                @click="confirm">下一步</nut-button>
         </div>
     </div>
 </template>
@@ -48,6 +48,7 @@
 <script setup lang="ts">
 import Taro, { useRouter } from '@tarojs/taro';
 import { useStep } from '~/composables/use-device-install';
+import { useNotify } from '~/composables/use-notify';
 const router = useRouter()
 const item = router.params.item
 defineOptions({
@@ -82,15 +83,15 @@ watch(() => manage.deviceInfo, (value) => {
     form.contactPhone = value.contactPhone
     form.investor = value.investor
     if (item) {
-    const _item = JSON.parse(item)
-    if (_item.unitType === 'CONFIGURATION') {
-        form.configInstitutionName = _item.name
-        form.configInstitutionId = _item.id
-    } else if (_item.unitType === 'MAINTENANCE') {
-        form.maintainInstitutionName = _item.name
-        form.maintainInstitutionId = _item.id
+        const _item = JSON.parse(item)
+        if (_item.unitType === 'CONFIGURATION') {
+            form.configInstitutionName = _item.name
+            form.configInstitutionId = _item.id
+        } else if (_item.unitType === 'MAINTENANCE') {
+            form.maintainInstitutionName = _item.name
+            form.maintainInstitutionId = _item.id
+        }
     }
-}
 }, {
     immediate: true
 })
@@ -100,6 +101,27 @@ function toPage(type: string) {
     Taro.redirectTo({
         url: '/Manage/institutionSearch/index?type=' + type
     })
+}
+//校验并进行下一步
+const { state: message, notify } = useNotify('danger')
+function confirm() {
+    if (!form.contactName) {
+        notify('联系人不能为空！')
+        return
+    }
+    if (!form.contactName.length) {
+        notify('联系人长度不能超过30个字符！')
+        return
+    }
+    if (!form.contactPhone) {
+        notify('联系电话不能为空！')
+        return
+    }
+    if (!phonePattern.test(form.contactPhone)) {
+        notify('联系电话格式不正确')
+        return
+    }
+    next()
 }
 </script>
 
