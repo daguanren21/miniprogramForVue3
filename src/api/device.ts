@@ -133,3 +133,243 @@ export function fetchDevicesBySearialNumber(serialNumber: string): Promise<Devic
         method: Method.GET
     })
 }
+
+
+interface DeviceCheckRecord {
+    deviceId: number;
+    deviceSerialNumber: string;
+    id: number;
+    imagesPath: string;
+    newRunningState: string;
+    oldRunningState: string;
+    remarks: string;
+    state: string;
+}
+/**
+ * @description 分页查询设备审核记录
+ * @param  
+ * @returns 
+ */
+export function fetchDeviceCheckRecords(data: {
+    page: number,
+    size: number,
+}): Promise<{
+    content: DeviceCheckRecord[];
+    totalCount: number;
+    totalPage: number;
+}[]> {
+    return request({
+        url: api.manage + 'device-check-records',
+        data,
+        method: Method.GET
+    })
+}
+
+/**
+ * @description 分页查询设备异常清单
+ * @param  
+ * @returns 
+ */
+interface DeviceExceptionRecord {
+    address: string;
+    brandId: number;
+    brandLogo: string;
+    brandName: string;
+    deviceId: number;
+    exceptionReason: string;
+    exceptionTime: string;
+    handleTime: string;
+    id: number;
+    lastNoticeTime: string;
+    noticeNumber: number;
+    repairRecordId: number;
+    serialNumber: string;
+    smsContent: string;
+    source: string;
+    state: string;
+    type: string;
+}
+export function fetchDeviceExceptionRecords(data: {
+    page: number,
+    size: number
+    type: 'ABNORMAL' | 'WARNING'
+}): Promise<{
+    content: DeviceExceptionRecord[];
+    totalCount: number;
+    totalPage: number;
+}[]> {
+    return request({
+        url: api.manage + 'device-exception-records',
+        data,
+        method: Method.GET
+    })
+}
+/**
+ * @description 设备报修
+ * @param data 
+ */
+export function updateReportToRepairRecords(data: {
+    deviceId: number | string,
+    description: string,
+    imagesPath: string
+}): Promise<void> {
+    return request({
+        url: api.manage + 'report-to-repair-records',
+        data,
+        method: Method.POST
+    })
+}
+
+/**
+ * @description 设备巡检
+ * @param data 
+ * @returns 
+ */
+export function updateRegularInspectionRecords(data: {
+    deviceId: number | string,
+    content: string,
+    electrodePackageNormalBoolean: boolean | string,
+    electrodeState: Filter.RunningState,
+    runningState: Filter.RunningState,
+    imagesPath: string
+}): Promise<void> {
+    return request({
+        url: api.manage + 'regular-inspection-records',
+        data,
+        method: Method.POST
+    })
+}
+
+/**
+ * @description 设备维护
+ * @param data 
+ */
+export function updateMaintainRecords(data: {
+    deviceId: number | string,
+    content: string,
+    runningState: Filter.RunningState,
+    imagesPath: string
+}): Promise<void> {
+    return request({
+        url: api.manage + 'maintain-records',
+        data,
+        method: Method.POST
+    })
+}
+
+/**
+ * @description 移机 = 设备位置变更
+ * @param data 
+ */
+export function updatePosition(data: {
+    address: string;
+    deployedImagePath: string;
+    deployedLatitude: number;
+    deployedLongitude: number;
+    deviceId: number;
+    placeId: number;
+    regionId: number[];
+}): Promise<void> {
+    return request({
+        url: api.manage + 'devices/update-position',
+        data,
+        method: Method.PUT
+    })
+}
+/**
+ * @description 移机 = 删除设备
+ * @param data 
+ */
+export function deleteDevice(data: {
+    deleteReason: string,
+    deviceId: number
+}): Promise<void> {
+    return request({
+        url: api.manage + 'devices/delete',
+        data,
+        method: Method.DELETE
+    })
+}
+
+/**
+ * @description 状态变更
+ * @param data 
+ */
+export function updateDeviceStateChange(data: {
+    deviceId: number;
+    imagesPath: string;
+    newRunningState: Filter.RunningState;
+    remarks: string;
+}): Promise<void> {
+    return request({
+        url: api.manage + 'device-check-records',
+        data,
+        method: Method.POST
+    })
+}
+
+/**
+ * @description 设备审核
+ * @param data 
+ */
+export function updateDeviceCheckRecords(data: {
+    id: number;
+    remarks: string;
+    state: string;
+}): Promise<void> {
+    return request({
+        url: api.manage + 'device-check-records/check',
+        data,
+        method: Method.POST
+    })
+}
+
+/**
+ * @description 设备抢救记录
+ * @param data 
+ */
+export function updateDeviceRescueData(data: {
+    deviceId: number;
+    dischargeCount: number;
+    patientAge: number;
+    patientEventTrigger: string;
+    patientSex: number;
+    patientUnderlyingDisease: string;
+    rescueBeginTime: string;
+    rescueEndTime: string;
+    successfulRescued: boolean;
+}): Promise<void> {
+    return request({
+        url: api.manage + 'device-check-records/check',
+        data,
+        method: Method.POST
+    })
+}
+
+/**
+ * @description 通知维护
+ * @param id 异常设备id
+ * @returns 
+ */
+export function updateNotice(id: number): Promise<void> {
+    return request({
+        url: api.manage + `device-exception-record/${id}`,
+        method: Method.PUT
+    })
+}
+
+/**
+ * @description 异常清单处理
+ * @param data 
+ */
+export function updateRepairApplyRecord(data: {
+    id: number,
+    advice: string,
+    handleState: string,
+}): Promise<void> {
+    return request({
+        url: api.manage + `repair-apply-records/${data.id}`,
+        data,
+        method: Method.PUT
+    })
+}

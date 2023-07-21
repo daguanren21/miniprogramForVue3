@@ -36,8 +36,8 @@
 
 <script setup lang="ts">
 import { fetchDeviceBrands } from '~/api/common';
-import { DeviceBySearialNumber, fetchDevicesBySearialNumber } from '~/api/device';
 import { useStep } from '~/composables/use-device-install'
+import { useDeviceBySearialNumber } from '~/composables/use-device-searialNumber';
 import { useNotify } from '~/composables/use-notify';
 defineOptions({
     name: 'basic'
@@ -57,6 +57,7 @@ const form = reactive({
     brandId: ''
 })
 const { next, selectPop, columns } = useStep(props, emits, form)
+const {searialNumber,getDeviceBySerialNumber,deviceList} =useDeviceBySearialNumber(form)
 watch(() => manage.deviceInfo, (value) => {
     form.id = value.id || null
     form.serialNumber = value.serialNumber
@@ -92,25 +93,7 @@ function handleBrandConfirm({ selectValue, selectedOptions }) {
     form.brandId = selectedOptions.map((val: any) => val.value).join('')
     selectPop.show = false
 }
-const deviceList = ref<DeviceBySearialNumber[]>()
-const searialNumber = reactive({
-    show: false,
-    confirm: async (item: DeviceBySearialNumber) => {
-        await manage.getDeviceInfo(item.deviceId)
-    }
-})
-async function getDeviceBySerialNumber() {
-    if (!form.serialNumber) return
-    try {
-        let res = await fetchDevicesBySearialNumber(form.serialNumber)
-        deviceList.value = res
-        if (deviceList.value.length === 1 && form.id) return
-        searialNumber.show = true
-    } catch (error) {
-        console.error(error)
-    }
 
-}
 //校验并进行下一步
 const { state: message, notify } = useNotify('danger')
 function confirm() {

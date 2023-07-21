@@ -13,10 +13,16 @@
                     <!-- <AtIcon prefixClass="fa" value="edit" class="icon"></AtIcon> -->
                     <text class="ft">完善信息</text>
                 </div>
-                <div class="item  pl-10px">
-                    <!-- <AtIcon prefixClass="fa" value="repair" class="icon"></AtIcon> -->
-                    <text class="ft">报修</text>
-                </div>
+                <nut-popover v-model:visible="operate.visible" :list="operate.itemList" location="bottom-start"
+                    @choose="operate.chooseItem">
+                    <template #reference>
+                        <div class="item  pl-10px">
+                            <!-- <AtIcon prefixClass="fa" value="repair" class="icon"></AtIcon> -->
+                            <text class="ft">更多操作</text>
+                        </div>
+                    </template>
+                </nut-popover>
+
             </div>
         </div>
         <div class="content">
@@ -257,6 +263,16 @@ const toDeviceInstall = () => {
         url: '/Manage/deviceInstall/index?id=' + router.params.id
     })
 }
+
+const operate = reactive({
+    visible: false,
+    itemList: [{ name: '报修', key: 'repair' }, { name: '维护', key: 'maintainance' }, { name: '巡检', key: 'inspection' }],
+    chooseItem: (item) => {
+        Taro.navigateTo({
+            url: `/Operate/${item.key}/index?id=${manage.deviceInfo.id}&serialNumber=${manage.deviceInfo.serialNumber}`
+        })
+    }
+})
 </script>
 
 <style lang="scss">
