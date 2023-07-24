@@ -11,7 +11,7 @@ export default defineAppConfig({
       'deviceInstall/index',//设备新增或编辑
       'institutionSearch/index',//单位搜索（维保或配置单位）
     ]
-  },{
+  }, {
     root: 'Operate/',//设备操作相关
     pages: [
       'repair/index',//设备报修
@@ -20,6 +20,7 @@ export default defineAppConfig({
       'statusChange/index',//状态变更
       'relocation/index',//设备移机
       'useReport/index',//使用上报
+      'parts/index'//更换配件
     ]
   }],
   window: {

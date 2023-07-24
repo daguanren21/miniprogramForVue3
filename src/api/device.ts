@@ -266,7 +266,7 @@ export function updatePosition(data: {
     deployedImagePath: string;
     deployedLatitude: number;
     deployedLongitude: number;
-    deviceId: number;
+    deviceId: number | string;
     placeId: number;
     regionId: number[];
 }): Promise<void> {
@@ -282,7 +282,7 @@ export function updatePosition(data: {
  */
 export function deleteDevice(data: {
     deleteReason: string,
-    deviceId: number
+    deviceId: number | string
 }): Promise<void> {
     return request({
         url: api.manage + 'devices/delete',
@@ -296,10 +296,10 @@ export function deleteDevice(data: {
  * @param data 
  */
 export function updateDeviceStateChange(data: {
-    deviceId: number;
+    deviceId: number | string;
     imagesPath: string;
     newRunningState: Filter.RunningState;
-    remarks: string;
+    remarks?: string;
 }): Promise<void> {
     return request({
         url: api.manage + 'device-check-records',
@@ -329,18 +329,19 @@ export function updateDeviceCheckRecords(data: {
  * @param data 
  */
 export function updateDeviceRescueData(data: {
-    deviceId: number;
+    deviceId: number | string;
+    useRescued: boolean;
     dischargeCount: number;
-    patientAge: number;
+    patientAge: number | null;
     patientEventTrigger: string;
-    patientSex: number;
+    patientSex: number | null;
     patientUnderlyingDisease: string;
     rescueBeginTime: string;
     rescueEndTime: string;
-    successfulRescued: boolean;
+    successfulRescued: boolean | null;
 }): Promise<void> {
     return request({
-        url: api.manage + 'device-check-records/check',
+        url: api.manage + 'rescue-data',
         data,
         method: Method.POST
     })
@@ -372,4 +373,38 @@ export function updateRepairApplyRecord(data: {
         data,
         method: Method.PUT
     })
+}
+
+/**
+ * @description 更换设备配件
+ */
+export function updateDevicePart(data: {
+    deviceId: number | string,
+    batteryInvalidDate?: string,
+    electrodeInvalidDate?: string,
+}): Promise<void> {
+    let { batteryInvalidDate, electrodeInvalidDate, deviceId } = data
+    if (batteryInvalidDate) {
+        return request({
+            url: api.manage + `devices/update-battery`,
+            data: {
+                deviceId,
+                batteryInvalidDate
+            },
+            method: Method.PUT
+        })
+    }
+
+    if (electrodeInvalidDate) {
+        return request({
+            url: api.manage + `devices/update-electrode`,
+            data: {
+                deviceId,
+                electrodeInvalidDate
+            },
+            method: Method.PUT
+        })
+    }
+    console.error('更换配件逻辑错误！')
+    return Promise.resolve()
 }

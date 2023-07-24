@@ -209,7 +209,7 @@ async function save() {
             Taro.switchTab({
                 url: '/pages/management/index'
             })
-        }, 500);
+        }, 1000);
 
     } catch (error) {
         notify(error)

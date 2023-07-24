@@ -79,7 +79,7 @@ const confirm = async () => {
             Taro.navigateBack({
                 delta: 1
             })
-        }, 500)
+        }, 1000)
     } catch (error) {
         notify(error)
     }

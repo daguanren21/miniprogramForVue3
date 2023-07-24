@@ -67,7 +67,6 @@ usePullDownRefresh(() => {
 useReachBottom(() => {
     console.log('useReachBottom:', '触底更新')
 })
-const _this = Taro.getCurrentInstance()
 const emits = defineEmits<{
     scroll: [value: any],
     pulldownrefresh,
@@ -101,7 +100,7 @@ watch(() => props.refreshing, (newVal, oldVal) => {
         }, 500);
     }
 })
-const _onTouchEnd = (e) => {
+const _onTouchEnd = () => {
     const status = pullDownStatus.value;
     if (status === 2) {
         pullDownStatus.value = 3
@@ -117,7 +116,7 @@ const _onLoadmore = () => {
         query.select('#scroll-view').fields({
             size: true,
             scrollOffset: true
-        }, res => {
+        }, () => {
             // if (Math.abs(res.scrollTop - lastScrollEnd.value) < res.height) {
             //     lastScrollEnd.value = res.scrollTop
             emits('loadmore')
