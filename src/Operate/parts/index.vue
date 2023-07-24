@@ -23,11 +23,6 @@
                     placeholder="请选择电极片有效期" type="text">
                 </nut-input>
             </nut-form-item>
-            <!-- <nut-form-item label="变更描述">
-                <nut-textarea :autosize="{
-                    minHeight: 80
-                }" placeholder="请输入描述说明" v-model="form.remarks" limit-show max-length="200" />
-            </nut-form-item> -->
         </nut-form>
         <nut-cell>
             <nut-button type="primary" class="m-auto" style="width:80%;margin: auto;" @click="confirm">提交</nut-button>

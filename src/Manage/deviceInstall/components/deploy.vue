@@ -11,15 +11,15 @@
                 <nut-form-item label="安装区域" required>
                     <!-- @click-input="handleChangeSelect('mobile') -->
                     <nut-input class="nut-input-text" v-model="form.regionName" placeholder="请选择区域" type="text"
-                        @click-input="handleChangeLocal">
+                        @click-input="region.visible = true">
                         <template #right>
                             <jx-icon @click="chooseLocation" value="dingwei" color="#ff6216" :size="24"> </jx-icon>
                         </template>
                     </nut-input>
-                    <nut-popup round closeable @close="events.closeRegion" position="bottom" title="地址选择"
+                    <nut-popup round closeable @close="region.closeRegion" position="bottom" title="地址选择"
                         v-model:visible="region.visible">
-                        <nut-cascader :poppable="false" v-model="form.regionId" @change="events.change"
-                            @pathChange="events.pathChange" lazy :lazyLoad="region.lazyLoad"></nut-cascader>
+                        <nut-cascader :poppable="false" v-model="form.regionId" @change="region.change"
+                            @pathChange="region.pathChange" lazy :lazyLoad="region.lazyLoad"></nut-cascader>
                     </nut-popup>
 
                 </nut-form-item>
@@ -73,9 +73,9 @@
 </template>
 
 <script setup lang="ts">
-import Taro from '@tarojs/taro';
-import { fetchDeviceCoordinate, fetchDevicePlaces, fetchDistrictAreas } from '~/api/common';
+import { fetchDevicePlaces } from '~/api/common';
 import { useStep } from '~/composables/use-device-install';
+import { useDeviceRegion } from '~/composables/use-device-region';
 import { useNotify } from '~/composables/use-notify';
 import { useUpload } from '~/composables/use-upload';
 defineOptions({
@@ -120,7 +120,14 @@ watch(() => manage.deviceInfo, (value) => {
     immediate: true
 })
 const { uploadUrl, beforeXhrUpload, deleteFiles, _fileList } = useUpload(form)
-
+//区域选择
+const { chooseLocation, region } = useDeviceRegion((options) => {
+    form.regionName = options.regionName;
+    form.regionId = options.regionId;
+    form.address = options.address;
+    form.deployedLatitude = options.deployedLatitude;
+    form.deployedLongitude = options.deployedLongitude
+})
 
 
 //切换安装场所
@@ -152,95 +159,7 @@ function handlePlacesConfirm({ selectedValue, selectedOptions }) {
     form.placeId = selectedOptions.map((val: any) => val.value).join('')
     selectPop.show = false
 }
-//选择安装区域
-// function handleRegionConfirm({ selectedValue, selectedOptions }) {
-//     form.placeName = selectedOptions.map((val: any) => val.text).join('')
-//     form.placeId = selectedOptions.map((val: any) => val.value).join('')
-// }
-//定位（拉起微信自带页面）
-async function chooseLocation(option: { latitude?: number, longitude?: number } = {}) {
-    try {
-        let locRes = await Taro.chooseLocation(option)
-        if (!locRes) {
-            Taro.showToast({
-                icon: 'none',
-                title: '当前地址无法解析'
-            })
-            return
-        }
-        let { province, city, district, street, address } = await fetchDeviceCoordinate({
-            latitude: locRes.latitude,
-            longitude: locRes.longitude
-        })
-        let _name = [province.cnName, city.cnName, district.cnName, street.cnName].filter(v => v).join('/')
-        let _id = [province.id, city.id, district.id, street.id].filter(v => v)
-        form.regionName = _name
-        form.regionId = _id
-        form.address = locRes.address || address
-        form.deployedLatitude = locRes.latitude
-        form.deployedLongitude = locRes.longitude
-    } catch (error) {
-        Taro.showToast({
-            icon: 'none',
-            title: '当前地址无法解析'
-        })
-    }
-}
-//获取区域列表
 
-async function getAreas(value: number | string = '') {
-    let res = await fetchDistrictAreas(({ parentId: value }))
-    let _areas = res.map(v => {
-        return {
-            text: v.cnName,
-            value: v.id,
-            ...v
-        }
-    })
-    return _areas
-}
-const region = reactive({
-    visible: false,
-    lazyLoad: async (node: any, resolve: (children: any) => void) => {
-        if (node.root) {
-            resolve(getAreas());
-        } else {
-            if (node.haveChildren) {
-                resolve(getAreas(node.value))
-            } else {
-                resolve([])
-            }
-        }
-    }
-})
-const lastArea = ref<any>()
-const events = {
-    change(...args: number[]) {
-        console.log('change', ...args);
-    },
-    pathChange(...args: any) {
-        let _args = args[0].filter(v => v)
-        form.regionId = _args.map(v => v.value)
-        form.regionName = _args.map(v => v.text).join('/')
-        let item = _args[_args.length - 1]
-        lastArea.value = item
-    },
-    closeRegion() {
-        if (!lastArea.value) {
-            region.visible = false
-            return
-        }
-        chooseLocation({
-            latitude: lastArea.value.lat,
-            longitude: lastArea.value.lng,
-        })
-    }
-};
-//手动选择区域
-async function handleChangeLocal() {
-    region.visible = true
-
-}
 function _prev() {
     form.deployedImagePath = _fileList.value.map(v => v.url).join(';')
     prev()
