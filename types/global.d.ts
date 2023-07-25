@@ -38,6 +38,8 @@ declare namespace Filter {
   type DeviceNetworkState = 'UNKNOWN' | 'ONLINE' | 'OFFLINE' | 'UNSTABLE'
   /** @description 电池状态 */
   type BatteryState = 'UNKNOWN' | 'NORMAL' | 'POWER_LOW' | 'POWER_RUN_OUT'
+  /** @description 培训课程类型 */
+  type CourseType = 'BUSINESS' | 'AHA' | 'OTHER'
 }
 declare namespace Index {
 
@@ -148,7 +150,7 @@ declare namespace Manage {
     placeId: number,
     placeName: string,
     publicDate: string,
-    publicType:Filter.PublicType
+    publicType: Filter.PublicType
     publicTimeFrom: string,
     publicTimeTo: string,
     qualityAssuranceDate: string,
@@ -163,7 +165,7 @@ declare namespace Manage {
    * @description 新增设备or编辑设备
    */
   interface DeviceSaveForm {
-    id?:number;
+    id?: number;
     address: string;
     batteryInvalidDate: string;
     brandId: number;
@@ -193,4 +195,45 @@ declare namespace Manage {
     workDay: string
   }
 
+}
+
+
+declare namespace User {
+  interface AccountInfo {
+    activated: boolean;
+    address: string;
+    email: string;
+    imageUrl: string;
+    nickName: string;
+    phoneNumber: string;
+    realName: string;
+    roleName: string;
+  }
+  interface VolunteerCert {
+    backImagePath: string;
+    certificateExpireDate: string;
+    certificateName: string;
+    certificateNumber: string;
+    certificateReleaseDate: string;
+    certificateState: string;
+    description: string;
+    frontImagePath: string;
+    id?: number;
+    volunteerId: number;
+  }
+  interface Volunteer {
+    address: string;
+    certificateNumber: number;
+    description: string;
+    email: string;
+    id: number;
+    mainMomentAreaAddress: string;
+    name: string;
+    phoneNumber: string;
+    receiveHelpTimeBegin: string;
+    receiveHelpTimeEnd: string;
+    receiveHelpWeekOption: string;
+    regionId: number[];
+    regionName: string;
+  }
 }

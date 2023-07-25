@@ -26,6 +26,8 @@ declare module '@vue/runtime-core' {
     NutElevator: typeof import('@nutui/nutui-taro')['Elevator']
     NutForm: typeof import('@nutui/nutui-taro')['Form']
     NutFormItem: typeof import('@nutui/nutui-taro')['FormItem']
+    NutGrid: typeof import('@nutui/nutui-taro')['Grid']
+    NutGridItem: typeof import('@nutui/nutui-taro')['GridItem']
     NutImagePreview: typeof import('@nutui/nutui-taro')['ImagePreview']
     NutInput: typeof import('@nutui/nutui-taro')['Input']
     NutNotify: typeof import('@nutui/nutui-taro')['Notify']

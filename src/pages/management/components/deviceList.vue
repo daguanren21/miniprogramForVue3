@@ -136,7 +136,6 @@ const showMapNavigation = async (info: Manage.DeviceList) => {
 
 const _onPullDownRefresh = () => {
     setTimeout(() => {
-
         refreshing.value = false
     }, 2000);
 }

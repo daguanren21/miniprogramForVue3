@@ -321,3 +321,45 @@
 .fa-help:before {
   content:"\e65e"
 }
+
+.fa-center-person:before {
+  content:"\e65f"
+}
+
+.fa-center-volunteer:before{
+  content:"\e69a"
+}
+
+.fa-center-statusCheck:before{
+  content:"\e69e"
+}
+.fa-center-deviceList:before{
+  content:"\e6c3"
+}
+
+.fa-center-message:before{
+  content:"\e663"
+}
+
+.fa-operate-inspection:before{
+  content:"\e661"
+}
+
+.fa-operate-maintain:before{
+  content:"\e664"
+}
+
+.fa-operate-statusChange:before{
+  content:"\e660"
+}
+.fa-operate-useReport:before{
+  content:"\e6ac"
+}
+
+.fa-operate-repair:before{
+  content:"\e662"
+}
+
+.fa-operate-relocation:before{
+  content:"\e69c"
+}
