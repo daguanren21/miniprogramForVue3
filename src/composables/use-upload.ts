@@ -1,4 +1,4 @@
-export function useUpload(form) {
+export function useUpload(form, key = 'deployedImagePath') {
     const auth = useAuthStore()
     const _fileList = ref<{
         uid: number,
@@ -8,7 +8,7 @@ export function useUpload(form) {
         type: string
     }[]>([])
     const uploadUrl = ref(baseUrl + 'common/api/v1/oss-files')
-    watch(() => form.deployedImagePath, (value) => {
+    watch(() => form[key], (value) => {
         _fileList.value = value ? value.split(';').map((v, index) => {
             return {
                 uid: index,

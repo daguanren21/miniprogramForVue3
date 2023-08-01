@@ -363,3 +363,17 @@
 .fa-operate-relocation:before{
   content:"\e69c"
 }
+
+.fa-center-yrz:before{
+  content:"\e6fb"
+}
+.fa-center-wrz:before{
+  content:"\e665"
+}
+.fa-center-cert:before{
+  content:"\e7ac"
+}
+
+.fa-center-arrow:before{
+  content:"\eb08"
+}

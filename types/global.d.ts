@@ -40,9 +40,22 @@ declare namespace Filter {
   type BatteryState = 'UNKNOWN' | 'NORMAL' | 'POWER_LOW' | 'POWER_RUN_OUT'
   /** @description 培训课程类型 */
   type CourseType = 'BUSINESS' | 'AHA' | 'OTHER'
+  /** @description 证书状态类型 */
+  type CertificateState = 'EXPIRED' | 'UNKNOWN' | 'VALID'
+  /** @description 审核状态 */
+  type CheckState = 'UNKNOWN' | 'RUNNING' | 'REJECT' | 'APPROVE'
 }
 declare namespace Index {
+  type ObjLimit1<T, K extends keyof T> = {
+    [key in K]?: T[key]
+  }
 
+  type ObjLimit2<T, K extends keyof T> = {
+    [key in Exclude<keyof T, K>]: T[key]
+  }
+
+  // 两种类型 交叉
+  type PartialLimit<T, K extends keyof T> = ObjLimit1<T, K> & ObjLimit2<T, K>
   interface Suggestion {
     adcode: number
     address: string
@@ -208,6 +221,9 @@ declare namespace User {
     phoneNumber: string;
     realName: string;
     roleName: string;
+    volunteer?: boolean;
+    certificateNumber?: number;
+    volunteerId?: number | string;
   }
   interface VolunteerCert {
     backImagePath: string;
@@ -215,18 +231,16 @@ declare namespace User {
     certificateName: string;
     certificateNumber: string;
     certificateReleaseDate: string;
-    certificateState: string;
+    certificateState: Filter.CertificateState;
     description: string;
     frontImagePath: string;
-    id?: number;
-    volunteerId: number;
+    id: number | null;
+    volunteerId?: number | null;
   }
   interface Volunteer {
-    address: string;
     certificateNumber: number;
-    description: string;
     email: string;
-    id: number;
+    id: number | null;
     mainMomentAreaAddress: string;
     name: string;
     phoneNumber: string;
@@ -237,3 +251,5 @@ declare namespace User {
     regionName: string;
   }
 }
+
+

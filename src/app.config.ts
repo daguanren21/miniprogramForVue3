@@ -22,12 +22,34 @@ export default defineAppConfig({
       'useReport/index',//使用上报
       'parts/index'//更换配件
     ]
+  }, {
+    root: 'Center/',//个人中心
+    pages: [
+      'person/index',//个人信息
+      'volunteer/index',//注册志愿者
+      'notification/index',//消息通知
+      'cert/index',//证书列表
+      'uploadCert/index',//证书上传
+      'deviceList/index',//设备清单
+      'deviceCheck/index'//设备审核
+    ]
   }],
   window: {
     backgroundTextStyle: 'light',
     navigationBarBackgroundColor: '#fff',
     navigationBarTitleText: 'WeChat',
     navigationBarTextStyle: 'black'
+  },
+  "networkTimeout": {
+    "request": 1000000,
+    "connectSocket": 10000,
+    "uploadFile": 50000,
+    "downloadFile": 10000
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "您的位置将用于查找周边布放的AED设备"
+    }
   },
   tabBar: {
     custom: true,

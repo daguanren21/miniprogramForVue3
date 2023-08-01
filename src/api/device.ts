@@ -135,15 +135,15 @@ export function fetchDevicesBySearialNumber(serialNumber: string): Promise<Devic
 }
 
 
-interface DeviceCheckRecord {
+export interface DeviceCheckRecord {
     deviceId: number;
     deviceSerialNumber: string;
     id: number;
     imagesPath: string;
-    newRunningState: string;
-    oldRunningState: string;
+    newRunningState: Filter.RunningState;
+    oldRunningState: Filter.RunningState;
     remarks: string;
-    state: string;
+    state: Filter.CheckState;
 }
 /**
  * @description 分页查询设备审核记录
@@ -157,7 +157,7 @@ export function fetchDeviceCheckRecords(data: {
     content: DeviceCheckRecord[];
     totalCount: number;
     totalPage: number;
-}[]> {
+}> {
     return request({
         url: api.manage + 'device-check-records',
         data,
@@ -170,7 +170,7 @@ export function fetchDeviceCheckRecords(data: {
  * @param  
  * @returns 
  */
-interface DeviceExceptionRecord {
+export interface DeviceExceptionRecord {
     address: string;
     brandId: number;
     brandLogo: string;
@@ -187,7 +187,7 @@ interface DeviceExceptionRecord {
     smsContent: string;
     source: string;
     state: string;
-    type: string;
+    type: Filter.RunningState;
 }
 export function fetchDeviceExceptionRecords(data: {
     page: number,
@@ -197,9 +197,9 @@ export function fetchDeviceExceptionRecords(data: {
     content: DeviceExceptionRecord[];
     totalCount: number;
     totalPage: number;
-}[]> {
+}> {
     return request({
-        url: api.manage + 'device-exception-records',
+        url: api.manage + 'device-exception-record',
         data,
         method: Method.GET
     })
@@ -315,7 +315,7 @@ export function updateDeviceStateChange(data: {
 export function updateDeviceCheckRecords(data: {
     id: number;
     remarks: string;
-    state: string;
+    state: Filter.CheckState;
 }): Promise<void> {
     return request({
         url: api.manage + 'device-check-records/check',

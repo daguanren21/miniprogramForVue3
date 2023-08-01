@@ -37,7 +37,7 @@ export function fetchAccountInfo(): Promise<User.AccountInfo> {
  * 
  * @description 修改小程序个人信息
  */
-export type ModifyAccountInfo = Omit<User.AccountInfo, 'activated' | 'roleName'>
+export type ModifyAccountInfo = Omit<User.AccountInfo, 'activated' | 'roleName' | 'address'>
 export function updateAccountInfo(data: ModifyAccountInfo): Promise<User.AccountInfo> {
     return request({
         url: api.user + 'account-info/update',
@@ -61,7 +61,7 @@ export interface Message {
     level: string;
     linkUrl: string;
 }
-export function fetchUnreadMessages(data: { page: 1, size: 10 }): Promise<{
+export function fetchUnreadMessages(data: { page: number, size: number }): Promise<{
     content: Message[];
     totalCount: number;
     totalPage: number;
@@ -114,7 +114,7 @@ export function fetchVolunteerCerts(id: number): Promise<User.VolunteerCert[]> {
  * @description 修改志愿者资质证书
  */
 
-export function updateVolunteerCerts(data: User.VolunteerCert): Promise<User.VolunteerCert[]> {
+export function updateVolunteerCerts(data: Omit<User.VolunteerCert,'description' | 'certificateState'>): Promise<User.VolunteerCert[]> {
     return request({
         url: api.user + `volunteer-certificates`,
         data,
@@ -126,7 +126,7 @@ export function updateVolunteerCerts(data: User.VolunteerCert): Promise<User.Vol
  * @description 保存志愿者资质证书
  */
 
-export function saveVolunteerCerts(data: User.VolunteerCert): Promise<User.VolunteerCert[]> {
+export function saveVolunteerCerts(data: Omit<User.VolunteerCert,'description' | 'certificateState'>): Promise<User.VolunteerCert[]> {
     return request({
         url: api.user + `volunteer-certificates`,
         data,
@@ -146,7 +146,7 @@ export function fetchVolunteerInfo(): Promise<User.Volunteer> {
 /**
  * @description 注册成为志愿者
  */
-export function registerVolunteer(data: User.Volunteer & {
+export function registerVolunteer(data: Omit<User.Volunteer, 'certificateNumber'> & {
     latitude: number
     longitude: number
 }): Promise<void> {
@@ -242,7 +242,7 @@ export interface Course {
     userName: string;
 }
 export function fetchTrainingCourses(data: {
-    courseType:Filter.CourseType
+    courseType: Filter.CourseType
     page: number,
     size: number
 }): Promise<{

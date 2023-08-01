@@ -228,3 +228,59 @@ export const qualityAssuranceStateFilter = (key: 'UNKNOWN' | 'IN' | 'OUT') => {
 export const dateFilter = (value: string, format: string = "YYYY-MM-DD HH:mm:ss") => {
     return value ? dayjs(value).format(format) : ''
 }
+export const checkStateFilter = (key: Filter.CheckState) => {
+    let state: {
+        type: DotType,
+        text: string
+    } = {
+        type: 'default',
+        text: ''
+    }
+    switch (key) {
+        case 'UNKNOWN':
+            state.type = 'default'
+            state.text = '未知'
+            break;
+        case 'RUNNING':
+            state.type = 'info'
+            state.text = '审核中'
+            break;
+        case 'REJECT':
+            state.type = 'error'
+            state.text = '拒绝'
+            break;
+        case 'APPROVE':
+            state.type = 'success'
+            state.text = '同意'
+            break;
+        default:
+            break;
+    }
+    return state
+}
+export const certificateStateFilter = (key: 'EXPIRED' | 'UNKNOWN' | 'VALID') => {
+    let state: {
+        type: DotType,
+        text: string
+    } = {
+        type: 'default',
+        text: ''
+    }
+    switch (key) {
+        case 'UNKNOWN':
+            state.type = 'default'
+            state.text = '未知'
+            break;
+        case 'VALID':
+            state.type = 'success'
+            state.text = '有效'
+            break;
+        case 'EXPIRED':
+            state.type = 'error'
+            state.text = '过期'
+            break;
+        default:
+            break;
+    }
+    return state
+}

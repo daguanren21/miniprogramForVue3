@@ -1,3 +1,5 @@
+import { DotType } from "~/filter"
+
 export const weekDays = {
     1: '周一',
     2: '周二',
@@ -35,4 +37,28 @@ export  const getImages = (deployedImageUrls:string,len:number=4) => {
         images = images.concat(new Array(len - images.length).fill(null))
     }
     return images
+}
+
+export const filter = (type: DotType) => {
+    let color = ''
+    switch (type) {
+        case 'success':
+            color = '#33CC33'
+            break;
+        case 'info':
+            color = '#6190E8'
+            break;
+        case 'error':
+            color = '#C30D23'
+            break;
+        case 'warning':
+            color = '#FF6216'
+            break;
+        case 'default':
+            color = '#B4B4B4'
+            break;
+        default:
+            break;
+    }
+    return color
 }

@@ -1,13 +1,13 @@
 //services服务
 const enum Server {
     DEVELOPMENT = 'https://demo.jousing.cn/api',
-    LOCAL = 'http://192.168.10.91:8080/services/',
+    LOCAL = 'http://192.168.10.41:8080/services/',
     PRODUCTION = 'https://www.jousing.cn/api'
 }
 //Gateway服务
 const enum Gateway {
     DEVELOPMENT = 'https://demo.jousing.cn/api',
-    LOCAL = 'http://192.168.10.91:8080/',
+    LOCAL = 'http://192.168.10.41:8080/',
     PRODUCTION = 'https://www.jousing.cn/api'
 }
 const enum MapKey {
@@ -47,3 +47,5 @@ export const workDayOptions = [{
 export const phoneAndFixPattern = /^1\d{10}$|^(0\d{2,3}-?|\(0\d{2,3}\))?[1-9]\d{4,7}(-?\d{1,8})?$/
 //手机号校验
 export const phonePattern = /^1\d{10}$/
+//邮箱校验
+export const emailPattern = /^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)*@[a-zA-Z0-9_-]+(\.[a-zA-Z_-]+)+$/

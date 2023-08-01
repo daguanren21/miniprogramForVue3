@@ -37,6 +37,8 @@ export const useLogin = () => {
         checkProgramNeedUpdate()
         //存储权限数据
         const auth = useAuthStore()
+        //获取用户详情
+        const user = useAccountInfo()
         //获取微信登录code
         const wxLoginRes = await Taro.login()
         //获取小程序的appId
@@ -48,6 +50,7 @@ export const useLogin = () => {
                 code: wxLoginRes.code
             })
             auth.$state.authInfo = serverLoginRes
+            await user.getAccountInfo()
             return Promise.resolve('登录成功！')
         } catch (error) {
             console.warn(error)
