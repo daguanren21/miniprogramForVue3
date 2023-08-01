@@ -161,7 +161,6 @@ const handleModal = reactive({
         }
     },
     open: (id: number) => {
-        debugger
         handleModal.form.id = id
         handleModal.show = true
     }
