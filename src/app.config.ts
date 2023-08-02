@@ -2,6 +2,7 @@ export default defineAppConfig({
   pages: [
     'pages/index/index',
     'pages/management/index',
+    'pages/college/index',
     'pages/center/index',
   ],
   subPackages: [{
@@ -32,6 +33,13 @@ export default defineAppConfig({
       'uploadCert/index',//证书上传
       'deviceList/index',//设备清单
       'deviceCheck/index'//设备审核
+    ]
+  }, {
+    root: 'College/',//急救学院
+    pages: [
+      'newsInfo/index',//新闻知识
+      'courseInfo/index',//急救课程
+      'courseList/index',//课程列表
     ]
   }],
   window: {
@@ -64,6 +72,10 @@ export default defineAppConfig({
       {
         pagePath: 'pages/management/index',
         text: '运维管理'
+      },
+      {
+        pagePath: 'pages/college/index',
+        text: '急救课堂'
       },
       {
         pagePath: 'pages/center/index',

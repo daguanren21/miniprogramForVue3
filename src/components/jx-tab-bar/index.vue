@@ -11,7 +11,7 @@
                     <Find></Find>
                 </template>
             </nut-tabbar-item>
-            <nut-tabbar-item name="" tab-title="急救知识">
+            <nut-tabbar-item name="college" tab-title="急救课堂">
                 <template #icon>
                     <My></My>
                 </template>

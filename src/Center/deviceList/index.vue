@@ -173,6 +173,7 @@ useDidShow(async () => {
 })
 const fetchData = async () => {
     refreshing.value = false
+    nomore.value = false
     state.page = 1
     let { content, totalCount, totalPage } = await loadData()
     console.log('列表数据', content)

@@ -31,8 +31,8 @@ export const showWeekDays = (workDay: string) => {
 /**
  * @description 保证图片个数（4个）
  */
-export  const getImages = (deployedImageUrls:string,len:number=4) => {
-    let images:string[] = deployedImageUrls.split(';');
+export const getImages = (deployedImageUrls: string, len: number = 4) => {
+    let images: string[] = deployedImageUrls.split(';');
     if (images.length < len) {
         images = images.concat(new Array(len - images.length).fill(null))
     }
@@ -61,4 +61,12 @@ export const filter = (type: DotType) => {
             break;
     }
     return color
+}
+//过滤html标签以及&nbsp
+export function removeHTMLTag(str) {
+    str = str.replace(/<\/?[^>]*>/g, ''); //去除HTML tag
+    str = str.replace(/[ | ]*\n/g, '\n'); //去除行尾空白
+    //str = str.replace(/\n[\s| | ]*\r/g,'\n'); //去除多余空行
+    str = str.replace(/&nbsp;/ig, '');//去掉&nbsp;
+    return str;
 }

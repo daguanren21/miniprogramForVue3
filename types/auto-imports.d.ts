@@ -69,6 +69,7 @@ declare global {
   const reactive: typeof import('vue')['reactive']
   const readonly: typeof import('vue')['readonly']
   const ref: typeof import('vue')['ref']
+  const removeHTMLTag: typeof import('../src/utils/index')['removeHTMLTag']
   const request: typeof import('../src/request/index')['request']
   const resolveComponent: typeof import('vue')['resolveComponent']
   const setActivePinia: typeof import('pinia')['setActivePinia']
