@@ -38,12 +38,12 @@
             </nut-form-item>
         </nut-form>
         <nut-cell>
-            <nut-button color="linear-gradient(to right, #ff6034, #ee0a24)" type="primary"
-                style="width:80%;margin: auto;" @click="confirm">提交</nut-button>
+            <nut-button color="linear-gradient(to right, #ff6034, #ee0a24)" type="primary" style="width:80%;margin: auto;"
+                @click="confirm">提交</nut-button>
         </nut-cell>
         <nut-popup position="bottom" v-model:visible="receiveHelpTime.show">
             <nut-date-picker v-model="receiveHelpTime.value" title="时间选择" type="hour-minute"
-                @confirm="receiveHelpTime.confirm"></nut-date-picker>
+                @cancel="receiveHelpTime.show = false" @confirm="receiveHelpTime.confirm"></nut-date-picker>
         </nut-popup>
     </div>
 </template>
@@ -140,19 +140,29 @@ const receiveHelpTime = reactive({
     },
     change: (type: string) => {
         receiveHelpTime.type = type
-        receiveHelpTime.value = form[type]
+        let date = new Date()
+        let year = date.getFullYear()
+        let month = date.getMonth() + 1
+        let day = date.getDate()
+        if (form[type]) {
+            let [hour, minute] = form[type].split(':')
+            receiveHelpTime.value = new Date(year, month, day, hour, minute)
+        }
         receiveHelpTime.show = true;
-
     }
 })
 
 useDidShow(async () => {
     let res = await fetchVolunteerInfo();
     Object.keys(form).forEach(key => {
-        form[key] = res[key]
+        form[key] = res[key] || form[key]
     })
+    form.email = account.accountInfo.email
+    form.name = account.accountInfo.realName
+    form.phoneNumber = account.accountInfo.phoneNumber
+    form.regionId = res.regionId || []
     Taro.setNavigationBarTitle({
-        title:res.id?'修改志愿者':'注册志愿者'
+        title: res.id ? '修改志愿者' : '注册志愿者'
     })
 })
 </script>

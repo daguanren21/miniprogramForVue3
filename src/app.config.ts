@@ -2,6 +2,7 @@ export default defineAppConfig({
   pages: [
     'pages/index/index',
     'pages/management/index',
+    'pages/oneKeyForHelp/index',
     'pages/college/index',
     'pages/center/index',
   ],
@@ -72,6 +73,10 @@ export default defineAppConfig({
       {
         pagePath: 'pages/management/index',
         text: '运维管理'
+      },
+      {
+        pagePath: 'pages/oneKeyForHelp/index',
+        text: '一键呼救'
       },
       {
         pagePath: 'pages/college/index',

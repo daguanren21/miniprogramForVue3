@@ -12,7 +12,7 @@
                     placeholder="请输入证书编号" type="text">
                 </nut-input>
             </nut-form-item>
-            <nut-form-item label="证书有效时间" required>
+            <nut-form-item label="有效时间" required>
                 <div class="flex-center">
                     <nut-input class="nut-input-text" input-align="center" v-model="form.certificateReleaseDate"
                         @click-input="receiveHelpTime.change('certificateReleaseDate')" placeholder="请选择开始时间" type="text">
@@ -122,7 +122,7 @@ const receiveHelpTime = reactive({
     },
     change: (type: string) => {
         receiveHelpTime.type = type
-        receiveHelpTime.value = form[type]
+        receiveHelpTime.value = form[type] || new Date(Date.now())
         receiveHelpTime.show = true;
 
     }

@@ -284,3 +284,36 @@ export const certificateStateFilter = (key: 'EXPIRED' | 'UNKNOWN' | 'VALID') => 
     }
     return state
 }
+
+export const helpSeekedVolunteerResponseTypeFilter = (key: 'ACCEPTED' | 'REFUSED' | 'UNHANDLED') => {
+    let str = "";
+    switch (key) {
+        case 'ACCEPTED':
+            str = '同意协助'
+            break;
+        case 'REFUSED':
+            str = '无法救助'
+            break;
+        case 'UNHANDLED':
+            str = '未处理'
+            break;
+        default:
+            break;
+    }
+    return str || '---'
+}
+
+export const volunteerResponseTaskFilter = (key: 'FETCH_AED' | 'CPR') => {
+    let str = "";
+    switch (key) {
+        case 'FETCH_AED':
+            str = '取AED'
+            break;
+        case 'CPR':
+            str = '协助CPR'
+            break;
+        default:
+            break;
+    }
+    return str || '---'
+}

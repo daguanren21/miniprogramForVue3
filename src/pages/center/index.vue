@@ -17,9 +17,13 @@
                                 <text v-if="accountInfo.nickName">{{ accountInfo.nickName }}</text>
                                 <open-data v-else type="userNickName"></open-data>
                             </div>
-                            <div
+                            <div v-if="accountInfo.roleName"
                                 class="text-24px w-150px h-40px line-height-40px ml-20px rounded-30px text-hex-fff text-center bg-hex-21cf3c">
                                 {{ accountInfo.roleName }}
+                            </div>
+                            <div class="ml-20px" v-else>
+                                <nut-button type='primary' style="height:40rpx;line-height: 40rpx;font-size: 24rpx;"
+                                    @getphonenumber="getPhoneNumber" open-type="getPhoneNumber"> 授权</nut-button>
                             </div>
                         </div>
                         <div class="mt-26px text-26px text-hex-231815 break-all font-400">
@@ -61,7 +65,7 @@
 
                             </nut-badge>
                         </nut-grid-item>
-                        <nut-grid-item @click="toCenter('deviceCheck')">
+                        <nut-grid-item @click="toCenter('deviceCheck')" v-if="roleType && roleType !== 'WECHAT'">
                             <template #text>
                                 <div class="text-28px  mt-10px">
                                     状态审核
@@ -69,7 +73,7 @@
                             </template>
                             <jx-icon value="center-statusCheck" :size="26" color="#D51E06"></jx-icon>
                         </nut-grid-item>
-                        <nut-grid-item @click="toCenter('deviceList')">
+                        <nut-grid-item @click="toCenter('deviceList')" v-if="roleType && roleType !== 'WECHAT'">
                             <template #text>
                                 <div class="text-28px  mt-10px">
                                     设备清单
@@ -78,7 +82,7 @@
                             <jx-icon value="center-deviceList" :size="26" color="#14ADC4"></jx-icon>
                         </nut-grid-item>
 
-                        <nut-grid-item @click="toCenter('notification')">
+                        <nut-grid-item @click="toCenter('notification')" v-if="roleType && roleType !== 'WECHAT'">
                             <template #text>
                                 <div class="text-28px  mt-10px">
                                     消息通知
@@ -90,7 +94,7 @@
                         </nut-grid-item>
                     </nut-grid>
                 </div>
-                <div class="mt-20px pb-20px bg-hex-fff rounded-30px">
+                <div class="mt-20px pb-20px bg-hex-fff rounded-30px" v-if="roleType && roleType !== 'WECHAT'">
                     <div class="pt-36px ml-30px mb-10px text-36px font-bold text-hex-595757">操作中心</div>
                     <nut-grid class="m-x-10px" :column-num="4" square>
                         <nut-grid-item @click="toOperate('inspection')">
@@ -153,31 +157,40 @@
 
 <script setup lang="ts">
 import Taro, { useDidShow } from '@tarojs/taro';
+import { fetchOneKeyLogin } from '~/api/login';
 // import { fetchOneKeyLogin } from '~/api/login';
 import { fetchUnreadCount } from '~/api/user';
 const account = useAccountInfo()
 let { accountInfo } = storeToRefs(account)
-// const getPhoneNumber = async (e) => {
-//     let { errMsg, iv, encryptedData } = e.detail
-//     const auth = useAuthStore()
-//     if (errMsg == "getPhoneNumber:ok") {
-//         let res = await fetchOneKeyLogin({
-//             unionid: auth.authInfo.unionid,
-//             iv,
-//             encryptedData
-//         })
-//         if (!res) {
-//             return Promise.reject("微信登录失败")
-//         }
-//         if (!res.id_token) {
-//             return Promise.reject("微信授权失败");
-//         }
-//         auth.$state.authInfo.id_token = res.id_token
-//         await account.getAccountInfo()
-//     }
-// }
+const auth = useAuthStore()
+const getPhoneNumber = async (e) => {
+    let { errMsg, iv, encryptedData } = e.detail
+    if (errMsg == "getPhoneNumber:ok") {
+        let res = await fetchOneKeyLogin({
+            unionid: auth.authInfo.unionid,
+            iv,
+            encryptedData
+        })
+        if (!res) {
+            return Promise.reject("微信登录失败")
+        }
+        if (!res.id_token) {
+            return Promise.reject("微信授权失败");
+        }
+        auth.authInfo.id_token = res.id_token
+        await account.getAccountInfo()
+    }
+}
+const roleType = computed(() => account.accountInfo.roleType)
 //跳转到个人中心页面
 const toCenter = (key: string) => {
+    if (!auth.authInfo.id_token) {
+        Taro.showToast({
+            icon: 'none',
+            title: '授权后方可操作'
+        })
+        return
+    }
     if (key === 'cert' && !accountInfo.value.volunteer) {
         Taro.showModal({
             title: '提示',

@@ -52,6 +52,7 @@
     "@tarojs/runtime": "3.6.1",
     "@tarojs/shared": "3.6.1",
     "@tarojs/taro": "3.6.1",
+    "@vueuse/core": "^10.3.0",
     "dayjs": "^1.11.9",
     "pinia": "^2.1.4",
     "qqmap-wx-jssdk": "^1.0.0",

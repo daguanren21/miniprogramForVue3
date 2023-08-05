@@ -12,9 +12,11 @@ export const useAccountInfo = defineStore('account', {
             nickName: '',
             phoneNumber: '',
             realName: '',
+            roleType:'',
             volunteer: false,
             volunteerId: '',
-        } as any as User.AccountInfo
+            activated:false,
+        } satisfies User.AccountInfo
     }),
     actions: {
         async getAccountInfo() {

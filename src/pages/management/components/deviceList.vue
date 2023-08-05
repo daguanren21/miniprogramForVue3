@@ -94,30 +94,44 @@
 <script setup lang="ts">
 import { fetchManageDevices } from "~/api/device"
 import { dateFilter, deviceRunningStateFilter, deviceNetworkStateFilter, positionStateFilter, qualityAssuranceStateFilter, batteryStateFilter, noDataFilter } from '~/filter/index'
-import { useDidShow } from '@tarojs/taro';
 import { useQQMapSdk } from "~/composables/use-qqmap-sdk";
-import Taro from "@tarojs/taro";
+import Taro, { useDidShow } from "@tarojs/taro";
 const state = reactive({
     content: [] as Manage.DeviceList[],
     totalCount: 0,
     totalPage: 0,
     page: 1
 })
+const props = defineProps<{ search: Record<string, any> }>()
+watch(() => props.search, (val) => {
+    console.log(val)
+    loadData()
+}, {
+    deep: true
+})
 const refreshing = ref(false)
 const nomore = ref(false)
-useDidShow(async () => {
+useDidShow(()=>{
+    loadData()
+})
+async function loadData() {
+    refreshing.value = false
+    nomore.value = false
     state.page = 1
     let { content, totalCount, totalPage } = await getManageList()
     console.log('列表数据', content)
     state.content = content
     state.totalCount = totalCount
     state.totalPage = totalPage
-})
-
+    if (state.page === state.totalPage || state.totalPage===0) {
+        nomore.value = true
+    }
+}
 async function getManageList() {
     let res = await fetchManageDevices({
         page: state.page,
-        size: 10
+        size: 10,
+        ...props.search
     })
     return Promise.resolve(res)
 }

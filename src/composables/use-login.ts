@@ -39,18 +39,28 @@ export const useLogin = () => {
         const auth = useAuthStore()
         //获取用户详情
         const user = useAccountInfo()
+
         //获取微信登录code
         const wxLoginRes = await Taro.login()
         //获取小程序的appId
         const accountInfo = Taro.getAccountInfoSync()
         //获取后台用户的token
         try {
+            Taro.showLoading({
+                title: '加载中',
+                mask: true
+            })
             let serverLoginRes = await fetchWxLogin({
                 appId: accountInfo.miniProgram.appId,
                 code: wxLoginRes.code
             })
             auth.$state.authInfo = serverLoginRes
-            await user.getAccountInfo()
+            if (auth.authInfo.id_token) {
+                await user.getAccountInfo()
+            }
+            setTimeout(() => {
+                Taro.hideLoading()
+            }, 500)
             return Promise.resolve('登录成功！')
         } catch (error) {
             console.warn(error)

@@ -44,6 +44,16 @@ declare namespace Filter {
   type CertificateState = 'EXPIRED' | 'UNKNOWN' | 'VALID'
   /** @description 审核状态 */
   type CheckState = 'UNKNOWN' | 'RUNNING' | 'REJECT' | 'APPROVE'
+  /** @description  呼救响应状态*/
+  type RescueResponseState = 'ACCEPTED' | 'REFUSED' | 'UNHANDLED'
+  /** @description  志愿者分配任务*/
+  type RescueResponseTaskType = 'FETCH_AED' | 'CPR'
+  /** @description  呼救状态*/
+  type OneKeyForHelpRecordState = 'RECEIVED' | 'FINISHED'
+  /** @description 呼救模式 */
+  type RescueType = 'EMERGENT' | 'DRILL'
+  /** @description 角色类型 */
+  type RoleType = 'CONFIGURATION' | 'FACTORY' | 'MAINTENANCE' | 'REGION' | 'SYSTEM' | 'WECHAT'
 }
 declare namespace Index {
   type ObjLimit1<T, K extends keyof T> = {
@@ -221,6 +231,7 @@ declare namespace User {
     phoneNumber: string;
     realName: string;
     roleName: string;
+    roleType: Filter.RoleType | string;
     volunteer?: boolean;
     certificateNumber?: number;
     volunteerId?: number | string;

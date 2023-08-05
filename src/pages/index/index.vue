@@ -12,12 +12,12 @@
         </div>
         <div class="absolute top-120px right-30px">
           <div @click="handleNearby" class="flex-center flex-col mb-20px  p-10px rounded-15px bg-hex-1890ff">
-            <IconFont font-class-name="fa" class-prefix="fa" name="nearby" color="#fff" size="24"></IconFont>
+            <jx-icon value="nearby" color="#fff" :size="24"></jx-icon>
             <p class="text-20px text-hex-fff">附近AED</p>
           </div>
         </div>
         <div @click="moveToLocation" class="absolute bottom-20px right-30px">
-          <IconFont font-class-name="fa" class-prefix="fa" name="myLoc" color="#fa2c19" size="30"></IconFont>
+          <jx-icon value="myLoc" color="#fa2c19" :size="30"></jx-icon>
         </div>
       </map>
     </div>
@@ -46,7 +46,7 @@ const mapState = reactive({
 const { scale } = toRefs(mapState)
 //地图获取最新位置
 const { lat: centerLat, lng: centerLng } = useMapLocation()
-const { renderMarkerDevices, getSuggestion, deviceSelectId, regionchange, markers, markertap, deviceInfo, deviceVisible,moveToLocation } = useQQMapSdk()
+const { renderMarkerDevices, getSuggestion, deviceSelectId, regionchange, markers, markertap, deviceInfo, deviceVisible, moveToLocation } = useQQMapSdk()
 // 搜索
 const searchValue = ref('')
 const searchAreaList = ref<Index.Suggestion[]>([])

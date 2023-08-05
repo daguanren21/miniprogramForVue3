@@ -2,7 +2,8 @@ const api = {
     public: 'user/api/v1/mini-program/public/',
     user: 'user/api/v1/mini-program/',
     news: 'user/api/v1/mini-program/public/news-knowledge-bases',
-    train: 'user/api/v1/mini-program/public/training-courses'
+    train: 'user/api/v1/mini-program/public/training-courses',
+    volunteer: 'user/api/v1/mini-program/volunteer/'
 }
 /**
  * @description 查询单位列表
@@ -114,7 +115,7 @@ export function fetchVolunteerCerts(id: number): Promise<User.VolunteerCert[]> {
  * @description 修改志愿者资质证书
  */
 
-export function updateVolunteerCerts(data: Omit<User.VolunteerCert,'description' | 'certificateState'>): Promise<User.VolunteerCert[]> {
+export function updateVolunteerCerts(data: Omit<User.VolunteerCert, 'description' | 'certificateState'>): Promise<User.VolunteerCert[]> {
     return request({
         url: api.user + `volunteer-certificates`,
         data,
@@ -126,7 +127,7 @@ export function updateVolunteerCerts(data: Omit<User.VolunteerCert,'description'
  * @description 保存志愿者资质证书
  */
 
-export function saveVolunteerCerts(data: Omit<User.VolunteerCert,'description' | 'certificateState'>): Promise<User.VolunteerCert[]> {
+export function saveVolunteerCerts(data: Omit<User.VolunteerCert, 'description' | 'certificateState'>): Promise<User.VolunteerCert[]> {
     return request({
         url: api.user + `volunteer-certificates`,
         data,
@@ -266,3 +267,165 @@ export function fetchTrainingCourseInfo(id: number): Promise<Course> {
         method: Method.GET
     })
 }
+
+
+export interface RescueInfo {
+    aedAgreeCount: number;
+    agreeCount: number;
+    allVolunteerCount: number;
+    cprAgreeCount: number;
+    cprReceiverCount: number;
+    fetchAedReceiverCount: number;
+    receivedInfo: ReceivedInfo;
+    record: VolunteerRecord;
+    responseInfos: ReceivedInfo[];
+}
+export interface ReceivedInfo {
+    activated: boolean;
+    callForHelpAddress: string;
+    callForHelpTime: string;
+    description: string;
+    id: number;
+    receivedTime: string;
+    receiverId: number;
+    receiverLatitude: number;
+    receiverLongitude: number;
+    receiverName: string;
+    receiverPhone: string;
+    recordId: number;
+    rescueResponseState: Filter.RescueResponseState;
+    rescueResponseTaskType: Filter.RescueResponseTaskType;
+    responseTime: string;
+}
+export interface VolunteerRecord {
+    activated: boolean;
+    address: string;
+    callForHelpTime: string;
+    callerId: number;
+    callerName: string;
+    callerPhone: string;
+    createdDate: string;
+    description: string;
+    id: number;
+    latitude: number;
+    longitude: number;
+    oneKeyForHelpRecordState: Filter.OneKeyForHelpRecordState;
+    rescueType: Filter.RescueType;
+}
+/**
+ * @description 获取志愿者急救信息
+ */
+export function fetchVolunteerRescueInfo(): Promise<RescueInfo> {
+    return request({
+        url: api.volunteer + `rescue-info`,
+        method: Method.GET
+    })
+}
+
+/**
+ * @description 获取演练志愿者
+ */
+export function fetchVolunteerDrill(): Promise<string[]> {
+    return request({
+        url: api.volunteer + `drill-volunteer`,
+        method: Method.GET
+    })
+}
+
+/**
+ * @description 获取地点步行距离
+ */
+export function fetchLocationDistance(data: {
+    latFrom: number,
+    latTo: number,
+    lngFrom: number,
+    lngTo: number
+}): Promise<number> {
+    return request({
+        url: api.volunteer + `location-distance`,
+        data,
+        method: Method.GET
+    })
+}
+
+/**
+ * @description 同意救助
+ */
+export function saveAgreeToHelp(data: {
+    responseInfoId: number
+}): Promise<void> {
+    return request({
+        url: api.volunteer + `agree-to-help`,
+        data,
+        method: Method.POST
+    })
+}
+
+
+/**
+ * @description 添加演练志愿者
+ */
+export interface SaveDrillVolunteer {
+    latestObtainedLatitude: number;
+    latestObtainedLongitude: number;
+    phoneList: string[];
+}
+export function saveDrillVolunteer(data: SaveDrillVolunteer): Promise<void> {
+    return request({
+        url: api.volunteer + `drill-volunteer`,
+        data,
+        method: Method.POST
+    })
+}
+export interface SaveOneKeyForHelp {
+    address: string;
+    latitude: number;
+    longitude: number;
+    rescueType: Filter.RescueType;
+}
+/**
+ * @description 一键呼救
+ */
+export function saveOneKeyForHelp(data: SaveOneKeyForHelp): Promise<void> {
+    return request({
+        url: api.volunteer + `one-key-for-help`,
+        data,
+        method: Method.POST
+    })
+}
+/**
+ * @description 关闭一键呼救
+ */
+export function saveOneKeyForHelpToFinish(data: {
+    recordId: number
+}): Promise<void> {
+    return request({
+        url: api.volunteer + `one-key-for-help/finish`,
+        data,
+        method: Method.POST
+    })
+}
+
+/**
+ * @description 不同意救助
+ */
+export function saveRefuseToHelp(data: {
+    responseInfoId: number
+}): Promise<void> {
+    return request({
+        url: api.volunteer + `refuse-to-help`,
+        data,
+        method: Method.POST
+    })
+}
+/**
+ * @description 切换模式
+ */
+export function saveSwitchModel(): Promise<void> {
+    return request({
+        url: api.volunteer + `switch-model`,
+        method: Method.POST
+    })
+}
+
+

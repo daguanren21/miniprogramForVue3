@@ -43,8 +43,8 @@ const config = {
     data: `@import "@nutui/nutui-taro/dist/styles/variables.scss";`
   },
   mini: {
-    miniCssExtractPluginOption:{
-      ignoreOrder:true
+    miniCssExtractPluginOption: {
+      ignoreOrder: true
     },
     webpackChain(chain) {
       chain.plugin('unplugin-vue-components/webpack').use(Components({
@@ -52,13 +52,18 @@ const config = {
         resolvers: [NutUIResolver({ taro: true })]
       }))
       chain.plugin('unplugin-auto-import').use(AutoImport({
-        dirs:['src/request',"src/utils","src/store/**","src/filter"],
+        dirs: ['src/request', "src/utils", "src/store/**", "src/filter"],
         include: [
           /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
           /\.vue$/, /\.vue\?vue/, // .vue
         ],
-        imports:["vue","pinia"],
-        dts:"types/auto-imports.d.ts"
+        imports: ["vue", "pinia", {
+          '@vueuse/core': [
+            // named imports
+            'useIntervalFn', // import { useMouse } from '@vueuse/core',
+          ],
+        }],
+        dts: "types/auto-imports.d.ts"
       }))
     },
     postcss: {
