@@ -4,32 +4,32 @@
         <div class="flex-1">
             <nut-form :model-value="form" ref="ruleForm">
                 <nut-form-item label="电极片有效期" required>
-                    <nut-input class="nut-input-text" v-model="form.batteryInvalidDate"
-                        @click-input="handleChangeDate('batteryInvalidDate')" placeholder="请选择电极片有效期" type="text">
+                    <nut-input class="nut-input-text" v-model="form.batteryInvalidDate" readonly
+                        @click="handleChangeDate('batteryInvalidDate')" placeholder="请选择电极片有效期" type="text">
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item label="电池有效期" required>
-                    <nut-input class="nut-input-text" v-model="form.electrodeInvalidDate"
-                        @click-input="handleChangeDate('electrodeInvalidDate')" placeholder="请选择电极片有效期" type="text">
+                    <nut-input class="nut-input-text" v-model="form.electrodeInvalidDate" readonly
+                        @click="handleChangeDate('electrodeInvalidDate')" placeholder="请选择电极片有效期" type="text">
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item label="质保有效期">
-                    <nut-input class="nut-input-text" v-model="form.qualityAssuranceDate"
-                        @click-input="handleChangeDate('qualityAssuranceDate')" placeholder="请选择质保有效期" type="text">
+                    <nut-input class="nut-input-text" v-model="form.qualityAssuranceDate" readonly
+                        @click="handleChangeDate('qualityAssuranceDate')" placeholder="请选择质保有效期" type="text">
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item label="设备状态">
-                    <nut-input class="nut-input-text" v-model="form.runningStateName"
-                        @click-input="handleChangeSelect('runningState')" placeholder="请选择设备状态" type="text">
+                    <nut-input class="nut-input-text" v-model="form.runningStateName" readonly
+                        @click="handleChangeSelect('runningState')" placeholder="请选择设备状态" type="text">
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item label="网络状态">
-                    <nut-input class="nut-input-text" v-model="form.deviceNetworkStateName"
-                        @click-input="handleChangeSelect('deviceNetworkState')" placeholder="请选择网络状态" type="text">
+                    <nut-input class="nut-input-text" v-model="form.deviceNetworkStateName" readonly
+                        @click="handleChangeSelect('deviceNetworkState')" placeholder="请选择网络状态" type="text">
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item label="移动设备">
-                    <nut-input class="nut-input-text" v-model="form.mobileName" @click-input="handleChangeSelect('mobile')"
+                    <nut-input class="nut-input-text" v-model="form.mobileName" @click="handleChangeSelect('mobile')" readonly
                         placeholder="请选择是否是移动设备" type="text">
                     </nut-input>
                 </nut-form-item>

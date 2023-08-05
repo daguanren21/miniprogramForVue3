@@ -4,14 +4,13 @@
         <div class="flex-1 overflow-auto">
             <nut-form :model-value="form" ref="ruleForm">
                 <nut-form-item label="安装场所" required>
-                    <nut-input class="nut-input-text" v-model="form.placeName" @click-input="handleChangePlace"
+                    <nut-input class="nut-input-text" v-model="form.placeName" readonly @click="handleChangePlace"
                         placeholder="请选择安装场所" type="text">
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item label="安装区域" required>
-                    <!-- @click-input="handleChangeSelect('mobile') -->
-                    <nut-input class="nut-input-text" v-model="form.regionName" placeholder="请选择区域" type="text"
-                        @click-input="region.visible = true">
+                    <nut-input class="nut-input-text" v-model="form.regionName" placeholder="请选择区域" type="text" readonly
+                        @click="region.visible = true">
                         <template #right>
                             <jx-icon @click="chooseLocation" value="dingwei" color="#ff6216" :size="24"> </jx-icon>
                         </template>

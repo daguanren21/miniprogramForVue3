@@ -22,18 +22,18 @@
             <nut-popup position="top" :style="{ height: '100%' }" v-model:visible="visible">
                 <nut-form>
                     <nut-form-item label="品牌">
-                        <nut-input class="nut-input-text" :model-value="form.brandName" @click-input="handleChangeBrand"
+                        <nut-input class="nut-input-text" :model-value="form.brandName" @click="handleChangeBrand" readonly
                             placeholder="请选择品牌" type="text">
                         </nut-input>
                     </nut-form-item>
                     <nut-form-item label="安装场所">
-                        <nut-input class="nut-input-text" :model-value="form.placeName" @click-input="handleChangePlace"
+                        <nut-input class="nut-input-text" :model-value="form.placeName" @click="handleChangePlace" readonly
                             placeholder="请选择安装场所" type="text">
                         </nut-input>
                     </nut-form-item>
                     <nut-form-item label="区域">
-                        <nut-input class="nut-input-text" :model-value="form.regionName" placeholder="请选择区域" type="text"
-                            @click-input="region.visible = true">
+                        <nut-input class="nut-input-text" :model-value="form.regionName" placeholder="请选择区域" type="text" readonly
+                            @click="region.visible = true">
                         </nut-input>
                         <nut-popup round closeable @close="region.closeRegion" position="bottom" title="地址选择"
                             v-model:visible="region.visible">
@@ -43,11 +43,11 @@
                     </nut-form-item>
                     <nut-form-item label="安装时间">
                         <div class="flex-center">
-                            <nut-input class="nut-input-text" input-align="center" v-model="form.installDateBegin"
-                                @click-input="datePop.open('installDateBegin')" placeholder="请选择开始时间" type="text">
+                            <nut-input class="nut-input-text" input-align="center" v-model="form.installDateBegin" readonly
+                                @click="datePop.open('installDateBegin')" placeholder="请选择开始时间" type="text">
                             </nut-input>
-                            <nut-input class="nut-input-text" input-align="center" v-model="form.installDateEnd"
-                                @click-input="datePop.open('installDateEnd')" placeholder="请选择结束时间" type="text">
+                            <nut-input class="nut-input-text" input-align="center" v-model="form.installDateEnd" readonly
+                                @click="datePop.open('installDateEnd')" placeholder="请选择结束时间" type="text">
                             </nut-input>
                         </div>
                     </nut-form-item>

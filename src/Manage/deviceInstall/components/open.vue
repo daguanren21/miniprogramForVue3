@@ -3,24 +3,23 @@
         <nut-notify :type="message.type" v-model:visible="message.show" :msg="message.desc" />
         <div class="flex-1">
             <nut-form :model-value="form" ref="ruleForm">
-                <!--  @click-input="handleChangeDate('qualityAssuranceDate')" -->
                 <nut-form-item label="开放方式">
-                    <nut-input class="nut-input-text" @click-input="publicType.open" :model-value="publicType.text"
+                    <nut-input class="nut-input-text" @click="publicType.open" :model-value="publicType.text" readonly
                         placeholder="请选择开放方式" type="text">
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item label="开放时间" v-if="form.publicType == 'HALF'">
                     <div class="flex-center">
-                        <nut-input class="nut-input-text" input-align="center" v-model="form.publicTimeFrom"
-                            @click-input="publicTime.change('publicTimeFrom')" placeholder="请选择开始时间" type="text">
+                        <nut-input class="nut-input-text" input-align="center" v-model="form.publicTimeFrom" readonly
+                            @click="publicTime.change('publicTimeFrom')" placeholder="请选择开始时间" type="text">
                         </nut-input>
-                        <nut-input class="nut-input-text" input-align="center" v-model="form.publicTimeTo"
-                            @click-input="publicTime.change('publicTimeTo')" placeholder="请选择结束时间" type="text">
+                        <nut-input class="nut-input-text" input-align="center" v-model="form.publicTimeTo" readonly
+                            @click="publicTime.change('publicTimeTo')" placeholder="请选择结束时间" type="text">
                         </nut-input>
                     </div>
                 </nut-form-item>
                 <nut-form-item required label="开放日" v-if="form.publicType == 'PUBLIC' || form.publicType == 'HALF'">
-                    <nut-input class="nut-input-text" @click-input="workDay.open" :model-value="workDay.text"
+                    <nut-input class="nut-input-text" readonly @click="workDay.open" :model-value="workDay.text"
                         placeholder="请选择开放日" type="text">
                     </nut-input>
                 </nut-form-item>

@@ -14,11 +14,11 @@
             </nut-form-item>
             <nut-form-item label="有效时间" required>
                 <div class="flex-center">
-                    <nut-input class="nut-input-text" input-align="center" v-model="form.certificateReleaseDate"
-                        @click-input="receiveHelpTime.change('certificateReleaseDate')" placeholder="请选择开始时间" type="text">
+                    <nut-input class="nut-input-text" readonly input-align="center" v-model="form.certificateReleaseDate"
+                        @click="receiveHelpTime.change('certificateReleaseDate')" placeholder="请选择开始时间" type="text">
                     </nut-input>
-                    <nut-input class="nut-input-text" input-align="center" v-model="form.certificateExpireDate"
-                        @click-input="receiveHelpTime.change('certificateExpireDate')" placeholder="请选择结束时间" type="text">
+                    <nut-input class="nut-input-text" readonly input-align="center" v-model="form.certificateExpireDate"
+                        @click="receiveHelpTime.change('certificateExpireDate')" placeholder="请选择结束时间" type="text">
                     </nut-input>
                 </div>
             </nut-form-item>

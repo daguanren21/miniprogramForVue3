@@ -12,12 +12,12 @@
                 </nut-input>
             </nut-form-item>
             <nut-form-item label="抢救开始时间">
-                <nut-input v-model="form.rescueBeginTime" @click-input="datePop.open('rescueBeginTime')"
+                <nut-input v-model="form.rescueBeginTime" @click="datePop.open('rescueBeginTime')" readonly
                     placeholder="请选择开始时间" type="text">
                 </nut-input>
             </nut-form-item>
             <nut-form-item label="抢救结束时间">
-                <nut-input v-model="form.rescueEndTime" @click-input="datePop.open('rescueEndTime')" placeholder="请选择结束时间"
+                <nut-input v-model="form.rescueEndTime" @click="datePop.open('rescueEndTime')" placeholder="请选择结束时间" readonly
                     type="text">
                 </nut-input>
             </nut-form-item>

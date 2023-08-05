@@ -190,11 +190,23 @@ export function useMap(lat: Ref<number>, lng: Ref<number>) {
             }
         }
     })
+    // 去除重复数据
+    const unique = (markers) => {
+        let arr = [...markers, ...toRaw(markers.value)]
+        let map = new Map();
+        for (let item of arr) {
+            let name = item.id + '_' + item.markerType
+            if (!map.has(name)) {
+                map.set(name, item)
+            }
+        }
+        markers.value = [...map.values()]
+    }
     const getRescueInfo = async () => {
-        Taro.showLoading({
-            title: "数据加载中",
-            mask: true
-        })
+        // Taro.showLoading({
+        //     title: "数据加载中",
+        //     mask: true
+        // })
         let res = await fetchVolunteerRescueInfo()
         volunteer.value = { ...volunteer.value, ...res }
         //判断是志愿者还是呼救人
@@ -216,13 +228,13 @@ export function useMap(lat: Ref<number>, lng: Ref<number>) {
             //地图渲染志愿者信息
             renderVolunteer(res.responseInfos)
         }
-        setTimeout(() => {
-            Taro.hideLoading()
-        }, 1000)
+        // setTimeout(() => {
+        //     Taro.hideLoading()
+        // }, 1000)
 
     }
     const renderCallForHelp = (record: VolunteerRecord) => {
-        markers.value = [{
+        unique([{
             id: record.id,
             markerType: RESUCE_MARKERID_PREFIX,
             latitude: record.latitude,
@@ -230,11 +242,12 @@ export function useMap(lat: Ref<number>, lng: Ref<number>) {
             iconPath: callForHelpIcon,
             width: 40,
             height: 60
-        }, ...markers.value]
+        }])
 
     }
     const renderVolunteer = (responseInfos: ReceivedInfo[]) => {
-        markers.value = [...responseInfos.map(v => {
+
+        unique(responseInfos.map(v => {
             let iconPath = ''
             if (v.rescueResponseTaskType == 'FETCH_AED') {
                 iconPath = volunteerAEDIcon
@@ -258,8 +271,7 @@ export function useMap(lat: Ref<number>, lng: Ref<number>) {
                 width: 39,
                 height: 39
             }
-        }), ...toRaw(markers.value)]
-        console.log(markers.value)
+        }))
     }
     const devices = ref<Index.DeviceInfo[]>([])
     const deviceModal = reactive({

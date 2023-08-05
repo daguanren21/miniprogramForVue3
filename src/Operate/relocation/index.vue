@@ -22,13 +22,13 @@
             </nut-cell-group>
             <nut-cell-group title="位置变更" v-if="form.type === 'relocation'">
                 <nut-form-item label="安装场所" required>
-                    <nut-input class="nut-input-text" v-model="form.placeName" @click-input="selectPop.open"
+                    <nut-input class="nut-input-text" v-model="form.placeName" @click="selectPop.open" readonly
                         placeholder="请选择安装场所" type="text">
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item label="安装区域" required>
-                    <nut-input class="nut-input-text" v-model="form.regionName" placeholder="请选择区域" type="text"
-                        @click-input="region.visible = true">
+                    <nut-input class="nut-input-text" v-model="form.regionName" placeholder="请选择区域" type="text" readonly
+                        @click="region.visible = true">
                         <template #right>
                             <jx-icon @click="chooseLocation" value="dingwei" color="#ff6216" :size="24"> </jx-icon>
                         </template>

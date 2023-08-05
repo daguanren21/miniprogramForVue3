@@ -10,17 +10,17 @@
             </nut-form-item>
             <nut-form-item label="接受求救时间" required>
                 <div class="flex-center">
-                    <nut-input class="nut-input-text" input-align="center" v-model="form.receiveHelpTimeBegin"
-                        @click-input="receiveHelpTime.change('receiveHelpTimeBegin')" placeholder="请选择开始时间" type="text">
+                    <nut-input class="nut-input-text" input-align="center" v-model="form.receiveHelpTimeBegin" readonly
+                        @click="receiveHelpTime.change('receiveHelpTimeBegin')" placeholder="请选择开始时间" type="text">
                     </nut-input>
-                    <nut-input class="nut-input-text" input-align="center" v-model="form.receiveHelpTimeEnd"
-                        @click-input="receiveHelpTime.change('receiveHelpTimeEnd')" placeholder="请选择结束时间" type="text">
+                    <nut-input class="nut-input-text" input-align="center" v-model="form.receiveHelpTimeEnd" readonly
+                        @click="receiveHelpTime.change('receiveHelpTimeEnd')" placeholder="请选择结束时间" type="text">
                     </nut-input>
                 </div>
             </nut-form-item>
             <nut-form-item label="活动区域" required>
-                <nut-input class="nut-input-text" v-model="form.regionName" placeholder="请选择区域" type="text"
-                    @click-input="region.visible = true">
+                <nut-input class="nut-input-text" v-model="form.regionName" placeholder="请选择区域" type="text" readonly
+                    @click="region.visible = true">
                     <template #right>
                         <jx-icon @click="chooseLocation" value="dingwei" color="#ff6216" :size="24"> </jx-icon>
                     </template>

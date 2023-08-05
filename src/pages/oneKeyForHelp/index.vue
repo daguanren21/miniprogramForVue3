@@ -202,7 +202,11 @@ const { pause, resume } = useIntervalFn(async () => {
 }, 3000)
 useDidShow(async () => {
     await getRescueInfo()
-    resume()
+    if (recordId.value) {
+        resume()
+    } else {
+        pause()
+    }
 })
 useDidHide(() => {
     pause()
@@ -217,11 +221,13 @@ const oneKeyForHelp = async () => {
             rescueType: rescueType.value
         })
         await getRescueInfo()
+        resume()
     } catch (error) {
         Taro.showToast({
             icon: 'none',
             title: error
         })
+        pause()
     }
 
 }

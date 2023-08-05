@@ -4,7 +4,7 @@
         <div class="flex-1">
             <nut-form :model-value="form" ref="ruleForm">
                 <nut-form-item label="品牌" required>
-                    <nut-input class="nut-input-text" v-model="form.brandName" @click-input="handleChangeBrand"
+                    <nut-input class="nut-input-text" v-model="form.brandName" readonly @click="handleChangeBrand"
                         placeholder="请选择品牌" type="text" />
                     <nut-popup position="bottom" v-model:visible="selectPop.show">
                         <nut-picker v-model="selectPop.value" :columns="columns" title="请选择品牌" @confirm="handleBrandConfirm"

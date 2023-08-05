@@ -14,12 +14,12 @@
                 </nut-radio-group>
             </nut-form-item>
             <nut-form-item label="电池有效期" v-if="form.type === 'battery'" required>
-                <nut-input v-model="form.batteryInvalidDate" @click-input="datePop.open('batteryInvalidDate')"
+                <nut-input v-model="form.batteryInvalidDate" @click="datePop.open('batteryInvalidDate')" readonly
                     placeholder="请选择电池有效期" type="text">
                 </nut-input>
             </nut-form-item>
             <nut-form-item label="电极片有效期" v-if="form.type === 'electrode'" required>
-                <nut-input v-model="form.electrodeInvalidDate" @click-input="datePop.open('electrodeInvalidDate')"
+                <nut-input v-model="form.electrodeInvalidDate" @click="datePop.open('electrodeInvalidDate')" readonly
                     placeholder="请选择电极片有效期" type="text">
                 </nut-input>
             </nut-form-item>

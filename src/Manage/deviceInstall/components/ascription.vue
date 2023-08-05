@@ -3,9 +3,8 @@
         <nut-notify :type="message.type" v-model:visible="message.show" :msg="message.desc" />
         <div class="flex-1">
             <nut-form :model-value="form" ref="ruleForm">
-                <!--  @click-input="handleChangeDate('qualityAssuranceDate')" -->
                 <nut-form-item label="配置单位">
-                    <nut-input class="nut-input-text" @click-input="toPage('CONFIGURATION')"
+                    <nut-input class="nut-input-text" readonly @click="toPage('CONFIGURATION')"
                         v-model="form.configInstitutionName" placeholder="请选择配置单位" type="text">
                     </nut-input>
                 </nut-form-item>
@@ -14,7 +13,7 @@
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item label="维保单位">
-                    <nut-input class="nut-input-text" @click-input="toPage('MAINTENANCE')"
+                    <nut-input class="nut-input-text" readonly @click="toPage('MAINTENANCE')"
                         v-model="form.maintainInstitutionName" placeholder="请选择维保单位" type="text">
                     </nut-input>
                 </nut-form-item>
