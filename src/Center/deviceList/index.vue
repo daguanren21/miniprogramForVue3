@@ -12,40 +12,46 @@
             </view>
         </div>
         <div class="flex-1 overflow-hidden">
-            <jx-scroll-view class="x-scroll-view" :refreshing="refreshing" :nomore="nomore"
-                @pulldownrefresh="_onPullDownRefresh" @loadmore="_onLoadmore" @scroll="_onScroll">
-                <nut-backtop height="100%">
-                    <template v-slot:content>
-                        <div class="manage_item" v-for="item in state.content" :key="item.id">
-                            <div class="flex">
-                                <div class="w-150px h-150px mr-35px">
-                                    <image class="wh-full" v-if="item.brandLogo" :src="item.brandLogo"></image>
-                                    <image class="wh-full" v-else src="../../assets/images/jx-without-image.svg"></image>
+            <div class="h-full overflow-hidden" v-if="state.totalPage">
+                <jx-scroll-view class="x-scroll-view" :refreshing="refreshing" :nomore="nomore"
+                    @pulldownrefresh="_onPullDownRefresh" @loadmore="_onLoadmore" @scroll="_onScroll">
+                    <nut-backtop height="100%">
+                        <template v-slot:content>
+                            <div class="manage_item" v-for="item in state.content" :key="item.id">
+                                <div class="flex">
+                                    <div class="w-150px h-150px mr-35px">
+                                        <image class="wh-full" v-if="item.brandLogo" :src="item.brandLogo"></image>
+                                        <image class="wh-full" v-else src="../../assets/images/jx-without-image.svg">
+                                        </image>
+                                    </div>
+                                    <div class="flex-1 overflow-hidden">
+                                        <div class="text-32px font-bold mb-15px flex justify-between">
+                                            <span> {{ item.serialNumber }}</span>
+                                            <span class="text-hex-666 text-30px">通知次数：{{ item.noticeNumber || 0 }}</span>
+                                        </div>
+                                        <div class="text-30px mb-15px" :style="{ color: handleExceptionReason(item.type) }">
+                                            {{ item.exceptionReason }}
+                                        </div>
+                                        <div class="text-30px text-hex-666">
+                                            {{ dateFilter(item.exceptionTime, 'YYYY-MM-DD HH:mm') }}
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="flex-1 overflow-hidden">
-                                    <div class="text-32px font-bold mb-15px flex justify-between">
-                                        <span> {{ item.serialNumber }}</span>
-                                        <span class="text-hex-666 text-30px">通知次数：{{ item.noticeNumber || 0 }}</span>
-                                    </div>
-                                    <div class="text-30px mb-15px" :style="{ color: handleExceptionReason(item.type) }">
-                                        {{ item.exceptionReason }}
-                                    </div>
-                                    <div class="text-30px text-hex-666">
-                                        {{ dateFilter(item.exceptionTime, 'YYYY-MM-DD HH:mm') }}
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div class="flex justify-end mt-10px">
-                                <nut-button size="small" class="h-60px" type="info"
-                                    @click="noticeModal.open(item)">通知维护</nut-button>
-                                <nut-button style="margin-left:15rpx" size="small" class="h-60px" type="primary"
-                                    @click="handleModal.open(item.repairRecordId)">处理</nut-button>
+                                <div class="flex justify-end mt-10px">
+                                    <nut-button size="small" class="h-60px" type="info"
+                                        @click="noticeModal.open(item)">通知维护</nut-button>
+                                    <nut-button style="margin-left:15rpx" size="small" class="h-60px" type="primary"
+                                        @click="handleModal.open(item.repairRecordId)">处理</nut-button>
+                                </div>
                             </div>
-                        </div>
-                    </template>
-                </nut-backtop>
-            </jx-scroll-view>
+                        </template>
+                    </nut-backtop>
+                </jx-scroll-view>
+            </div>
+            <div class="flex-center h-full overflow-hidden">
+                <nut-empty description="暂无数据"></nut-empty>
+            </div>
         </div>
 
         <nut-dialog pop-class="form" no-cancel-btn v-model:visible="noticeModal.show" ok-text="通知"

@@ -1,39 +1,46 @@
 <template>
     <div class="h-full">
-        <jx-scroll-view class="x-scroll-view" :refreshing="refreshing" :nomore="nomore"
-            @pulldownrefresh="_onPullDownRefresh" @loadmore="_onLoadmore" @scroll="_onScroll">
-            <nut-backtop height="100%">
-                <template v-slot:content>
-                    <div class="manage_item" v-for="item in state.content" :key="item.id">
-                        <div class="ml-15px text-30px font-bold flex-y-center justify-between">
-                            <div class="flex-y-center">
-                                {{ item.deviceSerialNumber }}
-                                <jx-dot class="ml-15px" :state="checkStateFilter(item.state)"></jx-dot>
+        <div class="h-full overflow-hidden" v-if="state.totalPage">
+            <jx-scroll-view class="x-scroll-view" :refreshing="refreshing" :nomore="nomore"
+                @pulldownrefresh="_onPullDownRefresh" @loadmore="_onLoadmore" @scroll="_onScroll">
+                <nut-backtop height="100%">
+                    <template v-slot:content>
+                        <div class="manage_item" v-for="item in state.content" :key="item.id">
+                            <div class="ml-15px text-30px font-bold flex-y-center justify-between">
+                                <div class="flex-y-center">
+                                    {{ item.deviceSerialNumber }}
+                                    <jx-dot class="ml-15px" :state="checkStateFilter(item.state)"></jx-dot>
+                                </div>
+                                <div>
+                                    <nut-button size="small" class="h-60px" type="primary"
+                                        @click="dialog.open(item.id)">审核</nut-button>
+                                </div>
                             </div>
-                            <div>
-                                <nut-button size="small" class="h-60px" type="primary"
-                                    @click="dialog.open(item.id)">审核</nut-button>
+                            <div class="ml-15px text-28px p-y-15px flex-y-center">
+                                <div>设备变化：</div>
+                                <div class="flex-y-center">
+                                    <span
+                                        :style="{ 'color': filter(deviceRunningStateFilter(item.oldRunningState).type) }">{{
+                                            deviceRunningStateFilter(item.oldRunningState).text }}</span>
+                                    <jx-icon class="p-x-10px" value="center-arrow" color="#333"></jx-icon>
+                                    <span
+                                        :style="{ 'color': filter(deviceRunningStateFilter(item.newRunningState).type) }">{{
+                                            deviceRunningStateFilter(item.newRunningState).text }}</span>
+                                </div>
+                            </div>
+                            <div class="flex-y-center mt-15px">
+                                <image class="m-x-15px w-100px h-100px" v-for="image in handleImages(item.imagesPath)"
+                                    :src="image">
+                                </image>
                             </div>
                         </div>
-                        <div class="ml-15px text-28px p-y-15px flex-y-center">
-                            <div>设备变化：</div>
-                            <div class="flex-y-center">
-                                <span :style="{ 'color': filter(deviceRunningStateFilter(item.oldRunningState).type) }">{{
-                                    deviceRunningStateFilter(item.oldRunningState).text }}</span>
-                                <jx-icon class="p-x-10px" value="center-arrow" color="#333"></jx-icon>
-                                <span :style="{ 'color': filter(deviceRunningStateFilter(item.newRunningState).type) }">{{
-                                    deviceRunningStateFilter(item.newRunningState).text }}</span>
-                            </div>
-                        </div>
-                        <div class="flex-y-center mt-15px">
-                            <image class="m-x-15px w-100px h-100px" v-for="image in handleImages(item.imagesPath)"
-                                :src="image">
-                            </image>
-                        </div>
-                    </div>
-                </template>
-            </nut-backtop>
-        </jx-scroll-view>
+                    </template>
+                </nut-backtop>
+            </jx-scroll-view>
+        </div>
+        <div v-else class="flex-center h-full overflow-hidden">
+            <nut-empty description="暂无数据"></nut-empty>
+        </div>
         <nut-dialog pop-class="form" no-cancel-btn v-model:visible="dialog.show" @ok="dialog.confirm">
             <nut-form :model-value="form" ref="ruleForm">
                 <nut-form-item label="审核类型" required>

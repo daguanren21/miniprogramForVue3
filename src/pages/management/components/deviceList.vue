@@ -1,94 +1,103 @@
 <template>
-    <jx-scroll-view class="x-scroll-view" :refreshing="refreshing" :nomore="nomore" @pulldownrefresh="_onPullDownRefresh"
-        @loadmore="_onLoadmore" @scroll="_onScroll">
-        <nut-backtop height="100%">
-            <template v-slot:content>
-                <div class="manage_item" v-for="item in state.content" :key="item.id" @click="toDeviceInfo(item)">
-                    <div class="top">
-                        <div class="left">
-                            <image v-if="item.brandLogo" :src="item.brandLogo"></image>
-                            <image v-else src="../../../assets/images/jx-without-image.svg"></image>
-                        </div>
-                        <div class="right">
-                            <div class="line">
-                                <div class="sn">
-                                    {{ item.serialNumber }}
+    <div class="h-full overflow-hidden">
+        <div v-if="state.totalCount" class="h-full overflow-hidden">
+            <jx-scroll-view class="x-scroll-view" :refreshing="refreshing" :nomore="nomore"
+                @pulldownrefresh="_onPullDownRefresh" @loadmore="_onLoadmore" @scroll="_onScroll">
+                <nut-backtop height="100%">
+                    <template v-slot:content>
+                        <div class="manage_item" v-for="item in state.content" :key="item.id" @click="toDeviceInfo(item)">
+                            <div class="top">
+                                <div class="left">
+                                    <image v-if="item.brandLogo" :src="item.brandLogo"></image>
+                                    <image v-else src="../../../assets/images/jx-without-image.svg"></image>
                                 </div>
-                            </div>
-                            <div class="line mt-20px">
-                                <div class="l flex-y-center">
-                                    <jx-icon class="icon" value="address"></jx-icon>
-                                    <div class="text line-clamp-2">{{ noDataFilter(item.address) }}</div>
-                                </div>
-                                <div class="r">
-                                    <jx-icon class="icon" value="dh" color="#1890ff"
-                                        @click.stop="showMapNavigation(item)"></jx-icon>
-                                </div>
-                            </div>
-                            <div class="line mt-20px">
-                                <div class="l">
-                                    <jx-icon class="icon" value="selfCheck-time"></jx-icon>
-                                    <div class="text flex-y-center">
-                                        <text class="label">安装时间</text>
-                                        <text>{{ dateFilter(item.installDate, 'YYYY-MM-DD') }}</text>
+                                <div class="right">
+                                    <div class="line">
+                                        <div class="sn">
+                                            {{ item.serialNumber }}
+                                        </div>
+                                    </div>
+                                    <div class="line mt-20px">
+                                        <div class="l flex-y-center">
+                                            <jx-icon class="icon" value="address"></jx-icon>
+                                            <div class="text line-clamp-2">{{ noDataFilter(item.address) }}</div>
+                                        </div>
+                                        <div class="r">
+                                            <jx-icon class="icon" value="dh" color="#1890ff"
+                                                @click.stop="showMapNavigation(item)"></jx-icon>
+                                        </div>
+                                    </div>
+                                    <div class="line mt-20px">
+                                        <div class="l">
+                                            <jx-icon class="icon" value="selfCheck-time"></jx-icon>
+                                            <div class="text flex-y-center">
+                                                <text class="label">安装时间</text>
+                                                <text>{{ dateFilter(item.installDate, 'YYYY-MM-DD') }}</text>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            <nut-row type="flex" justify="center" class="bottom">
+                                <nut-col class="item mr-5px" :span="12">
+                                    <div class="icon_module">
+                                        <jx-icon class="icon" value="run"></jx-icon>
+                                        <div class="ft">运行</div>
+                                    </div>
+                                    <jx-dot class="flex_dot" :state="deviceRunningStateFilter(item.runningState)"></jx-dot>
+                                </nut-col>
+                                <nut-col class="item ml-5px" :span="12">
+                                    <div class="icon_module">
+                                        <jx-icon class="icon" value="location"></jx-icon>
+                                        <div class="ft">位置</div>
+                                    </div>
+                                    <jx-dot class="flex_dot" :state="positionStateFilter(item.positionState)"></jx-dot>
+                                </nut-col>
+                            </nut-row>
+                            <nut-row type="flex" justify="center" class="bottom">
+                                <nut-col class="item  mr-5px" :span="12">
+                                    <div class="icon_module">
+                                        <jx-icon class="icon" value="battery"></jx-icon>
+                                        <div class="ft">电池</div>
+                                    </div>
+                                    <jx-dot class="flex_dot" :state="batteryStateFilter(item.batteryState)"></jx-dot>
+                                </nut-col>
+                                <nut-col class="item ml-5px" :span="12">
+                                    <div class="icon_module">
+                                        <jx-icon class="icon" value="wifi"></jx-icon>
+                                        <div class="ft">网络</div>
+                                    </div>
+                                    <jx-dot class="flex_dot"
+                                        :state="deviceNetworkStateFilter(item.deviceNetworkState)"></jx-dot>
+                                </nut-col>
+                            </nut-row>
+                            <nut-row type="flex" justify="center" class="bottom">
+                                <nut-col class="item  mr-5px" :span="12">
+                                    <div class="icon_module">
+                                        <jx-icon class="icon" value="electrode"></jx-icon>
+                                        <div class="ft">电极片</div>
+                                    </div>
+                                    <jx-dot class="flex_dot"
+                                        :state="deviceRunningStateFilter(item.electrodeState)"></jx-dot>
+                                </nut-col>
+                                <nut-col class="item ml-5px" :span="12">
+                                    <div class="icon_module">
+                                        <jx-icon class="icon" value="hasCheck"></jx-icon>
+                                        <div class="ft">质保</div>
+                                    </div>
+                                    <jx-dot class="flex_dot"
+                                        :state="qualityAssuranceStateFilter(item.qualityAssuranceState)"></jx-dot>
+                                </nut-col>
+                            </nut-row>
                         </div>
-                    </div>
-                    <nut-row type="flex" justify="center" class="bottom">
-                        <nut-col class="item mr-5px" :span="12">
-                            <div class="icon_module">
-                                <jx-icon class="icon" value="run"></jx-icon>
-                                <div class="ft">运行</div>
-                            </div>
-                            <jx-dot class="flex_dot" :state="deviceRunningStateFilter(item.runningState)"></jx-dot>
-                        </nut-col>
-                        <nut-col class="item ml-5px" :span="12">
-                            <div class="icon_module">
-                                <jx-icon class="icon" value="location"></jx-icon>
-                                <div class="ft">位置</div>
-                            </div>
-                            <jx-dot class="flex_dot" :state="positionStateFilter(item.positionState)"></jx-dot>
-                        </nut-col>
-                    </nut-row>
-                    <nut-row type="flex" justify="center" class="bottom">
-                        <nut-col class="item  mr-5px" :span="12">
-                            <div class="icon_module">
-                                <jx-icon class="icon" value="battery"></jx-icon>
-                                <div class="ft">电池</div>
-                            </div>
-                            <jx-dot class="flex_dot" :state="batteryStateFilter(item.batteryState)"></jx-dot>
-                        </nut-col>
-                        <nut-col class="item ml-5px" :span="12">
-                            <div class="icon_module">
-                                <jx-icon class="icon" value="wifi"></jx-icon>
-                                <div class="ft">网络</div>
-                            </div>
-                            <jx-dot class="flex_dot" :state="deviceNetworkStateFilter(item.deviceNetworkState)"></jx-dot>
-                        </nut-col>
-                    </nut-row>
-                    <nut-row type="flex" justify="center" class="bottom">
-                        <nut-col class="item  mr-5px" :span="12">
-                            <div class="icon_module">
-                                <jx-icon class="icon" value="electrode"></jx-icon>
-                                <div class="ft">电极片</div>
-                            </div>
-                            <jx-dot class="flex_dot" :state="deviceRunningStateFilter(item.electrodeState)"></jx-dot>
-                        </nut-col>
-                        <nut-col class="item ml-5px" :span="12">
-                            <div class="icon_module">
-                                <jx-icon class="icon" value="hasCheck"></jx-icon>
-                                <div class="ft">质保</div>
-                            </div>
-                            <jx-dot class="flex_dot"
-                                :state="qualityAssuranceStateFilter(item.qualityAssuranceState)"></jx-dot>
-                        </nut-col>
-                    </nut-row>
-                </div>
-            </template>
-        </nut-backtop>
-    </jx-scroll-view>
+                    </template>
+                </nut-backtop>
+            </jx-scroll-view>
+        </div>
+        <div v-else class="h-full flex-center overflow-hidden">
+            <nut-empty description="暂无数据"></nut-empty>
+        </div>
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -111,7 +120,7 @@ watch(() => props.search, (val) => {
 })
 const refreshing = ref(false)
 const nomore = ref(false)
-useDidShow(()=>{
+useDidShow(() => {
     loadData()
 })
 async function loadData() {
@@ -123,7 +132,7 @@ async function loadData() {
     state.content = content
     state.totalCount = totalCount
     state.totalPage = totalPage
-    if (state.page === state.totalPage || state.totalPage===0) {
+    if (state.page === state.totalPage || state.totalPage === 0) {
         nomore.value = true
     }
 }

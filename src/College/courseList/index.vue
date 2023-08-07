@@ -1,6 +1,6 @@
 <template>
     <div class="h-full overflow-hidden bg-hex-fff">
-        <div class="h-full overflow-hidden" v-if="state.content.length">
+        <div class="h-full overflow-hidden" v-if="state.totalCount">
             <jx-scroll-view class="x-scroll-view" :refreshing="refreshing" :nomore="nomore"
                 @pulldownrefresh="_onPullDownRefresh" @loadmore="_onLoadmore" @scroll="_onScroll">
                 <nut-row @click="goToInfo(item.id)" class="college_list_item" v-for="item in state.content">
@@ -24,7 +24,7 @@
                 </nut-row>
             </jx-scroll-view>
         </div>
-        <div class="h-full flex-center overflow-hidden">
+        <div v-else class="h-full flex-center overflow-hidden">
             <nut-empty description="暂无数据"></nut-empty>
         </div>
     </div>

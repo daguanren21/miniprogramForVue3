@@ -1,25 +1,30 @@
 <template>
     <div class="h-full overflow-hidden">
-        <jx-scroll-view class="x-scroll-view" :refreshing="refreshing" :nomore="nomore"
-            @pulldownrefresh="_onPullDownRefresh" @loadmore="_onLoadmore" @scroll="_onScroll">
-            <nut-row @click="toCollege('newsInfo',item.id)" class="college_list_item" v-for="item in state.content">
-                <nut-col :span="8" class="h-full">
-                    <image class="wh-full" :src="item.titleImagePath"></image>
-                </nut-col>
-                <nut-col :offset="2" :span="12" class="h-full flex-col justify-center">
-                    <view class="text-32px font-bold text-hex-3e3a39 line-clamp-1">
-                        {{ item.title }}
-                    </view>
-                    <view class="content flex-y-center text-28px font-400 text-hex-727171 flex-1">
-                        {{ removeHTMLTag(item.content) }}
-                    </view>
-                    <view class="text-24px font-400 text-hex-#727171 flex-y-center">
-                        <view>{{ dateFilter(item.publishTime) }}</view>
-                        <view class="ml-20px">{{ item.readCount }}人阅读</view>
-                    </view>
-                </nut-col>
-            </nut-row>
-        </jx-scroll-view>
+        <div v-if="state.totalCount" class="h-full overflow-hidden">
+            <jx-scroll-view class="x-scroll-view" :refreshing="refreshing" :nomore="nomore"
+                @pulldownrefresh="_onPullDownRefresh" @loadmore="_onLoadmore" @scroll="_onScroll">
+                <nut-row @click="toCollege('newsInfo', item.id)" class="college_list_item" v-for="item in state.content">
+                    <nut-col :span="8" class="h-full">
+                        <image class="wh-full" :src="item.titleImagePath"></image>
+                    </nut-col>
+                    <nut-col :offset="2" :span="12" class="h-full flex-col justify-center">
+                        <view class="text-32px font-bold text-hex-3e3a39 line-clamp-1">
+                            {{ item.title }}
+                        </view>
+                        <view class="content flex-y-center text-28px font-400 text-hex-727171 flex-1">
+                            {{ removeHTMLTag(item.content) }}
+                        </view>
+                        <view class="text-24px font-400 text-hex-#727171 flex-y-center">
+                            <view>{{ dateFilter(item.publishTime) }}</view>
+                            <view class="ml-20px">{{ item.readCount }}人阅读</view>
+                        </view>
+                    </nut-col>
+                </nut-row>
+            </jx-scroll-view>
+        </div>
+        <div v-else class="h-full flex-center overflow-hidden">
+            <nut-empty description="暂无数据"></nut-empty>
+        </div>
     </div>
 </template>
 
@@ -80,7 +85,7 @@ const loadData = async () => {
     })
     return Promise.resolve(res)
 }
-const toCollege = (key: string,id:number) => {
+const toCollege = (key: string, id: number) => {
     Taro.navigateTo({
         url: `/College/${key}/index?id=${id}`
     })
