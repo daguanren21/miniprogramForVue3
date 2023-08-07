@@ -3,6 +3,11 @@
         <nut-notify :type="message.type" v-model:visible="message.show" :msg="message.desc" />
         <div class="flex-1 overflow-auto">
             <nut-form :model-value="form" ref="ruleForm">
+                <nut-form-item label="安装时间" required>
+                    <nut-input class="nut-input-text" v-model="form.installDate" readonly @click="installDate.change"
+                        placeholder="请选择时间" type="text">
+                    </nut-input>
+                </nut-form-item>
                 <nut-form-item label="安装场所" required>
                     <nut-input class="nut-input-text" v-model="form.placeName" readonly @click="handleChangePlace"
                         placeholder="请选择安装场所" type="text">
@@ -34,7 +39,11 @@
                         :before-xhr-upload="beforeXhrUpload" maximum="4"></nut-uploader>
                 </nut-form-item>
             </nut-form>
-
+            <!-- 开放时间 -->
+            <nut-popup position="bottom" v-model:visible="installDate.show">
+                <nut-date-picker v-model="installDate.value" title="时间选择" @cancel="installDate.show = false"
+                    @confirm="installDate.confirm"></nut-date-picker>
+            </nut-popup>
             <nut-popup position="bottom" v-model:visible="selectPop.show">
                 <nut-picker v-model="selectPop.value" :columns="columns" @confirm="handlePlacesConfirm"
                     @cancel="selectPop.show = false">
@@ -77,6 +86,7 @@ import { useStep } from '~/composables/use-device-install';
 import { useDeviceRegion } from '~/composables/use-device-region';
 import { useNotify } from '~/composables/use-notify';
 import { useUpload } from '~/composables/use-upload';
+import { dateFilter } from '~/filter'
 defineOptions({
     name: 'deploy'
 })
@@ -89,6 +99,7 @@ const emits = defineEmits<{
 const form = reactive({
     deployedLatitude: 0,
     deployedLongitude: 0,
+    installDate: '',
     address: '',
     regionName: '',
     placeName: '',
@@ -105,11 +116,28 @@ const columns = ref([{
     value: "false"
 }])
 const manage = useManageStore()
-
+//开放时间相关操作
+const installDate = reactive({
+    show: false,
+    value: new Date(Date.now()),
+    confirm: ({ selectedValue, selectedOptions }) => {
+        console.log(selectedOptions)
+        form.installDate = selectedValue.join('-')
+        installDate.show = false
+    },
+    change: () => {
+        installDate.show = true;
+    }
+})
 watch(() => manage.deviceInfo, (value) => {
     form.deployedLatitude = value.deployedLatitude
     form.deployedLongitude = value.deployedLongitude
     form.address = value.address
+    form.installDate = value.installDate ? dateFilter(value.installDate, 'YYYY-MM-DD') : ''
+    if (form.installDate) {
+        let [year, month, day] = form.installDate.split('-')
+        installDate.value = new Date(Number(year), Number(month) - 1, Number(day))
+    }
     form.regionName = value.regionName
     form.placeId = value.placeId.toString()
     form.regionId = value.regionId || []
@@ -144,6 +172,7 @@ async function handleChangePlace() {
         selectPop.show = true
     }, 500)
 }
+
 //详细地址填写规范
 // const addressTip = () => {
 //     Taro.showModal({
@@ -166,6 +195,10 @@ function _prev() {
 const { state: message, notify } = useNotify('danger')
 function _next() {
     form.deployedImagePath = _fileList.value.map(v => v.url).join(';')
+    if (!form.installDate) {
+        notify('安装日期不能为空！')
+        return
+    }
     if (!form.placeId) {
         notify('安装场所不能为空！')
         return

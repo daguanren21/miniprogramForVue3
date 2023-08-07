@@ -17,8 +17,8 @@
                 </nut-input>
             </nut-form-item>
             <nut-form-item label="抢救结束时间">
-                <nut-input v-model="form.rescueEndTime" @click="datePop.open('rescueEndTime')" placeholder="请选择结束时间" readonly
-                    type="text">
+                <nut-input v-model="form.rescueEndTime" @click="datePop.open('rescueEndTime')" placeholder="请选择结束时间"
+                    readonly type="text">
                 </nut-input>
             </nut-form-item>
             <nut-form-item label="是否用于抢救" required>
@@ -60,8 +60,13 @@
             </nut-form-item> -->
         </nut-form>
         <nut-cell>
-            <nut-button type="primary" class="m-auto" style="width:80%;margin: auto;" @click="confirm">提交</nut-button>
+            <nut-button type="primary" :disabled="!form.id" class="m-auto"  style="width:80%;margin: auto;"
+                @click="confirm">提交</nut-button>
         </nut-cell>
+        <nut-popup position="bottom" closeable round :style="{ height: '60%' }" v-model:visible="searialNumber.show">
+            <nut-cell v-for="item in deviceList" @click="searialNumber.confirm(item)" :title="item.serialNumber"
+                :sub-title="item.brandName"></nut-cell>
+        </nut-popup>
         <nut-popup position="bottom" v-model:visible="datePop.show">
             <nut-date-picker type="datetime" @cancel="datePop.show = false" v-model="datePop.value"
                 @confirm="datePop.confirm" :is-show-chinese="true">
@@ -109,7 +114,7 @@ const datePop = reactive({
         datePop.show = false
     }
 })
-const { getDeviceBySerialNumber } = useDeviceBySearialNumber(form)
+const { getDeviceBySerialNumber, searialNumber, deviceList } = useDeviceBySearialNumber(form)
 const { state: message, notify } = useNotify('danger')
 //提交 
 const confirm = async () => {

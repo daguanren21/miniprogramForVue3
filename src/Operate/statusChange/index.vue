@@ -24,8 +24,12 @@
                     :before-xhr-upload="beforeXhrUpload" maximum="4"></nut-uploader>
             </nut-form-item>
         </nut-form>
+        <nut-popup position="bottom" closeable round :style="{ height: '60%' }" v-model:visible="searialNumber.show">
+            <nut-cell v-for="item in deviceList" @click="searialNumber.confirm(item)" :title="item.serialNumber"
+                :sub-title="item.brandName"></nut-cell>
+        </nut-popup>
         <nut-cell>
-            <nut-button type="primary" class="m-auto" style="width:80%;margin: auto;" @click="confirm">提交</nut-button>
+            <nut-button :disabled="!form.id" type="primary" class="m-auto" style="width:80%;margin: auto;" @click="confirm">提交</nut-button>
         </nut-cell>
     </div>
 </template>
@@ -46,7 +50,7 @@ const form = reactive({
     remarks: ""
 })
 const { uploadUrl, beforeXhrUpload, deleteFiles, _fileList } = useUpload(form)
-const { getDeviceBySerialNumber } = useDeviceBySearialNumber(form)
+const { getDeviceBySerialNumber, searialNumber, deviceList } = useDeviceBySearialNumber(form)
 const { state: message, notify } = useNotify('danger')
 //提交 
 const confirm = async () => {

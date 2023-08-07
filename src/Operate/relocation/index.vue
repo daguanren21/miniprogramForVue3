@@ -54,8 +54,12 @@
             </nut-cell-group>
         </nut-form>
         <nut-cell>
-            <nut-button type="primary" class="m-auto" style="width:80%;margin: auto;" @click="confirm">提交</nut-button>
+            <nut-button :disabled="!form.id" type="primary" class="m-auto" style="width:80%;margin: auto;" @click="confirm">提交</nut-button>
         </nut-cell>
+        <nut-popup position="bottom" closeable round :style="{ height: '60%' }" v-model:visible="searialNumber.show">
+            <nut-cell v-for="item in deviceList" @click="searialNumber.confirm(item)" :title="item.serialNumber"
+                :sub-title="item.brandName"></nut-cell>
+        </nut-popup>
         <nut-popup position="bottom" v-model:visible="selectPop.show">
             <nut-picker v-model="selectPop.value" :columns="selectPop.columns" @confirm="selectPop.confirm"
                 @cancel="selectPop.show = false">
@@ -115,7 +119,7 @@ const selectPop = reactive({
     }
 })
 //根据编号获取设备信息
-const { getDeviceBySerialNumber } = useDeviceBySearialNumber(form)
+const { getDeviceBySerialNumber, searialNumber, deviceList } = useDeviceBySearialNumber(form)
 //表单校验
 const { state: message, notify } = useNotify('danger')
 //上传图片

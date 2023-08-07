@@ -86,9 +86,14 @@ watch(() => manage.deviceInfo, (value) => {
         if (_item.unitType === 'CONFIGURATION') {
             form.configInstitutionName = _item.name
             form.configInstitutionId = _item.id
+            manage.deviceInfo.configInstitutionName = _item.name
+            manage.deviceInfo.configInstitutionId = _item.id
+
         } else if (_item.unitType === 'MAINTENANCE') {
             form.maintainInstitutionName = _item.name
             form.maintainInstitutionId = _item.id
+            manage.deviceInfo.maintainInstitutionName = _item.name
+            manage.deviceInfo.maintainInstitutionId = _item.id
         }
     }
 }, {
