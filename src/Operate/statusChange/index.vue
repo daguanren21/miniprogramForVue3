@@ -9,7 +9,6 @@
             </nut-form-item>
             <nut-form-item label="设备状态" required>
                 <nut-radio-group direction="horizontal" v-model="form.newRunningState">
-                    <nut-radio label="UNKNOWN">未知</nut-radio>
                     <nut-radio label="NORMAL">正常</nut-radio>
                     <nut-radio label="ABNORMAL">异常</nut-radio>
                 </nut-radio-group>

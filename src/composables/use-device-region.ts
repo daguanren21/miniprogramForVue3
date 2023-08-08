@@ -9,6 +9,43 @@ export const useDeviceRegion = (cb: (form: {
     deployedLongitude: number
 }) => void) => {
     const lastArea = ref<any>()
+    const region = reactive({
+        visible: false,
+        lazyLoad: async (node: any, resolve: (children: any) => void) => {
+            if (node.root) {
+                resolve(getAreas());
+            } else {
+                if (node.haveChildren) {
+                    resolve(getAreas(node.value))
+                } else {
+                    resolve([])
+                }
+            }
+        },
+        change(...args: number[]) {
+            console.log('change', ...args);
+        },
+        pathChange(...args: any) {
+            let _args = args[0].filter(v => v)
+            // let regionId = _args.map(v => v.value)
+            // let regionName = _args.map(v => v.text).join('/')
+            let item = _args[_args.length - 1]
+            lastArea.value = item
+        },
+        closeRegion() {
+            region.visible = false
+        },
+        confirm() {
+            if (!lastArea.value) {
+                region.visible = false
+                return
+            }
+            chooseLocation({
+                latitude: lastArea.value.lat,
+                longitude: lastArea.value.lng,
+            })
+        }
+    })
     //定位（拉起微信自带页面）
     async function chooseLocation(option: { latitude?: number, longitude?: number } = {}) {
         try {
@@ -34,6 +71,7 @@ export const useDeviceRegion = (cb: (form: {
             //     deployedLatitude: locRes.latitude,
             //     deployedLongitude: locRes.longitude
             // })
+            region.visible = false
             cb({
                 regionName: _name,
                 regionId: _id,
@@ -62,40 +100,7 @@ export const useDeviceRegion = (cb: (form: {
         })
         return _areas
     }
-    const region = reactive({
-        visible: false,
-        lazyLoad: async (node: any, resolve: (children: any) => void) => {
-            if (node.root) {
-                resolve(getAreas());
-            } else {
-                if (node.haveChildren) {
-                    resolve(getAreas(node.value))
-                } else {
-                    resolve([])
-                }
-            }
-        },
-        change(...args: number[]) {
-            console.log('change', ...args);
-        },
-        pathChange(...args: any) {
-            let _args = args[0].filter(v => v)
-            // let regionId = _args.map(v => v.value)
-            // let regionName = _args.map(v => v.text).join('/')
-            let item = _args[_args.length - 1]
-            lastArea.value = item
-        },
-        closeRegion() {
-            if (!lastArea.value) {
-                region.visible = false
-                return
-            }
-            chooseLocation({
-                latitude: lastArea.value.lat,
-                longitude: lastArea.value.lng,
-            })
-        }
-    })
+
     return {
         chooseLocation,
         region,

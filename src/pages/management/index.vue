@@ -32,13 +32,16 @@
                         </nut-input>
                     </nut-form-item>
                     <nut-form-item label="区域">
-                        <nut-input class="nut-input-text" :model-value="form.regionName" placeholder="请选择区域" type="text" readonly
-                            @click="region.visible = true">
+                        <nut-input class="nut-input-text" :model-value="form.regionName" placeholder="请选择区域" type="text"
+                            readonly @click="region.visible = true">
                         </nut-input>
                         <nut-popup round closeable @close="region.closeRegion" position="bottom" title="地址选择"
                             v-model:visible="region.visible">
                             <nut-cascader :poppable="false" v-model="form.regionId" @change="region.change"
                                 @pathChange="region.pathChange" lazy :lazyLoad="region.lazyLoad"></nut-cascader>
+                            <nut-cell>
+                                <nut-button style="width:100%" type='primary' @click="region.confirm">保存</nut-button>
+                            </nut-cell>
                         </nut-popup>
                     </nut-form-item>
                     <nut-form-item label="安装时间">
@@ -121,7 +124,9 @@ import deviceList from './components/deviceList.vue';
 import { Search2 } from '@nutui/icons-vue-taro';
 import { useDeviceRegion } from '~/composables/use-device-region';
 import { fetchDeviceBrands, fetchDevicePlaces } from '~/api/common';
+const manage = useManageStore()
 function toDeviceInstall() {
+    manage.$reset();
     Taro.navigateTo({
         url: '/Manage/deviceInstall/index'
     })

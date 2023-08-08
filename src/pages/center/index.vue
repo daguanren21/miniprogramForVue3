@@ -138,7 +138,7 @@
                             </template>
                             <jx-icon value="operate-useReport" :size="26" color="#FF8900"></jx-icon>
                         </nut-grid-item>
-                        <nut-grid-item>
+                        <nut-grid-item @click="toOperate('repair')">
                             <template #text>
                                 <div class="text-28px mt-10px">
                                     报修

@@ -22,13 +22,16 @@
                 <nut-input class="nut-input-text" v-model="form.regionName" placeholder="请选择区域" type="text" readonly
                     @click="region.visible = true">
                     <template #right>
-                        <jx-icon @click="chooseLocation" value="dingwei" color="#ff6216" :size="24"> </jx-icon>
+                        <jx-icon @click.stop="chooseLocation" value="dingwei" color="#ff6216" :size="24"> </jx-icon>
                     </template>
                 </nut-input>
                 <nut-popup round closeable @close="region.closeRegion" position="bottom" title="地址选择"
                     v-model:visible="region.visible">
                     <nut-cascader :poppable="false" v-model="form.regionId" @change="region.change"
                         @pathChange="region.pathChange" lazy :lazyLoad="region.lazyLoad"></nut-cascader>
+                    <nut-cell>
+                        <nut-button style="width:100%" type='primary' @click="region.confirm">保存</nut-button>
+                    </nut-cell>
                 </nut-popup>
             </nut-form-item>
             <nut-form-item label="详细地址" required>

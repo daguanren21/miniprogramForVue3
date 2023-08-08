@@ -10,22 +10,20 @@
                 </nut-form-item>
                 <nut-form-item label="运行状态" required>
                     <nut-radio-group direction="horizontal" v-model="form.runningState">
-                        <nut-radio label="UNKNOWN">未知</nut-radio>
                         <nut-radio label="NORMAL">正常</nut-radio>
                         <nut-radio label="ABNORMAL">异常</nut-radio>
                     </nut-radio-group>
                 </nut-form-item>
                 <nut-form-item label="电极片状态" required>
                     <nut-radio-group direction="horizontal" v-model="form.electrodeState">
-                        <nut-radio label="UNKNOWN">未知</nut-radio>
                         <nut-radio label="NORMAL">正常</nut-radio>
                         <nut-radio label="ABNORMAL">异常</nut-radio>
                     </nut-radio-group>
                 </nut-form-item>
                 <nut-form-item label="电极片包装" required>
                     <nut-radio-group direction="horizontal" v-model="form.electrodePackageNormalBoolean">
-                        <nut-radio label="false">完好</nut-radio>
-                        <nut-radio label="true">破损</nut-radio>
+                        <nut-radio label="true">完好</nut-radio>
+                        <nut-radio label="false">破损</nut-radio>
                     </nut-radio-group>
                 </nut-form-item>
                 <nut-form-item label="巡检描述" required>
