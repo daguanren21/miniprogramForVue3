@@ -97,8 +97,7 @@ function handleBrandConfirm({ selectValue, selectedOptions }) {
 //校验并进行下一步
 const { state: message, notify } = useNotify('danger')
 function confirm() {
-    debugger
-    if (!form.brandId) {
+    if (!form.brandName) {
         notify('品牌不能为空！')
         return
     }

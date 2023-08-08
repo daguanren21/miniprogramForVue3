@@ -60,9 +60,8 @@
                                     上传证书
                                 </div>
                             </template>
-                            <nut-badge :value="accountInfo.certificateNumber">
+                            <nut-badge :value="certificatesCount">
                                 <jx-icon value="center-cert" :size="26" color="#00D1A4"></jx-icon>
-
                             </nut-badge>
                         </nut-grid-item>
                         <nut-grid-item @click="toCenter('deviceCheck')" v-if="roleType && roleType !== 'WECHAT'">
@@ -71,7 +70,9 @@
                                     状态审核
                                 </div>
                             </template>
-                            <jx-icon value="center-statusCheck" :size="26" color="#D51E06"></jx-icon>
+                            <nut-badge :value="checkCount">
+                                <jx-icon value="center-statusCheck" :size="26" color="#D51E06"></jx-icon>
+                            </nut-badge>
                         </nut-grid-item>
                         <nut-grid-item @click="toCenter('deviceList')" v-if="roleType && roleType !== 'WECHAT'">
                             <template #text>
@@ -79,7 +80,9 @@
                                     设备清单
                                 </div>
                             </template>
-                            <jx-icon value="center-deviceList" :size="26" color="#14ADC4"></jx-icon>
+                            <nut-badge :value="exceptionCount">
+                                <jx-icon value="center-deviceList" :size="26" color="#14ADC4"></jx-icon>
+                            </nut-badge>
                         </nut-grid-item>
 
                         <nut-grid-item @click="toCenter('notification')" v-if="roleType && roleType !== 'WECHAT'">
@@ -157,6 +160,7 @@
 
 <script setup lang="ts">
 import Taro, { useDidShow } from '@tarojs/taro';
+import { fetcheDevicesCount } from '~/api/device';
 import { fetchOneKeyLogin } from '~/api/login';
 // import { fetchOneKeyLogin } from '~/api/login';
 import { fetchUnreadCount } from '~/api/user';
@@ -219,9 +223,18 @@ const toOperate = (key: string) => {
     })
 }
 const unreadCount = ref(0)
+const certificatesCount = ref(0)
+const checkCount = ref(0)
+const exceptionCount = ref(0)
 //获取未读消息数量
 useDidShow(async () => {
-    unreadCount.value = await fetchUnreadCount()
+    let { unreadCount: unread, certificatesCount: certificate } = await fetchUnreadCount()
+    let { checkCount: check, exceptionCount: exception } = await fetcheDevicesCount()
+    unreadCount.value = unread
+    certificatesCount.value = certificate
+    checkCount.value = check
+    exceptionCount.value = exception
+
 })
 </script>
 

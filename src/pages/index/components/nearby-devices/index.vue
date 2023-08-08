@@ -9,8 +9,9 @@
                         :src='getImageFirst(item.deployedImagePath)' />
                     <div class="ml-20px flex-1 overflow-hidden">
                         <div class="flex-y-center">
+                            <p class="text-30px mr-10px line-clamp-1 w-240px">{{ item.serialNumber }}</p>
                             <jx-dot :state="deviceRunningStateFilter(item.runningState)"></jx-dot>
-                            <p class="ml-15px  text-30px">{{ distanceFilter(item.distance) }}</p>
+                            <p class="ml-10px  text-30px">{{ distanceFilter(item.distance) }}</p>
                         </div>
                         <div class="mt-15px line-clamp-2 text-hex-999 text-30px">{{ noDataFilter(item.address) }}</div>
                     </div>

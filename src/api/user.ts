@@ -78,7 +78,10 @@ export function fetchUnreadMessages(data: { page: number, size: number }): Promi
  * @description 查询个人未读通知消息数量
  */
 
-export function fetchUnreadCount(): Promise<number> {
+export function fetchUnreadCount(): Promise<{
+    certificatesCount:number,
+    unreadCount:number
+}> {
     return request({
         url: api.user + 'notification-messages/unread-count',
         method: Method.GET

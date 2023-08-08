@@ -4,13 +4,13 @@
         <div class="flex-1">
             <nut-form :model-value="form" ref="ruleForm">
                 <nut-form-item label="电极片有效期" required>
-                    <nut-input class="nut-input-text" v-model="form.batteryInvalidDate" readonly
-                        @click="handleChangeDate('batteryInvalidDate')" placeholder="请选择电极片有效期" type="text">
+                    <nut-input class="nut-input-text" v-model="form.electrodeInvalidDate" readonly
+                        @click="handleChangeDate('electrodeInvalidDate')" placeholder="请选择电极片有效期" type="text">
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item label="电池有效期" required>
-                    <nut-input class="nut-input-text" v-model="form.electrodeInvalidDate" readonly
-                        @click="handleChangeDate('electrodeInvalidDate')" placeholder="请选择电极片有效期" type="text">
+                    <nut-input class="nut-input-text" v-model="form.batteryInvalidDate" readonly
+                        @click="handleChangeDate('batteryInvalidDate')" placeholder="请选择电池有效期" type="text">
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item label="质保有效期">

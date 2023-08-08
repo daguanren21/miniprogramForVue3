@@ -408,3 +408,17 @@ export function updateDevicePart(data: {
     console.error('更换配件逻辑错误！')
     return Promise.resolve()
 }
+
+/**
+ * @description 获取设备审核/清单数量
+ * @returns 
+ */
+export function fetcheDevicesCount(): Promise<{
+    checkCount:number,
+    exceptionCount:number
+}> {
+    return request({
+        url: api.manage + `devices/count`,
+        method: Method.GET
+    })
+}

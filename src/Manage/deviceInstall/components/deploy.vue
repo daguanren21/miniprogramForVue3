@@ -142,7 +142,7 @@ watch(() => manage.deviceInfo, (value) => {
         installDate.value = new Date(Number(year), Number(month) - 1, Number(day))
     }
     form.regionName = value.regionName
-    form.placeId = value.placeId.toString()
+    form.placeId = value.placeId ? value.placeId.toString() : ''
     form.regionId = value.regionId || []
     form.placeName = value.placeName
     form.deployedImagePath = value.deployedImagePath
@@ -199,10 +199,10 @@ const { state: message, notify } = useNotify('danger')
 function _next() {
     form.deployedImagePath = _fileList.value.map(v => v.url).join(';')
     if (!form.installDate) {
-        notify('安装日期不能为空！')
+        notify('安装时间不能为空！')
         return
     }
-    if (!form.placeId) {
+    if (!form.placeName) {
         notify('安装场所不能为空！')
         return
     }
