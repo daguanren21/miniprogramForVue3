@@ -61,7 +61,7 @@ const form = reactive({
     serialNumber: route.params.serialNumber || '',
     electrodeState: 'NORMAL' as Filter.RunningState,
     runningState: "NORMAL" as Filter.RunningState,
-    electrodePackageNormalBoolean: 'false',
+    electrodePackageNormalBoolean: 'true',
     content: "",
     deployedImagePath: "",
 })

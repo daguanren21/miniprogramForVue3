@@ -13,7 +13,7 @@
                     </nut-popup>
                 </nut-form-item>
                 <nut-form-item label="设备编号" required>
-                    <nut-input @blur="getDeviceBySerialNumber" v-model="form.serialNumber" class="nut-input-text"
+                    <nut-input @blur="getDeviceBySerialNumber(false)" v-model="form.serialNumber" class="nut-input-text"
                         placeholder="请输入设备编号" type="text">
                     </nut-input>
                 </nut-form-item>
@@ -57,7 +57,7 @@ const form = reactive({
     brandId: ''
 })
 const { next, selectPop, columns } = useStep(props, emits, form)
-const {searialNumber,getDeviceBySerialNumber,deviceList} =useDeviceBySearialNumber(form)
+const { searialNumber, getDeviceBySerialNumber, deviceList } = useDeviceBySearialNumber(form)
 watch(() => manage.deviceInfo, (value) => {
     form.id = value.id || null
     form.serialNumber = value.serialNumber
@@ -79,7 +79,7 @@ async function handleChangeBrand() {
             value: i.id.toString()
         }
     })
-    form.brandId =columns.value[0].value
+    form.brandId = columns.value[0].value
     setTimeout(() => {
         selectPop.value = [form.brandId]
         selectPop.show = true
@@ -97,6 +97,11 @@ function handleBrandConfirm({ selectValue, selectedOptions }) {
 //校验并进行下一步
 const { state: message, notify } = useNotify('danger')
 function confirm() {
+    debugger
+    if (!form.brandId) {
+        notify('品牌不能为空！')
+        return
+    }
     if (!form.serialNumber) {
         notify('设备编号不能为空！')
         return
@@ -105,10 +110,7 @@ function confirm() {
         notify('设备编号长度不能超过30个字符！')
         return
     }
-    if (!form.brandId) {
-        notify('品牌不能为空！')
-        return
-    }
+
     next()
 }
 </script>

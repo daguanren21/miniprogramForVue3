@@ -16,7 +16,7 @@ export const useDeviceBySearialNumber = (form) => {
             setTimeout(() => { Taro.hideLoading() }, 1000)
         }
     })
-    async function getDeviceBySerialNumber() {
+    async function getDeviceBySerialNumber(toast: boolean = true) {
         if (!form.serialNumber) return
         try {
             let res = await fetchDevicesBySearialNumber(form.serialNumber)
@@ -33,7 +33,7 @@ export const useDeviceBySearialNumber = (form) => {
             }
             searialNumber.show = true
         } catch (error) {
-            Taro.showToast({
+            toast && Taro.showToast({
                 icon: 'none',
                 title: error
             })
