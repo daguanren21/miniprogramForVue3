@@ -30,7 +30,7 @@
                     <nut-cascader :poppable="false" v-model="form.regionId" @change="region.change"
                         @pathChange="region.pathChange" lazy :lazyLoad="region.lazyLoad"></nut-cascader>
                     <nut-cell>
-                        <nut-button style="width:100%" type='primary' @click="region.confirm">保存</nut-button>
+                        <nut-button style="width:100%" type='primary' @click="region.confirm">确定</nut-button>
                     </nut-cell>
                 </nut-popup>
             </nut-form-item>
