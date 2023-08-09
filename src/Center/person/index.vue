@@ -123,7 +123,8 @@ const confirm = async () => {
             })
         }, 1000)
     } catch (error) {
-
+        notify(error);
+        return
     }
 }
 </script>

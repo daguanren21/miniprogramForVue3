@@ -192,12 +192,12 @@ function handlePlacesConfirm({ selectedValue, selectedOptions }) {
 }
 
 function _prev() {
-    form.deployedImagePath = _fileList.value.map(v => v.url).join(';')
+    form.deployedImagePath = _fileList.map(v => v.url).join(';')
     prev()
 }
 const { state: message, notify } = useNotify('danger')
 function _next() {
-    form.deployedImagePath = _fileList.value.map(v => v.url).join(';')
+    form.deployedImagePath = _fileList.map(v => v.url).join(';')
     if (!form.installDate) {
         notify('安装时间不能为空！')
         return

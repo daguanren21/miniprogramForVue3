@@ -63,7 +63,7 @@ const confirm = async () => {
         notify('维护详情不能为空！')
         return
     }
-    if (!_fileList.value.length) {
+    if (!_fileList.length) {
         notify('现场图片至少上传一张！')
         return
     }
@@ -72,7 +72,7 @@ const confirm = async () => {
             deviceId: form.id,
             content: form.content,
             runningState: form.runningState,
-            imagesPath: _fileList.value.map(v => v.url).join(';')
+            imagesPath: _fileList.map(v => v.url).join(';')
         })
         Taro.showToast({
             icon: 'none',

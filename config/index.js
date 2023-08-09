@@ -60,7 +60,8 @@ const config = {
         imports: ["vue", "pinia", {
           '@vueuse/core': [
             // named imports
-            'useIntervalFn', // import { useMouse } from '@vueuse/core',
+            'useIntervalFn', 
+            'toReactive',// import { useMouse } from '@vueuse/core',
           ],
         }],
         dts: "types/auto-imports.d.ts"

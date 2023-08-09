@@ -1,6 +1,13 @@
 export function useUpload(form, key = 'deployedImagePath') {
     const auth = useAuthStore()
-    const _fileList = ref<{
+    const tmpFileList = ref<{
+        uid: number,
+        name: string,
+        url: string,
+        status: string,
+        type: string
+    }[]>([])
+    const _fileList = reactive<{
         uid: number,
         name: string,
         url: string,
@@ -9,15 +16,18 @@ export function useUpload(form, key = 'deployedImagePath') {
     }[]>([])
     const uploadUrl = ref(baseUrl + 'common/api/v1/oss-files')
     watch(() => form[key], (value) => {
-        _fileList.value = value ? value.split(';').map((v, index) => {
+        _fileList.length = 0
+        //组件会生成一个tmp文件链接，需删除
+        if (value.indexOf('tmp') > 0) return
+        _fileList.push(...value ? value.split(';').map((v, index) => {
             return {
-                uid: index,
-                name: index + '.png',
+                uid: new Date().getTime(),
+                name: new Date().getTime() + '.png',
                 url: v,
                 status: 'success',
                 type: 'image'
             }
-        }) : []
+        }) : [])
     }, {
         immediate: true
     })
@@ -33,16 +43,19 @@ export function useUpload(form, key = 'deployedImagePath') {
             success(response: { errMsg: any; statusCode: number; data: string }) {
                 if (response.statusCode === 201) {
                     let data = JSON.parse(response.data)
-                    _fileList.value = _fileList.value.filter(v => !v.hasOwnProperty('percentage'))
-                    console.log(_fileList.value)
-                    _fileList.value.push({
-                        uid: _fileList.value.length,
-                        name: _fileList.value.length + '.png',
+                    options.onSuccess?.(response, options);
+                    _fileList.push({
+                        uid: new Date().getTime(),
+                        name: new Date().getTime() + '.png',
                         url: data.urlPath,
                         status: 'success',
                         type: 'image'
                     })
-                    options.onSuccess?.(response, options);
+                    //组件会生成一个tmp文件链接，需删除
+                    tmpFileList.value = _fileList.filter(v => !v.hasOwnProperty('percentage'))
+                    _fileList.length = 0
+                    _fileList.push(...tmpFileList.value)
+                    console.log(_fileList)
                 } else {
                     options.onFailure?.(response, options);
                 }
@@ -54,7 +67,8 @@ export function useUpload(form, key = 'deployedImagePath') {
 
     }
     function deleteFiles({ files, fileList, index }) {
-        _fileList.value = fileList
+        _fileList.length = 0
+        _fileList.push(...fileList)
         console.log(files, fileList, index)
     }
     return {

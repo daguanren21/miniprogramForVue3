@@ -55,7 +55,7 @@ const confirm = async () => {
         notify('报修原因不能为空！')
         return
     }
-    if (!_fileList.value.length) {
+    if (!_fileList.length) {
         notify('现场图片至少上传一张！')
         return
     }
@@ -63,7 +63,7 @@ const confirm = async () => {
         await updateReportToRepairRecords({
             deviceId: form.id,
             description: form.description,
-            imagesPath: _fileList.value.map(v => v.url).join(';')
+            imagesPath: _fileList.map(v => v.url).join(';')
         })
         Taro.showToast({
             icon: 'none',

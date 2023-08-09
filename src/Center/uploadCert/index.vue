@@ -38,19 +38,20 @@
                 @click="confirm">提交</nut-button>
         </nut-cell>
         <nut-popup position="bottom" v-model:visible="receiveHelpTime.show">
-            <nut-date-picker v-model="receiveHelpTime.value" title="时间选择"
-                @confirm="receiveHelpTime.confirm"></nut-date-picker>
+            <nut-date-picker v-model="receiveHelpTime.value" title="时间选择" @confirm="receiveHelpTime.confirm"
+                @cancel="receiveHelpTime.show = false"></nut-date-picker>
         </nut-popup>
     </div>
 </template>
 
 <script setup lang="ts">
-import Taro, { useRouter } from '@tarojs/taro'
-import { saveVolunteerCerts } from '~/api/user';
+import Taro, {  useRouter } from '@tarojs/taro'
+import { fetchVolunteerCertInfo, saveVolunteerCerts, updateVolunteerCerts } from '~/api/user';
 
 // import Taro from '@tarojs/taro';
 import { useNotify } from '~/composables/use-notify';
 import { useUpload } from '~/composables/use-upload';
+import { dateFilter } from '~/filter'
 const router = useRouter()
 const account = useAccountInfo()
 let form = reactive({
@@ -67,7 +68,18 @@ let form = reactive({
 const { state: message, notify } = useNotify('danger')
 const { uploadUrl: frontUrl, beforeXhrUpload: uploadFront, deleteFiles: deleteFront, _fileList: frontList } = useUpload(form, 'frontImagePath')
 const { uploadUrl: backUrl, beforeXhrUpload: uploadBack, deleteFiles: deleteBack, _fileList: backList } = useUpload(form, 'backImagePath')
+watch(() => frontList, (value) => {
+    form.frontImagePath = value.length ? value[0].url : ''
+}, {
+    deep: true,
+})
+watch(() => backList, (value) => {
+    form.backImagePath = value.length ? value[0].url : ''
+}, {
+    deep: true,
+})
 const confirm = async () => {
+    console.log(frontList)
     if (!form.certificateName) {
         notify('证书名称不能为空！')
         return
@@ -84,22 +96,32 @@ const confirm = async () => {
         notify('证书结束时间不能为空！')
         return
     }
-    if (!frontList.value.length) {
+    if (!form.frontImagePath) {
         notify('证书正面照片不能为空')
         return
     }
-    if (!backList.value.length) {
+    if (!form.backImagePath) {
         notify('证书背面照片不能为空')
         return
     }
-    form.frontImagePath = frontList.value[0].url
-    form.backImagePath = backList.value[0].url
+    form.frontImagePath = frontList.length ? frontList[0].url : ''
+    form.backImagePath = backList.length ? backList[0].url : ''
     try {
-        await saveVolunteerCerts(form)
-        Taro.showToast({
-            icon: 'none',
-            title: '提交成功！',
-        })
+        let id = Number(form.id)
+        if (id) {
+            await updateVolunteerCerts(form)
+            Taro.showToast({
+                icon: 'none',
+                title: '修改成功！',
+            })
+        } else {
+            await saveVolunteerCerts(form)
+            Taro.showToast({
+                icon: 'none',
+                title: '提交成功！',
+            })
+        }
+
         setTimeout(() => {
             Taro.navigateBack({
                 delta: 1
@@ -107,6 +129,7 @@ const confirm = async () => {
         }, 1000)
     } catch (error) {
         notify(error)
+        return
     }
 }
 
@@ -122,12 +145,27 @@ const receiveHelpTime = reactive({
     },
     change: (type: string) => {
         receiveHelpTime.type = type
-        receiveHelpTime.value = form[type] || new Date(Date.now())
+        console.log(form[type])
+        receiveHelpTime.value = new Date(Date.now())
+        if (form[type]) {
+            let [year, month, day] = form[type].split('-')
+            receiveHelpTime.value = new Date(year, month - 1, day)
+        }
         receiveHelpTime.show = true;
-
     }
 })
-
+onMounted(async () => {
+    let id = router.params.id || 0
+    if (Number(id)) {
+        let res = await fetchVolunteerCertInfo(Number(id))
+        Object.keys(form).forEach(k => {
+            form[k] = res[k]
+        })
+        form.certificateExpireDate = dateFilter(res.certificateExpireDate, 'YYYY-MM-DD')
+        form.certificateReleaseDate = dateFilter(res.certificateReleaseDate, 'YYYY-MM-DD')
+        console.log("查询证书详情", form)
+    }
+})
 </script>
 
 <style  lang="scss"></style>

@@ -38,7 +38,7 @@ export function fetchAccountInfo(): Promise<User.AccountInfo> {
  * 
  * @description 修改小程序个人信息
  */
-export type ModifyAccountInfo = Omit<User.AccountInfo, 'activated' | 'roleName' | 'address'>
+export type ModifyAccountInfo = Omit<User.AccountInfo, 'activated' | 'roleName' | 'address' | 'roleType'>
 export function updateAccountInfo(data: ModifyAccountInfo): Promise<User.AccountInfo> {
     return request({
         url: api.user + 'account-info/update',
@@ -79,8 +79,8 @@ export function fetchUnreadMessages(data: { page: number, size: number }): Promi
  */
 
 export function fetchUnreadCount(): Promise<{
-    certificatesCount:number,
-    unreadCount:number
+    certificatesCount: number,
+    unreadCount: number
 }> {
     return request({
         url: api.user + 'notification-messages/unread-count',
@@ -113,7 +113,16 @@ export function fetchVolunteerCerts(id: number): Promise<User.VolunteerCert[]> {
         method: Method.GET
     })
 }
+/**
+ * @description 获取志愿者资质证书详情
+ */
 
+export function fetchVolunteerCertInfo(id: number): Promise<User.VolunteerCert> {
+    return request({
+        url: api.user + `volunteer-certificates/${id}`,
+        method: Method.GET
+    })
+}
 /**
  * @description 修改志愿者资质证书
  */
@@ -125,7 +134,18 @@ export function updateVolunteerCerts(data: Omit<User.VolunteerCert, 'description
         method: Method.PUT
     })
 }
-
+/**
+ * @description 删除志愿者资质证书
+ */
+export function deleteVolunteerCerts(id: number, deleteReason: string): Promise<void> {
+    return request({
+        url: api.user + `volunteer-certificates/${id}`,
+        data: {
+            deleteReason
+        },
+        method: Method.DELETE
+    })
+}
 /**
  * @description 保存志愿者资质证书
  */

@@ -163,7 +163,7 @@ const confirm = async () => {
             notify('安装区域不能为空！')
             return
         }
-        if (!_fileList.value.length) {
+        if (!_fileList.length) {
             notify('现场图片至少上传一张！')
             return
         }
@@ -173,7 +173,7 @@ const confirm = async () => {
             await updatePosition({
                 deviceId: form.id,
                 regionId: form.regionId,
-                deployedImagePath: _fileList.value.map(v => v.url).join(';'),
+                deployedImagePath: _fileList.map(v => v.url).join(';'),
                 placeId: Number(form.placeId),
                 address: form.address,
                 deployedLatitude: form.deployedLatitude,
