@@ -30,7 +30,7 @@
         </div>
         <nut-dialog pop-class="form" no-cancel-btn v-model:visible="dialog.show" @ok="dialog.confirm">
             <nut-form>
-                <nut-form-item  required>
+                <nut-form-item required>
                     <nut-textarea :autosize="{
                         minHeight: 80
                     }" placeholder="请输入删除原因" v-model="form.deleteReason" limit-show max-length="200" />
@@ -71,6 +71,12 @@ const dialog = reactive({
                 icon: 'success',
                 title: '删除成功！'
             })
+            setTimeout(async () => {
+                let volunteerId = user.accountInfo.volunteerId
+                if (volunteerId) {
+                    list.value = await fetchVolunteerCerts(Number(volunteerId));
+                }
+            }, 1000);
         } catch (error) {
             Taro.showToast({
                 icon: 'none',
