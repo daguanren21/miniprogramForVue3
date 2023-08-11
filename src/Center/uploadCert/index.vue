@@ -3,12 +3,12 @@
         <nut-notify :type="message.type" v-model:visible="message.show" :msg="message.desc" />
         <nut-form class="flex-1 overflow-auto" :model-value="form" ref="ruleForm">
             <nut-form-item label="证书名称" required>
-                <nut-input class="nut-input-text" input-align="center" v-model="form.certificateName" placeholder="请输入证书名称"
-                    type="text">
+                <nut-input max-length="50" class="nut-input-text" input-align="center" v-model="form.certificateName"
+                    placeholder="请输入证书名称" type="text">
                 </nut-input>
             </nut-form-item>
             <nut-form-item label="证书编号" required>
-                <nut-input class="nut-input-text" input-align="center" v-model="form.certificateNumber"
+                <nut-input max-length="30" class="nut-input-text" input-align="center" v-model="form.certificateNumber"
                     placeholder="请输入证书编号" type="text">
                 </nut-input>
             </nut-form-item>
@@ -45,9 +45,9 @@
 </template>
 
 <script setup lang="ts">
-import Taro, {  useRouter } from '@tarojs/taro'
+import Taro, { useRouter } from '@tarojs/taro'
 import { fetchVolunteerCertInfo, saveVolunteerCerts, updateVolunteerCerts } from '~/api/user';
-
+import dayjs from 'dayjs'
 // import Taro from '@tarojs/taro';
 import { useNotify } from '~/composables/use-notify';
 import { useUpload } from '~/composables/use-upload';
@@ -88,12 +88,16 @@ const confirm = async () => {
         notify('证书编号不能为空！')
         return
     }
-    if (!form.certificateExpireDate) {
-        notify('证书结束时间不能为空！')
+    if (!form.certificateReleaseDate) {
+        notify('证书开始时间不能为空！')
         return
     }
     if (!form.certificateExpireDate) {
         notify('证书结束时间不能为空！')
+        return
+    }
+    if (!dayjs(form.certificateReleaseDate).isBefore(form.certificateExpireDate)) {
+        notify('开始时间不能大于结束时间！')
         return
     }
     if (!form.frontImagePath) {

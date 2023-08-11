@@ -17,44 +17,59 @@ import { useQQMapSdk } from '~/composables/use-qqmap-sdk';
 export function useSwitchModel() {
     const { notify, state } = useNotify('danger')
     let { getNewLocation } = useMapLocation()
+    const dynamicRefForm = ref<any>(null);
     //添加演练人员
     const dynamicForm = reactive({
         show: false,
         phoneList: [{
             tel: ''
+        }, {
+            tel: ''
         }],
         confirm: async () => {
-            if (dynamicForm.phoneList.length < 2) {
-                notify('演练人员不得少于两人')
-                return
-            }
-            try {
-                let res = await getNewLocation()
-                await saveDrillVolunteer({
-                    latestObtainedLatitude: res.lat,
-                    latestObtainedLongitude: res.lng,
-                    phoneList: dynamicForm.phoneList.map(v => v.tel)
-                })
-                Taro.showToast({
-                    icon: 'success',
-                    title: '保存成功！'
-                })
-                dynamicForm.show = false
-            } catch (error) {
-                Taro.showToast({
-                    icon: 'none',
-                    title: error
-                })
-            }
+            dynamicRefForm.value.validate().then(async ({ valid, errors }: any) => {
+                if (valid) {
+                    try {
+                        let res = await getNewLocation()
+                        await saveDrillVolunteer({
+                            latestObtainedLatitude: res.lat,
+                            latestObtainedLongitude: res.lng,
+                            phoneList: dynamicForm.phoneList.map(v => v.tel)
+                        })
+                        Taro.showToast({
+                            icon: 'success',
+                            title: '保存成功！'
+                        })
+                        dynamicForm.show = false
+                    } catch (error) {
+                        Taro.showToast({
+                            icon: 'none',
+                            title: error
+                        })
+                    }
+                } else {
+                    console.log(errors[0].message);
+                    console.log('error submit!!', errors);
+                }
+            });
+
 
         },
         methods: {
             add() {
+                if (dynamicForm.phoneList.length >= 4) {
+                    notify('演练人员不得超过四人')
+                    return
+                }
                 dynamicForm.phoneList.push({
                     tel: ''
                 })
             },
             remove() {
+                if (dynamicForm.phoneList.length <= 2) {
+                    notify('演练人员不得少于两人')
+                    return
+                }
                 dynamicForm.phoneList.splice(dynamicForm.phoneList.length - 1, 1);
             }
         }
@@ -117,6 +132,7 @@ export function useSwitchModel() {
         model,
         rescueType,
         dynamicForm,
+        dynamicRefForm,
         state
     }
 }
@@ -231,6 +247,7 @@ export function useMap(lat: Ref<number>, lng: Ref<number>) {
         // setTimeout(() => {
         //     Taro.hideLoading()
         // }, 1000)
+        return Promise.resolve(res)
 
     }
     const renderCallForHelp = (record: VolunteerRecord) => {

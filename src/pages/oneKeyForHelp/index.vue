@@ -6,14 +6,19 @@
                 <nut-button type='info' @click="showDisclaimerFlag = true">免责声明</nut-button>
             </div>
             <div class="main flex-y-center relative">
-                <div class="w-full absolute top-100px flex-center flex-1 flex-col">
+                <div class="w-full absolute top-30px flex-center flex-1 flex-col">
                     <nut-button shape="square" @click="model.open" :type="rescueType === 'EMERGENT' ? 'primary' : 'info'">
                         <template #icon>
                             <jx-icon value="switch-model" color="#fff"> </jx-icon>
                         </template>
                         {{ rescueType === 'EMERGENT' ? '正常模式' : '演练模式' }}
                     </nut-button>
-
+                    <div class="mt-30px bg-hex-fff p-20px rounded-15px" style="width: 90%;">
+                        <p class="text-28px font-bold text-hex-ee0a24">温馨提醒：正常模式仅用于紧急情况使用，体验、培训、试用等请试用演练模式。</p>
+                        <p class="text-26px mt-10px text-hex-ee0a24">1、非紧急情况下请勿擅自取出AED设备</p>
+                        <p class="mt-10px text-26px text-hex-ee0a24">2、您呼救的信息会同步发送给周边急救志愿者</p>
+                        <p class="mt-10px text-26px text-hex-ee0a24">3、启动呼救后，可提供120快速拨通入口</p>
+                    </div>
                     <nut-popup position="bottom" v-model:visible="model.show">
                         <nut-picker v-model="model.value" :columns="model.columns" @confirm="model.confirm"
                             @cancel="model.show = false">
@@ -21,10 +26,17 @@
                     </nut-popup>
                     <nut-dialog title="演练人员列表" :visible="dynamicForm.show" @cancel="dynamicForm.show = false"
                         @ok="dynamicForm.confirm">
-                        <nut-form>
-                            <nut-form-item required :key="index" v-for="(item, index) in dynamicForm.phoneList">
-                                <nut-input class="nut-input-text" v-model="item.tel" :placeholder="'请输入联系方式'" type="text" />
+                        <nut-form :model-value="dynamicForm" ref="dynamicRefForm">
+                            <nut-form-item required
+                                :rules="[{ required: true, message: '请填写联系方式' }, { regex: phonePattern, message: '手机格式不正确' }]"
+                                :key="index" :prop="'phoneList.' + index + '.tel'"
+                                v-for="(item, index) in dynamicForm.phoneList">
+                                <nut-input class="nut-input-text" v-model="item.tel" :max-length="11"
+                                    :placeholder="'请输入联系方式'" type="number" />
                             </nut-form-item>
+                            <div class="text-20px mt-10px text-hex-ee0a24 text-left pl-32px">
+                                注：演练人员最多添加4人，不支持添加本人
+                            </div>
                             <nut-cell>
                                 <nut-button size="small" style="margin-right: 10px"
                                     @click="dynamicForm.methods.add">添加</nut-button>
@@ -36,12 +48,8 @@
                 </div>
 
                 <div class="wh-full flex-center flex-1 flex-col">
-                    <div class="mb-30px bg-hex-fff p-20px rounded-15px" style="width: 90%;">
-                        <p class="text-26px text-hex-ee0a24">1、非紧急情况下请勿擅自取出AED设备</p>
-                        <p class="mt-10px text-26px text-hex-ee0a24">2、您呼救的信息会同步发送给周边急救志愿者</p>
-                        <p class="mt-10px text-26px text-hex-ee0a24">3、启动呼救后，可提供120快速拨通入口</p>
-                    </div>
-                    <div class="flex-center  flex-col marker" @click="oneKeyForHelp">
+
+                    <div class="flex-center  flex-col marker mt-200px" @click="oneKeyForHelp">
                         <jx-icon value="help-warning" color="#ee0a24" :size="30"></jx-icon>
                         <span class="text-32px">一键呼救</span>
                     </div>
@@ -85,32 +93,26 @@
                             <div class="flex-col flex-center flex-1">
                                 <image class="w-60px h-60px" src="../../assets/images/icon-volunteer-aed-active.svg">
                                 </image>
-                                <p class="mt-20px text-24px">同意取AED</p>
+                                <p class="mt-20px text-20px">已确认AED志愿者</p>
                             </div>
                         </nut-badge>
-                        <nut-badge :value="(volunteer.fetchAedReceiverCount - volunteer.aedAgreeCount)">
+                        <nut-badge :value="volunteer.fetchAedReceiverCount">
                             <div class="flex-col flex-center flex-1">
                                 <image class="w-60px h-60px" src="../../assets/images/icon-volunteer-aed.svg"></image>
-                                <p class="mt-20px text-24px">未取AED</p>
-                            </div>
-                        </nut-badge>
-                        <nut-badge :value="0">
-                            <div class="flex-col flex-center flex-1">
-                                <image class="w-60px h-60px" src="../../assets/images/icon-callforHelper.svg"></image>
-                                <p class="mt-20px text-24px">呼救人员</p>
+                                <p class="mt-20px text-20px">已通知AED志愿者</p>
                             </div>
                         </nut-badge>
                         <nut-badge :value="volunteer.cprAgreeCount">
                             <div class="flex-col flex-center flex-1">
                                 <image class="w-60px h-60px" src="../../assets/images/icon-volunteer-cpr-active.svg">
                                 </image>
-                                <p class="mt-20px text-24px">同意协助</p>
+                                <p class="mt-20px text-20px">已确认CPR志愿者</p>
                             </div>
                         </nut-badge>
-                        <nut-badge :value="(volunteer.cprReceiverCount - volunteer.cprAgreeCount)">
+                        <nut-badge :value="volunteer.cprReceiverCount">
                             <div class="flex-col flex-center flex-1">
                                 <image class="w-60px h-60px" src="../../assets/images/icon-volunteer-cpr.svg"></image>
-                                <p class="mt-20px text-24px">未协助</p>
+                                <p class="mt-20px text-20px">已通知CPR志愿者</p>
                             </div>
                         </nut-badge>
                     </div>
@@ -190,10 +192,10 @@ import { saveOneKeyForHelp, saveOneKeyForHelpToFinish } from '~/api/user';
 import { useMapLocation } from '~/composables/use-map-location';
 import { useMap, useSwitchModel } from '.';
 import { useQQMapSdk } from '~/composables/use-qqmap-sdk';
+import { phonePattern } from '~/utils/constant'
 import { distanceFilter, helpSeekedVolunteerResponseTypeFilter, volunteerResponseTaskFilter } from '~/filter'
 let { lat, lng, address } = useMapLocation()
-
-const { state: message, rescueType, model, dynamicForm } = useSwitchModel()
+const { state: message, rescueType, model, dynamicForm, dynamicRefForm } = useSwitchModel()
 const { volunteerRescueModal, getRescueInfo, deviceModal, handleDeviceInfoClose, recordId, scale, markertap, responseModal, markers, selectedResponseInfo, volunteer, rescueModal, rescueDistance, getNearbyDevices } = useMap(lat, lng)
 const { makePhoneCall } = useQQMapSdk()
 const showDisclaimerFlag = ref(false)
@@ -201,8 +203,8 @@ const { pause, resume } = useIntervalFn(async () => {
     await getRescueInfo()
 }, 3000)
 useDidShow(async () => {
-    await getRescueInfo()
-    if (recordId.value) {
+    let res = await getRescueInfo()
+    if (res.record.id) {
         resume()
     } else {
         pause()
@@ -220,7 +222,14 @@ const oneKeyForHelp = async () => {
             address: address.value,
             rescueType: rescueType.value
         })
-        await getRescueInfo()
+        let res = await getRescueInfo()
+
+        if (res.allVolunteerCount === 0) {
+            Taro.showToast({
+                icon: 'none',
+                title: '附近未发现志愿者'
+            })
+        }
         resume()
     } catch (error) {
         Taro.showToast({
@@ -240,8 +249,9 @@ const finishForHelp = async () => {
             icon: 'success',
             title: '救援结束'
         })
-        setTimeout(() => {
-            getRescueInfo()
+        setTimeout(async () => {
+            await getRescueInfo()
+            pause()
         }, 1000)
     } catch (error) {
         Taro.showToast({
@@ -261,9 +271,6 @@ const distancePop = reactive({
     }, {
         text: '10公里',
         value: '10'
-    }, {
-        text: '100公里',
-        value: '100'
     }],
     confirm: async ({ selectedValue, selectedOptions }) => {
         console.log(selectedValue)

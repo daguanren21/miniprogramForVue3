@@ -317,3 +317,15 @@ export const volunteerResponseTaskFilter = (key: 'FETCH_AED' | 'CPR') => {
     }
     return str || '---'
 }
+
+export const workDayFilter = (workDay: string) => {
+    let optionStr = ''
+    let _workDay = workDay.split(';').filter(v => v);
+    if (_workDay.length) {
+        _workDay.sort().forEach(i => {
+            let _option = workDayOptions.find(v => v.value === i)
+            optionStr += ';' + _option?.label
+        })
+    }
+    return optionStr.slice(1)
+}

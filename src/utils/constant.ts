@@ -1,13 +1,13 @@
 //services服务
 const enum Server {
     DEVELOPMENT = 'https://demo.jousing.cn/api',
-    LOCAL = 'http://192.168.10.27:8080/services/',
+    LOCAL = 'http://192.168.10.47:8080/services/',
     PRODUCTION = 'https://www.jousing.cn/api'
 }
 //Gateway服务
 const enum Gateway {
     DEVELOPMENT = 'https://demo.jousing.cn/api',
-    LOCAL = 'http://192.168.10.27:8080/',
+    LOCAL = 'http://192.168.10.47:8080/',
     PRODUCTION = 'https://www.jousing.cn/api'
 }
 const enum MapKey {

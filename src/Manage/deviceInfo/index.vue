@@ -48,6 +48,14 @@
                             <span>{{ info.brandName }}</span>
                         </template>
                     </nut-cell>
+                    <nut-cell title="车载设备">
+                        <template v-slot:icon>
+                            <jx-icon value="manage-brand" color="#A40B5E"></jx-icon>
+                        </template>
+                        <template v-slot:link>
+                            <span>{{ info.mobile ? '是' : '否' }}</span>
+                        </template>
+                    </nut-cell>
                     <nut-cell title="安装场所">
                         <template v-slot:icon>
                             <jx-icon value="search-ins" color="#7659B1"></jx-icon>
@@ -168,6 +176,26 @@
                     </nut-cell>
                 </nut-cell-group>
             </div>
+            <div class="module">
+                <nut-cell-group title="开放信息">
+                    <nut-cell title="开放类型">
+                        <template v-slot:link>
+                            <span>{{ devicePublicFilter(info.publicType) }}</span>
+                        </template>
+                    </nut-cell>
+                    <nut-cell title="开放日" @click="makePhoneCall(info.contactPhone)">
+                        <template v-slot:link>
+                            <span>{{ workDayFilter(info.workDay) }}</span>
+                        </template>
+                    </nut-cell>
+                    <nut-cell title="开放时间" v-if="info.publicType === 'HALF'">
+                        <template v-slot:link>
+                            <span>{{ info.publicTimeFrom }}~{{ info.publicTimeTo
+                            }}</span>
+                        </template>
+                    </nut-cell>
+                </nut-cell-group>
+            </div>
             <div class="module" v-if="info.maintainInstitutionId">
                 <nut-cell-group title="维保单位信息">
                     <nut-cell title="联系人">
@@ -236,7 +264,7 @@ defineOptions({
 })
 import { useRouter, useDidShow } from '@tarojs/taro'
 import { getImages } from '~/utils/index'
-import { dateFilter, deviceRunningStateFilter, deviceNetworkStateFilter, positionStateFilter, qualityAssuranceStateFilter, batteryStateFilter, noDataFilter } from '~/filter/index'
+import { devicePublicFilter, workDayFilter, dateFilter, deviceRunningStateFilter, deviceNetworkStateFilter, positionStateFilter, qualityAssuranceStateFilter, batteryStateFilter, noDataFilter } from '~/filter/index'
 import { useQQMapSdk } from '~/composables/use-qqmap-sdk';
 import Taro from '@tarojs/taro';
 const router = useRouter()

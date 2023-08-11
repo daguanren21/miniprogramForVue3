@@ -81,6 +81,7 @@ declare global {
   const showWeekDays: typeof import('../src/utils/index')['showWeekDays']
   const storeToRefs: typeof import('pinia')['storeToRefs']
   const toRaw: typeof import('vue')['toRaw']
+  const toReactive: typeof import('@vueuse/core')['toReactive']
   const toRef: typeof import('vue')['toRef']
   const toRefs: typeof import('vue')['toRefs']
   const toValue: typeof import('vue')['toValue']
@@ -101,6 +102,7 @@ declare global {
   const watchSyncEffect: typeof import('vue')['watchSyncEffect']
   const weekDays: typeof import('../src/utils/index')['weekDays']
   const weekShowDays: typeof import('../src/utils/index')['weekShowDays']
+  const workDayFilter: typeof import('../src/filter/index')['workDayFilter']
   const workDayOptions: typeof import('../src/utils/constant')['workDayOptions']
 }
 // for type re-export

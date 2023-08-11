@@ -18,7 +18,7 @@ export function useUpload(form, key = 'deployedImagePath') {
     watch(() => form[key], (value) => {
         _fileList.length = 0
         //组件会生成一个tmp文件链接，需删除
-        if (value.indexOf('tmp') > 0) return
+        if (value && value.indexOf('tmp') > 0) return
         _fileList.push(...value ? value.split(';').map((v, index) => {
             return {
                 uid: new Date().getTime(),

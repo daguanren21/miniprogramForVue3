@@ -70,8 +70,8 @@ let form = reactive({
     longitude: 0,
     mainMomentAreaAddress: '',
     regionId: [] as number[],
-    receiveHelpTimeBegin: '',
-    receiveHelpTimeEnd: '',
+    receiveHelpTimeBegin: '00:00',
+    receiveHelpTimeEnd: '23:59',
     receiveHelpWeekOption: 'EVERYDAY'
 })
 watch(() => account.accountInfo, (val) => {

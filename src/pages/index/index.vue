@@ -4,7 +4,7 @@
       <map class="wh-full" :markers="markers" @markertap="markertap" @callouttap="markertap" @regionchange="regionchange"
         :longitude="centerLng" :latitude="centerLat" :scale="scale" id="indexMap" :show-location="true" :showScale="true">
         <div class="quick_search">
-          <nut-searchbar v-model="searchValue" @search="handleSearch">
+          <nut-searchbar v-model="searchValue" @search="handleSearch" placeholder="请输入地址">
             <template v-slot:leftin>
               <Search2 />
             </template>

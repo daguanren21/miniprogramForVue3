@@ -14,11 +14,11 @@
                 </nut-form-item>
                 <nut-form-item label="设备编号" required>
                     <nut-input @blur="getDeviceBySerialNumber(false)" v-model="form.serialNumber" class="nut-input-text"
-                        placeholder="请输入设备编号" type="text">
+                        placeholder="请输入设备编号" type="text" max-length="30">
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item label="设备型号">
-                    <nut-input class="nut-input-text" v-model="form.model" placeholder="请输入设备型号" type="text">
+                    <nut-input max-length="30" class="nut-input-text" v-model="form.model" placeholder="请输入设备型号" type="text">
                     </nut-input>
                 </nut-form-item>
             </nut-form>

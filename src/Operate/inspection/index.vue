@@ -4,7 +4,7 @@
             <nut-notify :type="message.type" v-model:visible="message.show" :msg="message.desc" />
             <nut-form :model-value="form" ref="ruleForm">
                 <nut-form-item label="设备编号" required>
-                    <nut-input @blur="getDeviceBySerialNumber" v-model="form.serialNumber" class="nut-input-text"
+                    <nut-input max-length="30" @blur="getDeviceBySerialNumber" v-model="form.serialNumber" class="nut-input-text"
                         placeholder="请输入设备编号" type="text">
                     </nut-input>
                 </nut-form-item>

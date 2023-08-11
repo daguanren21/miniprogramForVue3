@@ -9,7 +9,7 @@
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item label="归属单位">
-                    <nut-input class="nut-input-text" v-model="form.unitName" placeholder="请输入归属单位" type="text">
+                    <nut-input max-length="30" class="nut-input-text" v-model="form.unitName" placeholder="请输入归属单位" type="text">
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item label="维保单位">
@@ -18,15 +18,15 @@
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item label="设备联系人" required>
-                    <nut-input class="nut-input-text" v-model="form.contactName" placeholder="请输入联系人" type="text">
+                    <nut-input class="nut-input-text" max-length="30" v-model="form.contactName" placeholder="请输入联系人" type="text">
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item label="设备联系电话" required>
-                    <nut-input class="nut-input-text" v-model="form.contactPhone" placeholder="请输入联系电话" type="number">
+                    <nut-input max-length="11" class="nut-input-text" v-model="form.contactPhone" placeholder="请输入联系电话" type="number">
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item label="出资人">
-                    <nut-input class="nut-input-text" v-model="form.investor" placeholder="请输入出资人" type="text">
+                    <nut-input max-length="30" class="nut-input-text" v-model="form.investor" placeholder="请输入出资人" type="text">
                     </nut-input>
                 </nut-form-item>
             </nut-form>
@@ -87,6 +87,7 @@ watch(() => manage.deviceInfo, (value) => {
             form.configInstitutionName = _item.name
             form.configInstitutionId = _item.id
             manage.deviceInfo.configInstitutionName = _item.name
+            manage.deviceInfo.contactName
             manage.deviceInfo.configInstitutionId = _item.id
 
         } else if (_item.unitType === 'MAINTENANCE') {
@@ -109,6 +110,10 @@ function toPage(type: string) {
 //校验并进行下一步
 const { state: message, notify } = useNotify('danger')
 function confirm() {
+    if (!form.configInstitutionName && !form.unitName) {
+        notify('归属单位和配置单位至少填写一个！')
+        return
+    }
     if (!form.contactName) {
         notify('联系人不能为空！')
         return

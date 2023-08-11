@@ -3,8 +3,8 @@
         <nut-notify :type="message.type" v-model:visible="message.show" :msg="message.desc" />
         <nut-form class="flex-1 overflow-auto" :model-value="form" ref="ruleForm">
             <nut-form-item label="设备编号" required>
-                <nut-input @blur="getDeviceBySerialNumber" v-model="form.serialNumber" class="nut-input-text"
-                    placeholder="请输入设备编号" type="text">
+                <nut-input max-length="30" @blur="getDeviceBySerialNumber" v-model="form.serialNumber"
+                    class="nut-input-text" placeholder="请输入设备编号" type="text">
                 </nut-input>
             </nut-form-item>
             <nut-form-item label="放电次数" required>
@@ -28,6 +28,12 @@
                 </nut-radio-group>
             </nut-form-item>
             <nut-cell-group title="患者信息" v-if="form.useRescued === 'true'">
+                <nut-form-item label="是否救活">
+                    <nut-radio-group direction="horizontal" v-model="form.successfulRescued">
+                        <nut-radio label="true">是</nut-radio>
+                        <nut-radio label="false">否</nut-radio>
+                    </nut-radio-group>
+                </nut-form-item>
                 <nut-form-item label="性别">
                     <nut-radio-group direction="horizontal" v-model="form.patientSex">
                         <nut-radio label="1">男</nut-radio>
@@ -38,7 +44,7 @@
                     <nut-input v-model="form.patientAge" placeholder="请输入年龄" type="digit" />
                 </nut-form-item>
                 <nut-form-item label="基础病">
-                    <nut-input v-model="form.patientUnderlyingDisease" placeholder="请输入基础疾病" type="text">
+                    <nut-input max-length="50" v-model="form.patientUnderlyingDisease" placeholder="请输入基础疾病" type="text">
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item label="晕倒原因">
@@ -46,12 +52,7 @@
                         minHeight: 80
                     }" placeholder="请输入晕倒原因" v-model="form.patientEventTrigger" limit-show max-length="200" />
                 </nut-form-item>
-                <nut-form-item label="是否救活">
-                    <nut-radio-group direction="horizontal" v-model="form.successfulRescued">
-                        <nut-radio label="true">是</nut-radio>
-                        <nut-radio label="false">否</nut-radio>
-                    </nut-radio-group>
-                </nut-form-item>
+
             </nut-cell-group>
             <!-- <nut-form-item label="变更描述">
                 <nut-textarea :autosize="{
@@ -60,7 +61,7 @@
             </nut-form-item> -->
         </nut-form>
         <nut-cell>
-            <nut-button type="primary" :disabled="!form.id" class="m-auto"  style="width:80%;margin: auto;"
+            <nut-button type="primary" :disabled="!form.id" class="m-auto" style="width:80%;margin: auto;"
                 @click="confirm">提交</nut-button>
         </nut-cell>
         <nut-popup position="bottom" closeable round :style="{ height: '60%' }" v-model:visible="searialNumber.show">
@@ -89,11 +90,11 @@ const form = reactive({
     useRescued: 'false',
     patientAge: '',
     patientEventTrigger: '',
-    patientSex: '',
+    patientSex: '1',
     patientUnderlyingDisease: '',
     rescueBeginTime: '',
     rescueEndTime: '',
-    successfulRescued: '',
+    successfulRescued: 'true',
 })
 //时间操作
 const datePop = reactive({

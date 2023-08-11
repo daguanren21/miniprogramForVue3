@@ -6,7 +6,9 @@ page{
     overflow:hidden;
     background: #ededed;
 }
-
+.nut-cell__title{
+    width:auto !important;
+}
 .home {
     display:flex;
     flex-direction: column;
