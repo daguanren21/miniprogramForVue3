@@ -332,7 +332,7 @@ export function updateDeviceRescueData(data: {
     deviceId: number | string;
     useRescued: boolean;
     dischargeCount: number;
-    patientAge: number | null;
+    patientAge: number | string;
     patientEventTrigger: string;
     patientSex: number | null;
     patientUnderlyingDisease: string;

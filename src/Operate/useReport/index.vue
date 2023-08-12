@@ -11,12 +11,12 @@
                 <nut-input v-model="form.dischargeCount" placeholder="请输入放电次数" type="digit">
                 </nut-input>
             </nut-form-item>
-            <nut-form-item label="抢救开始时间">
+            <nut-form-item required label="抢救开始时间">
                 <nut-input v-model="form.rescueBeginTime" @click="datePop.open('rescueBeginTime')" readonly
                     placeholder="请选择开始时间" type="text">
                 </nut-input>
             </nut-form-item>
-            <nut-form-item label="抢救结束时间">
+            <nut-form-item required label="抢救结束时间">
                 <nut-input v-model="form.rescueEndTime" @click="datePop.open('rescueEndTime')" placeholder="请选择结束时间"
                     readonly type="text">
                 </nut-input>
@@ -82,6 +82,7 @@ import { useRouter } from '@tarojs/taro';
 import { updateDeviceRescueData } from '~/api/device';
 import { useDeviceBySearialNumber } from '~/composables/use-device-searialNumber';
 import { useNotify } from '~/composables/use-notify';
+import dayjs from 'dayjs'
 const route = useRouter()
 const form = reactive({
     id: route.params.id || '',
@@ -125,15 +126,27 @@ const confirm = async () => {
         notify('设备编号不能为空！')
         return
     }
+    if (!form.rescueBeginTime) {
+        notify('抢救开始时间不能为空！')
+        return
+    }
+    if (!form.rescueEndTime) {
+        notify('抢救结束时间不能为空！')
+        return
+    }
+    if (!dayjs(form.rescueBeginTime).isBefore(form.rescueEndTime)) {
+        notify('开始时间不能大于结束时间！')
+        return
+    }
     try {
         await updateDeviceRescueData({
             deviceId: form.id,
             dischargeCount: Number(form.dischargeCount),
             useRescued: isResued ? true : false,
-            patientAge: isResued ? Number(form.patientAge) : null,
+            patientAge: isResued ? form.patientAge ? Number(form.patientAge) : '' : '',
             patientEventTrigger: isResued ? form.patientEventTrigger : '',
             patientSex: isResued ? Number(form.patientSex) : null,
-            patientUnderlyingDisease: isResued ? form.patientEventTrigger : '',
+            patientUnderlyingDisease: isResued ? form.patientUnderlyingDisease : '',
             rescueBeginTime: form.rescueBeginTime ? form.rescueBeginTime + ':00' : '',
             rescueEndTime: form.rescueEndTime ? form.rescueEndTime + ':00' : '',
             successfulRescued: isResued ? form.successfulRescued === 'false' ? false : true : null,
