@@ -13,15 +13,15 @@
                 </button>
             </nut-form-item>
             <nut-form-item label="真实姓名">
-                <nut-input v-model="form.realName" class="nut-input-text" placeholder="请输入真实姓名" type="text">
+                <nut-input max-length="20" v-model="form.realName" class="nut-input-text" placeholder="请输入真实姓名" type="text">
                 </nut-input>
             </nut-form-item>
             <nut-form-item label="昵称" required>
-                <nut-input v-model="form.nickName" class="nut-input-text" placeholder="请输入昵称" type="text">
+                <nut-input max-length="10" v-model="form.nickName" class="nut-input-text" placeholder="请输入昵称" type="text">
                 </nut-input>
             </nut-form-item>
             <nut-form-item label="联系方式" required>
-                <nut-input v-model="form.phoneNumber" class="nut-input-text" placeholder="请输入联系方式" type="text">
+                <nut-input max-length="11" v-model="form.phoneNumber" class="nut-input-text" placeholder="请输入联系方式" type="number">
                 </nut-input>
             </nut-form-item>
             <nut-form-item label="邮箱">
