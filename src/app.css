@@ -9,6 +9,9 @@ page{
 .nut-cell__title{
     width:auto !important;
 }
+.nut-cell-group .nut-cell::after{
+    border-bottom:none !important;
+}
 .home {
     display:flex;
     flex-direction: column;
