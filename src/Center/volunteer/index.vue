@@ -52,7 +52,7 @@
 </template>
 
 <script setup lang="ts">
-import Taro, { useDidShow } from '@tarojs/taro'
+import Taro from '@tarojs/taro'
 import { fetchVolunteerInfo } from '~/api/user';
 import { registerVolunteer } from '~/api/user';
 import { useDeviceRegion } from '~/composables/use-device-region';
@@ -155,7 +155,7 @@ const receiveHelpTime = reactive({
     }
 })
 
-useDidShow(async () => {
+onMounted(async () => {
     let res = await fetchVolunteerInfo();
     Object.keys(form).forEach(key => {
         form[key] = res[key] || form[key]

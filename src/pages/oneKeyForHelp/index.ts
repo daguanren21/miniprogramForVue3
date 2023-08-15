@@ -207,8 +207,8 @@ export function useMap(lat: Ref<number>, lng: Ref<number>) {
         }
     })
     // 去除重复数据
-    const unique = (markers) => {
-        let arr = [...markers, ...toRaw(markers.value)]
+    const unique = (_markers) => {
+        let arr = [..._markers, ...toRaw(markers.value)]
         let map = new Map();
         for (let item of arr) {
             let name = item.id + '_' + item.markerType
@@ -231,6 +231,7 @@ export function useMap(lat: Ref<number>, lng: Ref<number>) {
             volunteerRescueModal.responseTaskType = res.receivedInfo.rescueResponseTaskType
             volunteerRescueModal.responseInfoId = res.receivedInfo.id
             volunteerRescueModal.visible = res.receivedInfo.rescueResponseState === 'UNHANDLED'
+
         }
 
         if (!res.record) {
@@ -249,6 +250,33 @@ export function useMap(lat: Ref<number>, lng: Ref<number>) {
         // }, 1000)
         return Promise.resolve(res)
 
+    }
+    const _locationChangeFn = async function (res) {
+        try {
+            let { address } = await fetchDeviceCoordinate({
+                longitude: res.longitude,
+                latitude: res.latitude
+            })
+            Taro.stopLocationUpdate()
+        } catch (error) {
+            Taro.stopLocationUpdate()
+            Taro.showToast({
+                icon: 'none',
+                title: error
+            })
+        }
+
+
+    }
+    const getNewLocation = async () => {
+        try {
+            await Taro.startLocationUpdate()
+            Taro.onLocationChange(_locationChangeFn)
+        } catch (error) {
+            await Taro.stopLocationUpdate()
+            console.error('更新定位失败')
+            return Promise.reject('更新定位失败')
+        }
     }
     const renderCallForHelp = (record: VolunteerRecord) => {
         unique([{
@@ -406,6 +434,7 @@ export function useMap(lat: Ref<number>, lng: Ref<number>) {
         }
     }
     return {
+        devices,
         mapCtx,
         scale,
         recordId,
@@ -420,6 +449,7 @@ export function useMap(lat: Ref<number>, lng: Ref<number>) {
         getNearbyDevices,
         handleDeviceInfoClose,
         deviceModal,
-        volunteerRescueModal
+        volunteerRescueModal,
+        renderDeviceMarkers
     }
 }

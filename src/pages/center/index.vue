@@ -149,6 +149,14 @@
                             </template>
                             <jx-icon value="operate-repair" :size="26" color="#3295FC"></jx-icon>
                         </nut-grid-item>
+                        <nut-grid-item @click="toOperate('parts')">
+                            <template #text>
+                                <div class="text-28px mt-10px">
+                                    更换耗材
+                                </div>
+                            </template>
+                            <jx-icon value="operate-consume" :size="26" color="#0075c1"></jx-icon>
+                        </nut-grid-item>
                     </nut-grid>
                 </div>
             </div>
@@ -238,4 +246,9 @@ useDidShow(async () => {
 })
 </script>
 
-<style scoped></style>
+<style scoped>
+span{
+    color:#0075c1
+}
+
+</style>

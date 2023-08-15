@@ -9,7 +9,8 @@
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item label="归属单位">
-                    <nut-input max-length="30" class="nut-input-text" v-model="form.unitName" placeholder="请输入归属单位" type="text">
+                    <nut-input max-length="30" class="nut-input-text" v-model="form.unitName" placeholder="请输入归属单位"
+                        type="text">
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item label="维保单位">
@@ -18,15 +19,27 @@
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item label="设备联系人" required>
-                    <nut-input class="nut-input-text" max-length="30" v-model="form.contactName" placeholder="请输入联系人" type="text">
+                    <nut-input class="nut-input-text" max-length="30" v-model="form.contactName" placeholder="请输入联系人"
+                        type="text">
                     </nut-input>
                 </nut-form-item>
+                <nut-form-item label="号码格式" required>
+                    <nut-radio-group direction="horizontal" v-model="form.phoneType">
+                        <nut-radio label="0">手机号码</nut-radio>
+                        <nut-radio label="1">固定号码</nut-radio>
+                    </nut-radio-group>
+                </nut-form-item>
                 <nut-form-item label="设备联系电话" required>
-                    <nut-input max-length="11" class="nut-input-text" v-model="form.contactPhone" placeholder="请输入联系电话" type="number">
+                    <nut-input v-if="form.phoneType === '0'" max-length="11" class="nut-input-text"
+                        v-model="form.contactPhone" placeholder="请输入联系电话" type="number">
+                    </nut-input>
+                    <nut-input v-else class="nut-input-text" v-model="form.contactPhone" placeholder="请输入联系电话"
+                        type="number">
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item label="出资人">
-                    <nut-input max-length="30" class="nut-input-text" v-model="form.investor" placeholder="请输入出资人" type="text">
+                    <nut-input max-length="30" class="nut-input-text" v-model="form.investor" placeholder="请输入出资人"
+                        type="text">
                     </nut-input>
                 </nut-form-item>
             </nut-form>
@@ -64,6 +77,7 @@ const form = reactive({
     configInstitutionId: '',
     maintainInstitutionName: '',
     maintainInstitutionId: '',
+    phoneType: '0',
     unitName: '',
     contactName: '',
     contactPhone: '',
@@ -80,6 +94,7 @@ watch(() => manage.deviceInfo, (value) => {
     form.unitName = value.unitName
     form.contactName = value.contactName
     form.contactPhone = value.contactPhone
+    form.phoneType = form.contactPhone ? form.contactPhone.length === 11 ? '0' : '1' : '0'
     form.investor = value.investor
     if (item) {
         const _item = JSON.parse(item)
@@ -126,10 +141,18 @@ function confirm() {
         notify('联系电话不能为空！')
         return
     }
-    if (!phonePattern.test(form.contactPhone)) {
-        notify('联系电话格式不正确')
-        return
+    if (form.phoneType === '0') {
+        if (!phonePattern.test(form.contactPhone)) {
+            notify('联系电话格式不正确')
+            return
+        }
+    } else {
+        if (!phoneAndFixPattern.test(form.contactPhone)) {
+            notify('联系电话格式不正确')
+            return
+        }
     }
+
     next()
 }
 </script>

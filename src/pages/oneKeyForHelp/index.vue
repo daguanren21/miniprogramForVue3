@@ -73,9 +73,11 @@
                 id="helpMap" :show-location="true" :showScale="true">
 
                 <div class="absolute top-20px right-30px">
-                    <div @click="handleNearBy" class="flex-center flex-col mb-20px  p-10px rounded-15px bg-hex-1890ff">
-                        <jx-icon value="nearby" color="#fff" :size="24"></jx-icon>
-                        <p class="text-20px text-hex-fff">附近AED</p>
+                    <div @click="handleNearBy" :class="{ 'bg-hex-1890ff': showDevices, 'bg-hex-ccc': !showDevices }"
+                        class="flex-center flex-col mb-20px  p-10px rounded-15px ">
+                        <jx-icon value="nearby" :style="{color:showDevices ? '#fff' : '#000'}" :size="24"></jx-icon>
+                        <p class="text-20px " :class="{ 'text-hex-fff': showDevices, 'text-hex-000': !showDevices }">附近AED
+                        </p>
                     </div>
                     <div @click="makePhoneCall('120')"
                         class="flex-center flex-col mb-20px  p-10px rounded-15px bg-hex-ee0a24">
@@ -176,7 +178,7 @@
             </nut-dialog>
             <nut-popup position="bottom" v-model:visible="distancePop.show">
                 <nut-picker v-model="distancePop.value" :columns="distancePop.columns" title="请选择"
-                    @confirm="distancePop.confirm" @cancel="distancePop.show = false">
+                    @confirm="distancePop.confirm" @cancel="distancePop.cancel">
                 </nut-picker>
             </nut-popup>
 
@@ -196,12 +198,14 @@ import { phonePattern } from '~/utils/constant'
 import { distanceFilter, helpSeekedVolunteerResponseTypeFilter, volunteerResponseTaskFilter } from '~/filter'
 let { lat, lng, address } = useMapLocation()
 const { state: message, rescueType, model, dynamicForm, dynamicRefForm } = useSwitchModel()
-const { volunteerRescueModal, getRescueInfo, deviceModal, handleDeviceInfoClose, recordId, scale, markertap, responseModal, markers, selectedResponseInfo, volunteer, rescueModal, rescueDistance, getNearbyDevices } = useMap(lat, lng)
+const { volunteerRescueModal, getRescueInfo, deviceModal, handleDeviceInfoClose, recordId, scale, markertap, responseModal, markers, selectedResponseInfo, volunteer, rescueModal, rescueDistance, getNearbyDevices, renderDeviceMarkers } = useMap(lat, lng)
 const { makePhoneCall } = useQQMapSdk()
 const showDisclaimerFlag = ref(false)
+const showDevices = ref(false)
+const firstSearchNearbyDevices = ref(false)
 const { pause, resume } = useIntervalFn(async () => {
     await getRescueInfo()
-}, 3000)
+}, 5000)
 useDidShow(async () => {
     let res = await getRescueInfo()
     if (res.record.id) {
@@ -277,10 +281,25 @@ const distancePop = reactive({
         let distance = selectedOptions.map(v => v.value).join('')
         await getNearbyDevices(distance)
         distancePop.show = false
+        firstSearchNearbyDevices.value = true
+    },
+    cancel: () => {
+        distancePop.show = false
+        showDevices.value = false
     }
 })
 const handleNearBy = () => {
-    distancePop.show = true
+    showDevices.value = !showDevices.value
+    if (!firstSearchNearbyDevices.value) {
+        distancePop.show = true
+        return
+    }
+    if (!showDevices.value) {
+        markers.value = markers.value.filter(marker => marker.markerType !== 'device')
+    } else {
+        renderDeviceMarkers()
+    }
+    console.log(markers)
 }
 
 </script>

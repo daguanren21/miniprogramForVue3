@@ -377,7 +377,9 @@
 .fa-center-arrow:before{
   content:"\eb08"
 }
-
+.fa-operate-consume:before{
+  content:"\e66c"
+}
 .fa-switch-model:before{
     content:"\e666"
 }
