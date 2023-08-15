@@ -75,7 +75,7 @@
                 <div class="absolute top-20px right-30px">
                     <div @click="handleNearBy" :class="{ 'bg-hex-1890ff': showDevices, 'bg-hex-ccc': !showDevices }"
                         class="flex-center flex-col mb-20px  p-10px rounded-15px ">
-                        <jx-icon value="nearby" :style="{color:showDevices ? '#fff' : '#000'}" :size="24"></jx-icon>
+                        <jx-icon value="nearby" :style="{ color: showDevices ? '#fff' : '#000' }" :size="24"></jx-icon>
                         <p class="text-20px " :class="{ 'text-hex-fff': showDevices, 'text-hex-000': !showDevices }">附近AED
                         </p>
                     </div>
@@ -227,11 +227,11 @@ const oneKeyForHelp = async () => {
             rescueType: rescueType.value
         })
         let res = await getRescueInfo()
-
         if (res.allVolunteerCount === 0) {
             Taro.showToast({
                 icon: 'none',
-                title: '附近未发现志愿者'
+                title: '附近未发现志愿者',
+                duration: 4000
             })
         }
         resume()
