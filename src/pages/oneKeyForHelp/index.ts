@@ -14,6 +14,7 @@ const RESPONSE_INFO_MARKERID_PREFIX = "response"
 import normalSelectImage from '~/assets/images/jx_select.png'
 import { fetchLatelyDevices, fetchRegionDeviceInfo } from '~/api/device';
 import { useQQMapSdk } from '~/composables/use-qqmap-sdk';
+import { fetchDeviceCoordinate, updateVolunteerLocation } from '~/api/common';
 export function useSwitchModel() {
     const { notify, state } = useNotify('danger')
     let { getNewLocation } = useMapLocation()
@@ -225,13 +226,14 @@ export function useMap(lat: Ref<number>, lng: Ref<number>) {
         // })
         let res = await fetchVolunteerRescueInfo()
         volunteer.value = { ...volunteer.value, ...res }
-        //判断是志愿者还是呼救人
+        //当receivedInfo有值为志愿者
         if (res.receivedInfo) {
             //打开任务弹窗
             volunteerRescueModal.responseTaskType = res.receivedInfo.rescueResponseTaskType
             volunteerRescueModal.responseInfoId = res.receivedInfo.id
             volunteerRescueModal.visible = res.receivedInfo.rescueResponseState === 'UNHANDLED'
-
+            //更新志愿者位置
+            await getNewLocation()
         }
 
         if (!res.record) {
@@ -252,8 +254,9 @@ export function useMap(lat: Ref<number>, lng: Ref<number>) {
 
     }
     const _locationChangeFn = async function (res) {
+        console.log('22222')
         try {
-            let { address } = await fetchDeviceCoordinate({
+            await updateVolunteerLocation({
                 longitude: res.longitude,
                 latitude: res.latitude
             })

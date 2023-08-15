@@ -1,6 +1,8 @@
 const api = {
     public: 'common/api/v1/mini-program/public/',
+    volunteer: 'user/api/v1/mini-program/volunteer/'
 }
+
 /**
  * @description 查询品牌
  */
@@ -70,5 +72,18 @@ export function fetchDistrictAreas(data?: { parentId: number | string }): Promis
         url: api.public + 'districts/areas',
         data,
         method: Method.GET
+    })
+}
+/**
+ * @description 更新志愿者位置信息
+ */
+export function updateVolunteerLocation(data: {
+    latitude: number,
+    longitude: number
+}): Promise<void> {
+    return request({
+        url: api.volunteer + 'location',
+        data,
+        method: Method.PUT
     })
 }

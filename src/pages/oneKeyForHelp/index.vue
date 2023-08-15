@@ -208,7 +208,7 @@ const { pause, resume } = useIntervalFn(async () => {
 }, 5000)
 useDidShow(async () => {
     let res = await getRescueInfo()
-    if (res.record.id) {
+    if (res.record && res.record.id) {
         resume()
     } else {
         pause()
