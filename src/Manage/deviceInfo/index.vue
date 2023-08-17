@@ -190,8 +190,7 @@
                     </nut-cell>
                     <nut-cell title="开放时间" v-if="info.publicType === 'HALF'">
                         <template v-slot:link>
-                            <span>{{ info.publicTimeFrom }}~{{ info.publicTimeTo
-                            }}</span>
+                            <span>{{ info.publicTime}}</span>
                         </template>
                     </nut-cell>
                 </nut-cell-group>

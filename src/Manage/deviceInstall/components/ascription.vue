@@ -88,9 +88,9 @@ const { next, prev } = useStep(props, emits, form)
 const manage = useManageStore()
 watch(() => manage.deviceInfo, (value) => {
     form.configInstitutionName = value.configInstitutionName
-    form.configInstitutionId = value.configInstitutionId.toString()
+    form.configInstitutionId = value.configInstitutionId?.toString()
     form.maintainInstitutionName = value.maintainInstitutionName
-    form.maintainInstitutionId = value.maintainInstitutionId.toString()
+    form.maintainInstitutionId = value.maintainInstitutionId?.toString()
     form.unitName = value.unitName
     form.contactName = value.contactName
     form.contactPhone = value.contactPhone

@@ -89,8 +89,7 @@ declare namespace Index {
     deployedImagePath: string,
     distance: number,
     duration: number,
-    publicTimeFrom: string,
-    publicTimeTo: string,
+    publicTime: string,
     publicType: Filter.PublicType
     runningState: Filter.RunningState,
     serialNumber: string,
@@ -174,8 +173,7 @@ declare namespace Manage {
     placeName: string,
     publicDate: string,
     publicType: Filter.PublicType
-    publicTimeFrom: string,
-    publicTimeTo: string,
+    publicTime: string,
     qualityAssuranceDate: string,
     regionId: number[];
     regionName: string,
@@ -207,8 +205,7 @@ declare namespace Manage {
     mobile: boolean,
     model: string,
     placeId: number,
-    publicTimeFrom: string,
-    publicTimeTo: string,
+    publicTime: string,
     publicType: Filter.PublicType,
     qualityAssuranceDate: string,
     regionId: number[]

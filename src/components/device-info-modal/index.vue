@@ -36,7 +36,7 @@
                             <view style="white-space: nowrap;">{{ showWeekDays(detail.workDay) }}</view>
                         </view>
                         <view class="time" v-if="detail.publicType == 'HALF'">
-                            开放时间：{{ detail.publicTimeFrom }}-{{ detail.publicTimeTo }}
+                            开放时间：{{ detail.publicTime }}
                         </view>
                     </view>
                 </view>
