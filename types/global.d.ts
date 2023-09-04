@@ -54,6 +54,8 @@ declare namespace Filter {
   type RescueType = 'EMERGENT' | 'DRILL'
   /** @description 角色类型 */
   type RoleType = 'CONFIGURATION' | 'FACTORY' | 'MAINTENANCE' | 'REGION' | 'SYSTEM' | 'WECHAT'
+  /** @description 审核状态 */
+  type AuditState = 'PROCESSING' | 'REJECT' | 'PASS'
 }
 declare namespace Index {
   type ObjLimit1<T, K extends keyof T> = {
@@ -221,6 +223,9 @@ declare namespace Manage {
 declare namespace User {
   interface AccountInfo {
     activated: boolean;
+    unitName: string;
+    maintenanceUnitId: number | null;
+    configurationUnitId: number | null;
     address: string;
     email: string;
     imageUrl: string;
@@ -240,6 +245,7 @@ declare namespace User {
     certificateNumber: string;
     certificateReleaseDate: string;
     certificateState: Filter.CertificateState;
+    auditState:Filter.AuditState;
     description: string;
     frontImagePath: string;
     id: number | null;

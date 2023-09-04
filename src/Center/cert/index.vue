@@ -1,42 +1,70 @@
 <template>
-    <div class="h-full flex-col">
+    <div class="h-full flex-col bg-hex-f7f7f7">
         <div class="flex-1 overflow-auto">
-            <div v-if="list.length" class="w-full overflow-hidden">
-                <nut-swipe v-for="item in list">
-                    <nut-cell :title='item.certificateName'
-                        :desc="'到期时间：' + dateFilter(item.certificateExpireDate, 'YYYY-MM-DD')">
-                        <template v-slot:title>
-                            <span class="flex-y-center">{{ item.certificateName }} <jx-dot class="ml-20px"
-                                    :state="certificateStateFilter(item.certificateState)"></jx-dot></span>
-                        </template>
-                    </nut-cell>
-                    <template #right>
-                        <nut-button shape="square" style="height:100%" type="danger"
-                            @click="deleteVolunteer(item.id!)">删除</nut-button>
-                        <nut-button shape="square" style="height:100%" type="info"
-                            @click="toCenter('uploadCert', item.id!)">编辑</nut-button>
-                    </template>
-                </nut-swipe>
+            <div v-if="list.length" class="w-full mt-28px overflow-hidden">
+                <div class="mb-15px p-24px bg-hex-fff m-x-15px rounded-20px" v-for="item in list">
+                    <div class="flex-x-center">
+                        <image class="w-315px h-200px" :src='item.frontImagePath'></image>
+                        <image class="w-315px h-200px ml-20px" :src='item.backImagePath'></image>
+                    </div>
+                    <div class="mt-30px flex-y-center">
+                        <div style="max-width: 75%;" class="line-clamp-1 break-all  text-30px text-hex-333 font-bold">{{
+                            item.certificateName }}</div>
+                        <div class="ml-14px text-24px text-hex-32b44b valid w-95px h-38px line-height-38px"
+                            v-if="item.certificateState === 'VALID'">
+                            {{ certificateStateFilter(item.certificateState).text }}
+                        </div>
+                        <div class="ml-14px text-24px text-hex-da2718 expired w-95px h-38px line-height-38px" v-else>
+                            {{ certificateStateFilter(item.certificateState).text }}
+                        </div>
+                    </div>
+                    <div class="flex-y-center justify-between mt-33px">
+                        <div class="text-24px text-hex-999">到期时间：{{ dateFilter(item.certificateExpireDate, 'YYYY-MM-DD') }}
+                        </div>
+                        <div>
+                            <nut-button class="jx-button" type='info' @click="toCenter('uploadCert', item.id!)">修改</nut-button>
+                            <nut-button class="jx-button" style="margin-left:10rpx" type='danger'
+                                @click="deleteVolunteer(item.id!)">删除</nut-button>
+                        </div>
+                    </div>
+                    <div class="mt-25px h-1px bg-hex-dbdbdb">
+                    </div>
+                    <div class="mt-25px">
+                        <div class="text-hex-999 text-26px flex-y-center">
+                            审核状态：<span class="text-28px text-hex-409EFF"
+                                :style="{ color: handleCheckState(item.auditState).color }">{{
+                                    handleCheckState(item.auditState).text }}</span>
+                        </div>
+                        <div class="text-hex-999 text-26px mt-30px" v-if="item.description">
+                            审核意见：<span class="text-28px text-hex-333">{{ item.description }}</span>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="h-full flex-center flex-col" v-else>
                 <nut-empty image="empty" description="暂无数据"></nut-empty>
             </div>
         </div>
         <div>
-            <nut-cell>
+            <nut-cell style="margin: 0;background:transparent">
                 <nut-button color="linear-gradient(to right, #ff6034, #ee0a24)" type="primary"
                     style="width:80%;margin: auto;" @click="toCenter('uploadCert')">证书上传</nut-button>
             </nut-cell>
         </div>
-        <nut-dialog pop-class="form" no-cancel-btn v-model:visible="dialog.show" @ok="dialog.confirm">
-            <nut-form>
-                <nut-form-item required>
-                    <nut-textarea :autosize="{
-                        minHeight: 80
-                    }" placeholder="请输入删除原因" v-model="form.deleteReason" limit-show max-length="200" />
-                </nut-form-item>
-            </nut-form>
-        </nut-dialog>
+        <nut-popup position="bottom" closeable round :style="{ height: '43%' }" v-model:visible="dialog.show">
+            <div class="text-center text-30px text-hex-1f1f1f font-bold mt-42px">证书删除</div>
+            <div class="w-full flex-col items-center">
+                <nut-form :model-value="form" ref="ruleForm">
+                    <nut-form-item required>
+                        <div class="w-684px h-256px jx-textarea">
+                            <nut-textarea placeholder="请输入删除原因" v-model="form.deleteReason" limit-show max-length="200" />
+                        </div>
+                    </nut-form-item>
+                </nut-form>
+                <nut-button type='info' style="width: 550rpx;height:73rpx;font-size: 30rpx;"
+                    @click="dialog.confirm">提交</nut-button>
+            </div>
+        </nut-popup>
     </div>
 </template>
 
@@ -89,18 +117,44 @@ const deleteVolunteer = (id: number) => {
     form.id = id
     dialog.show = true
 }
+const handleCheckState = (state: Filter.AuditState) => {
+    if (state === 'PASS') {
+        return {
+            color: '#32B44B',
+            text: '通过'
+        }
+    } else if (state === 'REJECT') {
+        return {
+            color: '#DA2718',
+            text: '不通过'
+        }
+    } else {
+        return {
+            color: '#409EFF',
+            text: '审核中'
+        }
+    }
+}
 </script>
 
 <style lang="scss">
-.header {
-    height: 60px;
-    line-height: 50px;
-    text-align: center;
-    background: #fff;
-    border-bottom: solid 1px #f4f4f4;
+.jx-button {
+    width: 120px;
+    height: 48px;
+    font-size: 26px;
+    line-height: 48px;
+    white-space: nowrap;
 }
 
-.x-scroll-view {
-    background-color: #fff;
+.valid {
+    background: url(../../assets/images/center/active.png) no-repeat;
+    background-size: 100% 100%;
+    text-align: center;
+}
+
+.expired {
+    background: url(../../assets/images/center/unactive.png) no-repeat;
+    background-size: 100% 100%;
+    text-align: center;
 }
 </style>

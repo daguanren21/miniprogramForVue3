@@ -7,7 +7,7 @@ export const useDeviceRegion = (cb: (form: {
     address: string,
     deployedLatitude: number,
     deployedLongitude: number
-}) => void) => {
+}) => void, isOpenLocation: boolean = true) => {
     const lastArea = ref<any>()
     const region = reactive({
         visible: false,
@@ -40,6 +40,7 @@ export const useDeviceRegion = (cb: (form: {
                 region.visible = false
                 return
             }
+
             chooseLocation({
                 latitude: lastArea.value.lat,
                 longitude: lastArea.value.lng,
@@ -49,35 +50,32 @@ export const useDeviceRegion = (cb: (form: {
     //定位（拉起微信自带页面）
     async function chooseLocation(option: { latitude?: number, longitude?: number } = {}) {
         try {
-            let locRes = await Taro.chooseLocation(option)
-            if (!locRes) {
-                // return Promise.reject('当前地址无法解析')
-                Taro.showToast({
-                    icon: 'none',
-                    title: '当前地址无法解析'
-                })
-                return
+            let locRes: any = null
+            if (isOpenLocation) {
+                locRes = await Taro.chooseLocation(option)
+                if (!locRes) {
+                    // return Promise.reject('当前地址无法解析')
+                    Taro.showToast({
+                        icon: 'none',
+                        title: '当前地址无法解析'
+                    })
+                    return
+                }
             }
+
             let { province, city, district, street, address } = await fetchDeviceCoordinate({
-                latitude: locRes.latitude,
-                longitude: locRes.longitude
+                latitude: locRes ? locRes.latitude : option.latitude,
+                longitude: locRes ? locRes.longitude : option.longitude
             })
             let _name = [province.cnName, city.cnName, district.cnName, street.cnName].filter(v => v).join('/')
             let _id = [province.id, city.id, district.id, street.id].filter(v => v)
-            // return Promise.resolve({
-            //     regionName: _name,
-            //     regionId: _id,
-            //     address: locRes.address || address,
-            //     deployedLatitude: locRes.latitude,
-            //     deployedLongitude: locRes.longitude
-            // })
             region.visible = false
             cb({
                 regionName: _name,
                 regionId: _id,
-                address: locRes.address || address,
-                deployedLatitude: locRes.latitude,
-                deployedLongitude: locRes.longitude
+                address: locRes ? locRes.address : address,
+                deployedLatitude: locRes ? locRes.latitude : option.latitude,
+                deployedLongitude: locRes ? locRes.longitude : option.longitude
             })
             return
         } catch (error) {

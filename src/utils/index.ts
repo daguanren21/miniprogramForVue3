@@ -31,8 +31,8 @@ export const showWeekDays = (workDay: string) => {
 /**
  * @description 保证图片个数（4个）
  */
-export const getImages = (deployedImageUrls: string, len: number = 4) => {
-    let images: string[] = deployedImageUrls.split(';');
+export const getImages = (deployedImageUrl: string, len: number = 4) => {
+    let images: string[] = deployedImageUrl ? deployedImageUrl.split(';') : [];
     if (images.length < len) {
         images = images.concat(new Array(len - images.length).fill(null))
     }

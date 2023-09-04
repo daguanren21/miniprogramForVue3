@@ -1,20 +1,24 @@
 <template>
     <div class="home">
-        <div class="main bg-hex-fff flex-col">
-            <div class="tab_wrap">
-                <nut-row>
-                    <nut-col @tap="changeTab(index)" v-for="(item, index) in tabList" :span="12" :key="'tab' + index">
-                        <view class="tab" :class="{ active: index == tabIndex }">
-                            <jx-icon :style="{ color: index === tabIndex ? '#f5222D' : '#9E9E9F' }" :size="26"
-                                :value="item.icon"></jx-icon>
-                            <text class="ft">{{ item.text }}</text>
-                        </view>
-                    </nut-col>
-                </nut-row>
+        <div class="main bg-hex-F7F7F7 flex-col">
+            <div class="flex-col overflow-hidden">
+                <div class="flex-center p-x-29px p-y-25px mb-30px">
+                    <div :class="{ 'ml-43px': index === 1 }" v-for="item, index in tabList" :key="item.key"
+                        @click="changeTab(index)">
+                        <image class="w-325px h-132px" :src="index === tabIndex ? item.icon_active : item.icon">
+                        </image>
+                    </div>
+                </div>
+                <!-- <nut-searchbar class="jx-search">
+                    <template v-slot:rightin>
+                        <nut-button type='primary'>搜索</nut-button>
+                    </template>
+                </nut-searchbar> -->
+                <div class="flex-1 overflow-hidden">
+                    <component :is='componentRef'></component>
+                </div>
             </div>
-            <div class="flex-1 overflow-hidden">
-                <component :is='componentRef'></component>
-            </div>
+
         </div>
         <jx-tab-bar></jx-tab-bar>
     </div>
@@ -22,20 +26,27 @@
 <script setup lang="ts">
 import courseList from './components/courseList/index.vue'
 import knowLedgeList from './components/knowLedgeList/index.vue'
+import knowledge_active from '~/assets/images/volunteer/knowledge_active.png'
+import knowledge from '~/assets/images/volunteer/knowledge.png'
+import rescue from '~/assets/images/volunteer/rescue.png'
+import rescue_active from '~/assets/images/volunteer/rescue_active.png'
 const componentRef = shallowRef(knowLedgeList)
 const tabList = ref<{
     key: string,
     text: string,
-    icon: string
+    icon_active: string,
+    icon: string,
 }[]>([
     {
         key: 'knowLedgeList',
-        icon: 'knowLedge',
+        icon: knowledge,
+        icon_active: knowledge_active,
         text: '急救知识库'
     },
     {
         key: 'courseList',
-        icon: 'callHelp',
+        icon: rescue,
+        icon_active: rescue_active,
         text: '我要学急救'
     },
 ])
@@ -48,71 +59,12 @@ const changeTab = (index) => {
 </script>
 
 <style lang="scss">
-.form {
-    .nut-dialog__content {
-        margin: 0;
-    }
-}
+.jx-search {
+    background: transparent;
 
-.header {
-    height: 60px;
-    line-height: 50px;
-    text-align: center;
-    background: #fff;
-    border-bottom: solid 1px #f4f4f4;
-}
-
-.x-scroll-view {
-    background-color: #fff;
-}
-
-.manage_item {
-    width: 90%;
-    margin: 15px auto;
-    padding: 30px;
-    overflow: hidden;
-    box-sizing: border-box;
-    background-color: rgb(242, 243, 248);
-    border-radius: 30px;
-}
-
-.tab_wrap {
-    display: flex;
-    margin: 0 25px;
-    margin-top: 30px;
-    border-bottom: 2px solid #E5E8F2;
-
-    .tab {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        border: none;
-        padding: 0 20px;
-
-        &.active {
-
-            border-bottom: 6px solid #ee0a24;
-
-            .ft {
-                color: #ee0a24;
-            }
-
-            .icon {
-                color: #ee0a24;
-            }
-        }
-
-        .ft {
-            font-size: 32px;
-            font-weight: bold;
-            color: #9E9E9F;
-            margin-top: 21px;
-            margin-bottom: 25px;
-        }
-
-        .icon {
-            color: #9E9E9F;
-        }
+    .nut-searchbar__search-input {
+        background: #fff;
+        height: 84px;
     }
 }
 </style>

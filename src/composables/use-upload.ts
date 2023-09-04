@@ -1,5 +1,6 @@
 export function useUpload(form, key = 'deployedImagePath') {
     const auth = useAuthStore()
+    const uploading = ref(false)
     const tmpFileList = ref<{
         uid: number,
         name: string,
@@ -32,6 +33,7 @@ export function useUpload(form, key = 'deployedImagePath') {
         immediate: true
     })
     function beforeXhrUpload(taroUploadFile, options) {
+        uploading.value = true
         taroUploadFile({
             url: options.url,
             filePath: options.taroFilePath,
@@ -55,7 +57,7 @@ export function useUpload(form, key = 'deployedImagePath') {
                     tmpFileList.value = _fileList.filter(v => !v.hasOwnProperty('percentage'))
                     _fileList.length = 0
                     _fileList.push(...tmpFileList.value)
-                    console.log(_fileList)
+                    uploading.value = false
                 } else {
                     options.onFailure?.(response, options);
                 }
@@ -74,6 +76,7 @@ export function useUpload(form, key = 'deployedImagePath') {
     return {
         uploadUrl,
         beforeXhrUpload,
+        uploading,
         deleteFiles,
         _fileList
     }

@@ -3,17 +3,17 @@
         <nut-notify :type="message.type" v-model:visible="message.show" :msg="message.desc" />
         <div class="flex-1">
             <nut-form :model-value="form" ref="ruleForm">
-                <nut-form-item label="配置单位">
+                <nut-form-item label="配置单位" v-if="!accountInfo.configurationUnitId">
                     <nut-input class="nut-input-text" readonly @click="toPage('CONFIGURATION')"
                         v-model="form.configInstitutionName" placeholder="请选择配置单位" type="text">
                     </nut-input>
                 </nut-form-item>
-                <nut-form-item label="归属单位">
+                <nut-form-item label="归属单位" v-if="!accountInfo.configurationUnitId">
                     <nut-input max-length="30" class="nut-input-text" v-model="form.unitName" placeholder="请输入归属单位"
                         type="text">
                     </nut-input>
                 </nut-form-item>
-                <nut-form-item label="维保单位">
+                <nut-form-item label="维保单位" v-if="!accountInfo.maintenanceUnitId">
                     <nut-input class="nut-input-text" readonly @click="toPage('MAINTENANCE')"
                         v-model="form.maintainInstitutionName" placeholder="请选择维保单位" type="text">
                     </nut-input>
@@ -63,6 +63,9 @@ import { useStep } from '~/composables/use-device-install';
 import { useNotify } from '~/composables/use-notify';
 const router = useRouter()
 const item = router.params.item
+//获取用户详情
+const user = useAccountInfo()
+const { accountInfo } = storeToRefs(user)
 defineOptions({
     name: 'parts'
 })
@@ -74,9 +77,9 @@ const emits = defineEmits<{
 }>()
 const form = reactive({
     configInstitutionName: '',
-    configInstitutionId: '',
+    configInstitutionId: '' as string | null,
     maintainInstitutionName: '',
-    maintainInstitutionId: '',
+    maintainInstitutionId: '' as string | null,
     phoneType: '0',
     unitName: '',
     contactName: '',
@@ -87,11 +90,12 @@ const form = reactive({
 const { next, prev } = useStep(props, emits, form)
 const manage = useManageStore()
 watch(() => manage.deviceInfo, (value) => {
-    form.configInstitutionName = value.configInstitutionName
-    form.configInstitutionId = value.configInstitutionId?.toString()
-    form.maintainInstitutionName = value.maintainInstitutionName
-    form.maintainInstitutionId = value.maintainInstitutionId?.toString()
-    form.unitName = value.unitName
+    let { unitName, maintenanceUnitId, configurationUnitId } = accountInfo.value
+    form.configInstitutionName = value.configInstitutionName || (configurationUnitId ? unitName : '')
+    form.configInstitutionId = value.configInstitutionId ? value.configInstitutionId?.toString() : configurationUnitId
+    form.maintainInstitutionName = value.maintainInstitutionName || (maintenanceUnitId ? unitName : '')
+    form.maintainInstitutionId = value.maintainInstitutionId ? value.maintainInstitutionId?.toString() : maintenanceUnitId
+    form.unitName = value.unitName || (configurationUnitId ? unitName : '')
     form.contactName = value.contactName
     form.contactPhone = value.contactPhone
     form.phoneType = form.contactPhone ? form.contactPhone.length === 11 ? '0' : '1' : '0'

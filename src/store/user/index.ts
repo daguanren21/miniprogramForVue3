@@ -12,10 +12,13 @@ export const useAccountInfo = defineStore('account', {
             nickName: '',
             phoneNumber: '',
             realName: '',
-            roleType:'',
+            roleType: '',
             volunteer: false,
             volunteerId: '',
-            activated:false,
+            activated: false,
+            unitName: '',
+            maintenanceUnitId: null,
+            configurationUnitId: null
         } satisfies User.AccountInfo
     }),
     actions: {

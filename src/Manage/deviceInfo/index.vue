@@ -48,7 +48,7 @@
                             <span>{{ info.brandName }}</span>
                         </template>
                     </nut-cell>
-                    <nut-cell title="车载设备">
+                    <nut-cell title="移动设备">
                         <template v-slot:icon>
                             <jx-icon value="manage-brand" color="#A40B5E"></jx-icon>
                         </template>

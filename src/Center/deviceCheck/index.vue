@@ -41,21 +41,26 @@
         <div v-else class="flex-center h-full overflow-hidden">
             <nut-empty description="暂无数据"></nut-empty>
         </div>
-        <nut-dialog pop-class="form" no-cancel-btn v-model:visible="dialog.show" @ok="dialog.confirm">
-            <nut-form :model-value="form" ref="ruleForm">
-                <nut-form-item label="审核类型" required>
-                    <nut-radio-group direction="horizontal" v-model="form.state">
-                        <nut-radio label="APPROVE">通过</nut-radio>
-                        <nut-radio label="REJECT">拒绝</nut-radio>
-                    </nut-radio-group>
-                </nut-form-item>
-                <nut-form-item label="审核原因" required>
-                    <nut-textarea :autosize="{
-                        minHeight: 80
-                    }" placeholder="请输入审核原因" v-model="form.remarks" limit-show max-length="200" />
-                </nut-form-item>
-            </nut-form>
-        </nut-dialog>
+        <nut-popup position="bottom" closeable round :style="{ height: '53%' }" v-model:visible="dialog.show">
+            <div class="text-center text-30px text-hex-1f1f1f font-bold mt-42px">异常设备审核</div>
+            <div class="w-full flex-col items-center">
+                <nut-form :model-value="form" ref="ruleForm">
+                    <nut-form-item label="审核类型" required>
+                        <nut-radio-group direction="horizontal" v-model="form.state">
+                            <nut-radio label="APPROVE">通过</nut-radio>
+                            <nut-radio label="REJECT">拒绝</nut-radio>
+                        </nut-radio-group>
+                    </nut-form-item>
+                    <nut-form-item required>
+                        <div class="w-684px h-256px jx-textarea">
+                            <nut-textarea placeholder="请输入审核原因" v-model="form.remarks" limit-show max-length="200" />
+                        </div>
+                    </nut-form-item>
+                </nut-form>
+                <nut-button type='info' style="width: 550rpx;height:73rpx;font-size: 30rpx;"
+                    @click="dialog.confirm">审核</nut-button>
+            </div>
+        </nut-popup>
     </div>
 </template>
 
@@ -81,11 +86,12 @@ const dialog = reactive({
     confirm: async () => {
         try {
             await updateDeviceCheckRecords(form)
-            Taro.showToast({
+            dialog.show = false
+            setTimeout(() => {
+                  Taro.showToast({
                 icon: 'none',
                 title: `审核${form.state === 'APPROVE' ? '通过' : '拒绝'}`
             })
-            setTimeout(() => {
                 fetchData()
             }, 1000)
         } catch (error) {

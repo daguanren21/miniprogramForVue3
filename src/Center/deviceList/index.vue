@@ -1,15 +1,17 @@
 <template>
-    <div class="h-full flex-col overflow-hidden">
+    <div class="h-full flex-col overflow-hidden bg-hex-F7F7F7">
         <div>
-            <view class="tab_wrap">
+            <div class="tab_wrap pt-29px pb-18px box-border">
                 <nut-row>
                     <nut-col @tap="changeTab(index)" v-for="(item, index) in tabList" :span="12" :key="'tab' + index">
-                        <view class="tab" :class="{ active: index == tabIndex }">
-                            <text class="ft">{{ item.text }}</text>
-                        </view>
+                        <div class="tab" :class="{ active: index == tabIndex }">
+                            <p class="ft">{{ item.text }}清单</p>
+                            <div v-if="index === tabIndex" class="mt-10px w-52px h-10px rounded-20px bg-hex-409EFF">
+                            </div>
+                        </div>
                     </nut-col>
                 </nut-row>
-            </view>
+            </div>
         </div>
         <div class="flex-1 overflow-hidden">
             <div class="h-full overflow-hidden" v-if="state.totalPage">
@@ -19,30 +21,30 @@
                         <template v-slot:content>
                             <div class="manage_item" v-for="item in state.content" :key="item.id">
                                 <div class="flex">
-                                    <div class="w-150px h-150px mr-35px">
+                                    <div class="w-180px h-180px mr-30px">
                                         <image class="wh-full" v-if="item.brandLogo" :src="item.brandLogo"></image>
                                         <image class="wh-full" v-else src="../../assets/images/jx-without-image.svg">
                                         </image>
                                     </div>
                                     <div class="flex-1 overflow-hidden">
-                                        <div class="text-32px font-bold mb-15px flex justify-between">
-                                            <span> {{ item.serialNumber }}</span>
-                                            <span class="text-hex-666 text-30px">通知次数：{{ item.noticeNumber || 0 }}</span>
+                                        <div class="flex-y-center justify-between">
+                                            <span class="text-30px text-hex-333 font-bold">{{ item.serialNumber }}</span>
+                                            <span class="text-24px text-hex-999"> {{ dateFilter(item.exceptionTime,
+                                                'YYYY-MM-DD HH:mm') }}</span>
                                         </div>
-                                        <div class="text-30px mb-15px" :style="{ color: handleExceptionReason(item.type) }">
+                                        <div class="mt-30px text-26px" :style="{ color: handleExceptionReason(item.type) }">
                                             {{ item.exceptionReason }}
-                                        </div>
-                                        <div class="text-30px text-hex-666">
-                                            {{ dateFilter(item.exceptionTime, 'YYYY-MM-DD HH:mm') }}
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="flex justify-end mt-10px">
-                                    <nut-button size="small" class="h-60px" type="info"
-                                        @click="noticeModal.open(item)">通知维护</nut-button>
-                                    <nut-button style="margin-left:15rpx" size="small" class="h-60px" type="primary"
-                                        @click="handleModal.open(item.repairRecordId)">处理</nut-button>
+                                <div class="flex-y-center justify-between mt-27px">
+                                    <div class="text-26px text-hex-999">通知次数：{{ item.noticeNumber || 0 }}</div>
+                                    <div class="flex justify-end">
+                                        <nut-button size="small" class="h-60px" type="info"
+                                            @click="noticeModal.open(item)">通知维护</nut-button>
+                                        <nut-button style="margin-left:20rpx" size="small" class="h-60px" type="primary"
+                                            @click="handleModal.open(item.repairRecordId)">处理</nut-button>
+                                    </div>
                                 </div>
                             </div>
                         </template>
@@ -63,11 +65,16 @@
                 <div>通知内容：{{ noticeModal.form.smsContent }}</div>
             </nut-cell>
         </nut-dialog>
-
-        <nut-dialog pop-class="form" no-cancel-btn v-model:visible="handleModal.show" ok-text="处理"
-            @ok="handleModal.confirm">
-            <nut-textarea placeholder="请输入处理意见" v-model="handleModal.form.advice" limit-show max-length="200" />
-        </nut-dialog>
+        <nut-popup position="bottom" closeable round :style="{ height: '43%' }" v-model:visible="handleModal.show">
+            <div class="text-center text-30px text-hex-1f1f1f font-bold mt-42px">{{ tabList[tabIndex].text }}设备处理</div>
+            <div class="w-full flex-col items-center">
+                <div class="mt-37px mb-34px w-684px h-256px jx-textarea">
+                    <nut-textarea placeholder="请输入处理意见" v-model="handleModal.form.advice" limit-show max-length="200" />
+                </div>
+                <nut-button type='info' style="width: 550rpx;height:73rpx;font-size: 30rpx;"
+                    @click="handleModal.confirm">处理</nut-button>
+            </div>
+        </nut-popup>
     </div>
 </template>
 
@@ -88,12 +95,12 @@ const tabList = ref<{
 }[]>([
     {
         key: 'ABNORMAL',
-        text: '异常清单',
+        text: '异常',
 
     },
     {
         key: 'WARNING',
-        text: '预警清单',
+        text: '预警',
     },
 ])
 const tabIndex = ref<number>(0)
@@ -106,7 +113,7 @@ const handleExceptionReason = (state: Filter.RunningState) => {
         return '#f0a020'
     }
     if (state === 'ABNORMAL') {
-        return '#f5222D'
+        return '#EA2E1E'
     }
     return '#ddd'
 
@@ -152,11 +159,12 @@ const handleModal = reactive({
     confirm: async () => {
         try {
             await updateRepairApplyRecord(handleModal.form)
-            Taro.showToast({
-                icon: 'success',
-                title: '处理完成！'
-            })
+            handleModal.show = false
             setTimeout(() => {
+                Taro.showToast({
+                    icon: 'success',
+                    title: '处理完成！'
+                })
                 fetchData()
             }, 1000)
         } catch (error) {
@@ -229,32 +237,21 @@ const _onScroll = (e) => {
     }
 }
 
-.header {
-    height: 60px;
-    line-height: 50px;
-    text-align: center;
-    background: #fff;
-    border-bottom: solid 1px #f4f4f4;
-}
 
-.x-scroll-view {
-    background-color: #fff;
-}
 
 .manage_item {
-    width: 90%;
-    margin: 15px auto;
-    padding: 30px;
+    width: 730px;
+    margin: 20px auto;
+    padding: 15px 15px 35px 25px;
     overflow: hidden;
     box-sizing: border-box;
-    background-color: rgb(242, 243, 248);
-    border-radius: 30px;
+    background-color: #fff;
+    border-radius: 20px;
 }
 
 .tab_wrap {
     display: flex;
-    margin: 0 25px;
-    border-bottom: 2px solid #E5E8F2;
+    margin: 0 14px;
 
     .tab {
         display: flex;
@@ -265,27 +262,16 @@ const _onScroll = (e) => {
 
         &.active {
 
-            border-bottom: 6px solid #ee0a24;
-
             .ft {
-                color: #ee0a24;
+                font-weight: bold;
+                color: #409EFF;
             }
 
-            .icon {
-                color: #ee0a24;
-            }
         }
 
         .ft {
             font-size: 32px;
-            font-weight: bold;
-            color: #9E9E9F;
-            margin-top: 21px;
-            margin-bottom: 25px;
-        }
-
-        .icon {
-            color: #9E9E9F;
+            color: #333333;
         }
     }
 }

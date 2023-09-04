@@ -28,9 +28,9 @@
                         @click="handleChangeSelect('deviceNetworkState')" placeholder="请选择网络状态" type="text">
                     </nut-input>
                 </nut-form-item>
-                <nut-form-item label="车载设备">
+                <nut-form-item label="移动设备">
                     <nut-input class="nut-input-text" v-model="form.mobileName" @click="handleChangeSelect('mobile')" readonly
-                        placeholder="请选择是否是车载设备" type="text">
+                        placeholder="请选择是否是移动设备" type="text">
                     </nut-input>
                 </nut-form-item>
             </nut-form>

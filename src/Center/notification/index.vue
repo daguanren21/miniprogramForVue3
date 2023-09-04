@@ -1,23 +1,24 @@
 <template>
     <div class="h-full overflow-hidden">
-        <div class="h-full overflow-hidden"  v-if="state.totalCount">
+        <div class="h-full overflow-hidden" v-if="state.totalCount">
             <jx-scroll-view style="background-color: transparent;" class="x-scroll-view" :refreshing="refreshing"
                 :nomore="nomore" @pulldownrefresh="_onPullDownRefresh" @loadmore="_onLoadmore" @scroll="_onScroll">
                 <nut-backtop height="100%">
                     <template v-slot:content>
-                        <nut-swipe v-for="item in state.content" :disabled="item.hasRead">
-                            <div class="flex-y-center rounded-15px m-x-15px bg-hex-fff p-30px m-y-20px">
-                                <jx-icon value="my-message" :color="'#FF6216'" size="30"></jx-icon>
-                                <div class="flex-1 ml-25px">
-                                    <div class="flex-y-center justify-between mb-15px">
-                                        <div class="text-34px font-bold">{{ item.eventTypeName }}</div>
-                                        <nut-button shape="square" size="small" style="height:100%" type="primary"
-                                            @click="handleRemark(item)">标记已读</nut-button>
-                                    </div>
-                                    <div class="text-26px text-hex-#ededed">{{ item.content }}</div>
+                        <div v-for="item in state.content"
+                            class="flex-col rounded-20px m-x-15px bg-hex-fff p-32px m-y-20px">
+                            <div class="flex-y-center justify-between">
+                                <div class="flex-y-center">
+                                    <image class="w-61px h-61px" src="../../assets/images/center/消息.png"></image>
+                                    <p class="text-30px font-bold text-hex-333 ml-17px">{{ item.eventTypeName }}</p>
+                                </div>
+                                <div @click="handleRemark(item)"
+                                    class="flex-center rounded-10px bg-hex-EA2E1E text-hex-fff text-26px w-119px h-47px">
+                                    标记已读
                                 </div>
                             </div>
-                        </nut-swipe>
+                            <div class="text-26px text-hex-#333 mt-28px break-all">{{ item.content }}</div>
+                        </div>
                     </template>
                 </nut-backtop>
             </jx-scroll-view>
@@ -53,7 +54,7 @@ useDidShow(async () => {
 })
 
 async function loadData() {
-    
+
     let res = await fetchUnreadMessages({
         page: state.page,
         size: 10

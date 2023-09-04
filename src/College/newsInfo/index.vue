@@ -1,11 +1,11 @@
 <template>
     <view class="news_wrap bg-hex-fff">
-        <view class="title">{{ info.title }}</view>
-        <view class="publish_time">
+        <view class="title mb-37px">{{ info.title }}</view>
+        <view class="publish_time flex-y-center justify-between">
             <text>{{ dateFilter(info.publishTime) }}</text>
-            <text class="ml-20">{{ info.readCount }}人阅读</text>
+            <text>{{ info.readCount }}</text>
         </view>
-        <view class="content">
+        <view class="content mt-74px">
             <rich-text :nodes="info.content" space="nbsp"></rich-text>
         </view>
     </view>
@@ -36,35 +36,26 @@ useDidShow(async () => {
 <style lang="scss">
 .news_wrap {
     height: 100%;
-    padding: 0 50px;
-    padding-bottom: 20px;
+    padding:48px 50px 0 50px;
     overflow: auto;
     box-sizing: border-box;
 
     .title {
-        margin-top: 26px;
-        font-size: 38px;
+        font-size: 32px;
         font-weight: bold;
-        color: #3e3a39;
-    }
-
-    .image {
-        height: 330px;
-        margin: 26px 0;
+        color: #161616;
     }
 
     .publish_time {
-        margin-top: 20px;
         font-size: 26px;
         font-weight: 400;
-        color: #717071;
+        color: #C1C1C1;
     }
 
     .content {
-        margin: 25px 0;
         font-size: 34px;
         font-weight: 400;
-        color: #727171;
+        color: 434343;
         line-height: 42px;
     }
 }

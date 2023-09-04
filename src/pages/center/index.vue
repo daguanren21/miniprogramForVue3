@@ -1,164 +1,187 @@
 <template>
-    <div class="home">
-        <div class="main flex-col">
-            <div class="bg-hex-fff  mt-10px p-15px">
-                <nut-row type="flex" align="center">
-                    <nut-col :span="6">
-                        <div class="flex ml-16px">
-                            <image class="w-150px h-150px rounded-full overflow-hidden" mode="aspectFill"
-                                v-if="accountInfo.imageUrl" :src="accountInfo.imageUrl"></image>
-                            <open-data class="w-150px h-150px rounded-full overflow-hidden" v-else
-                                type="userAvatarUrl"></open-data>
+    <div class="home person-center">
+        <div class="main flex-col pt-36px p-x-14px box-border" v-if="auth.authInfo.id_token">
+            <div class="pl-26px box-border flex">
+                <div class="flex">
+                    <image class="w-125px h-125px rounded-full overflow-hidden" mode="aspectFill"
+                        v-if="accountInfo.imageUrl" :src="accountInfo.imageUrl"></image>
+                    <open-data class="w-125px h-125px rounded-full overflow-hidden" v-else type="userAvatarUrl"></open-data>
+                </div>
+                <div class="ml-21px w-400px">
+                    <div class="flex-y-center mb-41px">
+                        <div class="text-36px text-hex-#333 font-bold break-all">
+                            <text v-if="accountInfo.nickName">{{ accountInfo.nickName }}</text>
+                            <open-data v-else type="userNickName"></open-data>
                         </div>
-                    </nut-col>
-                    <nut-col :offset="2" :span="16">
-                        <div class="flex-y-center">
-                            <div class="text-37px font-bold text-hex-231815 break-all">
-                                <text v-if="accountInfo.nickName">{{ accountInfo.nickName }}</text>
-                                <open-data v-else type="userNickName"></open-data>
-                            </div>
-                            <div v-if="accountInfo.roleName"
-                                class="text-24px w-150px h-40px line-height-40px ml-20px rounded-30px text-hex-fff text-center bg-hex-21cf3c">
-                                {{ accountInfo.roleName }}
-                            </div>
-                            <div class="ml-20px" v-else>
-                                <nut-button type='primary' style="height:40rpx;line-height: 40rpx;font-size: 24rpx;"
-                                    @getphonenumber="getPhoneNumber" open-type="getPhoneNumber"> 授权</nut-button>
-                            </div>
+                        <div
+                            class="bg-hex-3A3A3B text-24px h-40px p-x-10px box-border line-height-40px ml-48px text-hex-fff text-center">
+                            {{ accountInfo.roleName }}
                         </div>
-                        <div class="mt-26px text-26px text-hex-231815 break-all font-400">
-                            {{ accountInfo.address || '暂无地址信息' }}
-                        </div>
-                    </nut-col>
-                </nut-row>
+                    </div>
+                    <div class="text-24px text-hex-333">
+                        {{ accountInfo.address || '暂无地址信息' }}
+                    </div>
+                </div>
             </div>
-            <div class="flex-1 overflow-auto">
-                <div class="mt-20px pb-20px bg-hex-fff rounded-30px">
-                    <div class="pt-36px ml-30px mb-10px text-36px font-bold text-hex-595757">个人中心</div>
-                    <nut-grid class="m-x-10px" :column-num="4" square>
-                        <nut-grid-item @click="toCenter('person')">
-                            <template #text>
-                                <div class="text-28px mt-10px">
-                                    个人信息
-                                </div>
-                            </template>
-                            <jx-icon value="center-person" :size="26" color="#FFAF35"></jx-icon>
-                        </nut-grid-item>
-                        <nut-grid-item @click="toCenter('volunteer')">
-                            <template #text>
-                                <div class="text-28px  mt-10px">
-                                    志愿者认证
-                                </div>
-                            </template>
-                            <jx-icon v-if="accountInfo.volunteer" value="center-yrz" color="#19cc6c"></jx-icon>
-                            <jx-icon v-else value="center-wrz" color="#9999"></jx-icon>
-                            <!-- <jx-icon value="center-volunteer" :size="26" color="#00BAAD"></jx-icon> -->
-                        </nut-grid-item>
-                        <nut-grid-item @click="toCenter('cert')">
-                            <template #text>
-                                <div class="text-28px  mt-10px">
-                                    上传证书
-                                </div>
-                            </template>
-                            <nut-badge :value="certificatesCount">
-                                <jx-icon value="center-cert" :size="26" color="#00D1A4"></jx-icon>
-                            </nut-badge>
-                        </nut-grid-item>
-                        <nut-grid-item @click="toCenter('deviceCheck')" v-if="roleType && roleType !== 'WECHAT'">
-                            <template #text>
-                                <div class="text-28px  mt-10px">
-                                    状态审核
-                                </div>
-                            </template>
-                            <nut-badge :value="checkCount">
-                                <jx-icon value="center-statusCheck" :size="26" color="#D51E06"></jx-icon>
-                            </nut-badge>
-                        </nut-grid-item>
-                        <nut-grid-item @click="toCenter('deviceList')" v-if="roleType && roleType !== 'WECHAT'">
-                            <template #text>
-                                <div class="text-28px  mt-10px">
-                                    设备清单
-                                </div>
-                            </template>
-                            <nut-badge :value="exceptionCount">
-                                <jx-icon value="center-deviceList" :size="26" color="#14ADC4"></jx-icon>
-                            </nut-badge>
-                        </nut-grid-item>
+            <div class="p-x-13px mt-33px w-710px flex-center">
+                <div class="volunteer pr-15px pl-25px p-y-25px flex-y-center justify-between">
+                    <div v-if="accountInfo.volunteer">
+                        <div class="text-26px font-bold text-hex-1d1d1d">您已经成为志愿者，可第一时间参与救援</div>
+                        <div class="mt-11px text-26px text-hex-FF722D" @click="toCenter('volunteer')">认证信息</div>
+                    </div>
+                    <div v-else>
+                        <div class="text-26px font-bold text-hex-1d1d1d">快去认证，成为志愿者</div>
+                        <div class="mt-11px text-26px text-hex-333">第一时间提供及时、高效的应急救援</div>
+                    </div>
 
-                        <nut-grid-item @click="toCenter('notification')" v-if="roleType && roleType !== 'WECHAT'">
-                            <template #text>
-                                <div class="text-28px  mt-10px">
-                                    消息通知
-                                </div>
-                            </template>
-                            <nut-badge :value="unreadCount">
-                                <jx-icon value="center-message" :size="26" color="#DD6568"></jx-icon>
-                            </nut-badge>
-                        </nut-grid-item>
-                    </nut-grid>
+                    <div v-if="accountInfo.volunteer && roleType !== 'WECHAT'" @click="toCenter('cert')"
+                        class="bg-hex-ff6248 p-x-20px ml-13px rounded-23px h-45px flex-center text-hex-fff text-26px">
+                        证书管理
+                    </div>
+                    <div v-if="!accountInfo.volunteer" @click="toCenter('volunteer')"
+                        class="bg-hex-ff6248  ml-13px p-x-20px rounded-23px h-45px flex-center text-hex-fff text-26px">
+                        去认证
+                    </div>
                 </div>
-                <div class="mt-20px pb-20px bg-hex-fff rounded-30px" v-if="roleType && roleType !== 'WECHAT'">
-                    <div class="pt-36px ml-30px mb-10px text-36px font-bold text-hex-595757">操作中心</div>
-                    <nut-grid class="m-x-10px" :column-num="4" square>
-                        <nut-grid-item @click="toOperate('inspection')">
-                            <template #text>
-                                <div class="text-28px mt-10px">
-                                    巡检
-                                </div>
-                            </template>
-                            <jx-icon value="operate-inspection" :size="26" color="#3FA9F5"></jx-icon>
-                        </nut-grid-item>
+            </div>
+            <div class="w-full flex-center">
+                <div class="w-710px bg-hex-fff rounded-20px p-y-39px p-x-59px box-border flex">
+                    <nut-row>
+                        <nut-col :span="8" @click="toCenter('deviceCheck')" v-if="roleType && roleType !== 'WECHAT'">
+                            <div class="flex-col items-start ">
+                                <div class="relative h-97px">
+                                    <image class="w-110px h-87px relative" src="../../assets/images/center/状态审核.png">
 
-                        <nut-grid-item @click="toOperate('statusChange')">
-                            <template #text>
-                                <div class="text-28px mt-10px">
-                                    状态变更
+                                    </image>
+                                    <div
+                                        class="w-39px h-39px flex-center rounded-full text-hex-fff bg-hex-D91A1A text-20px absolute top--10px right-0px">
+                                        {{ checkCount }}
+                                    </div>
                                 </div>
-                            </template>
-                            <jx-icon value="operate-statusChange" :size="26" color="#E65256"></jx-icon>
-                        </nut-grid-item>
-                        <nut-grid-item @click="toOperate('relocation')">
-                            <template #text>
-                                <div class="text-28px mt-10px">
-                                    移机
+                                <p class="mt-19px text-28px font-bold">状态审核</p>
+
+                            </div>
+                        </nut-col>
+                        <nut-col :span="8" @click="toCenter('deviceList')" v-if="roleType && roleType !== 'WECHAT'">
+                            <div class="flex-col items-center">
+                                <div class="relative h-97px">
+                                    <image class="w-110px h-87px" src="../../assets/images/center/设备清单.png"></image>
+                                    <div
+                                        class="w-39px h-39px flex-center rounded-full text-hex-fff bg-hex-D91A1A text-20px absolute top--10px right-0px">
+                                        {{ exceptionCount }}
+                                    </div>
                                 </div>
-                            </template>
-                            <jx-icon value="operate-relocation" :size="26" color="#A5D83F"></jx-icon>
-                        </nut-grid-item>
-                        <nut-grid-item @click="toOperate('maintainance')">
-                            <template #text>
-                                <div class="text-28px mt-10px">
-                                    维护
+                                <p class="mt-19px text-28px font-bold">设备清单</p>
+                            </div>
+                        </nut-col>
+                        <nut-col :span="12" @click="toCenter('notification')" v-if="roleType && roleType === 'WECHAT'">
+                            <div class="flex-col  items-center ">
+                                <image class="w-110px h-87px" src="../../assets/images/center/设备清单.png"></image>
+                                <p class="mt-19px text-28px font-bold">证书管理</p>
+                            </div>
+                        </nut-col>
+                        <nut-col :span="roleType && roleType === 'WECHAT' ? 12 : 8" @click="toCenter('notification')">
+                            <div class="flex-col" :style="{ 'align-items': roleType !== 'WECHAT' ? 'flex-end' : 'center' }">
+                                <div class="relative h-97px">
+                                    <image class="w-110px h-87px" src="../../assets/images/center/消息通知.png"></image>
+                                    <div
+                                        class="w-39px h-39px flex-center rounded-full text-hex-fff bg-hex-D91A1A text-20px absolute top--10px right-0px">
+                                        {{ unreadCount }}
+                                    </div>
                                 </div>
-                            </template>
-                            <jx-icon value="operate-maintain" :size="26" color="#2A82E4"></jx-icon>
-                        </nut-grid-item>
-                        <nut-grid-item @click="toOperate('useReport')">
-                            <template #text>
-                                <div class="text-28px mt-10px">
-                                    使用上报
-                                </div>
-                            </template>
-                            <jx-icon value="operate-useReport" :size="26" color="#FF8900"></jx-icon>
-                        </nut-grid-item>
-                        <nut-grid-item @click="toOperate('repair')">
-                            <template #text>
-                                <div class="text-28px mt-10px">
-                                    报修
-                                </div>
-                            </template>
-                            <jx-icon value="operate-repair" :size="26" color="#3295FC"></jx-icon>
-                        </nut-grid-item>
-                        <nut-grid-item @click="toOperate('parts')">
-                            <template #text>
-                                <div class="text-28px mt-10px">
-                                    更换耗材
-                                </div>
-                            </template>
-                            <jx-icon value="operate-consume" :size="26" color="#0075c1"></jx-icon>
-                        </nut-grid-item>
-                    </nut-grid>
+                                <p class="mt-19px text-28px font-bold">消息通知</p>
+                            </div>
+                        </nut-col>
+                    </nut-row>
                 </div>
+            </div>
+            <div class="w-full mt-44px" v-if="roleType && roleType !== 'WECHAT'">
+                <div class="ml-24px mb-26px text-34px font-bold text-hex-333">操作中心</div>
+                <div class="w-full flex-center">
+                    <div class="w-710px p-y-45px rounded-20px bg-hex-fff">
+                        <nut-row>
+                            <nut-col :span="6" @click="toDeviceInstall">
+                                <div class="flex-col items-center">
+                                    <image class="w-51px h-49px" src="../../assets/images/center/录入.png">
+                                    </image>
+                                    <p class="mt-19px text-28px font-bold">录入</p>
+                                </div>
+                            </nut-col>
+                            <nut-col :span="6" @click="toOperate('inspection')">
+                                <div class="flex-col items-center">
+                                    <image class="w-51px h-49px" src="../../assets/images/center/巡检.png">
+                                    </image>
+                                    <p class="mt-19px text-28px font-bold">巡检</p>
+                                </div>
+                            </nut-col>
+                            <nut-col :span="6" @click="toOperate('repair')">
+                                <div class="flex-col items-center">
+                                    <image class="w-51px h-49px" src="../../assets/images/center/repair.png">
+                                    </image>
+                                    <p class="mt-19px text-28px font-bold">报修</p>
+                                </div>
+                            </nut-col>
+                            <nut-col :span="6" @click="toOperate('maintainance')">
+                                <div class="flex-col items-center">
+                                    <image class="w-51px h-49px" src="../../assets/images/center/维护.png">
+                                    </image>
+                                    <p class="mt-19px text-28px font-bold">维护</p>
+                                </div>
+                            </nut-col>
+
+                        </nut-row>
+                        <nut-row class="mt-90px">
+                            <nut-col :span="6" @click="toOperate('relocation')">
+                                <div class="flex-col items-center">
+                                    <image class="w-51px h-49px" src="../../assets/images/center/移机.png">
+                                    </image>
+                                    <p class="mt-19px text-28px font-bold">移机</p>
+                                </div>
+                            </nut-col>
+                            <nut-col :span="6" @click="toOperate('parts')">
+                                <div class="flex-col items-center">
+                                    <image class="w-51px h-49px" src="../../assets/images/center/更换耗材.png">
+                                    </image>
+                                    <p class="mt-19px text-28px font-bold">更换耗材</p>
+                                </div>
+                            </nut-col>
+                            <nut-col :span="6" @click="toOperate('statusChange')">
+                                <div class="flex-col items-center">
+                                    <image class="w-51px h-49px" src="../../assets/images/center/状态变更.png">
+                                    </image>
+                                    <p class="mt-19px text-28px font-bold">状态变更</p>
+                                </div>
+                            </nut-col>
+                            <nut-col :span="6" @click="toOperate('useReport')">
+                                <div class="flex-col items-center">
+                                    <image class="w-51px h-49px" src="../../assets/images/center/使用上报.png">
+                                    </image>
+                                    <p class="mt-19px text-28px font-bold">使用上报</p>
+                                </div>
+                            </nut-col>
+                        </nut-row>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main flex-col pt-36px p-x-14px box-border relative" v-else>
+            <div class="flex-col items-center">
+                <div class="flex mb-25px">
+                    <image class="w-125px h-125px rounded-full overflow-hidden" mode="aspectFill"
+                        v-if="accountInfo.imageUrl" :src="accountInfo.imageUrl"></image>
+                    <open-data class="w-125px h-125px rounded-full overflow-hidden" v-else type="userAvatarUrl"></open-data>
+                </div>
+                <div class="text-36px text-hex-#333 font-bold break-all">
+                    <text v-if="accountInfo.nickName">{{ accountInfo.nickName }}</text>
+                    <open-data v-else type="userNickName"></open-data>
+                </div>
+            </div>
+            <div class="absolute flex-col items-center w-full" style="top:50%;transform: translateY(-50%);">
+                <p class="text-30px text-hex-181818 mb-30px">您需要先授权才可成为志愿者</p>
+                <nut-button @getphonenumber="getPhoneNumber"
+                    style="width:142rpx;height: 62rpx; line-height: 62rpx; text-align: center;background:rgb(53,200,84);border-radius: 20rpx;" type="primary"
+                    open-type="getPhoneNumber">授权</nut-button>
+
             </div>
         </div>
         <jx-tab-bar></jx-tab-bar>
@@ -170,7 +193,6 @@
 import Taro, { useDidShow } from '@tarojs/taro';
 import { fetcheDevicesCount } from '~/api/device';
 import { fetchOneKeyLogin } from '~/api/login';
-// import { fetchOneKeyLogin } from '~/api/login';
 import { fetchUnreadCount } from '~/api/user';
 const account = useAccountInfo()
 let { accountInfo } = storeToRefs(account)
@@ -230,6 +252,12 @@ const toOperate = (key: string) => {
         url: `/Operate/${key}/index`
     })
 }
+//跳转到录入页面
+const toDeviceInstall = () => {
+    Taro.navigateTo({
+        url: '/Manage/deviceInstall/index'
+    })
+}
 const unreadCount = ref(0)
 const certificatesCount = ref(0)
 const checkCount = ref(0)
@@ -246,9 +274,17 @@ useDidShow(async () => {
 })
 </script>
 
-<style scoped>
-span{
-    color:#0075c1
-}
+<style lang="scss">
+.person-center {
+    background: url(../../assets/images/center/bg.png) no-repeat;
+    background-size: 100% 100%;
 
+    .volunteer {
+        min-width: 640px;
+        height: 110px;
+        background: url(../../assets/images/center/volunteer_bg.png) no-repeat;
+        background-size: 100% 100%;
+        box-sizing: border-box;
+    }
+}
 </style>

@@ -23,3 +23,11 @@ page{
     flex:1;
     overflow:hidden;
 }
+.jx-textarea  .nut-textarea{
+    height: 100%;
+    background: #f8f8f8 !important;
+}
+.jx-textarea .nut-textarea .nut-textarea__textarea {
+    height: 100%;
+    padding: 22px 21px;
+}

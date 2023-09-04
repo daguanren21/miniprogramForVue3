@@ -13,11 +13,6 @@
                     <nut-radio label="ABNORMAL">异常</nut-radio>
                 </nut-radio-group>
             </nut-form-item>
-            <!-- <nut-form-item label="变更描述">
-                <nut-textarea :autosize="{
-                    minHeight: 80
-                }" placeholder="请输入描述说明" v-model="form.remarks" limit-show max-length="200" />
-            </nut-form-item> -->
             <nut-form-item label="现场图片" required>
                 <nut-uploader @delete="deleteFiles" :file-list="_fileList" :url="uploadUrl"
                     :before-xhr-upload="beforeXhrUpload" maximum="4"></nut-uploader>

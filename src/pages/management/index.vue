@@ -76,7 +76,7 @@
                             <nut-radio label="false">无</nut-radio>
                         </nut-radio-group>
                     </nut-form-item>
-                    <nut-form-item label="车载设备">
+                    <nut-form-item label="移动设备">
                         <nut-radio-group direction="horizontal" v-model="form.mobile">
                             <nut-radio label="">全部</nut-radio>
                             <nut-radio label="true">是</nut-radio>
@@ -172,7 +172,7 @@ const handleSearch = () => {
 const { region } = useDeviceRegion((options) => {
     form.value.regionName = options.regionName;
     form.value.regionId = options.regionId;
-})
+},false)
 const submit = () => {
     let { runningState, positionState, hasRescueData, mobile, placeId, brandId, installDateBegin, installDateEnd } = form.value
     let [provinceId, cityId, districtId] = form.value.regionId

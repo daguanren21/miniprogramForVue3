@@ -1,25 +1,27 @@
 <template>
-    <div class="h-full overflow-hidden">
+    <div class="h-full overflow-hidden p-x-29px">
         <div v-if="state.totalCount" class="h-full overflow-hidden">
             <jx-scroll-view class="x-scroll-view" :refreshing="refreshing" :nomore="nomore"
                 @pulldownrefresh="_onPullDownRefresh" @loadmore="_onLoadmore" @scroll="_onScroll">
-                <nut-row @click="toCollege('newsInfo', item.id)" class="college_list_item" v-for="item in state.content">
-                    <nut-col :span="8" class="h-full">
+                <div @click="toCollege('newsInfo', item.id)" v-for="item in state.content"
+                    class="flex-y-center w-680px h-263px  rounded-20px relative shadow-sm bg-hex-fff m-auto mb-28px">
+                    <div class="w-178px h-237px rounded-20px">
                         <image class="wh-full" :src="item.titleImagePath"></image>
-                    </nut-col>
-                    <nut-col :offset="2" :span="12" class="h-full flex-col justify-center">
-                        <view class="text-32px font-bold text-hex-3e3a39 line-clamp-1">
+                    </div>
+                    <div class="flex-1 overflow-hidden mr-38px ml-22px">
+                        <div class="text-28px text-hex-333 font-500  mb-25px line-clamp-1 break-all">
                             {{ item.title }}
-                        </view>
-                        <view class="content flex-y-center text-28px font-400 text-hex-727171 flex-1">
+                        </div>
+                        <div class="text-24px text-hex-979797  mb-42px line-clamp-3">
                             {{ removeHTMLTag(item.content) }}
-                        </view>
-                        <view class="text-24px font-400 text-hex-#727171 flex-y-center">
-                            <view>{{ dateFilter(item.publishTime) }}</view>
-                            <view class="ml-20px">{{ item.readCount }}人阅读</view>
-                        </view>
-                    </nut-col>
-                </nut-row>
+                        </div>
+                        <div class="flex-y-center justify-between  text-24px text-hex-c1c1c1">
+                            <div>{{ dateFilter(item.publishTime) }}</div>
+                            <div>{{ item.readCount }}</div>
+                        </div>
+                    </div>
+
+                </div>
             </jx-scroll-view>
         </div>
         <div v-else class="h-full flex-center overflow-hidden">

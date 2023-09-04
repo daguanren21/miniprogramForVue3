@@ -149,7 +149,7 @@ watch(() => manage.deviceInfo, (value) => {
 }, {
     immediate: true
 })
-const { uploadUrl, beforeXhrUpload, deleteFiles, _fileList } = useUpload(form)
+const { uploadUrl, beforeXhrUpload, deleteFiles, _fileList, uploading } = useUpload(form)
 //区域选择
 const { chooseLocation, region } = useDeviceRegion((options) => {
     form.regionName = options.regionName;
@@ -212,6 +212,10 @@ function _next() {
     }
     if (!form.deployedImagePath) {
         notify('安装图片不能为空！')
+        return
+    }
+    if (uploading.value) {
+        notify('安装图片上传中！')
         return
     }
     next()

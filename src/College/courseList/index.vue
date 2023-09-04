@@ -1,27 +1,24 @@
 <template>
-    <div class="h-full overflow-hidden bg-hex-fff">
+    <div class="h-full overflow-hidden bg-hex-F7F7F7">
         <div class="h-full overflow-hidden" v-if="state.totalCount">
             <jx-scroll-view class="x-scroll-view" :refreshing="refreshing" :nomore="nomore"
                 @pulldownrefresh="_onPullDownRefresh" @loadmore="_onLoadmore" @scroll="_onScroll">
-                <nut-row @click="goToInfo(item.id)" class="college_list_item" v-for="item in state.content">
-                    <nut-col :span="8" class="h-full">
-                        <image class="wh-full" :src="item.imagePath"></image>
-                    </nut-col>
-                    <nut-col :offset="2" :span="12" class="h-full flex-col justify-center">
-                        <view class="text-32px font-bold text-hex-3e3a39 line-clamp-1">
-                            {{ item.name }}
-                        </view>
-                        <view @tap.stop="makePhoneCall(item.phoneNumber)"
-                            class="content flex-y-center text-28px font-400 text-hex-727171 flex-1">
-                            <text class="text-30px">{{ item.userName }}</text>
-                            <jx-icon style="color:#f5222D" class="icon ml-20px" value="course-phone" :size="20"></jx-icon>
-                            <text class="text-30px" style="color: #1890ff">{{ item.phoneNumber }}</text>
-                        </view>
-                        <view class="text-24px font-400 text-hex-#727171 flex-y-center">
-                            <view>{{ dateFilter(item.startTime, 'YYYY-MM-DD') }}</view>
-                        </view>
-                    </nut-col>
-                </nut-row>
+                <div class="bg-hex-fff rounded-20px  w-709px flex-y-center m-auto  mt-20px" @click="goToInfo(item.id)"
+                    v-for="item in state.content" :key="item.id">
+                    <div class="w-200px h-170px mr-16px">
+                        <image :src="item.imagePath" class="wh-full"></image>
+                    </div>
+                    <div class="p-y-30px p-r-30px flex-1">
+                        <div class="text-30px text-hex-333 mb-29px line-clamp-1 break-all">{{ item.name }} </div>
+                        <div class="text-24px text-hex-3BD5AC mb-34px">{{ dateFilter(item.startTime, "YYYY-MM-DD") }}</div>
+                        <div class="flex-y-center justify-between">
+                            <div class="text-26px text-hex-525252 line-clamp-1 break-all flex-1">联系人：{{ item.userName }}
+                            </div>
+                            <div class="text-26px text-hex-409EFF" @click.stop="makePhoneCall(item.phoneNumber)">{{
+                                item.phoneNumber }}</div>
+                        </div>
+                    </div>
+                </div>
             </jx-scroll-view>
         </div>
         <div v-else class="h-full flex-center overflow-hidden">

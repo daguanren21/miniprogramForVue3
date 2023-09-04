@@ -1,6 +1,51 @@
 <template>
-    <view class="course_info bg-hex-fff">
-        <div class="c_pad course_info_header flex">
+    <view class="h-full overflow-auto bg-hex-F7F7F7 flex-col items-center">
+        <div class="w-709px flex-y-center  mt-20px bg-hex-fff rounded-20px">
+            <div class="w-253px h-170px mr-16px">
+                <image :src="info.imagePath" class="wh-full"></image>
+            </div>
+            <div class="p-y-30px p-r-30px flex-1 box-border">
+                <div class="text-30px text-hex-333 mb-29px line-clamp-1 break-all">{{ info.name }} </div>
+                <div class="text-24px text-hex-3BD5AC mb-34px">{{ dateFilter(info.startTime, "YYYY-MM-DD") }}</div>
+                <div class="flex-y-center justify-between">
+                    <div class="text-26px text-hex-525252 flex flex-1">总课时：<span
+                            class="text-hex-409EFF line-clamp-1 break-all">{{ info.classHour }}h</span>
+                    </div>
+                    <div class="text-26px text-hex-525252 flex">课程人数：
+                        <span class="text-hex-409EFF">{{ noDataFilter(info.personNumber) }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-56px w-709px">
+            <div class="flex-y-center ml-20px">
+                <div class="w-8px h-36px bg-hex-409EFF rounded-4px"></div>
+                <div class="ml-11px text-30px text-hex-333">课程信息</div>
+            </div>
+            <div class="mt-24px w-full bg-hex-fff rounded-20px p-42px box-border">
+                <div class="text-28px text-hex-525252 mb-30px">联系人：{{ info.userName }}</div>
+                <div class="text-28px text-hex-525252 mb-30px flex" @click="makePhoneCall(info.phoneNumber)">联系电话：
+                    <span class="text-hex-409EFF">{{ info.phoneNumber }}</span>
+                </div>
+                <div class="text-28px text-hex-525252 mb-30px">价格：{{ noDataFilter(info.price) }}元</div>
+                <div class="text-28px text-hex-525252">报名网址：{{ noDataFilter(info.url) }}</div>
+            </div>
+        </div>
+        <div class="mt-56px w-709px">
+            <div class="flex-y-center ml-20px">
+                <div class="w-8px h-36px bg-hex-409EFF rounded-4px"></div>
+                <div class="ml-11px text-30px text-hex-333">课程简介</div>
+            </div>
+            <div class="mt-24px w-full bg-hex-fff rounded-20px p-42px box-border">
+                <div class="text-28px text-hex-525252" v-if="info.introduction">
+                    <text v-html="info.introduction"></text>
+                </div>
+                <div class="text-28px text-hex-525252" v-else>
+                    {{ noDataFilter(info.introduction) }}
+                </div>
+            </div>
+        </div>
+        <!-- <div class="c_pad course_info_header flex">
             <view class="h-l">
                 <image style="height: 100%; width: 100%" :src="info.imagePath"></image>
             </view>
@@ -48,7 +93,7 @@
             <view class="info" v-else>
                 {{ noDataFilter(info.introduction) }}
             </view>
-        </view>
+        </view> -->
     </view>
 </template>
 
@@ -56,7 +101,7 @@
 import { useDidShow, useRouter } from '@tarojs/taro';
 import { Course, fetchTrainingCourseInfo } from '~/api/user';
 import { useQQMapSdk } from '~/composables/use-qqmap-sdk';
-import { noDataFilter } from '~/filter'
+import { dateFilter, noDataFilter } from '~/filter'
 const { makePhoneCall } = useQQMapSdk()
 const id = useRouter().params.id || 0
 let info = ref<Course>({

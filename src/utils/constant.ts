@@ -1,22 +1,22 @@
 //services服务
 const enum Server {
-    DEVELOPMENT = 'https://demo.jousing.cn/api',
-    LOCAL = 'http://192.168.10.2:8080/services/',
-    PRODUCTION = 'https://www.jousing.cn/api'
+    DEVELOPMENT = 'https://aedms2g.test.jousing.cn/services/',
+    LOCAL = 'http://192.168.1.170:8080/services/',
+    PRODUCTION = 'https://www.jousing.cn/'
 }
 //Gateway服务
 const enum Gateway {
-    DEVELOPMENT = 'https://demo.jousing.cn/api',
-    LOCAL = 'http://192.168.10.2:8080/',
-    PRODUCTION = 'https://www.jousing.cn/api'
+    DEVELOPMENT = 'https://aedms2g.test.jousing.cn/',
+    LOCAL = 'http://192.168.1.170:8080/',
+    PRODUCTION = 'https://www.jousing.cn/'
 }
 const enum MapKey {
     DEVELOPMENT = 'CPPBZ-E6UK6-GLBSK-EKWLH-4GLG6-C4FZF',
     PRODUCTION = 'WMFBZ-DT3WS-JF7OW-63T53-2KLKV-57BIG'
 }
 //配置请求路径
-export const baseUrl = Server.LOCAL
-export const gatewayUrl = Gateway.LOCAL
+export const baseUrl = Server.DEVELOPMENT
+export const gatewayUrl = Gateway.DEVELOPMENT
 //配置map jssdk key
 export const qqMapKey = MapKey.DEVELOPMENT
 //工作日
