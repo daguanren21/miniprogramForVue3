@@ -1,6 +1,6 @@
 <template>
     <div class="home person-center">
-        <div class="main flex-col pt-36px p-x-14px box-border" v-if="auth.authInfo.id_token">
+        <div class="main flex-col pt-30px p-x-14px box-border" v-if="auth.authInfo.id_token">
             <div class="pl-26px box-border flex relative">
                 <div class="flex">
                     <image class="w-125px h-125px rounded-full overflow-hidden" mode="aspectFill"
@@ -18,7 +18,7 @@
                             {{ accountInfo.roleName }}
                         </div>
                     </div>
-                    <div class="text-24px text-hex-333">
+                    <div class="text-24px text-hex-333 line-clamp-3 break-all">
                         {{ accountInfo.address || '暂无地址信息' }}
                     </div>
                 </div>
@@ -27,7 +27,7 @@
                     <div class="w-140px h-44px text-24px text-hex-1B54C2 line-height-44px ">修改资料</div>
                 </div>
             </div>
-            <div class="p-x-13px mt-33px w-710px flex-center">
+            <div class="p-x-13px mt-30px w-710px flex-center">
                 <div class="volunteer pr-15px pl-25px p-y-25px flex-y-center justify-between">
                     <div v-if="accountInfo.volunteer">
                         <div class="text-26px font-bold text-hex-1d1d1d">您已经成为志愿者，可第一时间参与救援</div>
@@ -99,7 +99,7 @@
                     </nut-row>
                 </div>
             </div>
-            <div class="w-full mt-44px" v-if="roleType && roleType !== 'WECHAT'">
+            <div class="w-full mt-30px" v-if="roleType && roleType !== 'WECHAT'">
                 <div class="ml-24px mb-26px text-34px font-bold text-hex-333">操作中心</div>
                 <div class="w-full flex-center">
                     <div class="w-710px p-y-45px rounded-20px bg-hex-fff">

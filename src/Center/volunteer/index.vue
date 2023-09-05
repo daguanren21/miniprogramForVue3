@@ -13,6 +13,7 @@
                     <nut-input :border="false"  class="nut-input-text" input-align="center" v-model="form.receiveHelpTimeBegin" readonly
                         @click="receiveHelpTime.change('receiveHelpTimeBegin')" placeholder="请选择开始时间" type="text">
                     </nut-input>
+                    <span class="text-28px text-hex-333">-</span>
                     <nut-input :border="false"  class="nut-input-text" input-align="center" v-model="form.receiveHelpTimeEnd" readonly
                         @click="receiveHelpTime.change('receiveHelpTimeEnd')" placeholder="请选择结束时间" type="text">
                     </nut-input>

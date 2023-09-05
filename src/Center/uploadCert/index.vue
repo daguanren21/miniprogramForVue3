@@ -25,19 +25,71 @@
                     </nut-input>
                 </div>
             </nut-form-item>
-            <nut-form-item label="证书正反面" required>
+            <!-- <div v-if="!backList.length"
+                            class="w-240px h-150px flex-center bg-hex-E5EFFF border-dashed b-1px flex-col">
+                            <jx-icon value="upload" color="#4088FF" :size="22"> </jx-icon>
+                            <div class="text-26px text-hex-4088FF mt-10px">上传反面</div>
+                        </div>
+                        <div class="flex-col items-center" v-else @click="submitUploadBack">
+                            <image class="w-240px h-150px rounded-10px" v-for="item in backList" :src="item.url"></image>
+                            <p class="text-26px text-hex-4088FF mt-10px">重新上传</p>
+                        </div> -->
+            <nut-form-item label="证书照片" required>
                 <div class="flex-center">
-                    <nut-uploader :url="frontUrl" @delete="deleteFront" :before-xhr-upload="uploadFront"
-                        v-model:file-list="frontList" maximum="1">
+                    <nut-uploader :media-type="['image']" :url="frontUrl" @delete="deleteFront"
+                        :before-xhr-upload="uploadFront" v-model:file-list="frontList" maximum="1">
                     </nut-uploader>
-                    <nut-uploader class="ml-10px" :url="backUrl" v-model:file-list="backList" maximum="1"
-                        @delete="deleteBack" :before-xhr-upload="uploadBack">
+                    <nut-uploader :media-type="['image']" class="ml-10px" :url="backUrl" v-model:file-list="backList"
+                        maximum="1" @delete="deleteBack" :before-xhr-upload="uploadBack">
                     </nut-uploader>
                 </div>
             </nut-form-item>
         </nut-form>
-        <nut-cell>
-            <nut-button type="primary" style="width:80%;margin: auto;" @click="confirm">上传</nut-button>
+        <nut-cell style="margin:0;background:transparent;padding-top:0">
+            <div class="flex-col">
+                <div class="mt-40px mb-20px overflow-hidden">
+                    <div class="text-28px text-hex-6b6b6b">上传规范</div>
+                    <div class="flex mt-10px">
+                        <div class="flex-col items-center ">
+                            <image class="w-160px h-160px" src="../../assets/images/normal.jpg"></image>
+                            <div class="text-26px text-hex-333 flex-y-center">
+                                <jx-icon value="cert-check" color="#21CF3C" :size="14"> </jx-icon>
+                                标准
+                            </div>
+                        </div>
+                        <div class="flex-col items-center ml-14px">
+                            <image class="w-160px h-160px" src="../../assets/images/shelter.jpg">
+                            </image>
+                            <div class="text-26px text-hex-333 flex-y-center">
+                                <jx-icon value="cert-wrong" color="#E73828" :size="14"> </jx-icon>
+                                遮挡
+                            </div>
+                        </div>
+                        <div class="flex-col items-center ml-14px">
+                            <image class="w-160px h-160px" src="../../assets/images/vague.jpg">
+                            </image>
+                            <div class="text-26px text-hex-333 flex-y-center">
+                                <jx-icon value="cert-wrong" color="#E73828" :size="14"> </jx-icon>
+                                模糊
+                            </div>
+                        </div>
+                        <div class="flex-col items-center ml-14px">
+                            <image class="w-160px h-160px" src="../../assets/images/flash.jpg">
+                            </image>
+                            <div class="text-26px text-hex-333 flex-y-center">
+                                <jx-icon value="cert-wrong" color="#E73828" :size="14"> </jx-icon>
+                                闪光
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-30px text-26px text-hex-e73828">
+                        温馨提示：带有发证日期或有效日期为证书正面,上传证书时能够清楚显示姓名和有效日期，并且图片放正，
+                        否则会影响证书能否通过审核。
+                    </div>
+                </div>
+                <nut-button type="primary" style="width:80%;margin: auto;" @click="confirm">上传</nut-button>
+            </div>
+
         </nut-cell>
         <nut-popup position="bottom" v-model:visible="receiveHelpTime.show">
             <nut-date-picker v-model="receiveHelpTime.value" title="时间选择" @confirm="receiveHelpTime.confirm"
@@ -56,6 +108,16 @@ import { useUpload } from '~/composables/use-upload';
 import { dateFilter } from '~/filter'
 const router = useRouter()
 const account = useAccountInfo()
+// const frontRef = ref<any>(null)
+// const backRef = ref<any>(null)
+// const submitUploadFront = () => {
+//     frontRef.value.chooseImage()
+//     frontRef.value.submit();
+// };
+// const submitUploadBack = () => {
+//     backRef.value.chooseImage()
+//     backRef.value.submit();
+// };
 let form = reactive({
     id: router.params.id ? Number(router.params.id) : null,
     volunteerId: account.accountInfo.volunteerId ? Number(account.accountInfo.volunteerId) : null,
@@ -115,13 +177,13 @@ const confirm = async () => {
     try {
         let id = Number(form.id)
         if (id) {
-            await updateVolunteerCerts(form)
+            await updateVolunteerCerts(form as any)
             Taro.showToast({
                 icon: 'none',
                 title: '修改成功！',
             })
         } else {
-            await saveVolunteerCerts(form)
+            await saveVolunteerCerts(form as any)
             Taro.showToast({
                 icon: 'none',
                 title: '提交成功！',

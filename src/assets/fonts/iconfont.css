@@ -16,3 +16,39 @@
 .fa-address:before{
   content:'\e615'
 }
+.fa-upload:before{
+  content:'\e605'
+}
+
+.fa-center-arrow:before{
+  content:'\eb08'
+}
+
+.fa-cert-check:before{
+  content:'\e621'
+}
+
+.fa-cert-wrong:before{
+  content:'\e610'
+}
+
+.fa-tab-home:before{
+  content:'\e62e'
+}
+.fa-tab-manage:before{
+  content:'\e622'
+}
+.fa-tab-college:before{
+  content:'\e603'
+}
+.fa-tab-person:before{
+  content:'\e611'
+}
+
+.fa-tab-rescue:before{
+  content:'\e616'
+}
+
+.fa-select:before{
+  content:'\e623'
+}

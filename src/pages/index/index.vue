@@ -19,6 +19,9 @@
         <div @click="moveToLocation" class="absolute bottom-20px right-30px">
           <jx-icon value="myLoc" color="#fa2c19" :size="30"></jx-icon>
         </div>
+        <div class="absolute bottom-0 w-full">
+          <jx-tab-bar></jx-tab-bar>
+        </div>
       </map>
     </div>
     <nut-popup position="bottom" closeable round :style="{ height: '60%' }" v-model:visible="suggestionVisible">
@@ -28,7 +31,6 @@
     <device-info-modal :detail="deviceInfo!" :show="deviceVisible" @close="handleDeviceInfoClose"></device-info-modal>
     <nearby-devices @change="changeNearByCenter" @close="nearby.visible = false" :visible="nearby.visible"
       :list="nearby.list"></nearby-devices>
-    <jx-tab-bar></jx-tab-bar>
   </view>
 </template>
 

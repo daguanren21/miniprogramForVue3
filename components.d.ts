@@ -41,8 +41,6 @@ declare module '@vue/runtime-core' {
     NutSearchbar: typeof import('@nutui/nutui-taro')['Searchbar']
     NutStep: typeof import('@nutui/nutui-taro')['Step']
     NutSteps: typeof import('@nutui/nutui-taro')['Steps']
-    NutTabbar: typeof import('@nutui/nutui-taro')['Tabbar']
-    NutTabbarItem: typeof import('@nutui/nutui-taro')['TabbarItem']
     NutTextarea: typeof import('@nutui/nutui-taro')['Textarea']
     NutUploader: typeof import('@nutui/nutui-taro')['Uploader']
   }

@@ -3,21 +3,27 @@
         <nut-notify :type="message.type" v-model:visible="message.show" :msg="message.desc" />
         <div class="flex-1 overflow-auto">
             <nut-form :model-value="form" ref="ruleForm">
-                <nut-form-item label="安装时间" required>
-                    <nut-input class="nut-input-text" v-model="form.installDate" readonly @click="installDate.change"
+                <nut-form-item class="jx-form-item" label="安装时间" required>
+                    <nut-input :border="false" class="nut-input-text" v-model="form.installDate" readonly @click="installDate.change"
                         placeholder="请选择时间" type="text">
+                        <template #right>
+                            <jx-icon value="select" color="#6A6F71" :size="14"> </jx-icon>
+                        </template>
                     </nut-input>
                 </nut-form-item>
-                <nut-form-item label="安装场所" required>
-                    <nut-input class="nut-input-text" v-model="form.placeName" readonly @click="handleChangePlace"
+                <nut-form-item class="jx-form-item" label="安装场所" required>
+                    <nut-input :border="false" class="nut-input-text" v-model="form.placeName" readonly @click="handleChangePlace"
                         placeholder="请选择安装场所" type="text">
+                        <template #right>
+                            <jx-icon value="select" color="#6A6F71" :size="14"> </jx-icon>
+                        </template>
                     </nut-input>
                 </nut-form-item>
-                <nut-form-item label="安装区域" required>
-                    <nut-input class="nut-input-text" v-model="form.regionName" placeholder="请选择区域" type="text" readonly
+                <nut-form-item class="jx-form-item"  label="安装区域" required>
+                    <nut-input :border="false" class="nut-input-text" v-model="form.regionName" placeholder="请选择区域" type="text" readonly
                         @click="region.visible = true">
                         <template #right>
-                            <jx-icon @click.stop="chooseLocation" value="dingwei" color="#ff6216" :size="24"> </jx-icon>
+                            <jx-icon @click.stop="chooseLocation" value="dingwei" color="#4088FF" :size="18"> </jx-icon>
                         </template>
                     </nut-input>
                     <nut-popup round closeable @close="region.closeRegion" position="bottom" title="地址选择"
@@ -30,10 +36,10 @@
                     </nut-popup>
 
                 </nut-form-item>
-                <nut-form-item label="详细地址">
+                <nut-form-item class="jx-form-item" label="详细地址">
                     <!-- <jx-icon @click="addressTip" value="help" color="#ccc" class="absolute left--80 top-8" :size="15">
                     </jx-icon> -->
-                    <nut-textarea :autosize="{
+                    <nut-textarea :border="false" :autosize="{
                         minHeight: 80
                     }" placeholder="请具体到xx区xx路xx号xx大楼xx层xx门牌号xx处" v-model="form.address" limit-show max-length="200" />
                 </nut-form-item>
@@ -76,8 +82,8 @@
             </view>
         </view>
         <div class="flex-center h-120px">
-            <nut-button size="mini" style="width:49%;height: 70rpx;" class="h-70px mr-20px" @click="_prev">上一步</nut-button>
-            <nut-button size="mini" style="width:49%;height: 70rpx;" type="primary" class="h-70px"
+            <nut-button size="mini" plain type="primary" style="width:192rpx;height: 70rpx;" @click="_prev">上一步</nut-button>
+            <nut-button size="mini" style="width:450rpx;height: 70rpx;margin-left:20rpx" type="primary"
                 @click="_next">下一步</nut-button>
         </div>
     </div>

@@ -1,33 +1,33 @@
 <template>
-    <div class="wh-full flex-col overflow-hidden">
+    <div class="wh-full flex-col overflow-hidden bg-hex-fff">
         <div class="flex-1 overflow-auto">
             <nut-notify :type="message.type" v-model:visible="message.show" :msg="message.desc" />
             <nut-form :model-value="form" ref="ruleForm">
-                <nut-form-item label="设备编号" required>
-                    <nut-input max-length="30" @blur="getDeviceBySerialNumber" v-model="form.serialNumber" class="nut-input-text"
+                <nut-form-item class="jx-form-item" label="设备编号" required>
+                    <nut-input :border="false" max-length="30" @blur="getDeviceBySerialNumber" v-model="form.serialNumber" class="nut-input-text"
                         placeholder="请输入设备编号" type="text">
                     </nut-input>
                 </nut-form-item>
-                <nut-form-item label="运行状态" required>
+                <nut-form-item class="jx-form-item" label="运行状态" required>
                     <nut-radio-group direction="horizontal" v-model="form.runningState">
                         <nut-radio label="NORMAL">正常</nut-radio>
                         <nut-radio label="ABNORMAL">异常</nut-radio>
                     </nut-radio-group>
                 </nut-form-item>
-                <nut-form-item label="电极片状态" required>
+                <nut-form-item class="jx-form-item" label="电极片状态" required>
                     <nut-radio-group direction="horizontal" v-model="form.electrodeState">
                         <nut-radio label="NORMAL">正常</nut-radio>
                         <nut-radio label="ABNORMAL">异常</nut-radio>
                     </nut-radio-group>
                 </nut-form-item>
-                <nut-form-item label="电极片包装" required>
+                <nut-form-item class="jx-form-item" label="电极片包装" required>
                     <nut-radio-group direction="horizontal" v-model="form.electrodePackageNormalBoolean">
                         <nut-radio label="true">完好</nut-radio>
                         <nut-radio label="false">破损</nut-radio>
                     </nut-radio-group>
                 </nut-form-item>
-                <nut-form-item label="巡检描述" required>
-                    <nut-textarea :autosize="{
+                <nut-form-item class="jx-form-item" label="巡检描述" required>
+                    <nut-textarea :border="false" :autosize="{
                         minHeight: 80
                     }" placeholder="请输入巡检描述" v-model="form.content" limit-show max-length="200" />
                 </nut-form-item>

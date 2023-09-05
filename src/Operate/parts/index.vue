@@ -1,39 +1,48 @@
 <template>
-    <div class="wh-full">
-        <nut-notify :type="message.type" v-model:visible="message.show" :msg="message.desc" />
-        <nut-form :model-value="form" ref="ruleForm">
-            <nut-form-item label="设备编号" required>
-                <nut-input max-length="30" @blur="getDeviceBySerialNumber" v-model="form.serialNumber" class="nut-input-text"
-                    placeholder="请输入设备编号" type="text">
-                </nut-input>
-            </nut-form-item>
-            <nut-form-item label="配件类型" required>
-                <nut-radio-group direction="horizontal" v-model="form.type">
-                    <nut-radio label="battery">电池</nut-radio>
-                    <nut-radio label="electrode">电极片</nut-radio>
-                </nut-radio-group>
-            </nut-form-item>
-            <nut-form-item label="电池有效期" v-if="form.type === 'battery'" required>
-                <nut-input v-model="form.batteryInvalidDate" @click="datePop.open('batteryInvalidDate')" readonly
-                    placeholder="请选择电池有效期" type="text">
-                </nut-input>
-            </nut-form-item>
-            <nut-form-item label="电极片有效期" v-if="form.type === 'electrode'" required>
-                <nut-input v-model="form.electrodeInvalidDate" @click="datePop.open('electrodeInvalidDate')" readonly
-                    placeholder="请选择电极片有效期" type="text">
-                </nut-input>
-            </nut-form-item>
-        </nut-form>
+    <div class="wh-full flex-col overflow-hidden bg-hex-fff">
+        <div class="flex-1 overflow-auto">
+            <nut-notify :type="message.type" v-model:visible="message.show" :msg="message.desc" />
+            <nut-form :model-value="form" ref="ruleForm">
+                <nut-form-item class="jx-form-item" label="设备编号" required>
+                    <nut-input :border="false" max-length="30" @blur="getDeviceBySerialNumber" v-model="form.serialNumber"
+                        class="nut-input-text" placeholder="请输入设备编号" type="text">
+                    </nut-input>
+                </nut-form-item>
+                <nut-form-item class="jx-form-item" label="配件类型" required>
+                    <nut-radio-group direction="horizontal" v-model="form.type">
+                        <nut-radio label="battery">电池</nut-radio>
+                        <nut-radio label="electrode">电极片</nut-radio>
+                    </nut-radio-group>
+                </nut-form-item>
+                <nut-form-item class="jx-form-item" label="电池有效期" v-if="form.type === 'battery'" required>
+                    <nut-input :border="false" v-model="form.batteryInvalidDate" @click="datePop.open('batteryInvalidDate')"
+                        readonly placeholder="请选择电池有效期" type="text">
+                        <template #right>
+                            <jx-icon value="select" color="#6A6F71" :size="14"> </jx-icon>
+                        </template>
+                    </nut-input>
+                </nut-form-item>
+                <nut-form-item class="jx-form-item" label="电极片有效期" v-if="form.type === 'electrode'" required>
+                    <nut-input :border="false" v-model="form.electrodeInvalidDate"
+                        @click="datePop.open('electrodeInvalidDate')" readonly placeholder="请选择电极片有效期" type="text">
+                        <template #right>
+                            <jx-icon value="select" color="#6A6F71" :size="14"> </jx-icon>
+                        </template>
+                    </nut-input>
+                </nut-form-item>
+            </nut-form>
+        </div>
         <nut-cell>
-            <nut-button :disabled="!form.id" type="primary" class="m-auto" style="width:80%;margin: auto;" @click="confirm">提交</nut-button>
+            <nut-button :disabled="!form.id" type="primary" class="m-auto" style="width:80%;margin: auto;"
+                @click="confirm">提交</nut-button>
         </nut-cell>
         <nut-popup position="bottom" closeable round :style="{ height: '60%' }" v-model:visible="searialNumber.show">
             <nut-cell v-for="item in deviceList" @click="searialNumber.confirm(item)" :title="item.serialNumber"
                 :sub-title="item.brandName"></nut-cell>
         </nut-popup>
         <nut-popup position="bottom" v-model:visible="datePop.show">
-            <nut-date-picker  :min-date="new Date(Date.now())" @cancel="datePop.show = false" v-model="datePop.value" @confirm="datePop.confirm"
-                :is-show-chinese="true">
+            <nut-date-picker :min-date="new Date(Date.now())" @cancel="datePop.show = false" v-model="datePop.value"
+                @confirm="datePop.confirm" :is-show-chinese="true">
             </nut-date-picker>
         </nut-popup>
     </div>
@@ -49,11 +58,11 @@ const route = useRouter()
 const form = reactive({
     id: route.params.id || '',
     serialNumber: route.params.serialNumber || '',
-    type: "",
+    type: "battery",
     batteryInvalidDate: "",
     electrodeInvalidDate: ""
 })
-const { getDeviceBySerialNumber,searialNumber,deviceList } = useDeviceBySearialNumber(form)
+const { getDeviceBySerialNumber, searialNumber, deviceList } = useDeviceBySearialNumber(form)
 const { state: message, notify } = useNotify('danger')
 const datePop = reactive({
     show: false,

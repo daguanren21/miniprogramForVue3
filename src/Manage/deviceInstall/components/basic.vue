@@ -3,22 +3,27 @@
         <nut-notify :type="message.type" v-model:visible="message.show" :msg="message.desc" />
         <div class="flex-1">
             <nut-form :model-value="form" ref="ruleForm">
-                <nut-form-item label="品牌" required>
-                    <nut-input class="nut-input-text" v-model="form.brandName" readonly @click="handleChangeBrand"
-                        placeholder="请选择品牌" type="text" />
+                <nut-form-item class="jx-form-item" label="品牌" required>
+                    <nut-input :border="false" class="nut-input-text" v-model="form.brandName" readonly
+                        @click="handleChangeBrand" placeholder="请选择品牌" type="text">
+                        <template #right>
+                            <jx-icon value="select" color="#6A6F71" :size="14"> </jx-icon>
+                        </template>
+                    </nut-input>
                     <nut-popup position="bottom" v-model:visible="selectPop.show">
                         <nut-picker v-model="selectPop.value" :columns="columns" title="请选择品牌" @confirm="handleBrandConfirm"
                             @cancel="selectPop.show = false">
                         </nut-picker>
                     </nut-popup>
                 </nut-form-item>
-                <nut-form-item label="设备编号" required>
-                    <nut-input @blur="getDeviceBySerialNumber(false)" v-model="form.serialNumber" class="nut-input-text"
-                        placeholder="请输入设备编号" type="text" max-length="30">
+                <nut-form-item class="jx-form-item" label="设备编号" required>
+                    <nut-input :border="false" @blur="getDeviceBySerialNumber(false)" v-model="form.serialNumber"
+                        class="nut-input-text" placeholder="请输入设备编号" type="text" max-length="30">
                     </nut-input>
                 </nut-form-item>
-                <nut-form-item label="设备型号">
-                    <nut-input max-length="30" class="nut-input-text" v-model="form.model" placeholder="请输入设备型号" type="text">
+                <nut-form-item class="jx-form-item" label="设备型号">
+                    <nut-input :border="false" max-length="30" class="nut-input-text" v-model="form.model"
+                        placeholder="请输入设备型号" type="text">
                     </nut-input>
                 </nut-form-item>
             </nut-form>

@@ -3,19 +3,23 @@
         <nut-notify :type="message.type" v-model:visible="message.show" :msg="message.desc" />
         <div class="flex-1">
             <nut-form :model-value="form" ref="ruleForm">
-                <nut-form-item label="开放方式">
-                    <nut-input class="nut-input-text" @click="publicType.open" :model-value="publicType.text" readonly
-                        placeholder="请选择开放方式" type="text">
+                <nut-form-item class="jx-form-item" label="开放方式">
+                    <nut-input :border="false" class="nut-input-text" @click="publicType.open"
+                        :model-value="publicType.text" readonly placeholder="请选择开放方式" type="text">
+                        <template #right>
+                            <jx-icon value="select" color="#6A6F71" :size="14"> </jx-icon>
+                        </template>
                     </nut-input>
                 </nut-form-item>
                 <template v-for="(item, index) in form.publicTime">
-                    <nut-form-item :label="index === 0 ? '开放时间' : ''" v-if="form.publicType == 'HALF'">
+                    <nut-form-item class="jx-form-item" :label="index === 0 ? '开放时间' : ''" v-if="form.publicType == 'HALF'">
                         <div class="flex-center">
-                            <nut-input class="nut-input-text" input-align="center" v-model="item.start" readonly
-                                @click="publicTime.change('start', index)" placeholder="请选择开始时间" type="text">
+                            <nut-input :border="false" class="nut-input-text" input-align="center" v-model="item.start"
+                                readonly @click="publicTime.change('start', index)" placeholder="请选择开始时间" type="text">
                             </nut-input>
-                            <nut-input class="nut-input-text" input-align="center" v-model="item.end" readonly
-                                @click="publicTime.change('end', index)" placeholder="请选择结束时间" type="text">
+                            <span class="text-28px text-hex-333">-</span>
+                            <nut-input :border="false" class="nut-input-text" input-align="center" v-model="item.end"
+                                readonly @click="publicTime.change('end', index)" placeholder="请选择结束时间" type="text">
                             </nut-input>
                             <nut-button size="small" plain type='primary' @click="active(index)"> {{ item.active ? '禁用' :
                                 '激活' }}</nut-button>
@@ -25,9 +29,13 @@
                     </nut-form-item>
                 </template>
 
-                <nut-form-item required label="开放日" v-if="form.publicType == 'PUBLIC' || form.publicType == 'HALF'">
-                    <nut-input class="nut-input-text" readonly @click="workDay.open" :model-value="workDay.text"
-                        placeholder="请选择开放日" type="text">
+                <nut-form-item class="jx-form-item" required label="开放日"
+                    v-if="form.publicType == 'PUBLIC' || form.publicType == 'HALF'">
+                    <nut-input :border="false" class="nut-input-text" readonly @click="workDay.open"
+                        :model-value="workDay.text" placeholder="请选择开放日" type="text">
+                        <template #right>
+                            <jx-icon value="select" color="#6A6F71" :size="14"> </jx-icon>
+                        </template>
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item label="备注">
@@ -65,8 +73,8 @@
             </nut-popup>
         </div>
         <div class="flex-center h-120px">
-            <nut-button size="mini" style="width:49%;height: 70rpx;" class="h-70px mr-20px" @click="prev">返回</nut-button>
-            <nut-button size="mini" style="width:49%;height: 70rpx;" type="primary" class="h-70px"
+            <nut-button size="mini" plain type="primary" style="width:192rpx;height: 70rpx;" @click="prev">上一步</nut-button>
+            <nut-button size="mini" style="width:450rpx;height: 70rpx;margin-left:20rpx" type="primary"
                 @click="confirm">保存</nut-button>
         </div>
     </div>
@@ -106,7 +114,7 @@ const publicTime = reactive({
     confirm: ({ selectedValue, selectedOptions }) => {
         console.log(selectedValue)
         let type = publicTime.type
-        let index=publicTime.index
+        let index = publicTime.index
         form.publicTime[index][type] = selectedValue.join(":")
         publicTime.show = false
     },

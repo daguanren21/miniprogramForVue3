@@ -1,65 +1,63 @@
 <template>
-    <div class="wh-full useReport flex-col">
-        <nut-notify :type="message.type" v-model:visible="message.show" :msg="message.desc" />
-        <nut-form class="flex-1 overflow-auto" :model-value="form" ref="ruleForm">
-            <nut-form-item label="设备编号" required>
-                <nut-input max-length="30" @blur="getDeviceBySerialNumber" v-model="form.serialNumber"
-                    class="nut-input-text" placeholder="请输入设备编号" type="text">
-                </nut-input>
-            </nut-form-item>
-            <nut-form-item label="放电次数" required>
-                <nut-input v-model="form.dischargeCount" placeholder="请输入放电次数" type="digit">
-                </nut-input>
-            </nut-form-item>
-            <nut-form-item required label="抢救开始时间">
-                <nut-input v-model="form.rescueBeginTime" @click="datePop.open('rescueBeginTime')" readonly
-                    placeholder="请选择开始时间" type="text">
-                </nut-input>
-            </nut-form-item>
-            <nut-form-item required label="抢救结束时间">
-                <nut-input v-model="form.rescueEndTime" @click="datePop.open('rescueEndTime')" placeholder="请选择结束时间"
-                    readonly type="text">
-                </nut-input>
-            </nut-form-item>
-            <nut-form-item label="是否用于抢救" required>
-                <nut-radio-group direction="horizontal" v-model="form.useRescued">
-                    <nut-radio label="true">是</nut-radio>
-                    <nut-radio label="false">否</nut-radio>
-                </nut-radio-group>
-            </nut-form-item>
-            <nut-cell-group title="患者信息" v-if="form.useRescued === 'true'">
-                <nut-form-item label="是否救活">
-                    <nut-radio-group direction="horizontal" v-model="form.successfulRescued">
+    <div class="wh-full flex-col useReport overflow-hidden bg-hex-fff">
+        <div class="flex-1 overflow-auto">
+            <nut-notify :type="message.type" v-model:visible="message.show" :msg="message.desc" />
+            <nut-form class="flex-1 overflow-auto" :model-value="form" ref="ruleForm">
+                <nut-form-item class="jx-form-item" label="设备编号" required>
+                    <nut-input :border="false" max-length="30" @blur="getDeviceBySerialNumber" v-model="form.serialNumber"
+                        class="nut-input-text" placeholder="请输入设备编号" type="text">
+                    </nut-input>
+                </nut-form-item>
+                <nut-form-item class="jx-form-item" label="放电次数" required>
+                    <nut-input :border="false" v-model="form.dischargeCount" placeholder="请输入放电次数" type="digit">
+                    </nut-input>
+                </nut-form-item>
+                <nut-form-item class="jx-form-item" required label="抢救开始时间">
+                    <nut-input :border="false" v-model="form.rescueBeginTime" @click="datePop.open('rescueBeginTime')"
+                        readonly placeholder="请选择开始时间" type="text">
+                    </nut-input>
+                </nut-form-item>
+                <nut-form-item class="jx-form-item" required label="抢救结束时间">
+                    <nut-input :border="false" v-model="form.rescueEndTime" @click="datePop.open('rescueEndTime')"
+                        placeholder="请选择结束时间" readonly type="text">
+                    </nut-input>
+                </nut-form-item>
+                <nut-form-item class="jx-form-item" label="是否用于抢救" required>
+                    <nut-radio-group direction="horizontal" v-model="form.useRescued">
                         <nut-radio label="true">是</nut-radio>
                         <nut-radio label="false">否</nut-radio>
                     </nut-radio-group>
                 </nut-form-item>
-                <nut-form-item label="性别">
-                    <nut-radio-group direction="horizontal" v-model="form.patientSex">
-                        <nut-radio label="1">男</nut-radio>
-                        <nut-radio label="2">女</nut-radio>
-                    </nut-radio-group>
-                </nut-form-item>
-                <nut-form-item label="年龄">
-                    <nut-input v-model="form.patientAge" placeholder="请输入年龄" type="digit" />
-                </nut-form-item>
-                <nut-form-item label="基础病">
-                    <nut-input max-length="50" v-model="form.patientUnderlyingDisease" placeholder="请输入基础疾病" type="text">
-                    </nut-input>
-                </nut-form-item>
-                <nut-form-item label="晕倒原因">
-                    <nut-textarea :autosize="{
-                        minHeight: 80
-                    }" placeholder="请输入晕倒原因" v-model="form.patientEventTrigger" limit-show max-length="200" />
-                </nut-form-item>
+                <nut-cell-group title="患者信息" v-if="form.useRescued === 'true'">
+                    <nut-form-item class="jx-form-item" label="是否救活">
+                        <nut-radio-group direction="horizontal" v-model="form.successfulRescued">
+                            <nut-radio label="true">是</nut-radio>
+                            <nut-radio label="false">否</nut-radio>
+                        </nut-radio-group>
+                    </nut-form-item>
+                    <nut-form-item class="jx-form-item" label="性别">
+                        <nut-radio-group direction="horizontal" v-model="form.patientSex">
+                            <nut-radio label="1">男</nut-radio>
+                            <nut-radio label="2">女</nut-radio>
+                        </nut-radio-group>
+                    </nut-form-item>
+                    <nut-form-item class="jx-form-item" label="年龄">
+                        <nut-input :border="false" v-model="form.patientAge" placeholder="请输入年龄" type="digit" />
+                    </nut-form-item>
+                    <nut-form-item class="jx-form-item" label="基础病">
+                        <nut-input :border="false" max-length="50" v-model="form.patientUnderlyingDisease"
+                            placeholder="请输入基础疾病" type="text">
+                        </nut-input>
+                    </nut-form-item>
+                    <nut-form-item class="jx-form-item" label="晕倒原因">
+                        <nut-textarea :border="false" :autosize="{
+                            minHeight: 80
+                        }" placeholder="请输入晕倒原因" v-model="form.patientEventTrigger" limit-show max-length="200" />
+                    </nut-form-item>
 
-            </nut-cell-group>
-            <!-- <nut-form-item label="变更描述">
-                <nut-textarea :autosize="{
-                    minHeight: 80
-                }" placeholder="请输入描述说明" v-model="form.remarks" limit-show max-length="200" />
-            </nut-form-item> -->
-        </nut-form>
+                </nut-cell-group>
+            </nut-form>
+        </div>
         <nut-cell>
             <nut-button type="primary" :disabled="!form.id" class="m-auto" style="width:80%;margin: auto;"
                 @click="confirm">提交</nut-button>

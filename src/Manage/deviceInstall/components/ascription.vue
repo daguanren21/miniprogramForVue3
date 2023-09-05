@@ -3,55 +3,56 @@
         <nut-notify :type="message.type" v-model:visible="message.show" :msg="message.desc" />
         <div class="flex-1">
             <nut-form :model-value="form" ref="ruleForm">
-                <nut-form-item label="配置单位" v-if="!accountInfo.configurationUnitId">
-                    <nut-input class="nut-input-text" readonly @click="toPage('CONFIGURATION')"
+                <nut-form-item class="jx-form-item" label="配置单位" v-if="!accountInfo.configurationUnitId">
+                    <nut-input :border="false" class="nut-input-text" readonly @click="toPage('CONFIGURATION')"
                         v-model="form.configInstitutionName" placeholder="请选择配置单位" type="text">
+                        <template #right>
+                            <jx-icon value="select" color="#6A6F71" :size="14"> </jx-icon>
+                        </template>
                     </nut-input>
                 </nut-form-item>
-                <nut-form-item label="归属单位" v-if="!accountInfo.configurationUnitId">
-                    <nut-input max-length="30" class="nut-input-text" v-model="form.unitName" placeholder="请输入归属单位"
-                        type="text">
+                <nut-form-item class="jx-form-item" label="归属单位" v-if="!accountInfo.configurationUnitId">
+                    <nut-input :border="false" max-length="30" class="nut-input-text" v-model="form.unitName"
+                        placeholder="请输入归属单位" type="text">
                     </nut-input>
                 </nut-form-item>
-                <nut-form-item label="维保单位" v-if="!accountInfo.maintenanceUnitId">
-                    <nut-input class="nut-input-text" readonly @click="toPage('MAINTENANCE')"
+                <nut-form-item class="jx-form-item" label="维保单位" v-if="!accountInfo.maintenanceUnitId">
+                    <nut-input :border="false" class="nut-input-text" readonly @click="toPage('MAINTENANCE')"
                         v-model="form.maintainInstitutionName" placeholder="请选择维保单位" type="text">
+                        <template #right>
+                            <jx-icon value="select" color="#6A6F71" :size="14"> </jx-icon>
+                        </template>
                     </nut-input>
                 </nut-form-item>
-                <nut-form-item label="设备联系人" required>
-                    <nut-input class="nut-input-text" max-length="30" v-model="form.contactName" placeholder="请输入联系人"
-                        type="text">
+                <nut-form-item class="jx-form-item" label="设备联系人" required>
+                    <nut-input :border="false" class="nut-input-text" max-length="30" v-model="form.contactName"
+                        placeholder="请输入联系人" type="text">
                     </nut-input>
                 </nut-form-item>
-                <nut-form-item label="号码格式" required>
+                <nut-form-item class="jx-form-item" label="号码格式" required>
                     <nut-radio-group direction="horizontal" v-model="form.phoneType">
                         <nut-radio label="0">手机号码</nut-radio>
                         <nut-radio label="1">固定号码</nut-radio>
                     </nut-radio-group>
                 </nut-form-item>
-                <nut-form-item label="设备联系电话" required>
-                    <nut-input v-if="form.phoneType === '0'" max-length="11" class="nut-input-text"
+                <nut-form-item class="jx-form-item" label="设备联系电话" required>
+                    <nut-input :border="false" v-if="form.phoneType === '0'" max-length="11" class="nut-input-text"
                         v-model="form.contactPhone" placeholder="请输入联系电话" type="number">
                     </nut-input>
-                    <nut-input v-else class="nut-input-text" v-model="form.contactPhone" placeholder="请输入联系电话"
-                        type="number">
+                    <nut-input :border="false" v-else class="nut-input-text" v-model="form.contactPhone"
+                        placeholder="请输入联系电话" type="number">
                     </nut-input>
                 </nut-form-item>
-                <nut-form-item label="出资人">
-                    <nut-input max-length="30" class="nut-input-text" v-model="form.investor" placeholder="请输入出资人"
-                        type="text">
+                <nut-form-item class="jx-form-item" label="出资人">
+                    <nut-input :border="false" max-length="30" class="nut-input-text" v-model="form.investor"
+                        placeholder="请输入出资人" type="text">
                     </nut-input>
                 </nut-form-item>
             </nut-form>
-            <!-- <nut-popup position="bottom" v-model:visible="selectPop.show">
-                <nut-picker v-model="selectPop.value" :columns="columns" @confirm="selectPop.methods.confirm"
-                    @cancel="selectPop.show = false">
-                </nut-picker>
-            </nut-popup> -->
         </div>
         <div class="flex-center h-120px">
-            <nut-button size="mini" style="width:49%;height: 70rpx;" class="h-70px mr-20px" @click="prev">上一步</nut-button>
-            <nut-button size="mini" style="width:49%;height: 70rpx;" type="primary" class="h-70px"
+            <nut-button size="mini" plain type="primary" style="width:192rpx;height: 70rpx;" @click="prev">上一步</nut-button>
+            <nut-button size="mini" style="width:450rpx;height: 70rpx;margin-left:20rpx" type="primary"
                 @click="confirm">下一步</nut-button>
         </div>
     </div>

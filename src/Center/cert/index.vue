@@ -22,7 +22,8 @@
                         <div class="text-24px text-hex-999">到期时间：{{ dateFilter(item.certificateExpireDate, 'YYYY-MM-DD') }}
                         </div>
                         <div>
-                            <nut-button class="jx-button" type='info' @click="toCenter('uploadCert', item.id!)">修改</nut-button>
+                            <nut-button class="jx-button" type='info'
+                                @click="toCenter('uploadCert', item.id!)">修改</nut-button>
                             <nut-button class="jx-button" style="margin-left:10rpx" type='danger'
                                 @click="deleteVolunteer(item.id!)">删除</nut-button>
                         </div>
@@ -47,8 +48,7 @@
         </div>
         <div>
             <nut-cell style="margin: 0;background:transparent">
-                <nut-button color="linear-gradient(to right, #ff6034, #ee0a24)" type="primary"
-                    style="width:80%;margin: auto;" @click="toCenter('uploadCert')">证书上传</nut-button>
+                <nut-button type="primary" style="width:80%;margin: auto;" @click="toCenter('uploadCert')">证书上传</nut-button>
             </nut-cell>
         </div>
         <nut-popup position="bottom" closeable round :style="{ height: '43%' }" v-model:visible="dialog.show">
@@ -95,11 +95,12 @@ const dialog = reactive({
     confirm: async () => {
         try {
             await deleteVolunteerCerts(form.id, form.deleteReason)
-            Taro.showToast({
-                icon: 'success',
-                title: '删除成功！'
-            })
+            dialog.show = false
             setTimeout(async () => {
+                Taro.showToast({
+                    icon: 'success',
+                    title: '删除成功！'
+                })
                 let volunteerId = user.accountInfo.volunteerId
                 if (volunteerId) {
                     list.value = await fetchVolunteerCerts(Number(volunteerId));
@@ -138,8 +139,6 @@ const handleCheckState = (state: Filter.AuditState) => {
 </script>
 
 <style lang="scss">
-
-
 .valid {
     background: url(../../assets/images/center/active.png) no-repeat;
     background-size: 100% 100%;

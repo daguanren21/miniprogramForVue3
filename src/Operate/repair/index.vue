@@ -1,28 +1,31 @@
 <template>
-    <div class="wh-full">
-        <nut-notify :type="message.type" v-model:visible="message.show" :msg="message.desc" />
-        <nut-form :model-value="form" ref="ruleForm">
-            <nut-form-item label="设备编号" required>
-                <nut-input max-length="30" @blur="getDeviceBySerialNumber" v-model="form.serialNumber" class="nut-input-text"
-                    placeholder="请输入设备编号" type="text">
-                </nut-input>
-            </nut-form-item>
-            <nut-form-item label="报修原因" required>
-                <nut-textarea :autosize="{
-                    minHeight: 80
-                }" placeholder="请输入报修原因" v-model="form.description" limit-show max-length="200" />
-            </nut-form-item>
-            <nut-form-item label="现场图片" required>
-                <nut-uploader @delete="deleteFiles" :file-list="_fileList" :url="uploadUrl"
-                    :before-xhr-upload="beforeXhrUpload" maximum="4"></nut-uploader>
-            </nut-form-item>
-        </nut-form>
+    <div class="wh-full flex-col overflow-hidden bg-hex-fff">
+        <div class="flex-1 overflow-auto">
+            <nut-notify :type="message.type" v-model:visible="message.show" :msg="message.desc" />
+            <nut-form :model-value="form" ref="ruleForm">
+                <nut-form-item class="jx-form-item" label="设备编号" required>
+                    <nut-input :border="false" max-length="30" @blur="getDeviceBySerialNumber" v-model="form.serialNumber"
+                        class="nut-input-text" placeholder="请输入设备编号" type="text">
+                    </nut-input>
+                </nut-form-item>
+                <nut-form-item class="jx-form-item" label="报修原因" required>
+                    <nut-textarea :border="false" :autosize="{
+                        minHeight: 80
+                    }" placeholder="请输入报修原因" v-model="form.description" limit-show max-length="200" />
+                </nut-form-item>
+                <nut-form-item label="现场图片" required>
+                    <nut-uploader @delete="deleteFiles" :file-list="_fileList" :url="uploadUrl"
+                        :before-xhr-upload="beforeXhrUpload" maximum="4"></nut-uploader>
+                </nut-form-item>
+            </nut-form>
+        </div>
         <nut-popup position="bottom" closeable round :style="{ height: '60%' }" v-model:visible="searialNumber.show">
             <nut-cell v-for="item in deviceList" @click="searialNumber.confirm(item)" :title="item.serialNumber"
                 :sub-title="item.brandName"></nut-cell>
         </nut-popup>
         <nut-cell>
-            <nut-button :disabled="!form.id" type="primary" class="m-auto" style="width:80%;margin: auto;" @click="confirm">提交</nut-button>
+            <nut-button :disabled="!form.id" type="primary" class="m-auto" style="width:80%;margin: auto;"
+                @click="confirm">提交</nut-button>
         </nut-cell>
     </div>
 </template>
