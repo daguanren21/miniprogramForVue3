@@ -1,37 +1,37 @@
 <template>
-    <div class="wh-full  flex-col">
+    <div class="wh-full  flex-col bg-hex-fff">
         <nut-notify :type="message.type" v-model:visible="message.show" :msg="message.desc" />
         <nut-form class="flex-1 overflow-auto" :model-value="form" ref="ruleForm">
-            <nut-form-item label="头像" required>
-                <button style="padding:0;margin: 0;"
-                    class="h-150px w-150px rounded-full text-26px line-height-150px text-truncate" @chooseavatar="getAvatar"
-                    open-type="chooseAvatar">
-                    <span v-if="!form.imageUrl">
-                        设置头像
-                    </span>
-                    <img class="w-180px h-180px" mode="aspectFill" v-else :src="form.imageUrl" alt="">
-                </button>
+            <nut-form-item required>
+                <div class="w-full flex-col items-center">
+                    <button style="padding:0;margin: 0;"
+                        class="h-180px w-180px rounded-full text-26px line-height-180px text-truncate"
+                        @chooseavatar="getAvatar" open-type="chooseAvatar">
+                        <img class="w-180px h-180px" mode="aspectFill" v-if="!form.imageUrl" :src="form.imageUrl" alt="">
+                        <open-data class="w-180px h-180px rounded-full overflow-hidden" v-else
+                            type="userAvatarUrl"></open-data>
+                    </button>
+                    <button  @chooseavatar="getAvatar" open-type="chooseAvatar" style="padding:0;margin: 0;" class="change-avatar text-26px text-hex-4088FF mt-11px">修改头像</button>
+                </div>
+
             </nut-form-item>
-            <nut-form-item label="真实姓名">
-                <nut-input max-length="20" v-model="form.realName" class="nut-input-text" placeholder="请输入真实姓名" type="text">
+            <nut-form-item class="jx-form-item" label="昵称" required>
+                <nut-input :border="false" max-length="10" v-model="form.nickName" class="nut-input-text"
+                    placeholder="请输入昵称" type="text">
                 </nut-input>
             </nut-form-item>
-            <nut-form-item label="昵称" required>
-                <nut-input max-length="10" v-model="form.nickName" class="nut-input-text" placeholder="请输入昵称" type="text">
+            <nut-form-item class="jx-form-item" label="真实姓名">
+                <nut-input :border="false" max-length="20" v-model="form.realName" class="nut-input-text"
+                    placeholder="请输入真实姓名" type="text">
                 </nut-input>
             </nut-form-item>
-            <nut-form-item label="联系方式" required>
-                <nut-input max-length="11" v-model="form.phoneNumber" class="nut-input-text" placeholder="请输入联系方式" type="number">
-                </nut-input>
-            </nut-form-item>
-            <nut-form-item label="邮箱">
-                <nut-input v-model="form.email" class="nut-input-text" placeholder="请输入邮箱" type="text">
+            <nut-form-item class="jx-form-item" label="邮箱">
+                <nut-input :border="false" v-model="form.email" class="nut-input-text" placeholder="请输入邮箱" type="text">
                 </nut-input>
             </nut-form-item>
         </nut-form>
-        <nut-cell>
-            <nut-button color="linear-gradient(to right, #ff6034, #ee0a24)" type="primary" class="m-auto"
-                style="width:80%;margin: auto;" @click="confirm">提交</nut-button>
+        <nut-cell style="margin:0;background:transparent">
+            <nut-button type="primary" class="m-auto" style="width:80%;margin: auto;" @click="confirm">认证</nut-button>
         </nut-cell>
     </div>
 </template>
@@ -109,7 +109,7 @@ const confirm = async () => {
         return
     }
     try {
-        await updateAccountInfo(form)
+        await updateAccountInfo(form as any)
         Taro.showToast({
             icon: 'none',
             title: '提交成功！',
@@ -129,4 +129,11 @@ const confirm = async () => {
 }
 </script>
 
-<style  lang="scss"></style>
+<style  lang="scss">
+.change-avatar {
+    background:transparent;
+    &::after{
+        border: none;
+    }
+}
+</style>

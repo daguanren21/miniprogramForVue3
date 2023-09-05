@@ -138,13 +138,7 @@ const handleCheckState = (state: Filter.AuditState) => {
 </script>
 
 <style lang="scss">
-.jx-button {
-    width: 120px;
-    height: 48px;
-    font-size: 26px;
-    line-height: 48px;
-    white-space: nowrap;
-}
+
 
 .valid {
     background: url(../../assets/images/center/active.png) no-repeat;

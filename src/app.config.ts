@@ -22,7 +22,7 @@ export default defineAppConfig({
       'statusChange/index',//状态变更
       'relocation/index',//设备移机
       'useReport/index',//使用上报
-      'parts/index'//更换配件
+      'parts/index'//更换耗材
     ]
   }, {
     root: 'Center/',//个人中心

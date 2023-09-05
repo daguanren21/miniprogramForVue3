@@ -1,7 +1,7 @@
 <template>
     <div class="home person-center">
         <div class="main flex-col pt-36px p-x-14px box-border" v-if="auth.authInfo.id_token">
-            <div class="pl-26px box-border flex">
+            <div class="pl-26px box-border flex relative">
                 <div class="flex">
                     <image class="w-125px h-125px rounded-full overflow-hidden" mode="aspectFill"
                         v-if="accountInfo.imageUrl" :src="accountInfo.imageUrl"></image>
@@ -21,6 +21,10 @@
                     <div class="text-24px text-hex-333">
                         {{ accountInfo.address || '暂无地址信息' }}
                     </div>
+                </div>
+                <div class="flex absolute edit-user" @click="toCenter('person')">
+                    <image class="w-38px h-38px" src="../../assets/images/center/编辑.svg"></image>
+                    <div class="w-140px h-44px text-24px text-hex-1B54C2 line-height-44px ">修改资料</div>
                 </div>
             </div>
             <div class="p-x-13px mt-33px w-710px flex-center">
@@ -179,8 +183,8 @@
             <div class="absolute flex-col items-center w-full" style="top:50%;transform: translateY(-50%);">
                 <p class="text-30px text-hex-181818 mb-30px">您需要先授权才可成为志愿者</p>
                 <nut-button @getphonenumber="getPhoneNumber"
-                    style="width:142rpx;height: 62rpx; line-height: 62rpx; text-align: center;background:rgb(53,200,84);border-radius: 20rpx;" type="primary"
-                    open-type="getPhoneNumber">授权</nut-button>
+                    style="width:142rpx;height: 62rpx; line-height: 62rpx; text-align: center;background:rgb(53,200,84);border-radius: 20rpx;"
+                    type="primary" open-type="getPhoneNumber">授权</nut-button>
 
             </div>
         </div>
@@ -285,6 +289,25 @@ useDidShow(async () => {
         background: url(../../assets/images/center/volunteer_bg.png) no-repeat;
         background-size: 100% 100%;
         box-sizing: border-box;
+    }
+}
+
+.edit-user {
+    top: 50%;
+    transform: translateY(-50%);
+    right: -10px;
+
+    div {
+        background: linear-gradient(to right, #9ABCFF, #E7F0FF);
+        border-radius: 20px 0 0 20px;
+        text-align: center;
+    }
+
+    image {
+        position: absolute;
+        left: -16px;
+        top: 19px;
+        transform: translateY(-15px);
     }
 }
 </style>

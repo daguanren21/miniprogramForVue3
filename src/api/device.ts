@@ -376,7 +376,7 @@ export function updateRepairApplyRecord(data: {
 }
 
 /**
- * @description 更换设备配件
+ * @description 更换耗材
  */
 export function updateDevicePart(data: {
     deviceId: number | string,
@@ -405,7 +405,7 @@ export function updateDevicePart(data: {
             method: Method.PUT
         })
     }
-    console.error('更换配件逻辑错误！')
+    console.error('更换耗材逻辑错误！')
     return Promise.resolve()
 }
 

@@ -1,24 +1,27 @@
 <template>
-    <div class="wh-full  flex-col">
+    <div class="wh-full  flex-col bg-hex-fff">
         <nut-notify :type="message.type" v-model:visible="message.show" :msg="message.desc" />
         <nut-form class="flex-1 overflow-auto" :model-value="form" ref="ruleForm">
-            <nut-form-item label="证书名称" required>
-                <nut-input max-length="50" class="nut-input-text" input-align="center" v-model="form.certificateName"
-                    placeholder="请输入证书名称" type="text">
+            <nut-form-item class="jx-form-item" label="证书名称" required>
+                <nut-input :border="false" max-length="50" class="nut-input-text" input-align="center"
+                    v-model="form.certificateName" placeholder="请输入证书名称" type="text">
                 </nut-input>
             </nut-form-item>
-            <nut-form-item label="证书编号" required>
-                <nut-input max-length="30" class="nut-input-text" input-align="center" v-model="form.certificateNumber"
-                    placeholder="请输入证书编号" type="text">
+            <nut-form-item class="jx-form-item" label="证书编号" required>
+                <nut-input :border="false" max-length="30" class="nut-input-text" input-align="center"
+                    v-model="form.certificateNumber" placeholder="请输入证书编号" type="text">
                 </nut-input>
             </nut-form-item>
-            <nut-form-item label="有效时间" required>
+            <nut-form-item class="jx-form-item" label="有效时间" required>
                 <div class="flex-center">
-                    <nut-input class="nut-input-text" readonly input-align="center" v-model="form.certificateReleaseDate"
-                        @click="receiveHelpTime.change('certificateReleaseDate')" placeholder="请选择开始时间" type="text">
+                    <nut-input :border="false" class="nut-input-text" readonly input-align="center"
+                        v-model="form.certificateReleaseDate" @click="receiveHelpTime.change('certificateReleaseDate')"
+                        placeholder="请选择开始时间" type="text">
                     </nut-input>
-                    <nut-input class="nut-input-text" readonly input-align="center" v-model="form.certificateExpireDate"
-                        @click="receiveHelpTime.change('certificateExpireDate')" placeholder="请选择结束时间" type="text">
+                    <span class="text-28px text-hex-333">-</span>
+                    <nut-input :border="false" class="nut-input-text" readonly input-align="center"
+                        v-model="form.certificateExpireDate" @click="receiveHelpTime.change('certificateExpireDate')"
+                        placeholder="请选择结束时间" type="text">
                     </nut-input>
                 </div>
             </nut-form-item>
@@ -34,8 +37,7 @@
             </nut-form-item>
         </nut-form>
         <nut-cell>
-            <nut-button color="linear-gradient(to right, #ff6034, #ee0a24)" type="primary" style="width:80%;margin: auto;"
-                @click="confirm">提交</nut-button>
+            <nut-button type="primary" style="width:80%;margin: auto;" @click="confirm">上传</nut-button>
         </nut-cell>
         <nut-popup position="bottom" v-model:visible="receiveHelpTime.show">
             <nut-date-picker v-model="receiveHelpTime.value" title="时间选择" @confirm="receiveHelpTime.confirm"

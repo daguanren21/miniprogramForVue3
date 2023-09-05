@@ -1,35 +1,36 @@
 <template>
-    <div class="h-full">
+    <div class="h-full bg-hex-f7f7f7">
         <div class="h-full overflow-hidden" v-if="state.totalPage">
             <jx-scroll-view class="x-scroll-view" :refreshing="refreshing" :nomore="nomore"
                 @pulldownrefresh="_onPullDownRefresh" @loadmore="_onLoadmore" @scroll="_onScroll">
                 <nut-backtop height="100%">
                     <template v-slot:content>
-                        <div class="manage_item" v-for="item in state.content" :key="item.id">
-                            <div class="ml-15px text-30px font-bold flex-y-center justify-between">
-                                <div class="flex-y-center">
-                                    {{ item.deviceSerialNumber }}
-                                    <jx-dot class="ml-15px" :state="checkStateFilter(item.state)"></jx-dot>
-                                </div>
-                                <div>
-                                    <nut-button size="small" class="h-60px" type="primary"
-                                        @click="dialog.open(item.id)">审核</nut-button>
-                                </div>
+                        <div class="w-720px m-x-15px p-x-30px pt-45px mt-15px pb-15px box-border bg-hex-fff rounded-20px"
+                            v-for="item in  state.content " :key="item.id">
+                            <div class="flex-y-center justify-between">
+                                <span class="text-30px text-hex-333 font-bold">{{ item.deviceSerialNumber }}</span>
+                                <span class="text-24px text-hex-999">2022-8-17 12:20:13</span>
                             </div>
-                            <div class="ml-15px text-28px p-y-15px flex-y-center">
-                                <div>设备变化：</div>
-                                <div class="flex-y-center">
+                            <div class="mt-37px text-26px flex-y-center">
+                                <div class="text-hex-575757">设备变化：</div>
+                                <div class="flex-y-center  text-28px">
                                     <span
                                         :style="{ 'color': filter(deviceRunningStateFilter(item.oldRunningState).type) }">{{
                                             deviceRunningStateFilter(item.oldRunningState).text }}</span>
-                                    <jx-icon class="p-x-10px" value="center-arrow" color="#333"></jx-icon>
+                                    <jx-icon class="p-x-10px" value="center-arrow" color="#3C3C3C"></jx-icon>
                                     <span
                                         :style="{ 'color': filter(deviceRunningStateFilter(item.newRunningState).type) }">{{
                                             deviceRunningStateFilter(item.newRunningState).text }}</span>
                                 </div>
                             </div>
-                            <div class="flex-y-center mt-15px">
-                                <image class="m-x-15px w-100px h-100px" v-for="image in handleImages(item.imagesPath)"
+                            <div class="flex-y-center justify-between mt-18px">
+                                <div class="flex-y-center text-26px text-hex-575757">
+                                    审核状态：<span class="text-hex-409EFF text-28px">待审核</span>
+                                </div>
+                                <nut-button type='primary' class="jx-button" @click="dialog.open(item.id)">审核</nut-button>
+                            </div>
+                            <div class="mt-18px">
+                                <image v-for="image in handleImages(item.imagesPath)" class="m-x-5px w-160px h-160px"
                                     :src="image">
                                 </image>
                             </div>
@@ -67,7 +68,7 @@
 <script setup lang="ts">
 import { DeviceCheckRecord, fetchDeviceCheckRecords, updateDeviceCheckRecords } from "~/api/device"
 import { useDidShow } from '@tarojs/taro';
-import { checkStateFilter, deviceRunningStateFilter } from '~/filter'
+import { deviceRunningStateFilter } from '~/filter'
 import { filter } from '~/utils'
 import Taro from "@tarojs/taro";
 const state = reactive({
@@ -88,10 +89,10 @@ const dialog = reactive({
             await updateDeviceCheckRecords(form)
             dialog.show = false
             setTimeout(() => {
-                  Taro.showToast({
-                icon: 'none',
-                title: `审核${form.state === 'APPROVE' ? '通过' : '拒绝'}`
-            })
+                Taro.showToast({
+                    icon: 'none',
+                    title: `审核${form.state === 'APPROVE' ? '通过' : '拒绝'}`
+                })
                 fetchData()
             }, 1000)
         } catch (error) {
@@ -161,141 +162,6 @@ const _onScroll = (e) => {
 .form {
     .nut-dialog__content {
         margin: 0;
-    }
-}
-
-.header {
-    height: 60px;
-    line-height: 50px;
-    text-align: center;
-    background: #fff;
-    border-bottom: solid 1px #f4f4f4;
-}
-
-.x-scroll-view {
-    background-color: #fff;
-}
-
-.manage_item {
-    width: 90%;
-    margin: 15px auto;
-    padding: 30px;
-    overflow: hidden;
-    box-sizing: border-box;
-    background-color: rgb(242, 243, 248);
-    border-radius: 30px;
-
-    .top {
-        display: flex;
-
-        .left {
-            width: 153px;
-            height: 153px;
-            margin-right: 26px;
-
-            image {
-                width: 100%;
-                height: 100%;
-            }
-        }
-
-        .right {
-            flex: 1;
-            overflow: hidden;
-
-            .line {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-
-                .sn {
-                    flex: 1;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                    font-size: 27px;
-                    font-weight: bold;
-                    color: #3E3A39;
-                }
-
-                .btn {
-                    width: 69px;
-                    height: 31px;
-                    line-height: 31px;
-                    font-size: 18px;
-                    font-weight: 400;
-                    color: #888888;
-                    background-color: #DBDCDC;
-                    border-color: transparent;
-                    margin: 0;
-
-                    &.active {
-                        background-color: #FFE0D0;
-                        color: #FF6216;
-                    }
-                }
-
-
-                .l {
-                    display: flex;
-
-                    .icon {
-                        font-size: 34px !important;
-                        margin-right: 24px;
-                    }
-
-                    .text {
-                        max-width: 300px;
-                        font-size: 24px;
-                        font-weight: 400;
-                        color: #595757;
-
-                        .label {
-                            margin-right: 10px;
-                        }
-                    }
-
-                }
-
-
-                .r {}
-            }
-
-
-        }
-    }
-
-    .bottom {
-        margin-top: 15px;
-
-        .item {
-            display: flex;
-            align-items: center;
-            background-color: #fff;
-
-            .icon_module {
-                display: flex;
-                align-items: center;
-                width: 118rpx;
-            }
-
-            .flex_dot {
-                margin-left: 35px;
-            }
-
-            .ft {
-                margin: 15px 0;
-                font-size: 24px;
-                font-weight: 400;
-                color: #595757;
-            }
-
-            .jx-status {
-                width: auto;
-                border: none
-            }
-        }
-
     }
 }
 </style>

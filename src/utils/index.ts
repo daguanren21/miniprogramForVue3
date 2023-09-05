@@ -43,13 +43,13 @@ export const filter = (type: DotType) => {
     let color = ''
     switch (type) {
         case 'success':
-            color = '#33CC33'
+            color = '#32B44B'
             break;
         case 'info':
-            color = '#6190E8'
+            color = '#409EFF'
             break;
         case 'error':
-            color = '#C30D23'
+            color = '#EA2E1E'
             break;
         case 'warning':
             color = '#FF6216'

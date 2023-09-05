@@ -31,3 +31,20 @@ page{
     height: 100%;
     padding: 22px 21px;
 }
+
+.jx-button {
+    width: 120px !important;
+    height: 48px !important;
+    font-size: 26px !important;
+    line-height: 48px !important;
+    white-space: nowrap;
+}
+
+.nut-textarea__textarea {
+    text-align: left !important;
+}
+
+.jx-form-item {
+    padding:51px 0 51px 51px;
+    border-bottom: 1px solid #DBDBDB;
+}

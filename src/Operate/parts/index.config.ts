@@ -1,3 +1,3 @@
 export default definePageConfig({
-    navigationBarTitleText: '更换配件'
+    navigationBarTitleText: '更换耗材'
 })

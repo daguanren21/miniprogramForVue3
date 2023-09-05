@@ -15,7 +15,7 @@
                 </div>
                 <div class="item  pl-10px" @click="toDeviceParts">
                     <!-- <AtIcon prefixClass="fa" value="repair" class="icon"></AtIcon> -->
-                    <text class="ft">更换配件</text>
+                    <text class="ft">更换耗材</text>
                 </div>
                 <nut-popover v-model:visible="operate.visible" :list="operate.itemList" location="bottom-start"
                     @choose="operate.chooseItem">

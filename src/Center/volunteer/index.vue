@@ -1,28 +1,28 @@
 <template>
-    <div class="wh-full  flex-col">
+    <div class="wh-full  flex-col bg-hex-fff">
         <nut-notify :type="message.type" v-model:visible="message.show" :msg="message.desc" />
         <nut-form class="flex-1 overflow-auto" :model-value="form" ref="ruleForm">
-            <nut-form-item label="接受求救时段" required>
+            <nut-form-item class="jx-form-item" label="接受求救时段" required>
                 <nut-radio-group direction="horizontal" v-model="form.receiveHelpWeekOption">
                     <nut-radio label="EVERYDAY">每天</nut-radio>
                     <nut-radio label="WEEKDAY">工作日</nut-radio>
                 </nut-radio-group>
             </nut-form-item>
-            <nut-form-item label="接受求救时间" required>
+            <nut-form-item class="jx-form-item" label="接受求救时间" required>
                 <div class="flex-center">
-                    <nut-input class="nut-input-text" input-align="center" v-model="form.receiveHelpTimeBegin" readonly
+                    <nut-input :border="false"  class="nut-input-text" input-align="center" v-model="form.receiveHelpTimeBegin" readonly
                         @click="receiveHelpTime.change('receiveHelpTimeBegin')" placeholder="请选择开始时间" type="text">
                     </nut-input>
-                    <nut-input class="nut-input-text" input-align="center" v-model="form.receiveHelpTimeEnd" readonly
+                    <nut-input :border="false"  class="nut-input-text" input-align="center" v-model="form.receiveHelpTimeEnd" readonly
                         @click="receiveHelpTime.change('receiveHelpTimeEnd')" placeholder="请选择结束时间" type="text">
                     </nut-input>
                 </div>
             </nut-form-item>
-            <nut-form-item label="活动区域" required>
-                <nut-input class="nut-input-text" v-model="form.regionName" placeholder="请选择区域" type="text" readonly
+            <nut-form-item class="jx-form-item" label="活动区域" required>
+                <nut-input :border="false"  class="nut-input-text" v-model="form.regionName" placeholder="请选择区域" type="text" readonly
                     @click="region.visible = true">
                     <template #right>
-                        <jx-icon @click.stop="chooseLocation" value="dingwei" color="#ff6216" :size="24"> </jx-icon>
+                        <jx-icon @click.stop="chooseLocation" value="address" color="#4088FF" :size="18"> </jx-icon>
                     </template>
                 </nut-input>
                 <nut-popup round closeable @close="region.closeRegion" position="bottom" title="地址选择"
@@ -34,15 +34,15 @@
                     </nut-cell>
                 </nut-popup>
             </nut-form-item>
-            <nut-form-item label="详细地址" required>
-                <nut-textarea :autosize="{
+            <nut-form-item class="jx-form-item" label="详细地址" required>
+                <nut-textarea :border="false"  :autosize="{
                     minHeight: 80
                 }" placeholder="请输入详细地址" v-model="form.mainMomentAreaAddress" limit-show max-length="200" />
             </nut-form-item>
         </nut-form>
         <nut-cell>
-            <nut-button color="linear-gradient(to right, #ff6034, #ee0a24)" type="primary" style="width:80%;margin: auto;"
-                @click="confirm">提交</nut-button>
+            <nut-button  type="primary" style="width:80%;margin: auto;"
+                @click="confirm">认证</nut-button>
         </nut-cell>
         <nut-popup position="bottom" v-model:visible="receiveHelpTime.show">
             <nut-date-picker v-model="receiveHelpTime.value" title="时间选择" type="hour-minute"
@@ -164,9 +164,6 @@ onMounted(async () => {
     form.name = account.accountInfo.realName
     form.phoneNumber = account.accountInfo.phoneNumber
     form.regionId = res.regionId || []
-    Taro.setNavigationBarTitle({
-        title: res.id ? '修改志愿者' : '注册志愿者'
-    })
 })
 </script>
 
