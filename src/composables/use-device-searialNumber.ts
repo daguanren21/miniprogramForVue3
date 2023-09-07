@@ -13,6 +13,7 @@ export const useDeviceBySearialNumber = (form) => {
             })
             form.id = item.deviceId
             await manage.getDeviceInfo(item.deviceId)
+            searialNumber.show = false
             setTimeout(() => { Taro.hideLoading() }, 1000)
         }
     })

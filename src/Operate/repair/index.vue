@@ -14,7 +14,7 @@
                     }" placeholder="请输入报修原因" v-model="form.description" limit-show max-length="200" />
                 </nut-form-item>
                 <nut-form-item label="现场图片" required>
-                    <nut-uploader @delete="deleteFiles" :file-list="_fileList" :url="uploadUrl"
+                    <nut-uploader :media-type="['image']" @delete="deleteFiles" :file-list="_fileList" :url="uploadUrl"
                         :before-xhr-upload="beforeXhrUpload" maximum="4"></nut-uploader>
                 </nut-form-item>
             </nut-form>

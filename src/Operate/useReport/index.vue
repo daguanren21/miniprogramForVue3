@@ -15,11 +15,17 @@
                 <nut-form-item class="jx-form-item" required label="抢救开始时间">
                     <nut-input :border="false" v-model="form.rescueBeginTime" @click="datePop.open('rescueBeginTime')"
                         readonly placeholder="请选择开始时间" type="text">
+                        <template #right>
+                            <jx-icon value="select" color="#6A6F71" :size="14"> </jx-icon>
+                        </template>
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item class="jx-form-item" required label="抢救结束时间">
                     <nut-input :border="false" v-model="form.rescueEndTime" @click="datePop.open('rescueEndTime')"
                         placeholder="请选择结束时间" readonly type="text">
+                        <template #right>
+                            <jx-icon value="select" color="#6A6F71" :size="14"> </jx-icon>
+                        </template>
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item class="jx-form-item" label="是否用于抢救" required>

@@ -1,4 +1,4 @@
 export default definePageConfig({
-    navigationBarTitleText:'设备管理',
+    navigationBarTitleText:'运维管理',
     enablePullDownRefresh:true
 })

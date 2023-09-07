@@ -55,7 +55,7 @@
                         }" placeholder="请具体到xx区xx路xx号xx大楼xx层xx门牌号xx处" v-model="form.address" limit-show max-length="200" />
                     </nut-form-item>
                     <nut-form-item label="现场图片" required>
-                        <nut-uploader @delete="deleteFiles" :file-list="_fileList" :url="uploadUrl"
+                        <nut-uploader :media-type="['image']" @delete="deleteFiles" :file-list="_fileList" :url="uploadUrl"
                             :before-xhr-upload="beforeXhrUpload" maximum="4"></nut-uploader>
                     </nut-form-item>
                 </nut-cell-group>

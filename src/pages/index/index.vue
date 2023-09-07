@@ -10,10 +10,12 @@
             </template>
           </nut-searchbar>
         </div>
-        <div class="absolute top-120px right-30px">
-          <div @click="handleNearby" class="flex-center flex-col mb-20px  p-10px rounded-15px bg-hex-1890ff">
-            <jx-icon value="nearby" color="#fff" :size="24"></jx-icon>
-            <p class="text-20px text-hex-fff">附近AED</p>
+        <div class="absolute top-135px right-20px">
+          <div @click="handleNearby">
+            <image class="w-133px h-133px" src="../../assets/images/index/附近aed.png"></image>
+          </div>
+          <div @click="handleNearby" class="mt-17px">
+            <image class="w-133px h-133px" src="../../assets/images/index/帮助.png"></image>
           </div>
         </div>
         <div @click="moveToLocation" class="absolute bottom-20px right-30px">
@@ -25,12 +27,39 @@
       </map>
     </div>
     <nut-popup position="bottom" closeable round :style="{ height: '60%' }" v-model:visible="suggestionVisible">
-      <nut-cell v-for="item in searchAreaList" @click="changeMapCenter(item.location)" :key="item.id" :title="item.title"
-        :sub-title="item.address"></nut-cell>
+      <div class="text-center text-30px text-hex-1f1f1f font-bold mt-42px">搜索结果</div>
+      <div class="p-40px box-border " style="border:1rpx solid #dadada" v-for="item in searchAreaList"
+        @click="changeMapCenter(item.location)">
+        <div class="text-30px font-bold text-hex-333">{{ item.title }}</div>
+        <div class="mt-20px text-26px text-hex-797979">{{ item.address }}</div>
+      </div>
     </nut-popup>
     <device-info-modal :detail="deviceInfo!" :show="deviceVisible" @close="handleDeviceInfoClose"></device-info-modal>
     <nearby-devices @change="changeNearByCenter" @close="nearby.visible = false" :visible="nearby.visible"
       :list="nearby.list"></nearby-devices>
+    <nut-overlay :visible="true">
+      <div claas="flex-center h-full">
+        <div class="bg-hex-fff rounded-20px w-610px">
+          <div class="text-left">
+            <div class="text-36px text-hex-32B44B font-bold pb-8px w-226px text-center"
+              style="border-bottom:2rpx solid #32B44B;padding-bottom:8rpx">帮助</div>
+            <div class="mt-54px line-height-36px text-hex-484848 text-28px">
+              <p>一.开启AED</p>
+              <p>打开包装，取出AED，打开电源开关，按照语音提示操作。</p>
+              <p class="mt-30px">二.贴放电极片 </p>
+              <p>根据AED电极片上的图示，将一片电极片贴在患者裸露胸部的右上方（胸骨右缘，锁骨之下），另一片电极片贴在患者左乳头外侧（左腋前线之后第五肋间处）。</p>
+              <p class="mt-30px">三.开启AED</p>
+              <p>打开包装，取出AED，打开电源开关，按照语音提示操作。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="absolute" style="top: -40rpx;">
+        <image class="w-165px h-91px" src="../../assets/images/index/夹子.png"></image>
+      </div> -->
+
+    </nut-overlay>
   </view>
 </template>
 
@@ -113,4 +142,10 @@ function changeNearByCenter(item: Index.DeviceInfo) {
 
 <style lang="scss">
 @import "./index.scss";
+
+.search-area {
+  padding: 40px;
+  box-sizing: border-box;
+  border-bottom: 1px solid #C5C5C5;
+}
 </style>

@@ -49,10 +49,10 @@ export const filter = (type: DotType) => {
             color = '#409EFF'
             break;
         case 'error':
-            color = '#EA2E1E'
+            color = '#FF0000'
             break;
         case 'warning':
-            color = '#FF6216'
+            color = '#FFB62A'
             break;
         case 'default':
             color = '#B4B4B4'

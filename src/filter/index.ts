@@ -54,10 +54,10 @@ export const noDataFilter = (str: string) => {
  */
 export const distanceFilter = (distance: number) => {
     if (distance > 1000) {
-        return (distance / 1000).toFixed(2) + '千米'
+        return (distance / 1000).toFixed(2) + 'km'
     }
     if (distance == 0 || distance) {
-        return distance + '米'
+        return distance + 'm'
     } else if (!distance) {
         return '未知'
     }

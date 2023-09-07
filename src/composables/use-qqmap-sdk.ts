@@ -6,6 +6,9 @@ import normalImage from '~/assets/images/map_jx.png'
 import normalSelectImage from '~/assets/images/jx_select.png'
 export const useQQMapSdk = () => {
     const mapCtx = Taro.createMapContext('indexMap')
+    mapCtx.setLocMarkerIcon({
+        iconPath: '../assets/images/index/用户定位.png'
+    })
     const qqmapsdk = new QQMapWX({ key: qqMapKey })
     const deviceList = ref<DeviceMap[]>([])
     const markers = ref<{
@@ -152,12 +155,12 @@ export const useQQMapSdk = () => {
     //拨打电话
     const makePhoneCall = (phoneNumber: string) => {
         if (!phoneNumber) {
-          return
+            return
         }
         Taro.makePhoneCall({
-          phoneNumber: phoneNumber
+            phoneNumber: phoneNumber
         })
-      }
+    }
 
     return {
         getSuggestion,
