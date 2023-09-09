@@ -4,83 +4,91 @@
             <div class="image_wrap">
                 <div class="image" :key="index + 'manageImage'" v-for="(item, index) in getImages(info.deployedImagePath)">
                     <image :src="item" v-if="item"></image>
-                    <image v-else src="../../assets/images/jx-without-image.svg"></image>
+                    <image v-else src="../../assets/images/index/默认图.jpg"></image>
                 </div>
             </div>
             <div class="sn"> {{ noDataFilter(info.serialNumber) }} </div>
+            <div class="flex-y-center justify-between mb-20px">
+                <div class="flex-y-center">
+                    <jx-icon value="address" color="#797979" :size="14"></jx-icon>
+                    <div class="ml-15px text-26px text-hex-797979">{{ noDataFilter(info.address) }}</div>
+                </div>
+                <div @click.stop="showMapNavigation(info)">
+                    <jx-icon value="navigation" color="#2595E8" :size="20"></jx-icon>
+                </div>
+            </div>
             <div class="action">
-                <div class="item" @click="toDeviceInstall">
-                    <!-- <AtIcon prefixClass="fa" value="edit" class="icon"></AtIcon> -->
+                <!-- <div class="item">
                     <text class="ft">完善信息</text>
+                </div> -->
+                <div @click="toDeviceInstall">
+                    <image class="w-167px h-52px" src="../../assets/images/index/完善信息.png"></image>
                 </div>
-                <div class="item  pl-10px" @click="toDeviceParts">
-                    <!-- <AtIcon prefixClass="fa" value="repair" class="icon"></AtIcon> -->
-                    <text class="ft">更换耗材</text>
+                <div class="ml-16px" @click="operate.visible = true">
+                    <image class="w-167px h-52px" src="../../assets/images/index/设备维护.png"></image>
                 </div>
-                <nut-popover v-model:visible="operate.visible" :list="operate.itemList" location="bottom-start"
-                    @choose="operate.chooseItem">
-                    <template #reference>
-                        <div class="item  pl-10px">
-                            <!-- <AtIcon prefixClass="fa" value="repair" class="icon"></AtIcon> -->
-                            <text class="ft">更多操作</text>
-                        </div>
-                    </template>
-                </nut-popover>
+                <nut-overlay v-model:visible="operate.visible">
+                    <div class="flex-center h-full relative">
 
+                        <div class="bg-hex-fff rounded-20px w-680px py-50px relative">
+                            <div class="absolute bottom-0" @click.stop="operate.visible = false"
+                                style="bottom: -82rpx; left: 50%;transform: translateX(-50%);">
+                                <jx-icon value="index-close" color="#FFFFFF" :size="27"></jx-icon>
+                            </div>
+                            <nut-row>
+                                <nut-col v-for="item in operate.itemList" :span="6" @click="operate.chooseItem(item)">
+                                    <div class="flex-col items-center m-y-30px">
+                                        <image v-if="item.imageUrl" class="w-51px h-49px" :src="item.imageUrl">
+                                        </image>
+                                        <p class="mt-19px text-28px font-bold">{{ item.name }}</p>
+                                    </div>
+                                </nut-col>
+                            </nut-row>
+                        </div>
+                    </div>
+                </nut-overlay>
             </div>
         </div>
         <div class="content">
             <div class="module">
-                <nut-cell-group title="基本信息">
+                <div class="flex-y-center ml-20px">
+                    <div class="w-8px h-36px bg-hex-409EFF rounded-4px"></div>
+                    <div class="ml-11px text-30px text-hex-333">基本信息</div>
+                </div>
+                <div class="bg-hex-fff w-720px m-auto rounded-20px">
                     <nut-cell title="型号">
-                        <template v-slot:icon>
-                            <jx-icon value="manage-brand" color="#FE9068"></jx-icon>
-                        </template>
                         <template v-slot:link>
                             <span>{{ noDataFilter(info.model) }}</span>
                         </template>
                     </nut-cell>
                     <nut-cell title="品牌">
-                        <template v-slot:icon>
-                            <jx-icon value="manage-brand" color="#A40B5E"></jx-icon>
-                        </template>
                         <template v-slot:link>
                             <span>{{ info.brandName }}</span>
                         </template>
                     </nut-cell>
                     <nut-cell title="移动设备">
-                        <template v-slot:icon>
-                            <jx-icon value="manage-brand" color="#A40B5E"></jx-icon>
-                        </template>
                         <template v-slot:link>
                             <span>{{ info.mobile ? '是' : '否' }}</span>
                         </template>
                     </nut-cell>
                     <nut-cell title="安装场所">
-                        <template v-slot:icon>
-                            <jx-icon value="search-ins" color="#7659B1"></jx-icon>
-                        </template>
                         <template v-slot:link>
                             <span>{{ noDataFilter(info.placeName) }}</span>
                         </template>
                     </nut-cell>
-                    <nut-cell title="位置信息">
-                        <template v-slot:icon>
-                            <jx-icon value="dingwei" color="#FF6216"></jx-icon>
-                        </template>
-                        <template v-slot:link>
-                            <span class="mr-30px">{{ noDataFilter(info.address) }}</span>
-                            <jx-icon @click.stop="showMapNavigation(info)" v-if="info.address" value="dh"
-                                color="#1890ff"></jx-icon>
-                        </template>
-                    </nut-cell>
-                </nut-cell-group>
+                </div>
             </div>
             <div class="module">
-                <nut-cell-group title="状态信息">
+                <div class="flex-y-center ml-20px">
+                    <div class="w-8px h-36px bg-hex-409EFF rounded-4px"></div>
+                    <div class="ml-11px text-30px text-hex-333">状态信息</div>
+                </div>
+                <div class="bg-hex-fff w-720px m-auto rounded-20px">
                     <nut-cell title="运行状态">
                         <template v-slot:icon>
-                            <jx-icon value="run" color="#FF6216"></jx-icon>
+                            <div class="w-48px h-48px bg-hex-E6EFFF rounded-10px flex-center">
+                                <jx-icon value="run" color="#409EFF"></jx-icon>
+                            </div>
                         </template>
                         <template v-slot:link>
                             <jx-dot :state="deviceRunningStateFilter(info.runningState)" />
@@ -88,20 +96,24 @@
                     </nut-cell>
                     <nut-cell title="电池状态">
                         <template v-slot:icon>
-                            <jx-icon value="battery" color="#E50012"></jx-icon>
+                            <div class="w-48px h-48px bg-hex-E6EFFF rounded-10px flex-center">
+                                <jx-icon value="battery" color="#409EFF"></jx-icon>
+                            </div>
                         </template>
                         <template v-slot:link>
                             <text class="mr-30px">{{
-                                info.batteryPower
-                                ? info.batteryPower + "%"
-                                : noDataFilter(info.batteryPower)
+                                info.batteryRemainingPower
+                                ? info.batteryRemainingPower
+                                : noDataFilter(info.batteryRemainingPower)
                             }}</text>
                             <jx-dot :state="batteryStateFilter(info.batteryState)" />
                         </template>
                     </nut-cell>
                     <nut-cell title="电极片状态">
                         <template v-slot:icon>
-                            <jx-icon value="electrode" color="#0DAC67"></jx-icon>
+                            <div class="w-48px h-48px bg-hex-E6EFFF rounded-10px flex-center">
+                                <jx-icon value="electrode" color="#409EFF"></jx-icon>
+                            </div>
                         </template>
                         <template v-slot:link>
                             <text class="mr-30px">{{
@@ -112,7 +124,9 @@
                     </nut-cell>
                     <nut-cell title="网络状态">
                         <template v-slot:icon>
-                            <jx-icon value="wifi" color="#2CA6E0"></jx-icon>
+                            <div class="w-48px h-48px bg-hex-E6EFFF rounded-10px flex-center">
+                                <jx-icon value="wifi" color="#409EFF"></jx-icon>
+                            </div>
                         </template>
                         <template v-slot:link>
                             <jx-dot :state="deviceNetworkStateFilter(info.deviceNetworkState)" />
@@ -120,7 +134,9 @@
                     </nut-cell>
                     <nut-cell title="位置状态">
                         <template v-slot:icon>
-                            <jx-icon value="location" color="#182987"></jx-icon>
+                            <div class="w-48px h-48px bg-hex-E6EFFF rounded-10px flex-center">
+                                <jx-icon value="location" color="#409EFF"></jx-icon>
+                            </div>
                         </template>
                         <template v-slot:link>
                             <jx-dot :state="positionStateFilter(info.positionState)" />
@@ -128,7 +144,9 @@
                     </nut-cell>
                     <nut-cell title="质保状态">
                         <template v-slot:icon>
-                            <jx-icon value="warranty" color="#00AB92"></jx-icon>
+                            <div class="w-48px h-48px bg-hex-E6EFFF rounded-10px flex-center">
+                                <jx-icon value="hasCheck" color="#409EFF"></jx-icon>
+                            </div>
                         </template>
                         <template v-slot:link>
                             <text class="mr-30px">{{
@@ -137,47 +155,43 @@
                             <jx-dot :state="qualityAssuranceStateFilter(info.qualityAssuranceState)" />
                         </template>
                     </nut-cell>
-
-                </nut-cell-group>
+                </div>
             </div>
             <div class="module">
-                <nut-cell-group title="联系人信息">
+                <div class="flex-y-center ml-20px">
+                    <div class="w-8px h-36px bg-hex-409EFF rounded-4px"></div>
+                    <div class="ml-11px text-30px text-hex-333">联系人信息</div>
+                </div>
+                <div class="bg-hex-fff w-720px m-auto rounded-20px">
                     <nut-cell title="联系人">
-                        <template v-slot:icon>
-                            <jx-icon value="contact-person" color="#E73828"></jx-icon>
-                        </template>
                         <template v-slot:link>
                             <span>{{ info.contactName }}</span>
                         </template>
                     </nut-cell>
                     <nut-cell title="联系方式" @click="makePhoneCall(info.contactPhone)">
-                        <template v-slot:icon>
-                            <jx-icon value="manage-phone" color="#F29600"></jx-icon>
-                        </template>
                         <template v-slot:link>
                             <span :class="{ hasClick: info.contactPhone }">{{ info.contactPhone }}</span>
                         </template>
                     </nut-cell>
                     <nut-cell title="归属单位">
-                        <template v-slot:icon>
-                            <jx-icon value="search-ins" color="#7659B1"></jx-icon>
-                        </template>
                         <template v-slot:link>
                             <span>{{ noDataFilter(info.unitName) }}</span>
                         </template>
                     </nut-cell>
                     <nut-cell title="出资人">
-                        <template v-slot:icon>
-                            <jx-icon value="contributor" color="#5F1985"></jx-icon>
-                        </template>
                         <template v-slot:link>
                             <span>{{ noDataFilter(info.investor) }}</span>
                         </template>
                     </nut-cell>
-                </nut-cell-group>
+                </div>
             </div>
             <div class="module">
-                <nut-cell-group title="开放信息">
+
+                <div class="flex-y-center ml-20px">
+                    <div class="w-8px h-36px bg-hex-409EFF rounded-4px"></div>
+                    <div class="ml-11px text-30px text-hex-333">开放信息</div>
+                </div>
+                <div class="bg-hex-fff w-720px m-auto rounded-20px">
                     <nut-cell title="开放类型">
                         <template v-slot:link>
                             <span>{{ devicePublicFilter(info.publicType) }}</span>
@@ -185,73 +199,63 @@
                     </nut-cell>
                     <nut-cell title="开放日" @click="makePhoneCall(info.contactPhone)">
                         <template v-slot:link>
-                            <span>{{ workDayFilter(info.workDay) }}</span>
+                            <span>{{ showWeekDays(info.workDay) }}</span>
                         </template>
                     </nut-cell>
                     <nut-cell title="开放时间" v-if="info.publicType === 'HALF'">
                         <template v-slot:link>
-                            <span>{{ info.publicTime}}</span>
+                            <span>{{ info.publicTime }}</span>
                         </template>
                     </nut-cell>
-                </nut-cell-group>
+                </div>
             </div>
             <div class="module" v-if="info.maintainInstitutionId">
-                <nut-cell-group title="维保单位信息">
+                <div class="flex-y-center ml-20px">
+                    <div class="w-8px h-36px bg-hex-409EFF rounded-4px"></div>
+                    <div class="ml-11px text-30px text-hex-333">维保单位信息</div>
+                </div>
+                <div class="bg-hex-fff w-720px m-auto rounded-20px">
                     <nut-cell title="联系人">
-                        <template v-slot:icon>
-                            <jx-icon value="contact-person" color="#E73828"></jx-icon>
-                        </template>
                         <template v-slot:link>
                             <span>{{ info.maintainInstitutionAdminName }}</span>
                         </template>
                     </nut-cell>
                     <nut-cell title="联系方式" @click="makePhoneCall(info.maintainInstitutionAdminPhoneNumber)">
-                        <template v-slot:icon>
-                            <jx-icon value="manage-phone" color="#F29600"></jx-icon>
-                        </template>
                         <template v-slot:link>
                             <span :class="{ hasClick: info.maintainInstitutionAdminPhoneNumber }">{{
                                 info.maintainInstitutionAdminPhoneNumber }}</span>
                         </template>
                     </nut-cell>
                     <nut-cell title="单位名称">
-                        <template v-slot:icon>
-                            <jx-icon value="search-ins" color="#7659B1"></jx-icon>
-                        </template>
                         <template v-slot:link>
                             <span>{{ info.maintainInstitutionName }}</span>
                         </template>
                     </nut-cell>
-                </nut-cell-group>
+                </div>
             </div>
             <div class="module" v-if="info.configInstitutionId">
-                <nut-cell-group title="配置单位信息">
+                <div class="flex-y-center ml-20px">
+                    <div class="w-8px h-36px bg-hex-409EFF rounded-4px"></div>
+                    <div class="ml-11px text-30px text-hex-333">配置单位信息</div>
+                </div>
+                <div class="bg-hex-fff w-720px m-auto rounded-20px">
                     <nut-cell title="联系人">
-                        <template v-slot:icon>
-                            <jx-icon value="contact-person" color="#E73828"></jx-icon>
-                        </template>
                         <template v-slot:link>
                             <span>{{ info.configInstitutionName }}</span>
                         </template>
                     </nut-cell>
                     <nut-cell title="联系方式" @click="makePhoneCall(info.configInstitutionAdminPhoneNumber)">
-                        <template v-slot:icon>
-                            <jx-icon value="manage-phone" color="#F29600"></jx-icon>
-                        </template>
                         <template v-slot:link>
                             <span :class="{ hasClick: info.configInstitutionAdminPhoneNumber }">{{
                                 info.configInstitutionAdminPhoneNumber }}</span>
                         </template>
                     </nut-cell>
                     <nut-cell title="单位名称">
-                        <template v-slot:icon>
-                            <jx-icon value="search-ins" color="#7659B1"></jx-icon>
-                        </template>
                         <template v-slot:link>
                             <span>{{ info.configInstitutionName }}</span>
                         </template>
                     </nut-cell>
-                </nut-cell-group>
+                </div>
             </div>
         </div>
     </div>
@@ -262,8 +266,8 @@ defineOptions({
     name: 'manageDeviceInfo'
 })
 import { useRouter, useDidShow } from '@tarojs/taro'
-import { getImages } from '~/utils/index'
-import { devicePublicFilter, workDayFilter, dateFilter, deviceRunningStateFilter, deviceNetworkStateFilter, positionStateFilter, qualityAssuranceStateFilter, batteryStateFilter, noDataFilter } from '~/filter/index'
+import { getImages, showWeekDays } from '~/utils/index'
+import { devicePublicFilter, dateFilter, deviceRunningStateFilter, deviceNetworkStateFilter, positionStateFilter, qualityAssuranceStateFilter, batteryStateFilter, noDataFilter } from '~/filter/index'
 import { useQQMapSdk } from '~/composables/use-qqmap-sdk';
 import Taro from '@tarojs/taro';
 const router = useRouter()
@@ -297,18 +301,22 @@ const toDeviceInstall = () => {
 
 const operate = reactive({
     visible: false,
-    itemList: [{ name: '报修', key: 'repair' }, { name: '维护', key: 'maintainance' }, { name: '巡检', key: 'inspection' }, { name: '移机', key: 'relocation' }, { name: '状态变更', key: 'statusChange' }, { name: '使用上报', key: 'useReport' }],
+    itemList: [
+        { name: '巡检', key: 'inspection', imageUrl: require('~/assets/images/center/巡检.png') },
+        { name: '维护', key: 'maintainance', imageUrl: require('~/assets/images/center/维护.png') },
+        { name: '移机', key: 'relocation', imageUrl: require('~/assets/images/center/移机.png') },
+        { name: '报修', key: 'repair', imageUrl: require('~/assets/images/center/报修.png') },
+        { name: '更换耗材', key: 'parts', imageUrl: require('~/assets/images/center/更换耗材.png') },
+        { name: '状态变更', key: 'statusChange', imageUrl: require('~/assets/images/center/状态变更.png') },
+        { name: '使用上报', key: 'useReport', imageUrl: require('~/assets/images/center/使用上报.png') }],
     chooseItem: (item) => {
+        operate.visible = false
         Taro.navigateTo({
             url: `/Operate/${item.key}/index?id=${manage.deviceInfo.id}&serialNumber=${manage.deviceInfo.serialNumber}`
         })
     }
 })
-const toDeviceParts = () => {
-    Taro.navigateTo({
-        url: `/Operate/parts/index?id=${manage.deviceInfo.id}&serialNumber=${manage.deviceInfo.serialNumber}`
-    })
-}
+
 </script>
 
 <style lang="scss">
@@ -325,18 +333,17 @@ const toDeviceParts = () => {
     }
 
     .d_header {
-        padding: 0 29px;
+        padding: 0 29px 20px 29px;
 
         .image_wrap {
             display: flex;
             justify-content: center;
 
             .image {
-                flex: 1;
-                max-width: 25%;
-                height: 240px;
-                border-radius: 25px;
-                margin-left: 20px;
+                width: 165px;
+                height: 165px;
+                border-radius: 10px;
+                margin-left: 8px;
 
                 image {
                     width: 100%;
@@ -357,7 +364,6 @@ const toDeviceParts = () => {
         .action {
             display: flex;
             align-items: center;
-            margin-bottom: 20px;
 
             .item {
                 padding-right: 10px;
@@ -391,6 +397,8 @@ const toDeviceParts = () => {
         overflow: auto;
 
         .module {
+            padding-top: 30px;
+
             .header {
                 padding: 36px 29px;
                 font-size: 30px;

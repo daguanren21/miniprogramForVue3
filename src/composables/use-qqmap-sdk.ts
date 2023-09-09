@@ -2,8 +2,8 @@
 import Taro from '@tarojs/taro'
 import * as QQMapWX from 'qqmap-wx-jssdk'
 import { type DeviceMap, fetchRegionDevices, fetchRegionDeviceInfo } from '~/api/device'
-import normalImage from '~/assets/images/map_jx.png'
-import normalSelectImage from '~/assets/images/jx_select.png'
+import normalImage from '~/assets/images/device_normal.png'
+import normalSelectImage from '~/assets/images/device_normal.png'
 export const useQQMapSdk = () => {
     const mapCtx = Taro.createMapContext('indexMap')
     mapCtx.setLocMarkerIcon({

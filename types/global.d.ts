@@ -151,6 +151,8 @@ declare namespace Manage {
   interface DeviceInfo extends DeviceList {
     batteryInvalidDate: string;
     batteryPower: string;
+    batteryRemainingPower: string;
+    batteryTotalPower: string;
     configInstitutionId: number;
     configInstitutionName: string;
     configInstitutionAdminName: string;
@@ -245,7 +247,7 @@ declare namespace User {
     certificateNumber: string;
     certificateReleaseDate: string;
     certificateState: Filter.CertificateState;
-    auditState:Filter.AuditState;
+    auditState: Filter.AuditState;
     description: string;
     frontImagePath: string;
     id: number | null;

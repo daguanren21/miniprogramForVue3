@@ -40,27 +40,36 @@ export const getImages = (deployedImageUrl: string, len: number = 4) => {
 }
 
 export const filter = (type: DotType) => {
-    let color = ''
+    let state = {
+        color:'',
+        bgColor:'',
+        borderColor:'',
+    }
     switch (type) {
         case 'success':
-            color = '#32B44B'
-            break;
-        case 'info':
-            color = '#409EFF'
-            break;
-        case 'error':
-            color = '#FF0000'
-            break;
-        case 'warning':
-            color = '#FFB62A'
+            state.color = '#32B44B';
+            state.borderColor = '#32B44B';
+            state.bgColor = '#E0F4E4'
             break;
         case 'default':
-            color = '#B4B4B4'
+            state.color = '#409EFF';
+            state.borderColor = '#409EFF';
+            state.bgColor = '#E0E4FF'
+            break;
+        case 'error':
+            state.color = '#fff';
+            state.borderColor = '#FF0000';
+            state.bgColor = '#FF0000'
+            break;
+        case 'warning':
+            state.color = '#FF9710';
+            state.borderColor = '#FF9710';
+            state.bgColor = '#FFF4DF'
             break;
         default:
             break;
     }
-    return color
+    return state
 }
 //过滤html标签以及&nbsp
 export function removeHTMLTag(str) {

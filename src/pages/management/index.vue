@@ -1,24 +1,47 @@
 <template>
-    <div class="home">
-        <div class="operate bg-hex-fff">
-            <nut-row type="flex" align="center">
+    <div class="home bg-hex-#F5F5F5">
+        <div class="operate bg-hex-fff p-x-25px pb-23px">
+            <!-- <nut-row type="flex" align="center">
                 <nut-col :span="13">
-                    <nut-searchbar placeholder="请输入编号、地址、归属单位" v-model="form.keyword" @search="handleSearch">
+                    <nut-searchbar placeholder="请输入编号、地址、归属单位" >
                         <template v-slot:leftin>
                             <Search2 />
                         </template>
                     </nut-searchbar>
+                   
                 </nut-col>
                 <nut-col :span="6">
-                    <nut-button @click="visible = true" type='info' style="font-size: 24rpx;">高级过滤</nut-button>
+                    <nut-button type='info' style="font-size: 24rpx;">高级过滤</nut-button>
                 </nut-col>
                 <nut-col :span="5">
                     <nut-button @click="toDeviceInstall" type='primary' style="font-size: 24rpx;">新增</nut-button>
                 </nut-col>
-            </nut-row>
+            </nut-row> -->
+            <div class="flex-y-center ">
+                <nut-searchbar class="jx-search w-550rpx manage-search" v-model="form.keyword" @search="handleSearch"
+                    placeholder="请输入编号、地址">
+                    <template v-slot:rightin>
+                        <nut-button type='primary' @click="handleSearch"
+                            style="width:130rpx;height:75rpx;white-space: nowrap;">搜索</nut-button>
+                    </template>
+                </nut-searchbar>
+                <div class="flex-y-center" @click="visible = true">
+                    <jx-icon value="filter" color="#A1A1A1" :size="14"></jx-icon>
+                    <span class="ml-10px text-30px text-hex-a1a1a1 text-nowrap">高级过滤</span>
+                </div>
+            </div>
+            <div class="flex-y-center justify-between">
+                <div class="flex-y-center text-hex-333 text-30px ml-17px">
+                    共有 <span class="text-hex-FF7A2A text-36px">{{ total }}</span> 个设备正在维护
+                </div>
+                <div class="flex-y-center" @click="toDeviceInstall">
+                    <jx-icon value="device-add" color="#FF7A2A" :size="14"></jx-icon>
+                    <span class="ml-10px text-30px text-hex-FF7A2A">设备新增</span>
+                </div>
+            </div>
         </div>
         <div class="main">
-            <device-list :search="searchParams"></device-list>
+            <device-list @change="(value) => total = value" :search="searchParams"></device-list>
             <nut-popup position="top" :style="{ height: '100%' }" v-model:visible="visible">
                 <nut-form>
                     <nut-form-item label="品牌">
@@ -121,10 +144,10 @@
 <script setup lang="ts">
 import Taro from '@tarojs/taro';
 import deviceList from './components/deviceList.vue';
-import { Search2 } from '@nutui/icons-vue-taro';
 import { useDeviceRegion } from '~/composables/use-device-region';
 import { fetchDeviceBrands, fetchDevicePlaces } from '~/api/common';
 const manage = useManageStore()
+const total = ref(0)
 function toDeviceInstall() {
     manage.$reset();
     Taro.navigateTo({
@@ -172,7 +195,7 @@ const handleSearch = () => {
 const { region } = useDeviceRegion((options) => {
     form.value.regionName = options.regionName;
     form.value.regionId = options.regionId;
-},false)
+}, false)
 const submit = () => {
     let { runningState, positionState, hasRescueData, mobile, placeId, brandId, installDateBegin, installDateEnd } = form.value
     let [provinceId, cityId, districtId] = form.value.regionId
@@ -278,4 +301,13 @@ const datePop = reactive({
 })
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.manage-search {
+    width: 550rpx !important;
+    padding-left: 0 !important;
+
+    .nut-searchbar__search-input {
+        background: #F4F4F4 !important;
+    }
+}
+</style>

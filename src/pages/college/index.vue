@@ -59,12 +59,5 @@ const changeTab = (index) => {
 </script>
 
 <style lang="scss">
-.jx-search {
-    background: transparent;
 
-    .nut-searchbar__search-input {
-        background: #fff;
-        height: 84px;
-    }
-}
 </style>

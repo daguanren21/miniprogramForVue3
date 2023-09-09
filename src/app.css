@@ -48,3 +48,22 @@ page{
     padding:51px 0 51px 51px;
     border-bottom: 1px solid #DBDBDB;
 }
+.jx-search {
+    background: transparent !important;
+
+  
+}
+
+.jx-search .nut-searchbar__search-input {
+    background: #fff;
+    height: 84px;
+}
+
+.nut-searchbar__search-input .nut-searchbar__input-inner-icon{
+    padding:0 !important;
+}
+
+.person-center {
+    background: url(./assets/images/center/bg.png) no-repeat;
+    background-size: 100% 100%;
+}

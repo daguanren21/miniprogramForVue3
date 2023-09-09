@@ -1,13 +1,11 @@
 <template>
-    <view class="jx-status" :style="{
-        borderColor: filter(state.type),
-    }">
+    <view class="jx-status" >
         <view class="dot" :style="{
-            backgroundColor: filter(state.type),
-            borderColor: filter(state.type),
+            backgroundColor: filter(state.type).borderColor,
+            borderColor: filter(state.type).borderColor,
         }">
         </view>
-        <text class="code">
+        <text class="code" :style="{ color: filter(state.type).borderColor }">
             {{ state.text }}
         </text>
     </view>
@@ -34,18 +32,16 @@ defineProps<{
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 173px;
     height: 44px;
     line-height: 44px;
-    border: 1px solid rgba(42, 208, 61, 1);
     border-radius: 15px;
 
     .dot {
-        width: 23px;
-        height: 23px;
+        width: 10px;
+        height: 10px;
         margin-right: 10px;
         border-radius: 50%;
-        background-color: rgba(113, 192, 64, 1);
+        background-color: #32B44B;
     }
 
     .code {

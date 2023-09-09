@@ -23,7 +23,7 @@
                                 <div class="flex">
                                     <div class="w-180px h-180px mr-30px">
                                         <image class="wh-full" v-if="item.brandLogo" :src="item.brandLogo"></image>
-                                        <image class="wh-full" v-else src="../../assets/images/jx-without-image.svg">
+                                        <image class="wh-full" v-else src="../../assets/images/index/默认图.jpg">
                                         </image>
                                     </div>
                                     <div class="flex-1 overflow-hidden">
@@ -40,9 +40,9 @@
                                 <div class="flex-y-center justify-between mt-27px">
                                     <div class="text-26px text-hex-999">通知次数：{{ item.noticeNumber || 0 }}</div>
                                     <div class="flex justify-end">
-                                        <nut-button size="small" class="h-60px" type="info"
+                                        <nut-button size="small" class="h-60px" type="primary"
                                             @click="noticeModal.open(item)">通知维护</nut-button>
-                                        <nut-button style="margin-left:20rpx" size="small" class="h-60px" type="primary"
+                                        <nut-button style="margin-left:20rpx" size="small" class="h-60px" type="danger"
                                             @click="handleModal.open(item.repairRecordId)">处理</nut-button>
                                     </div>
                                 </div>

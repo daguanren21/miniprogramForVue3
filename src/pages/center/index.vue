@@ -120,7 +120,7 @@
                             </nut-col>
                             <nut-col :span="6" @click="toOperate('repair')">
                                 <div class="flex-col items-center">
-                                    <image class="w-51px h-49px" src="../../assets/images/center/repair.png">
+                                    <image class="w-51px h-49px" src="../../assets/images/center/报修.png">
                                     </image>
                                     <p class="mt-19px text-28px font-bold">报修</p>
                                 </div>
@@ -190,7 +190,6 @@
         </div>
         <jx-tab-bar></jx-tab-bar>
     </div>
-    <!-- <nut-button @getphonenumber="getPhoneNumber" type="primary" open-type="getPhoneNumber">授权</nut-button> -->
 </template>
 
 <script setup lang="ts">
@@ -257,7 +256,9 @@ const toOperate = (key: string) => {
     })
 }
 //跳转到录入页面
+const manage = useManageStore()
 const toDeviceInstall = () => {
+    manage.$reset();
     Taro.navigateTo({
         url: '/Manage/deviceInstall/index'
     })

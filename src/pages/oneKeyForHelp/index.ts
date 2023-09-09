@@ -2,16 +2,16 @@ import { useNotify } from './../../composables/use-notify';
 import Taro from "@tarojs/taro"
 import { ReceivedInfo, RescueInfo, VolunteerRecord, fetchLocationDistance, fetchVolunteerDrill, fetchVolunteerRescueInfo, saveAgreeToHelp, saveDrillVolunteer, saveRefuseToHelp, saveSwitchModel } from "~/api/user"
 import { useMapLocation } from '~/composables/use-map-location';
-import callForHelpIcon from '~/assets/images/icon-callforHelper.png'
-import volunteerAEDActiveIcon from '~/assets/images/icon-volunteer-aed-active.png'
-import volunteerAEDIcon from '~/assets/images/icon-volunteer-aed.png'
-import volunteerCprActiveIcon from '~/assets/images/icon-volunteer-cpr-active.png'
-import volunteerCprIcon from '~/assets/images/icon-volunteer-cpr.png'
-import normalImage from '~/assets/images/map_jx.png'
+import callForHelpIcon from '~/assets/images/callHelp/icon-callforHelper.svg'
+import volunteerAEDActiveIcon from '~/assets/images/callHelp/icon-volunteer-aed-active.svg'
+import volunteerAEDIcon from '~/assets/images/callHelp/icon-volunteer-aed.svg'
+import volunteerCprActiveIcon from '~/assets/images/callHelp/icon-volunteer-cpr-active.svg'
+import volunteerCprIcon from '~/assets/images/callHelp/icon-volunteer-cpr.svg'
+import normalImage from '~/assets/images/device_normal.png'
 const DEVICE_MARKERID_PREFIX = "device"
 const RESUCE_MARKERID_PREFIX = "rescue"
 const RESPONSE_INFO_MARKERID_PREFIX = "response"
-import normalSelectImage from '~/assets/images/jx_select.png'
+import normalSelectImage from '~/assets/images/device_normal.png'
 import { fetchLatelyDevices, fetchRegionDeviceInfo } from '~/api/device';
 import { useQQMapSdk } from '~/composables/use-qqmap-sdk';
 import { fetchDeviceCoordinate, updateVolunteerLocation } from '~/api/common';
@@ -79,35 +79,18 @@ export function useSwitchModel() {
     //模式切换
     let rescueType = ref<Filter.RescueType>('EMERGENT')
     const model = reactive({
-        show: false,
-        value: ['EMERGENT'],
-        columns: [{
-            text: '正常模式',
-            value: 'EMERGENT'
-        }, {
-            text: '演练模式',
-            value: 'DRILL'
-        }],
-        open: () => {
-            model.show = true
-        },
-        confirm: async ({ selectedValue, selectedOptions }) => {
-            console.log(selectedValue)
-            model.value = selectedOptions.map((val: any) => val.value)
-            rescueType.value = selectedOptions.map((val: any) => val.value).join('');
+        confirm: async () => {
+            rescueType.value = 'DRILL'
             //演练模式时查询演练人员
-            if (rescueType.value === 'DRILL') {
-                let res = await fetchVolunteerDrill()
-                dynamicForm.show = true
-                if (res.length) {
-                    dynamicForm.phoneList = res.map(v => {
-                        return {
-                            tel: v
-                        }
-                    })
-                }
+            let res = await fetchVolunteerDrill()
+            dynamicForm.show = true
+            if (res.length) {
+                dynamicForm.phoneList = res.map(v => {
+                    return {
+                        tel: v
+                    }
+                })
             }
-            model.show = false
         },
 
     })
@@ -288,8 +271,8 @@ export function useMap(lat: Ref<number>, lng: Ref<number>) {
             latitude: record.latitude,
             longitude: record.longitude,
             iconPath: callForHelpIcon,
-            width: 40,
-            height: 60
+            width: 30,
+            height: 40
         }])
 
     }
@@ -316,8 +299,8 @@ export function useMap(lat: Ref<number>, lng: Ref<number>) {
                 latitude: v.receiverLatitude,
                 longitude: v.receiverLongitude,
                 iconPath: iconPath,
-                width: 39,
-                height: 39
+                width: 30,
+                height: 40
             }
         }))
     }

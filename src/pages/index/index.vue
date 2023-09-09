@@ -4,9 +4,9 @@
       <map class="wh-full" :markers="markers" @markertap="markertap" @callouttap="markertap" @regionchange="regionchange"
         :longitude="centerLng" :latitude="centerLat" :scale="scale" id="indexMap" :show-location="true" :showScale="true">
         <div class="quick_search">
-          <nut-searchbar v-model="searchValue" @search="handleSearch" placeholder="请输入地址">
-            <template v-slot:leftin>
-              <Search2 />
+          <nut-searchbar class="jx-search" v-model="searchValue" @search="handleSearch" placeholder="请输入地址">
+            <template v-slot:rightin>
+              <nut-button type='primary' @click="handleSearch" style="width:130rpx;height:75rpx;white-space: nowrap;">搜索</nut-button>
             </template>
           </nut-searchbar>
         </div>
@@ -14,7 +14,7 @@
           <div @click="handleNearby">
             <image class="w-133px h-133px" src="../../assets/images/index/附近aed.png"></image>
           </div>
-          <div @click="handleNearby" class="mt-17px">
+          <div @click="helpVisible = true" class="mt-17px">
             <image class="w-133px h-133px" src="../../assets/images/index/帮助.png"></image>
           </div>
         </div>
@@ -28,28 +28,38 @@
     </div>
     <nut-popup position="bottom" closeable round :style="{ height: '60%' }" v-model:visible="suggestionVisible">
       <div class="text-center text-30px text-hex-1f1f1f font-bold mt-42px">搜索结果</div>
-      <div class="p-40px box-border " style="border:1rpx solid #dadada" v-for="item in searchAreaList"
-        @click="changeMapCenter(item.location)">
-        <div class="text-30px font-bold text-hex-333">{{ item.title }}</div>
-        <div class="mt-20px text-26px text-hex-797979">{{ item.address }}</div>
+      <div class="p-x-40px box-border">
+        <div class="p-y-40px box-border" style="border-bottom:1rpx solid #dadada" v-for="item in searchAreaList"
+          @click="changeMapCenter(item.location)">
+          <div class="text-30px font-bold text-hex-333">{{ item.title }}</div>
+          <div class="mt-20px text-26px text-hex-797979">{{ item.address }}</div>
+        </div>
       </div>
+
     </nut-popup>
     <device-info-modal :detail="deviceInfo!" :show="deviceVisible" @close="handleDeviceInfoClose"></device-info-modal>
     <nearby-devices @change="changeNearByCenter" @close="nearby.visible = false" :visible="nearby.visible"
       :list="nearby.list"></nearby-devices>
-    <nut-overlay :visible="true">
-      <div claas="flex-center h-full">
-        <div class="bg-hex-fff rounded-20px w-610px">
-          <div class="text-left">
-            <div class="text-36px text-hex-32B44B font-bold pb-8px w-226px text-center"
-              style="border-bottom:2rpx solid #32B44B;padding-bottom:8rpx">帮助</div>
-            <div class="mt-54px line-height-36px text-hex-484848 text-28px">
+    <nut-overlay v-model:visible="helpVisible">
+      <div class="flex-center h-full">
+        <div class="bg-hex-fff rounded-20px w-610px pb-50px relative">
+          <div class="help-header">
+            <image class="w-165px h-90px" src="../../assets/images/index/夹子.png"></image>
+          </div>
+          <div class="pt-50px">
+            <div class="text-36px text-hex-32B44B font-bold pb-8px w-226px text-center m-auto"
+              style="border-bottom:2rpx solid #32B44B;">帮助</div>
+            <div class="text-left mt-54px line-height-36px text-hex-484848 text-28px p-x-30px">
               <p>一.开启AED</p>
               <p>打开包装，取出AED，打开电源开关，按照语音提示操作。</p>
               <p class="mt-30px">二.贴放电极片 </p>
               <p>根据AED电极片上的图示，将一片电极片贴在患者裸露胸部的右上方（胸骨右缘，锁骨之下），另一片电极片贴在患者左乳头外侧（左腋前线之后第五肋间处）。</p>
               <p class="mt-30px">三.开启AED</p>
               <p>打开包装，取出AED，打开电源开关，按照语音提示操作。</p>
+            </div>
+            <div @click="helpVisible = false"
+              class="m-auto w-450px mt-50px rounded-37px h-70px line-height-70px bg-hex-32B44B text-hex-fff text-34px text-center">
+              已知悉
             </div>
           </div>
         </div>
@@ -64,12 +74,12 @@
 </template>
 
 <script setup lang="ts">
-import { Search2 } from '@nutui/icons-vue-taro';
 import { useMapLocation } from '~/composables/use-map-location';
 import { useQQMapSdk } from '~/composables/use-qqmap-sdk';
 import nearbyDevices from './components/nearby-devices/index.vue'
 import { fetchLatelyDevices } from '~/api/device';
 import Taro from '@tarojs/taro';
+const helpVisible = ref(false)
 //获取地图实例
 const mapState = reactive({
   scale: 13,
@@ -147,5 +157,12 @@ function changeNearByCenter(item: Index.DeviceInfo) {
   padding: 40px;
   box-sizing: border-box;
   border-bottom: 1px solid #C5C5C5;
+}
+
+.help-header {
+  position: absolute;
+  left: 50%;
+  top: -60rpx;
+  transform: translateX(-50%);
 }
 </style>

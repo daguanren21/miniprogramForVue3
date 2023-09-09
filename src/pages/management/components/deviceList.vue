@@ -6,30 +6,30 @@
                 <nut-backtop height="100%">
                     <template v-slot:content>
                         <div class="manage_item" v-for="item in state.content" :key="item.id" @click="toDeviceInfo(item)">
-                            <div class="top">
+                            <div class="top pb-20px">
                                 <div class="left">
                                     <image v-if="item.brandLogo" :src="item.brandLogo"></image>
-                                    <image v-else src="../../../assets/images/jx-without-image.svg"></image>
+                                    <image v-else src="../../../assets/images/index/默认图.jpg"></image>
                                 </div>
                                 <div class="right">
                                     <div class="line">
                                         <div class="sn">
                                             {{ item.serialNumber }}
                                         </div>
-                                    </div>
-                                    <div class="line mt-20px">
-                                        <div class="l flex-y-center">
-                                            <jx-icon class="icon" value="address"></jx-icon>
-                                            <div class="text line-clamp-2">{{ noDataFilter(item.address) }}</div>
-                                        </div>
                                         <div class="r">
-                                            <jx-icon class="icon" value="dh" color="#1890ff"
+                                            <jx-icon class="icon" value="navigation" color="#2595E8"
                                                 @click.stop="showMapNavigation(item)"></jx-icon>
                                         </div>
                                     </div>
                                     <div class="line mt-20px">
+                                        <div class="l flex-y-center">
+                                            <jx-icon class="icon" value="address"></jx-icon>
+                                            <div class="text line-clamp-2 break-all">{{ noDataFilter(item.address) }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="line mt-20px">
                                         <div class="l">
-                                            <jx-icon class="icon" value="selfCheck-time"></jx-icon>
+                                            <jx-icon class="icon" value="device-time"></jx-icon>
                                             <div class="text flex-y-center">
                                                 <text class="label">安装时间</text>
                                                 <text>{{ dateFilter(item.installDate, 'YYYY-MM-DD') }}</text>
@@ -41,14 +41,14 @@
                             <nut-row type="flex" justify="center" class="bottom">
                                 <nut-col class="item mr-5px" :span="12">
                                     <div class="icon_module">
-                                        <jx-icon class="icon" value="run"></jx-icon>
+                                        <jx-icon class="icon" value="run" color="#409EFF"></jx-icon>
                                         <div class="ft">运行</div>
                                     </div>
                                     <jx-dot class="flex_dot" :state="deviceRunningStateFilter(item.runningState)"></jx-dot>
                                 </nut-col>
                                 <nut-col class="item ml-5px" :span="12">
                                     <div class="icon_module">
-                                        <jx-icon class="icon" value="location"></jx-icon>
+                                        <jx-icon class="icon" value="location" color="#409EFF"></jx-icon>
                                         <div class="ft">位置</div>
                                     </div>
                                     <jx-dot class="flex_dot" :state="positionStateFilter(item.positionState)"></jx-dot>
@@ -57,14 +57,14 @@
                             <nut-row type="flex" justify="center" class="bottom">
                                 <nut-col class="item  mr-5px" :span="12">
                                     <div class="icon_module">
-                                        <jx-icon class="icon" value="battery"></jx-icon>
+                                        <jx-icon class="icon" value="battery" color="#409EFF"></jx-icon>
                                         <div class="ft">电池</div>
                                     </div>
                                     <jx-dot class="flex_dot" :state="batteryStateFilter(item.batteryState)"></jx-dot>
                                 </nut-col>
                                 <nut-col class="item ml-5px" :span="12">
                                     <div class="icon_module">
-                                        <jx-icon class="icon" value="wifi"></jx-icon>
+                                        <jx-icon class="icon" value="wifi" color="#409EFF"></jx-icon>
                                         <div class="ft">网络</div>
                                     </div>
                                     <jx-dot class="flex_dot"
@@ -74,7 +74,7 @@
                             <nut-row type="flex" justify="center" class="bottom">
                                 <nut-col class="item  mr-5px" :span="12">
                                     <div class="icon_module">
-                                        <jx-icon class="icon" value="electrode"></jx-icon>
+                                        <jx-icon class="icon" value="electrode" color="#409EFF"></jx-icon>
                                         <div class="ft">电极片</div>
                                     </div>
                                     <jx-dot class="flex_dot"
@@ -82,7 +82,7 @@
                                 </nut-col>
                                 <nut-col class="item ml-5px" :span="12">
                                     <div class="icon_module">
-                                        <jx-icon class="icon" value="hasCheck"></jx-icon>
+                                        <jx-icon class="icon" value="hasCheck" color="#409EFF"></jx-icon>
                                         <div class="ft">质保</div>
                                     </div>
                                     <jx-dot class="flex_dot"
@@ -112,6 +112,9 @@ const state = reactive({
     page: 1
 })
 const props = defineProps<{ search: Record<string, any> }>()
+const emits = defineEmits<{
+    change: [value: number]
+}>()
 watch(() => props.search, (val) => {
     console.log(val)
     loadData()
@@ -132,6 +135,7 @@ async function loadData() {
     state.content = content
     state.totalCount = totalCount
     state.totalPage = totalPage
+    emits('change', totalCount)
     if (state.page === state.totalPage || state.totalPage === 0) {
         nomore.value = true
     }
@@ -194,26 +198,24 @@ const toDeviceInfo = (item: Manage.DeviceList) => {
     border-bottom: solid 1px #f4f4f4;
 }
 
-.x-scroll-view {
-    background-color: #fff;
-}
 
 .manage_item {
-    width: 90%;
+    width: 720px;
     margin: 15px auto;
     padding: 30px;
     overflow: hidden;
     box-sizing: border-box;
-    background-color: rgb(242, 243, 248);
-    border-radius: 30px;
+    background-color: #fff;
+    border-radius: 20px;
 
     .top {
         display: flex;
+        border-bottom: 1px solid #EBEBEB;
 
         .left {
-            width: 153px;
-            height: 153px;
-            margin-right: 26px;
+            width: 180px;
+            height: 180px;
+            margin-right: 28px;
 
             image {
                 width: 100%;
@@ -232,12 +234,13 @@ const toDeviceInfo = (item: Manage.DeviceList) => {
 
                 .sn {
                     flex: 1;
+                    margin-right: 15px;
                     overflow: hidden;
                     text-overflow: ellipsis;
                     white-space: nowrap;
-                    font-size: 27px;
+                    font-size: 32px;
                     font-weight: bold;
-                    color: #3E3A39;
+                    color: #333333;
                 }
 
                 .btn {
@@ -263,14 +266,15 @@ const toDeviceInfo = (item: Manage.DeviceList) => {
 
                     .icon {
                         font-size: 34px !important;
-                        margin-right: 24px;
+                        margin-right: 12px;
+                        color: #4088FF;
                     }
 
                     .text {
-                        max-width: 300px;
-                        font-size: 24px;
+                        flex: 1;
+                        font-size: 26px;
                         font-weight: 400;
-                        color: #595757;
+                        color: #797979;
 
                         .label {
                             margin-right: 10px;
@@ -293,20 +297,23 @@ const toDeviceInfo = (item: Manage.DeviceList) => {
         .item {
             display: flex;
             align-items: center;
-            background-color: #fff;
+            justify-content: space-between;
+            background-color: rgba(208, 226, 255, 0.3);
+            ;
+            border-radius: 10px;
+            padding-right: 40rpx !important;
+            padding-left: 20rpx !important;
 
             .icon_module {
                 display: flex;
                 align-items: center;
-                width: 118rpx;
             }
 
-            .flex_dot {
-                margin-left: 35px;
-            }
+
 
             .ft {
                 margin: 15px 0;
+                margin-left: 10px;
                 font-size: 24px;
                 font-weight: 400;
                 color: #595757;

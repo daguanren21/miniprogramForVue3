@@ -1,56 +1,69 @@
 <template>
-    <view @tap="emit('toPage')" class="detailModal" v-if="show">
-        <view class="device_content">
-            <view class="close_wrap" @tap.stop="emit('close')">
-                <IconFont font-class-name="fa" class-prefix="fa" name="modal-close" color="#eee" size="20"></IconFont>
-            </view>
-            <view class="detail">
-                <view class="d-l">
-                    <image v-if="detail.brandLogo" :src="detail.brandLogo" />
-                    <image v-else src="../../assets/images/jx-without-image.svg"></image>
-                </view>
-                <view class="d-r">
-                    <view class="item-t">
-                        <text class="sn">{{ detail.serialNumber }}</text>
-                    </view>
-                    <view class="time"> 品牌：{{ detail.brandName }} </view>
-                    <view class="item-m">
-                        <jx-dot :state="deviceRunningStateFilter(detail.runningState)" />
-                    </view>
-                    <view class="item-b">
-                        <view class="address">
-                            <view class="address_info">
-                                <text class="ft">{{ noDataFilter(detail.address) }}</text>
-                                <text class="distance">距您{{ distanceFilter(detail.distance) }}</text>
-                            </view>
-                            <image class="icon" @tap.stop="showMapNavigation(detail)" style="height: 30px; width: 30px"
-                                src="../../assets/images/location_dh.svg"></image>
-                        </view>
+    <!-- @vue-ignore -->
+    <nut-popup position="bottom" closeable round @click-close-icon="emit('close')" :style="{ height: '530rpx' }"
+        :visible="show">
+        <div class="relative">
+            <slot name="left"></slot>
+            <div class="text-center text-30px text-hex-1f1f1f font-bold mt-42px">设备详情</div>
+        </div>
+        <div v-if="detail" class="pb-17px" @click="emit('toPage')">
+            <div class="p-40px flex-y-center box-border">
+                <div class="mr-16px h-125px w-125px">
+                    <image v-if="detail.brandLogo" class="h-125px w-125px" :src="detail.brandLogo"></image>
+                    <image v-else class="h-125px w-125px" src="../../assets/images/index/默认图.jpg"></image>
+                </div>
+                <div class="flex-1 flex-y-center justify-between">
+                    <div>
+                        <div class="flex-y-center">
+                            <div class="text-30px font-bold text-hex-333">{{ noDataFilter(detail.serialNumber) }}</div>
+                            <div :style="{ color: filter(deviceRunningStateFilter(detail.runningState).type).color, backgroundColor: filter(deviceRunningStateFilter(detail.runningState).type).bgColor, borderColor: filter(deviceRunningStateFilter(detail.runningState).type).color }"
+                                class="ml-30px text-hex-32B44B bg-hex-E0F4E4 b-1px b-hex-32B44B text-center rounded-5px text-26px w-82px h-40px line-height-40px">
+                                {{ deviceRunningStateFilter(detail.runningState).text }}</div>
+                        </div>
+                        <div class="mt-24px line-clamp-2 break-all text-hex-797979 text-26px">
+                            {{ noDataFilter(detail.address) }}
+                        </div>
+                    </div>
+                    <div class="flex-col items-center" @click.stop="showMapNavigation(detail)">
+                        <jx-icon value="navigation" color="#2595E8" :size="20"></jx-icon>
+                        <div class="text-24px text-hex-2595E8 mt-15px">距您{{ distanceFilter(detail.distance) }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="w-700px p-y-4px pl-10px box-border rounded-5px bg-hex-f8f8f8 m-auto">
+                <div class="flex gap-1" style="border-bottom: 1rpx solid #DADADA">
+                    <div class="p-y-15px pl-32px box-border flex-1">
+                        <div class="text-24px text-hex-8E8E8E">品牌</div>
+                        <div class="mt-13px text-28px text-hex-333">{{ detail.brandName }}</div>
+                    </div>
+                    <div class="p-y-15px pl-32px box-border flex-1" style="border-left: 1rpx solid #DADADA">
+                        <div class="text-24px text-hex-8E8E8E">开放类型</div>
+                        <div class="mt-13px text-28px text-hex-333">{{ devicePublicFilter(detail.publicType) }}</div>
+                    </div>
+                </div>
+                <div class="flex gap-1">
+                    <div class="p-y-15px pl-32px box-border flex-1"
+                        v-if="detail.publicType == 'HALF' || detail.publicType == 'PUBLIC'">
+                        <div class="text-24px text-hex-8E8E8E">开放日</div>
+                        <div class="mt-13px text-28px text-hex-333">{{ showWeekDays(detail.workDay) }}</div>
+                    </div>
+                    <div class="p-y-15px pl-32px box-border flex-1" style="border-left: 1rpx solid #DADADA"
+                        v-if="detail.publicType == 'HALF'">
+                        <div class="text-24px text-hex-8E8E8E">开放时间</div>
+                        <div class="mt-13px text-28px text-hex-333">{{ detail.publicTime }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                        <view class="time">
-                            开放类型：{{ devicePublicFilter(detail.publicType) }}
-                        </view>
-                        <view class="time" v-if="detail.publicType == 'HALF' || detail.publicType == 'PUBLIC'
-                            ">
-                            <view style="white-space: nowrap;">开放日：</view>
-                            <view style="white-space: nowrap;">{{ showWeekDays(detail.workDay) }}</view>
-                        </view>
-                        <view class="time" v-if="detail.publicType == 'HALF'">
-                            开放时间：{{ detail.publicTime }}
-                        </view>
-                    </view>
-                </view>
-            </view>
-        </view>
-    </view>
+    </nut-popup>
 </template>
 
 <script setup lang="ts">
-import { IconFont } from '@nutui/icons-vue-taro';
 import Taro from '@tarojs/taro';
 import { useQQMapSdk } from '~/composables/use-qqmap-sdk';
 import { devicePublicFilter, noDataFilter, distanceFilter, deviceRunningStateFilter } from '~/filter'
-import { showWeekDays } from '~/utils'
+import { showWeekDays, filter } from '~/utils'
 defineOptions({
     name: 'DeviceInfoModal'
 })
@@ -70,7 +83,7 @@ const showMapNavigation = async (info: Index.DeviceInfo) => {
 
     } catch (error) {
         Taro.showToast({
-            title:error,
+            title: error,
             icon: 'none'
         })
     }
