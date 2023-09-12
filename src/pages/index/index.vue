@@ -6,7 +6,8 @@
         <div class="quick_search">
           <nut-searchbar class="jx-search" v-model="searchValue" @search="handleSearch" placeholder="请输入地址">
             <template v-slot:rightin>
-              <nut-button type='primary' @click="handleSearch" style="width:130rpx;height:75rpx;white-space: nowrap;">搜索</nut-button>
+              <nut-button type='primary' @click="handleSearch"
+                style="width:130rpx;height:75rpx;white-space: nowrap;">搜索</nut-button>
             </template>
           </nut-searchbar>
         </div>
@@ -86,7 +87,7 @@ const mapState = reactive({
 })
 const { scale } = toRefs(mapState)
 //地图获取最新位置
-const { lat: centerLat, lng: centerLng } = useMapLocation()
+const { lat: centerLat, lng: centerLng } = useMapLocation({ isNeedAddress: false })
 const { renderMarkerDevices, getSuggestion, deviceSelectId, regionchange, markers, markertap, deviceInfo, deviceVisible, moveToLocation } = useQQMapSdk()
 // 搜索
 const searchValue = ref('')
@@ -148,6 +149,7 @@ function changeNearByCenter(item: Index.DeviceInfo) {
   // centerLat.value = item.deployedAreaLatitude
   // centerLng.value = item.deployedAreaLongitude
 }
+
 </script>
 
 <style lang="scss">

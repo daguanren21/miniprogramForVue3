@@ -20,7 +20,7 @@
                 </div>
             </nut-form-item>
             <nut-form-item class="jx-form-item" label="活动区域" required>
-                <nut-input :border="false"  class="nut-input-text" v-model="form.regionName" placeholder="请选择区域" type="text" readonly
+                <nut-input :border="false"  class="nut-input-text" v-model="form.regionName" placeholder="请选择活动区域" type="text" readonly
                     @click="region.visible = true">
                     <template #right>
                         <jx-icon @click.stop="chooseLocation" value="address" color="#4088FF" :size="18"> </jx-icon>
@@ -93,7 +93,7 @@ const { chooseLocation, region } = useDeviceRegion((options) => {
 const { state: message, notify } = useNotify('danger')
 const user = useAccountInfo()
 const confirm = async () => {
-    if (!form.regionId) {
+    if (!form.regionId.length) {
         notify('活动区域不能为空！')
         return
     }

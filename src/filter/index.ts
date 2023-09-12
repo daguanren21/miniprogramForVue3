@@ -148,11 +148,11 @@ export const deviceNetworkStateFilter = (key: 'UNKNOWN' | 'ONLINE' | 'OFFLINE' |
             break;
         case 'ONLINE':
             state.type = 'success'
-            state.text = '在线'
+            state.text = '联网'
             break;
         case 'OFFLINE':
             state.type = 'error'
-            state.text = '离线'
+            state.text = '未联网'
             break;
         case 'UNSTABLE':
             state.type = 'warning'
@@ -186,7 +186,7 @@ export const positionStateFilter = (key: 'UNKNOWN' | 'IN_POSITION' | 'OUT_OF_POS
             break;
         case 'OUT_OF_POSITION':
             state.type = 'error'
-            state.text = '离位'
+            state.text = '偏移'
             break;
         default:
             break;

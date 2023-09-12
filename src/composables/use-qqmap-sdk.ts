@@ -74,10 +74,45 @@ export const useQQMapSdk = () => {
             })
         })
     }
+    const regionlatlng = ref<{
+        southwest: {
+            latitude: number,
+            longitude: number
+        },
+        northeast: {
+            latitude: number,
+            longitude: number
+        }
+    }>({
+        southwest: {
+            latitude: 0,
+            longitude: 0
+        },
+        northeast: {
+            latitude: 0,
+            longitude: 0
+        }
+    })
     //地图缩放查询设备
     const regionchange = async (e: { type: string }) => {
         if (e.type === 'end') {
-            let { southwest, northeast } = await getRegion()
+            let regionRes = await getRegion()
+            console.log(regionRes)
+            let { southwest, northeast } = regionRes
+            console.log('地图缩放查询设备', isEqual({
+                southwest,
+                northeast
+            }, regionlatlng.value))
+            if (isEqual({
+                southwest,
+                northeast
+            }, regionlatlng.value)) {
+                return
+            }
+            regionlatlng.value = {
+                southwest,
+                northeast
+            }
             let res = await fetchRegionDevices({
                 minLat: southwest.latitude,
                 minLng: southwest.longitude,
@@ -105,6 +140,8 @@ export const useQQMapSdk = () => {
                 }
             })
             markers.value = deviceMarkers
+        } else {
+            markers.value = []
         }
 
     }

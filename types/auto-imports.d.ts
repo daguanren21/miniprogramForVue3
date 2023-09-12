@@ -36,6 +36,7 @@ declare global {
   const h: typeof import('vue')['h']
   const helpSeekedVolunteerResponseTypeFilter: typeof import('../src/filter/index')['helpSeekedVolunteerResponseTypeFilter']
   const inject: typeof import('vue')['inject']
+  const isEqual: typeof import('lodash')['isEqual']
   const isProxy: typeof import('vue')['isProxy']
   const isReactive: typeof import('vue')['isReactive']
   const isReadonly: typeof import('vue')['isReadonly']

@@ -4,8 +4,8 @@
             <nut-notify :type="message.type" v-model:visible="message.show" :msg="message.desc" />
             <nut-form :model-value="form" ref="ruleForm">
                 <nut-form-item class="jx-form-item" label="设备编号" required>
-                    <nut-input :border="false" max-length="30" @blur="getDeviceBySerialNumber" v-model="form.serialNumber" class="nut-input-text"
-                        placeholder="请输入设备编号" type="text">
+                    <nut-input :border="false" max-length="30" @blur="getDeviceBySerialNumber" v-model="form.serialNumber"
+                        class="nut-input-text" placeholder="请输入设备编号" type="text">
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item class="jx-form-item" label="运行状态" required>
@@ -37,8 +37,14 @@
                 </nut-form-item>
             </nut-form>
             <nut-popup position="bottom" closeable round :style="{ height: '60%' }" v-model:visible="searialNumber.show">
-                <nut-cell v-for="item in deviceList" @click="searialNumber.confirm(item)" :title="item.serialNumber"
-                    :sub-title="item.brandName"></nut-cell>
+                <div class="text-center text-30px text-hex-1f1f1f font-bold mt-42px">搜索结果</div>
+                <div class="p-x-40px box-border">
+                    <div class="p-y-40px box-border" style="border-bottom:1rpx solid #dadada" v-for="item in deviceList"
+                    @click="searialNumber.confirm(item)">
+                        <div class="text-30px font-bold text-hex-333">{{ item.serialNumber }}</div>
+                        <div class="mt-20px text-26px text-hex-797979">{{ item.brandName }}</div>
+                    </div>
+                </div>
             </nut-popup>
         </div>
         <nut-cell>

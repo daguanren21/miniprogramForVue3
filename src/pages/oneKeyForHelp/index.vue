@@ -113,7 +113,7 @@
                                     <jx-icon value="aed" color="#04BAFE"></jx-icon>
                                     <span class="ml-5px text-30px text-hex-04BAFE">AED志愿者</span>
                                 </div>
-                                <div class="flex-y-center">
+                                <div class="flex-y-center" @click="responseModal.open('FETCH_AED')">
                                     <span class="text-26px text-hex-9B9B9B mr-5px">查看</span>
                                     <jx-icon value="right-arrow" color="#9B9B9B" :size="13"></jx-icon>
                                 </div>
@@ -131,7 +131,7 @@
                                     <jx-icon value="cpr" color="#1ED137"></jx-icon>
                                     <span class="ml-5px text-30px text-hex-1ED137">CPR志愿者</span>
                                 </div>
-                                <div class="flex-y-center">
+                                <div class="flex-y-center" @click="responseModal.open('CPR')">
                                     <span class="text-26px text-hex-9B9B9B mr-5px">查看</span>
                                     <jx-icon value="right-arrow" color="#9B9B9B" :size="13"></jx-icon>
                                 </div>
@@ -145,34 +145,8 @@
                     </div>
                 </div>
             </map>
-            <nut-dialog title='呼救信息' v-model:visible="rescueModal.show">
-                <div style="text-align: left;">
-                    <nut-cell>
-                        <div>呼救人:{{ volunteer?.record?.callerName }}</div>
-                    </nut-cell>
-                    <nut-cell>
-                        <div class="flex-y-center">联系电话:<span style="color: #1890ff"
-                                @click="makePhoneCall(volunteer?.record?.callerPhone)">{{
-                                    volunteer?.record?.callerPhone }}</span></div>
-                    </nut-cell>
-                    <nut-cell>
-                        <div>呼救地点:{{ volunteer?.record?.address }}</div>
-                    </nut-cell>
-                    <nut-cell>
-                        <div>呼救距离:{{ distanceFilter(rescueDistance) }}</div>
-                    </nut-cell>
-                </div>
-
-                <template #footer>
-                    <div>
-                        <nut-button type="default" @click="rescueModal.show = false">取消</nut-button>
-                        <nut-button type="primary" style="margin-left:10rpx" @click="rescueModal.confrim">
-                            前往救援
-                        </nut-button>
-                    </div>
-                </template>
-            </nut-dialog>
-            <nut-dialog no-cancel-btn @ok="responseModal.show = false" title='呼救响应' v-model:visible="responseModal.show">
+            <nut-dialog no-cancel-btn @ok="responseModal.visible = false" title='呼救响应'
+                v-model:visible="responseModal.visible">
                 <div style="text-align: left;">
                     <nut-cell>
                         <div>志愿者任务:{{ volunteerResponseTaskFilter(selectedResponseInfo.rescueResponseTaskType) }}</div>
@@ -191,23 +165,57 @@
                     </nut-cell>
                 </div>
             </nut-dialog>
-            <nut-popup position="bottom" round :style="{ height: '60%' }" :visible="volunteerRescueModal.visible">
-                <div class="text-center text-30px text-hex-1f1f1f font-bold mt-12px">正发生紧急情况，需要您的帮助</div>
+            <nut-popup position="bottom" round :style="{ height: '43%' }" closeable
+                @click-close-icon="responseModal.show = false" :visible="responseModal.show">
+                <div class="text-center text-30px text-hex-1f1f1f font-bold mt-20px">{{ responseModal.title }}</div>
+                <nut-row class="mt-40px p-x-60px">
+                    <nut-col v-for="item in responseModal.list" :span="8">
+                        <div class="flex-y-center flex-col">
+                            <div class="flex-y-center">
+                                <jx-icon :size="13" :value="responseModal.filter(item.rescueResponseState).value"
+                                    :color="responseModal.filter(item.rescueResponseState).color"></jx-icon>
+                                <span class="ml-6px text-26px"
+                                    :style="{ color: responseModal.filter(item.rescueResponseState).color }">{{
+                                        responseModal.filter(item.rescueResponseState).text }}</span>
+                            </div>
+                            <div class="mt-14px mb-25px w-125px h-125px rounded-full b-1px b-solid"
+                                :style="{ borderColor: responseModal.filter(item.rescueResponseState).color }">
+                                <image class="wh-full rounded-full" v-if="item.headImageUrl" src="item.headImageUrl">
+                                </image>
+                                <image class="wh-full rounded-full" v-else src="../../assets/images/callHelp/头像.jpg">
+                                </image>
+                            </div>
+                            <div class="flex-y-center flex-col">
+                                <p class="text-26px text-hex-333 line-clamp-1 break-all mb-10px">{{ item.receiverName }}</p>
+                                <jx-icon @click="makePhoneCall(item.receiverPhone)" v-if="item.receiverPhone"
+                                    value="tab-rescue" color="#2F75FF" :size="20"></jx-icon>
+                            </div>
+                        </div>
+
+                    </nut-col>
+                </nut-row>
+
+            </nut-popup>
+            <nut-popup position="bottom" round :style="{ height: '48%' }" :visible="volunteerRescueModal.visible">
+                <div class="text-center text-30px text-hex-1f1f1f font-bold mt-20px">正发生紧急情况，需要您的帮助</div>
                 <div class="flex-y-center p-30px" style="border-bottom:1rpx solid #EBEBEB">
-                    <div class="flex-1 line-clamp-1 break-all">
+                    <div class="flex-1 flex-y-center">
                         <jx-icon color="#FF0000" value="call-helper"></jx-icon>
-                        <span class="ml-25px text-hex-474747 text-30px">{{ volunteer?.record?.address }}</span>
+                        <span class="ml-25px text-hex-474747 text-30px line-clamp-1 break-all">{{ volunteer?.record?.address
+                        }}</span>
                     </div>
                     <div class="flex-col items-center">
                         <jx-icon class="ml-20px" value="navigation" color="#2595E8" :size="20"></jx-icon>
                         <div class="text-24px text-hex-2595E8 mt-15px">距您{{ distanceFilter(rescueDistance) }}</div>
                     </div>
                 </div>
-                <div class="w-full flex-x-center pt-30px pb-60px">
+                <div class="w-full flex-col flex-y-center pt-30px pb-60px">
                     <div class="text-48px font-bold text-hex-FF0000">紧急求救</div>
-                    <div v-if="volunteerRescueModal.responseTaskType == 'FETCH_AED'" class="mt-20px text-30px text-hex-333">
+                    <div v-if="volunteerRescueModal.responseTaskType == 'FETCH_AED'"
+                        class="mt-20px text-30px text-hex-333 w-625px">
                         建议您根据地图指引，拿取最近的AED设备，快速送至患者处</div>
-                    <div class="mt-20px text-30px text-hex-333" v-if="volunteerRescueModal.responseTaskType == 'CPR'">
+                    <div class="mt-20px text-30px text-hex-333 w-625px"
+                        v-if="volunteerRescueModal.responseTaskType == 'CPR'">
                         建议您根据地图指引，快速跑至患者处，给患者实施CPR</div>
                 </div>
                 <div class="flex justify-between p-x-84px">
@@ -222,13 +230,14 @@
                 </div>
 
             </nut-popup>
-            <nut-popup position="bottom" round :style="{ height: '60%' }" closeable
+            <nut-popup position="bottom" round :style="{ height: '40%' }" closeable
                 @click-close-icon="rescueModal.show = false" :visible="rescueModal.show">
                 <div class="text-center text-30px text-hex-1f1f1f font-bold mt-42px">呼救信息</div>
-                <div class="flex-y-center pb-30px" style="border-bottom:1rpx solid #EBEBEB">
-                    <div class="flex-1 line-clamp-1 break-all">
+                <div class="flex-y-center p-30px" style="border-bottom:1rpx solid #EBEBEB">
+                    <div class="flex-1  flex-y-center">
                         <jx-icon color="#FF0000" value="call-helper"></jx-icon>
-                        <span class="ml-25px text-hex-474747 text-30px">{{ volunteer?.record?.address }}</span>
+                        <span class="ml-25px text-hex-474747 text-30px line-clamp-1 break-all">{{ volunteer?.record?.address
+                        }}</span>
                     </div>
                     <div class="flex-col items-center" @click="rescueModal.confrim">
                         <jx-icon class="ml-20px" value="navigation" color="#2595E8" :size="20"></jx-icon>
@@ -238,20 +247,20 @@
                 <div class="w-full pl-60px pt-30px">
                     <div class="text-30px text-hex-333 line-clamp-1 break-all">呼救人: {{ volunteer?.record?.callerName }}
                     </div>
-                    <div class="text-30px text-hex-333 line-clamp-1 break-all flex-y-center "
+                    <div class="text-30px text-hex-333 mt-50px  flex-y-center "
                         @click="makePhoneCall(volunteer?.record?.callerPhone)">呼救电话:
-                        <div class="text-30px bg-hex-4088FF font-bold flex-y-center">
+                        <div class="text-30px text-hex-4088FF font-bold flex-y-center">
                             <span class="mr-14px"> {{ volunteer?.record?.callerPhone }}</span>
                             <jx-icon value="phone" color="#409EFF" :size="20"></jx-icon>
                         </div>
                     </div>
                 </div>
             </nut-popup>
-            <nut-popup position="bottom" v-model:visible="distancePop.show">
+            <!-- <nut-popup position="bottom" v-model:visible="distancePop.show">
                 <nut-picker v-model="distancePop.value" :columns="distancePop.columns" title="请选择"
                     @confirm="distancePop.confirm" @cancel="distancePop.cancel">
                 </nut-picker>
-            </nut-popup>
+            </nut-popup> -->
 
             <device-info-modal :detail="deviceModal.deviceInfo!" :show="deviceModal.visible"
                 @close="handleDeviceInfoClose"></device-info-modal>
@@ -267,6 +276,7 @@ import { useMap, useSwitchModel } from '.';
 import { useQQMapSdk } from '~/composables/use-qqmap-sdk';
 import { phonePattern } from '~/utils/constant'
 import { distanceFilter, helpSeekedVolunteerResponseTypeFilter, volunteerResponseTaskFilter } from '~/filter'
+import { useLogin } from '~/composables/use-login';
 let { lat, lng, address } = useMapLocation()
 const { state: message, rescueType, model, dynamicForm, dynamicRefForm } = useSwitchModel()
 const { volunteerRescueModal, getRescueInfo, deviceModal, handleDeviceInfoClose, recordId, scale, markertap, responseModal, markers, selectedResponseInfo, volunteer, rescueModal, rescueDistance, getNearbyDevices, renderDeviceMarkers } = useMap(lat, lng)
@@ -288,9 +298,11 @@ useDidShow(async () => {
 useDidHide(() => {
     pause()
 })
-
+const { checkOpenLocation } = useLogin()
 const oneKeyForHelp = async () => {
     try {
+        let locRes = await checkOpenLocation()
+        console.log('地理位置信息', locRes)
         await saveOneKeyForHelp({
             latitude: lat.value,
             longitude: lng.value,
@@ -313,7 +325,6 @@ const oneKeyForHelp = async () => {
         })
         pause()
     }
-
 }
 const finishForHelp = async () => {
     try {
@@ -350,8 +361,9 @@ const distancePop = reactive({
     confirm: async ({ selectedValue, selectedOptions }) => {
         console.log(selectedValue)
         let distance = selectedOptions.map(v => v.value).join('')
-        await getNearbyDevices(distance)
+
         distancePop.show = false
+        await getNearbyDevices(distance)
         firstSearchNearbyDevices.value = true
     },
     cancel: () => {
@@ -359,10 +371,11 @@ const distancePop = reactive({
         showDevices.value = false
     }
 })
-const handleNearBy = () => {
+const handleNearBy = async () => {
     showDevices.value = !showDevices.value
     if (!firstSearchNearbyDevices.value) {
-        distancePop.show = true
+        await getNearbyDevices(10)
+        firstSearchNearbyDevices.value = true
         return
     }
     if (!showDevices.value) {
@@ -413,7 +426,7 @@ const handleNearBy = () => {
 .tab-box .test::before {
     content: "";
     position: absolute;
-    left: -24px;
+    left: -25px;
     bottom: 0;
     width: 24px;
     height: 84px;
@@ -424,7 +437,7 @@ const handleNearBy = () => {
 .tab-box .normal::after {
     content: "";
     position: absolute;
-    right: -24px;
+    right: -25px;
     bottom: 0;
     width: 24px;
     height: 84px;

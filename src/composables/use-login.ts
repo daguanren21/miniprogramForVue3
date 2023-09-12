@@ -1,6 +1,5 @@
 import Taro from "@tarojs/taro";
 import { fetchWxLogin } from "~/api/login";
-
 export const useLogin = () => {
     //检查系统是否需要更新
     function checkProgramNeedUpdate() {
@@ -31,6 +30,48 @@ export const useLogin = () => {
                 })
             })
         }
+    }
+    //检查系统是否开启定位
+    function checkOpenLocation() {
+        return new Promise((resolve, reject) => {
+            Taro.getSetting({
+                success: (res) => {
+                    let authSetting = res.authSetting
+                    if (authSetting['scope.userLocation']) {
+                        // 已授权
+                        resolve(res)
+                    } else {
+                        Taro.showModal({
+                            title: '授权提示',
+                            content: '您未开启地理位置授权',
+                            success: res => {
+                                if (res.confirm) {
+                                    Taro.openSetting({
+                                        success: async (res) => {
+                                            let authSetting = res.authSetting
+                                            if (authSetting['scope.userLocation']) {
+                                                // 已授权
+                                                resolve(res)
+                                            } else {
+                                                reject('未开启地理位置失败！')
+                                            }
+                                        },
+                                        fail: (error) => {
+                                            reject(error)
+                                        }
+                                    })
+                                }
+                            }
+
+                        })
+                    }
+                },
+                fail: (error) => {
+                    reject(error)
+                }
+            })
+        })
+
     }
     async function wxLogin() {
         //检查更新
@@ -69,7 +110,8 @@ export const useLogin = () => {
     }
     return {
         checkProgramNeedUpdate,
-        wxLogin
+        wxLogin,
+        checkOpenLocation
     }
 
 }

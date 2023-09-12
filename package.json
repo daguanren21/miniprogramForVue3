@@ -54,6 +54,7 @@
     "@tarojs/taro": "3.6.1",
     "@vueuse/core": "^10.3.0",
     "dayjs": "^1.11.9",
+    "lodash": "^4.17.21",
     "pinia": "^2.1.4",
     "qqmap-wx-jssdk": "^1.0.0",
     "vue": "^3.3.4"

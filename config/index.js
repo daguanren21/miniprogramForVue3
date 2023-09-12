@@ -43,6 +43,9 @@ const config = {
     data: `@import "@nutui/nutui-taro/dist/styles/variables-jdt.scss";`
   },
   mini: {
+    optimizeMainPackage: {
+      enable: true
+    },
     miniCssExtractPluginOption: {
       ignoreOrder: true
     },
@@ -60,10 +63,12 @@ const config = {
         imports: ["vue", "pinia", {
           '@vueuse/core': [
             // named imports
-            'useIntervalFn', 
+            'useIntervalFn',
             'toReactive',// import { useMouse } from '@vueuse/core',
           ],
-        }],
+        }, {
+            'lodash': ['isEqual']
+          }],
         dts: "types/auto-imports.d.ts"
       }))
     },

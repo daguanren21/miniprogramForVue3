@@ -27,6 +27,9 @@
 .fa-cert-check:before{
   content:'\e621'
 }
+.fa-cert-close:before{
+  content:'\e62d'
+}
 
 .fa-cert-wrong:before{
   content:'\e610'
@@ -109,4 +112,12 @@
 
 .fa-phone:before{
   content:'\e633'
+}
+
+.fa-eye:before{
+  content:'\e60e'
+}
+
+.fa-time:before{
+  content:'\e604'
 }

@@ -65,6 +65,9 @@ dependencies:
   dayjs:
     specifier: ^1.11.9
     version: 1.11.9
+  lodash:
+    specifier: ^4.17.21
+    version: 4.17.21
   pinia:
     specifier: ^2.1.4
     version: 2.1.4(typescript@4.1.2)(vue@3.3.4)
@@ -108,7 +111,7 @@ devDependencies:
     version: 1.0.6(@babel/core@7.8.0)
   '@vue/compiler-sfc':
     specifier: ^3.0.0
-    version: 3.0.0(vue@3.3.4)
+    version: 3.0.0(lodash@4.17.21)(vue@3.3.4)
   babel-preset-taro:
     specifier: 3.6.1
     version: 3.6.1(@babel/core@7.8.0)(vue@3.3.4)
@@ -4554,7 +4557,7 @@ packages:
       '@vue/compiler-core': 3.3.4
       '@vue/shared': 3.3.4
 
-  /@vue/compiler-sfc@3.0.0(vue@3.3.4):
+  /@vue/compiler-sfc@3.0.0(lodash@4.17.21)(vue@3.3.4):
     resolution: {integrity: sha512-1Bn4L5jNRm6tlb79YwqYUGGe+Yc9PRoRSJi67NJX6icdhf84+tRMtESbx1zCLL9QixQXu2+7aLkXHxvh4RpqAA==}
     peerDependencies:
       vue: 3.0.0
@@ -4565,7 +4568,7 @@ packages:
       '@vue/compiler-dom': 3.0.0
       '@vue/compiler-ssr': 3.0.0
       '@vue/shared': 3.0.0
-      consolidate: 0.16.0
+      consolidate: 0.16.0(lodash@4.17.21)
       estree-walker: 2.0.2
       hash-sum: 2.0.0
       lru-cache: 5.1.1
@@ -6531,7 +6534,7 @@ packages:
     resolution: {integrity: sha512-r921u0vbF4lQsoIqYvSSER+yZLPQGijOHrYcWoCNVNBZmn/bRR+xT/DgerTze/nLD9TTGzdDa378TVhx7RDOYg==}
     engines: {node: ^14.18.0 || >=16.10.0}
 
-  /consolidate@0.16.0:
+  /consolidate@0.16.0(lodash@4.17.21):
     resolution: {integrity: sha512-Nhl1wzCslqXYTJVDyJCu3ODohy9OfBMB5uD2BiBTzd7w+QY0lBzafkR8y8755yMYHAaMD4NuzbAw03/xzfw+eQ==}
     engines: {node: '>= 0.10.0'}
     deprecated: Please upgrade to consolidate v1.0.0+ as it has been modernized with several long-awaited fixes implemented. Maintenance is supported by Forward Email at https://forwardemail.net ; follow/watch https://github.com/ladjs/consolidate for updates and release changelog
@@ -6698,6 +6701,7 @@ packages:
         optional: true
     dependencies:
       bluebird: 3.7.2
+      lodash: 4.17.21
     dev: true
 
   /content-disposition@0.5.4:

@@ -37,8 +37,14 @@
                 @click="confirm">提交</nut-button>
         </nut-cell>
         <nut-popup position="bottom" closeable round :style="{ height: '60%' }" v-model:visible="searialNumber.show">
-            <nut-cell v-for="item in deviceList" @click="searialNumber.confirm(item)" :title="item.serialNumber"
-                :sub-title="item.brandName"></nut-cell>
+            <div class="text-center text-30px text-hex-1f1f1f font-bold mt-42px">搜索结果</div>
+            <div class="p-x-40px box-border">
+                <div class="p-y-40px box-border" style="border-bottom:1rpx solid #dadada" v-for="item in deviceList"
+                    @click="searialNumber.confirm(item)">
+                    <div class="text-30px font-bold text-hex-333">{{ item.serialNumber }}</div>
+                    <div class="mt-20px text-26px text-hex-797979">{{ item.brandName }}</div>
+                </div>
+            </div>
         </nut-popup>
         <nut-popup position="bottom" v-model:visible="datePop.show">
             <nut-date-picker :min-date="new Date(Date.now())" @cancel="datePop.show = false" v-model="datePop.value"

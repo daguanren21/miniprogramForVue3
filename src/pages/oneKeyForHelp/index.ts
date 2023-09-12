@@ -2,11 +2,11 @@ import { useNotify } from './../../composables/use-notify';
 import Taro from "@tarojs/taro"
 import { ReceivedInfo, RescueInfo, VolunteerRecord, fetchLocationDistance, fetchVolunteerDrill, fetchVolunteerRescueInfo, saveAgreeToHelp, saveDrillVolunteer, saveRefuseToHelp, saveSwitchModel } from "~/api/user"
 import { useMapLocation } from '~/composables/use-map-location';
-import callForHelpIcon from '~/assets/images/callHelp/icon-callforHelper.svg'
-import volunteerAEDActiveIcon from '~/assets/images/callHelp/icon-volunteer-aed-active.svg'
-import volunteerAEDIcon from '~/assets/images/callHelp/icon-volunteer-aed.svg'
-import volunteerCprActiveIcon from '~/assets/images/callHelp/icon-volunteer-cpr-active.svg'
-import volunteerCprIcon from '~/assets/images/callHelp/icon-volunteer-cpr.svg'
+import callForHelpIcon from '~/assets/images/callHelp/icon-callforHelper.png'
+import volunteerAEDActiveIcon from '~/assets/images/callHelp/icon-volunteer-aed-active.png'
+import volunteerAEDIcon from '~/assets/images/callHelp/icon-volunteer-aed.png'
+import volunteerCprActiveIcon from '~/assets/images/callHelp/icon-volunteer-cpr-active.png'
+import volunteerCprIcon from '~/assets/images/callHelp/icon-volunteer-cpr.png'
 import normalImage from '~/assets/images/device_normal.png'
 const DEVICE_MARKERID_PREFIX = "device"
 const RESUCE_MARKERID_PREFIX = "rescue"
@@ -230,14 +230,10 @@ export function useMap(lat: Ref<number>, lng: Ref<number>) {
             //地图渲染志愿者信息
             renderVolunteer(res.responseInfos)
         }
-        // setTimeout(() => {
-        //     Taro.hideLoading()
-        // }, 1000)
         return Promise.resolve(res)
 
     }
     const _locationChangeFn = async function (res) {
-        console.log('22222')
         try {
             await updateVolunteerLocation({
                 longitude: res.longitude,
@@ -267,6 +263,7 @@ export function useMap(lat: Ref<number>, lng: Ref<number>) {
     const renderCallForHelp = (record: VolunteerRecord) => {
         unique([{
             id: record.id,
+            realId:record.id,
             markerType: RESUCE_MARKERID_PREFIX,
             latitude: record.latitude,
             longitude: record.longitude,
@@ -370,7 +367,43 @@ export function useMap(lat: Ref<number>, lng: Ref<number>) {
         rescueResponseTaskType: 'FETCH_AED'
     })
     const responseModal = reactive({
+        list: [] as Pick<ReceivedInfo, 'headImageUrl' | 'receiverName' | 'receiverPhone' | 'rescueResponseState' | 'rescueResponseTaskType'>[],
         show: false,
+        visible: false,
+        title: '',
+        open: (type: Filter.RescueResponseTaskType) => {
+            responseModal.title = type === 'FETCH_AED' ? 'AED志愿者' : 'CPR志愿者';
+            responseModal.list = volunteer.value.responseInfos!.filter(v => v.rescueResponseTaskType === type)
+            responseModal.show = true;
+        },
+        filter: (type: Filter.RescueResponseState) => {
+            let state = {
+                color: '',
+                text: '',
+                value: ''
+            }
+            switch (type) {
+                case 'ACCEPTED':
+                    state.color = '#18AE38';
+                    state.value = 'cert-check'
+                    state.text = '已接受'
+                    break;
+                case 'UNHANDLED':
+                    state.color = '#797979';
+                    state.value = 'cert-close'
+                    state.text = '未接受'
+                    break;
+                case 'REFUSED':
+                    state.color = '#DB3131';
+                    state.value = 'cert-wrong'
+                    state.text = '已拒绝'
+                    break;
+                default:
+                    break;
+            }
+            return state
+        }
+
     })
 
     const handleDeviceInfoClose = () => {
@@ -403,7 +436,7 @@ export function useMap(lat: Ref<number>, lng: Ref<number>) {
                 selectedResponseInfo.value.receiverPhone = selectedMarker.receiverPhone
                 selectedResponseInfo.value.rescueResponseState = selectedMarker.rescueResponseState
                 selectedResponseInfo.value.rescueResponseTaskType = selectedMarker.rescueResponseTaskType
-                responseModal.show = true
+                responseModal.visible = true
             }
             //设备弹窗信息展示
             if (markerType === DEVICE_MARKERID_PREFIX) {

@@ -6,7 +6,10 @@
             </div>
             <div class="p-y-30px p-r-30px flex-1 box-border">
                 <div class="text-30px text-hex-333 mb-29px line-clamp-1 break-all">{{ info.name }} </div>
-                <div class="text-24px text-hex-3BD5AC mb-34px">{{ dateFilter(info.startTime, "YYYY-MM-DD") }}</div>
+                <div class="text-24px text-hex-3BD5AC mb-34px flex-y-center">
+                    <jx-icon value="time" color="#3BD5AC" :size="14"></jx-icon>
+                    <span class="ml-10px">{{ dateFilter(info.startTime, "YYYY-MM-DD") }}</span>
+                </div>
                 <div class="flex-y-center justify-between">
                     <div class="text-26px text-hex-525252 flex flex-1">总课时：<span
                             class="text-hex-409EFF line-clamp-1 break-all">{{ info.classHour }}h</span>
@@ -24,7 +27,8 @@
             </div>
             <div class="mt-24px w-full bg-hex-fff rounded-20px p-42px box-border">
                 <div class="text-28px text-hex-525252 mb-30px">联系人：{{ info.userName }}</div>
-                <div class="text-28px text-hex-525252 mb-30px flex" @click="makePhoneCall(info.phoneNumber)">联系电话：
+                <div class="text-28px text-hex-525252 mb-30px flex-y-center" @click="makePhoneCall(info.phoneNumber)">联系电话：
+                    <jx-icon value="phone" color="#409EFF" :size="16"></jx-icon>
                     <span class="text-hex-409EFF">{{ info.phoneNumber }}</span>
                 </div>
                 <div class="text-28px text-hex-525252 mb-30px">价格：{{ noDataFilter(info.price) }}元</div>

@@ -16,12 +16,20 @@
                     </div>
                     <div class="p-y-30px p-r-30px flex-1">
                         <div class="text-30px text-hex-333 mb-29px line-clamp-1 break-all">{{ item.name }} </div>
-                        <div class="text-24px text-hex-3BD5AC mb-34px">{{ dateFilter(item.startTime, "YYYY-MM-DD") }}</div>
+                        <div class="text-24px text-hex-3BD5AC mb-34px flex-y-center">
+                            <jx-icon value="time" color="#3BD5AC" :size="14"></jx-icon>
+                            <span class="ml-10px">{{ dateFilter(item.startTime, "YYYY-MM-DD") }}</span>
+                        </div>
                         <div class="flex-y-center justify-between">
                             <div class="text-26px text-hex-525252 line-clamp-1 break-all flex-1">联系人：{{ item.userName }}
                             </div>
-                            <div class="text-26px text-hex-409EFF" @click.stop="makePhoneCall(item.phoneNumber)">{{
-                                item.phoneNumber }}</div>
+                            <div class="text-26px text-hex-409EFF flex-y-center"
+                                @click.stop="makePhoneCall(item.phoneNumber)">
+                                <jx-icon value="phone" color="#409EFF" :size="16"></jx-icon>
+                                <span class="ml-5px">{{
+                                    item.phoneNumber }}</span>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -46,12 +54,20 @@
                     </div>
                     <div class="p-y-30px p-r-30px flex-1">
                         <div class="text-30px text-hex-333 mb-29px line-clamp-1 break-all">{{ item.name }} </div>
-                        <div class="text-24px text-hex-3BD5AC mb-34px">{{ dateFilter(item.startTime, "YYYY-MM-DD") }}</div>
+                        <div class="text-24px text-hex-3BD5AC mb-34px flex-y-center">
+                            <jx-icon value="time" color="#3BD5AC" :size="14"></jx-icon>
+                            <span class="ml-10px">{{ dateFilter(item.startTime, "YYYY-MM-DD") }}</span>
+                        </div>
                         <div class="flex-y-center justify-between">
                             <div class="text-26px text-hex-525252 line-clamp-1 break-all flex-1">联系人：{{ item.userName }}
                             </div>
-                            <div class="text-26px text-hex-409EFF" @click.stop="makePhoneCall(item.phoneNumber)">{{
-                                item.phoneNumber }}</div>
+                            <div class="text-26px text-hex-409EFF flex-y-center"
+                                @click.stop="makePhoneCall(item.phoneNumber)">
+                                <jx-icon value="phone" color="#409EFF" :size="16"></jx-icon>
+                                <span class="ml-5px">{{
+                                    item.phoneNumber }}</span>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -76,12 +92,20 @@
                     </div>
                     <div class="p-y-30px p-r-30px flex-1">
                         <div class="text-30px text-hex-333 mb-29px line-clamp-1 break-all">{{ item.name }} </div>
-                        <div class="text-24px text-hex-3BD5AC mb-34px">{{ dateFilter(item.startTime, "YYYY-MM-DD") }}</div>
+                        <div class="text-24px text-hex-3BD5AC mb-34px flex-y-center">
+                            <jx-icon value="time" color="#3BD5AC" :size="14"></jx-icon>
+                            <span class="ml-10px">{{ dateFilter(item.startTime, "YYYY-MM-DD") }}</span>
+                        </div>
                         <div class="flex-y-center justify-between">
                             <div class="text-26px text-hex-525252 line-clamp-1 break-all flex-1">联系人：{{ item.userName }}
                             </div>
-                            <div class="text-26px text-hex-409EFF" @click.stop="makePhoneCall(item.phoneNumber)">{{
-                                item.phoneNumber }}</div>
+                            <div class="text-26px text-hex-409EFF flex-y-center"
+                                @click.stop="makePhoneCall(item.phoneNumber)">
+                                <jx-icon value="phone" color="#409EFF" :size="16"></jx-icon>
+                                <span class="ml-5px">{{
+                                    item.phoneNumber }}</span>
+                            </div>
+
                         </div>
                     </div>
                 </div>

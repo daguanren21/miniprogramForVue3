@@ -94,6 +94,7 @@ const activeTab = computed({
 })
 
 function tabSwitch(name, index) {
+    console.log(index)
     if (name === 'management' && (!roleType.value || roleType.value === 'WECHAT')) {
         Taro.showToast({
             icon: 'none',

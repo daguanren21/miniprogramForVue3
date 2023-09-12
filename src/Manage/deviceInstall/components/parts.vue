@@ -107,10 +107,10 @@ const options = {
         text: '未知',
         value: "UNKNOWN"
     }, {
-        text: '在线',
+        text: '联网',
         value: "ONLINE"
     }, {
-        text: '离线',
+        text: '未联网',
         value: "OFFLINE"
     }, {
         text: '网络波动',

@@ -3,7 +3,10 @@
         <view class="title mb-37px">{{ info.title }}</view>
         <view class="publish_time flex-y-center justify-between">
             <text>{{ dateFilter(info.publishTime) }}</text>
-            <text>{{ info.readCount }}</text>
+            <div class="flex-y-center">
+                <jx-icon value="eye" color="#c1c1c1" :size="14"></jx-icon>
+                <span class="ml-10px">{{ info.readCount }}</span>
+            </div>
         </view>
         <view class="content mt-74px">
             <rich-text :nodes="info.content" space="nbsp"></rich-text>
@@ -36,11 +39,13 @@ useDidShow(async () => {
 <style lang="scss">
 .news_wrap {
     height: 100%;
-    padding:48px 50px 0 50px;
+    padding: 48px 50px 0 50px;
     overflow: auto;
     box-sizing: border-box;
 
     .title {
+        width: 100%;
+        word-break: break-all;
         font-size: 32px;
         font-weight: bold;
         color: #161616;

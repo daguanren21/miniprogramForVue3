@@ -69,9 +69,10 @@ export function useUpload(form, key = 'deployedImagePath') {
 
     }
     function deleteFiles({ files, fileList, index }) {
+        let tempFileList = JSON.parse(JSON.stringify(fileList))
         _fileList.length = 0
-        _fileList.push(...fileList)
-        console.log(files, fileList, index)
+        _fileList.push(...tempFileList)
+        console.log(files, index)
     }
     return {
         uploadUrl,

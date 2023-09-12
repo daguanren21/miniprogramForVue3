@@ -52,7 +52,8 @@
                     </jx-icon> -->
                         <nut-textarea :border="false" :autosize="{
                             minHeight: 80
-                        }" placeholder="请具体到xx区xx路xx号xx大楼xx层xx门牌号xx处" v-model="form.address" limit-show max-length="200" />
+                        }" placeholder="请具体到xx区xx路xx号xx大楼xx层xx门牌号xx处" v-model="form.address" limit-show
+                            max-length="200" />
                     </nut-form-item>
                     <nut-form-item label="现场图片" required>
                         <nut-uploader :media-type="['image']" @delete="deleteFiles" :file-list="_fileList" :url="uploadUrl"
@@ -66,8 +67,14 @@
                 @click="confirm">提交</nut-button>
         </nut-cell>
         <nut-popup position="bottom" closeable round :style="{ height: '60%' }" v-model:visible="searialNumber.show">
-            <nut-cell v-for="item in deviceList" @click="searialNumber.confirm(item)" :title="item.serialNumber"
-                :sub-title="item.brandName"></nut-cell>
+            <div class="text-center text-30px text-hex-1f1f1f font-bold mt-42px">搜索结果</div>
+            <div class="p-x-40px box-border">
+                <div class="p-y-40px box-border" style="border-bottom:1rpx solid #dadada" v-for="item in deviceList"
+                    @click="searialNumber.confirm(item)">
+                    <div class="text-30px font-bold text-hex-333">{{ item.serialNumber }}</div>
+                    <div class="mt-20px text-26px text-hex-797979">{{ item.brandName }}</div>
+                </div>
+            </div>
         </nut-popup>
         <nut-popup position="bottom" v-model:visible="selectPop.show">
             <nut-picker v-model="selectPop.value" :columns="selectPop.columns" @confirm="selectPop.confirm"
@@ -87,6 +94,7 @@ import { useDeviceBySearialNumber } from '~/composables/use-device-searialNumber
 import { useNotify } from '~/composables/use-notify';
 import { useUpload } from '~/composables/use-upload';
 const route = useRouter()
+const auth = useAuthStore()
 const form = reactive({
     id: route.params.id || '',
     serialNumber: route.params.serialNumber || '',
@@ -204,6 +212,7 @@ const confirm = async () => {
                 title: '设备已移除！',
             })
             setTimeout(() => {
+                auth.updateTabName('management')
                 Taro.switchTab({
                     url: '/pages/management/index'
                 })

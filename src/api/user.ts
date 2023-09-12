@@ -309,6 +309,7 @@ export interface ReceivedInfo {
     callForHelpTime: string;
     description: string;
     id: number;
+    headImageUrl:string;
     receivedTime: string;
     receiverId: number;
     receiverLatitude: number;

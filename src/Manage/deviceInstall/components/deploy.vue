@@ -23,7 +23,7 @@
                     <nut-input :border="false" class="nut-input-text" v-model="form.regionName" placeholder="请选择区域" type="text" readonly
                         @click="region.visible = true">
                         <template #right>
-                            <jx-icon @click.stop="chooseLocation" value="dingwei" color="#4088FF" :size="18"> </jx-icon>
+                            <jx-icon @click.stop="chooseLocation" value="address" color="#4088FF" :size="18"> </jx-icon>
                         </template>
                     </nut-input>
                     <nut-popup round closeable @close="region.closeRegion" position="bottom" title="地址选择"
@@ -44,7 +44,7 @@
                     }" placeholder="请具体到xx区xx路xx号xx大楼xx层xx门牌号xx处" v-model="form.address" limit-show max-length="200" />
                 </nut-form-item>
                 <nut-form-item label="安装图片" required>
-                    <nut-uploader @delete="deleteFiles" :file-list="_fileList" :url="uploadUrl"
+                    <nut-uploader :media-type="['image']" @delete="deleteFiles" :file-list="_fileList" :url="uploadUrl"
                         :before-xhr-upload="beforeXhrUpload" maximum="4"></nut-uploader>
                 </nut-form-item>
             </nut-form>

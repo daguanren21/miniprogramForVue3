@@ -17,7 +17,10 @@
                         </div>
                         <div class="flex-y-center justify-between  text-24px text-hex-c1c1c1">
                             <div>{{ dateFilter(item.publishTime) }}</div>
-                            <div>{{ item.readCount }}</div>
+                            <div class="flex-y-center">
+                                <jx-icon value="eye" color="#c1c1c1" :size="14"></jx-icon>
+                                <span class="ml-10px">{{ item.readCount }}</span>
+                            </div>
                         </div>
                     </div>
 
@@ -31,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import Taro from '@tarojs/taro';
+import Taro, { useDidShow } from '@tarojs/taro';
 import { News, fetchNews } from '~/api/user';
 import { dateFilter } from '~/filter'
 import { removeHTMLTag } from '~/utils'
@@ -44,7 +47,7 @@ const state = reactive({
 const refreshing = ref(false)
 const nomore = ref(false)
 
-onMounted(async () => {
+useDidShow(async () => {
     await fetchData()
 })
 const _onPullDownRefresh = () => {

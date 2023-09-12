@@ -17,8 +17,8 @@
                     </nut-popup>
                 </nut-form-item>
                 <nut-form-item class="jx-form-item" label="设备编号" required>
-                    <nut-input :border="false" @blur="getDeviceBySerialNumber(false)" v-model="form.serialNumber"
-                        class="nut-input-text" placeholder="请输入设备编号" type="text" max-length="30">
+                    <nut-input :border="false" v-model="form.serialNumber" class="nut-input-text" placeholder="请输入设备编号"
+                        type="text" max-length="30">
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item class="jx-form-item" label="设备型号">
@@ -28,10 +28,10 @@
                 </nut-form-item>
             </nut-form>
         </div>
-        <nut-popup position="bottom" closeable round :style="{ height: '60%' }" v-model:visible="searialNumber.show">
+        <!-- <nut-popup position="bottom" closeable round :style="{ height: '60%' }" v-model:visible="searialNumber.show">
             <nut-cell v-for="item in deviceList" @click="searialNumber.confirm(item)" :title="item.serialNumber"
                 :sub-title="item.brandName"></nut-cell>
-        </nut-popup>
+        </nut-popup> -->
         <div class="flex-center h-120px">
             <nut-button size="mini" style="width:80%;height: 70rpx;" type="primary" class="h-70px"
                 @click="confirm">下一步</nut-button>
@@ -42,7 +42,6 @@
 <script setup lang="ts">
 import { fetchDeviceBrands } from '~/api/common';
 import { useStep } from '~/composables/use-device-install'
-import { useDeviceBySearialNumber } from '~/composables/use-device-searialNumber';
 import { useNotify } from '~/composables/use-notify';
 defineOptions({
     name: 'basic'
@@ -62,7 +61,6 @@ const form = reactive({
     brandId: ''
 })
 const { next, selectPop, columns } = useStep(props, emits, form)
-const { searialNumber, getDeviceBySerialNumber, deviceList } = useDeviceBySearialNumber(form)
 watch(() => manage.deviceInfo, (value) => {
     form.id = value.id || null
     form.serialNumber = value.serialNumber

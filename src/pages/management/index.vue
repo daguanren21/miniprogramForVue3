@@ -27,7 +27,7 @@
                 </nut-searchbar>
                 <div class="flex-y-center" @click="visible = true">
                     <jx-icon value="filter" color="#A1A1A1" :size="14"></jx-icon>
-                    <span class="ml-10px text-30px text-hex-a1a1a1 text-nowrap">高级过滤</span>
+                    <span class="ml-10px text-30px text-hex-a1a1a1 break-keep">高级过滤</span>
                 </div>
             </div>
             <div class="flex-y-center justify-between">
@@ -44,19 +44,28 @@
             <device-list @change="(value) => total = value" :search="searchParams"></device-list>
             <nut-popup position="top" :style="{ height: '100%' }" v-model:visible="visible">
                 <nut-form>
-                    <nut-form-item label="品牌">
-                        <nut-input class="nut-input-text" :model-value="form.brandName" @click="handleChangeBrand" readonly
-                            placeholder="请选择品牌" type="text">
+                    <nut-form-item class="jx-form-item" label="品牌">
+                        <nut-input :border="false" class="nut-input-text" :model-value="form.brandName"
+                            @click="handleChangeBrand" readonly placeholder="请选择品牌" type="text">
+                            <template #right>
+                                <jx-icon value="select" color="#6A6F71" :size="14"> </jx-icon>
+                            </template>
                         </nut-input>
                     </nut-form-item>
-                    <nut-form-item label="安装场所">
-                        <nut-input class="nut-input-text" :model-value="form.placeName" @click="handleChangePlace" readonly
-                            placeholder="请选择安装场所" type="text">
+                    <nut-form-item class="jx-form-item" label="安装场所">
+                        <nut-input :border="false" class="nut-input-text" :model-value="form.placeName"
+                            @click="handleChangePlace" readonly placeholder="请选择安装场所" type="text">
+                            <template #right>
+                                <jx-icon value="select" color="#6A6F71" :size="14"> </jx-icon>
+                            </template>
                         </nut-input>
                     </nut-form-item>
-                    <nut-form-item label="区域">
-                        <nut-input class="nut-input-text" :model-value="form.regionName" placeholder="请选择区域" type="text"
-                            readonly @click="region.visible = true">
+                    <nut-form-item class="jx-form-item" label="区域">
+                        <nut-input :border="false" class="nut-input-text" :model-value="form.regionName" placeholder="请选择区域"
+                            type="text" readonly @click="region.visible = true">
+                            <template #right>
+                                <jx-icon value="select" color="#6A6F71" :size="14"> </jx-icon>
+                            </template>
                         </nut-input>
                         <nut-popup round closeable @close="region.closeRegion" position="bottom" title="地址选择"
                             v-model:visible="region.visible">
@@ -67,17 +76,19 @@
                             </nut-cell>
                         </nut-popup>
                     </nut-form-item>
-                    <nut-form-item label="安装时间">
+                    <nut-form-item class="jx-form-item" label="安装时间">
                         <div class="flex-center">
-                            <nut-input class="nut-input-text" input-align="center" v-model="form.installDateBegin" readonly
-                                @click="datePop.open('installDateBegin')" placeholder="请选择开始时间" type="text">
+                            <nut-input :border="false" class="nut-input-text" input-align="center"
+                                v-model="form.installDateBegin" readonly @click="datePop.open('installDateBegin')"
+                                placeholder="请选择开始时间" type="text">
                             </nut-input>
-                            <nut-input class="nut-input-text" input-align="center" v-model="form.installDateEnd" readonly
-                                @click="datePop.open('installDateEnd')" placeholder="请选择结束时间" type="text">
+                            <nut-input :border="false" class="nut-input-text" input-align="center"
+                                v-model="form.installDateEnd" readonly @click="datePop.open('installDateEnd')"
+                                placeholder="请选择结束时间" type="text">
                             </nut-input>
                         </div>
                     </nut-form-item>
-                    <nut-form-item label="运行状态">
+                    <nut-form-item class="jx-form-item" label="运行状态">
                         <nut-radio-group direction="horizontal" v-model="form.runningState">
                             <nut-radio label="">全部</nut-radio>
                             <nut-radio label="NORMAL">正常</nut-radio>
@@ -85,21 +96,21 @@
                             <nut-radio label="WARNING">预警</nut-radio>
                         </nut-radio-group>
                     </nut-form-item>
-                    <nut-form-item label="位置状态">
+                    <nut-form-item class="jx-form-item" label="位置状态">
                         <nut-radio-group direction="horizontal" v-model="form.positionState">
                             <nut-radio label="">全部</nut-radio>
                             <nut-radio label="IN_POSITION">在位</nut-radio>
-                            <nut-radio label="OUT_OF_POSITION">离位</nut-radio>
+                            <nut-radio label="OUT_OF_POSITION">偏移</nut-radio>
                         </nut-radio-group>
                     </nut-form-item>
-                    <nut-form-item label="抢救数据">
+                    <nut-form-item class="jx-form-item" label="抢救数据">
                         <nut-radio-group direction="horizontal" v-model="form.hasRescueData">
                             <nut-radio label="">全部</nut-radio>
                             <nut-radio label="true">有</nut-radio>
                             <nut-radio label="false">无</nut-radio>
                         </nut-radio-group>
                     </nut-form-item>
-                    <nut-form-item label="移动设备">
+                    <nut-form-item class="jx-form-item" label="移动设备">
                         <nut-radio-group direction="horizontal" v-model="form.mobile">
                             <nut-radio label="">全部</nut-radio>
                             <nut-radio label="true">是</nut-radio>
@@ -111,7 +122,7 @@
                         <nut-cell>
                             <nut-row type="flex" align="center" justify="center">
                                 <nut-col :span="11">
-                                    <nut-button style="width: 100%;" type='info' @click="clear">重置</nut-button>
+                                    <nut-button style="width: 100%;" type='danger' @click="clear">重置</nut-button>
                                 </nut-col>
                                 <nut-col :offset="2" :span="11">
                                     <nut-button style="width: 100%;" type='primary' @click="submit"
@@ -295,7 +306,7 @@ const datePop = reactive({
         let dateTime = selectedOptions.map((val: any) => val.value)
         let date = dateTime.slice(0, 3)
         let time = dateTime.slice(3, dateTime.length)
-        form.value[datePop.key] = date.join('-') + ' ' + time.join(':')
+        form.value[datePop.key] = date.join('-') + '' + time.join(':')
         datePop.show = false
     }
 })
@@ -308,6 +319,15 @@ const datePop = reactive({
 
     .nut-searchbar__search-input {
         background: #F4F4F4 !important;
+    }
+
+    .nut-radio-group {
+        display: flex !important;
+        align-items: center !important;
+
+        .nut-radio {
+            margin-bottom: 0 !important;
+        }
     }
 }
 </style>
