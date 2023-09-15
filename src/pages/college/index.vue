@@ -9,13 +9,8 @@
                         </image>
                     </div>
                 </div>
-                <!-- <nut-searchbar class="jx-search">
-                    <template v-slot:rightin>
-                        <nut-button type='primary'>搜索</nut-button>
-                    </template>
-                </nut-searchbar> -->
                 <div class="flex-1 overflow-hidden">
-                    <component :is='componentRef'></component>
+                    <component :is='componentTab'></component>
                 </div>
             </div>
 
@@ -30,7 +25,7 @@ import knowledge_active from '~/assets/images/volunteer/knowledge_active.png'
 import knowledge from '~/assets/images/volunteer/knowledge.png'
 import rescue from '~/assets/images/volunteer/rescue.png'
 import rescue_active from '~/assets/images/volunteer/rescue_active.png'
-const componentRef = shallowRef(knowLedgeList)
+const componentTab = shallowRef(knowLedgeList)
 const tabList = ref<{
     key: string,
     text: string,
@@ -51,13 +46,13 @@ const tabList = ref<{
     },
 ])
 const tabIndex = ref<number>(0)
+
 const changeTab = (index) => {
     tabIndex.value = index
     let tab = tabList.value[tabIndex.value].key
-    componentRef.value = tab === 'knowLedgeList' ? knowLedgeList : courseList
+    componentTab.value = tab === 'knowLedgeList' ? knowLedgeList : courseList
 }
+
 </script>
 
-<style lang="scss">
-
-</style>
+<style lang="scss"></style>

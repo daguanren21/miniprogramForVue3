@@ -26,10 +26,10 @@
                         <nut-radio label="false">破损</nut-radio>
                     </nut-radio-group>
                 </nut-form-item>
-                <nut-form-item class="jx-form-item" label="巡检描述" required>
+                <nut-form-item class="jx-form-item" label="巡检内容" required>
                     <nut-textarea :border="false" :autosize="{
                         minHeight: 80
-                    }" placeholder="请输入巡检描述" v-model="form.content" limit-show max-length="200" />
+                    }" placeholder="请输入巡检内容" v-model="form.content" limit-show max-length="200" />
                 </nut-form-item>
                 <nut-form-item label="现场图片" required>
                     <nut-uploader :media-type="['image']" @delete="deleteFiles" :file-list="_fileList" :url="uploadUrl"
@@ -82,7 +82,7 @@ const confirm = async () => {
         return
     }
     if (!content) {
-        notify('巡检描述不能为空！')
+        notify('巡检内容不能为空！')
         return
     }
     if (!_fileList.length) {

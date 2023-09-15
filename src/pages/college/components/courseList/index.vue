@@ -168,6 +168,9 @@ const goToInfo = (id: number) => {
         url: `/College/courseInfo/index?id=${id}`
     })
 }
+defineExpose({
+    load: getBusList
+})
 </script>
 
 <style lang="scss"></style>

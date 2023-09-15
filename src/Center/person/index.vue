@@ -7,7 +7,7 @@
                     <button style="padding:0;margin: 0;"
                         class="h-180px w-180px rounded-full text-26px line-height-180px text-truncate"
                         @chooseavatar="getAvatar" open-type="chooseAvatar">
-                        <img class="w-180px h-180px" mode="aspectFill" v-if="!form.imageUrl" :src="form.imageUrl" alt="">
+                        <img class="w-180px h-180px" mode="aspectFill" v-if="form.imageUrl" :src="form.imageUrl" alt="">
                         <open-data class="w-180px h-180px rounded-full overflow-hidden" v-else
                             type="userAvatarUrl"></open-data>
                     </button>
@@ -31,7 +31,7 @@
             </nut-form-item>
         </nut-form>
         <nut-cell style="margin:0;background:transparent">
-            <nut-button type="primary" class="m-auto" style="width:80%;margin: auto;" @click="confirm">认证</nut-button>
+            <nut-button type="primary" class="m-auto" style="width:80%;margin: auto;" @click="confirm">修改</nut-button>
         </nut-cell>
     </div>
 </template>

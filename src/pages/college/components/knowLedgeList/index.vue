@@ -46,7 +46,9 @@ const state = reactive({
 })
 const refreshing = ref(false)
 const nomore = ref(false)
-
+onMounted(async () => {
+    await fetchData()
+})
 useDidShow(async () => {
     await fetchData()
 })
@@ -95,6 +97,9 @@ const toCollege = (key: string, id: number) => {
         url: `/College/${key}/index?id=${id}`
     })
 }
+defineExpose({
+    load: fetchData
+})
 </script>
 
 <style lang="scss">
