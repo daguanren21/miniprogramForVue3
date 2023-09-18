@@ -144,6 +144,7 @@ export interface DeviceCheckRecord {
     oldRunningState: Filter.RunningState;
     remarks: string;
     state: Filter.CheckState;
+    createdDate: string
 }
 /**
  * @description 分页查询设备审核记录
@@ -414,8 +415,8 @@ export function updateDevicePart(data: {
  * @returns 
  */
 export function fetcheDevicesCount(): Promise<{
-    checkCount:number,
-    exceptionCount:number
+    checkCount: number,
+    exceptionCount: number
 }> {
     return request({
         url: api.manage + `devices/count`,

@@ -73,7 +73,7 @@ export const useMapLocation = (options: { isNeedAddress: boolean } = {
         } catch (error) {
             await Taro.stopLocationUpdate()
             console.error('更新定位失败')
-            return Promise.reject('更新定位失败')
+            return Promise.reject('请确认是否开启定位')
         }
         return Promise.resolve({
             lat: state.lat,

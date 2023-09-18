@@ -40,9 +40,9 @@
                                 <div class="flex-y-center justify-between mt-27px">
                                     <div class="text-26px text-hex-999">通知次数：{{ item.noticeNumber || 0 }}</div>
                                     <div class="flex justify-end">
-                                        <nut-button size="small" class="h-60px" type="primary"
+                                        <nut-button  class="jx-button"  type="primary"
                                             @click="noticeModal.open(item)">通知维护</nut-button>
-                                        <nut-button style="margin-left:20rpx" size="small" class="h-60px" type="danger"
+                                        <nut-button style="margin-left:20rpx" class="jx-button" type="danger"
                                             @click="handleModal.open(item.repairRecordId)">处理</nut-button>
                                     </div>
                                 </div>

@@ -5,17 +5,17 @@
                 <image :src="info.imagePath" class="wh-full"></image>
             </div>
             <div class="p-y-30px p-r-30px flex-1 box-border">
-                <div class="text-30px text-hex-333 mb-29px line-clamp-1 break-all">{{ info.name }} </div>
+                <div class="text-30px text-hex-333 mb-29px break-all">{{ info.name }} </div>
                 <div class="text-24px text-hex-3BD5AC mb-34px flex-y-center">
                     <jx-icon value="time" color="#3BD5AC" :size="14"></jx-icon>
-                    <span class="ml-10px">{{ dateFilter(info.startTime, "YYYY-MM-DD") }}</span>
+                    <span class="ml-10px">开始时间：{{ dateFilter(info.startTime, "YYYY-MM-DD") }}</span>
                 </div>
                 <div class="flex-y-center justify-between">
                     <div class="text-26px text-hex-525252 flex flex-1">总课时：<span
-                            class="text-hex-409EFF line-clamp-1 break-all">{{ info.classHour }}h</span>
+                            class="text-hex-333 line-clamp-1 break-all">{{ info.classHour }}h</span>
                     </div>
                     <div class="text-26px text-hex-525252 flex">课程人数：
-                        <span class="text-hex-409EFF">{{ noDataFilter(info.personNumber) }}</span>
+                        <span class="text-hex-333">{{ noDataFilter(info.personNumber) }}</span>
                     </div>
                 </div>
             </div>
@@ -32,7 +32,8 @@
                     <span class="text-hex-409EFF">{{ info.phoneNumber }}</span>
                 </div>
                 <div class="text-28px text-hex-525252 mb-30px">价格：{{ noDataFilter(info.price) }}元</div>
-                <div class="text-28px text-hex-525252">报名网址：{{ noDataFilter(info.url) }}</div>
+                <div class="text-28px text-hex-525252  mb-30px break-all">报名网址：{{ noDataFilter(info.url) }}</div>
+                <div class="text-28px text-hex-525252 break-all">授课地址：{{ noDataFilter(info.classAddress) }}</div>
             </div>
         </div>
         <div class="mt-56px w-709px">
@@ -132,6 +133,9 @@ useDidShow(async () => {
 </script>
 
 <style lang="scss">
+rich-text{
+    word-break: break-all;
+}
 .c_pad {
     padding: 0 48px;
     box-sizing: border-box;

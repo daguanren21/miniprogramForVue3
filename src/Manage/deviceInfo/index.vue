@@ -197,7 +197,7 @@
                             <span>{{ devicePublicFilter(info.publicType) }}</span>
                         </template>
                     </nut-cell>
-                    <nut-cell title="开放日" @click="makePhoneCall(info.contactPhone)">
+                    <nut-cell v-if="info.publicType === 'HALF' || info.publicType === 'PUBLIC'" title="开放日" @click="makePhoneCall(info.contactPhone)">
                         <template v-slot:link>
                             <span>{{ showWeekDays(info.workDay) }}</span>
                         </template>
@@ -241,7 +241,7 @@
                 <div class="bg-hex-fff w-720px m-auto rounded-20px">
                     <nut-cell title="联系人">
                         <template v-slot:link>
-                            <span>{{ info.configInstitutionName }}</span>
+                            <span>{{ info.configInstitutionAdminName }}</span>
                         </template>
                     </nut-cell>
                     <nut-cell title="联系方式" @click="makePhoneCall(info.configInstitutionAdminPhoneNumber)">

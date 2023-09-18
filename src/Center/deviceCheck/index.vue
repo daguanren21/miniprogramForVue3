@@ -9,17 +9,17 @@
                             v-for="item in  state.content " :key="item.id">
                             <div class="flex-y-center justify-between">
                                 <span class="text-30px text-hex-333 font-bold">{{ item.deviceSerialNumber }}</span>
-                                <span class="text-24px text-hex-999">2022-8-17 12:20:13</span>
+                                <span class="text-24px text-hex-999">{{ dateFilter(item.createdDate) }}</span>
                             </div>
                             <div class="mt-37px text-26px flex-y-center">
                                 <div class="text-hex-575757">设备变化：</div>
                                 <div class="flex-y-center  text-28px">
                                     <span
-                                        :style="{ 'color': filter(deviceRunningStateFilter(item.oldRunningState).type) }">{{
+                                        :style="{ color: filter(deviceRunningStateFilter(item.oldRunningState).type).color }">{{
                                             deviceRunningStateFilter(item.oldRunningState).text }}</span>
                                     <jx-icon class="p-x-10px" value="center-arrow" color="#3C3C3C"></jx-icon>
                                     <span
-                                        :style="{ 'color': filter(deviceRunningStateFilter(item.newRunningState).type) }">{{
+                                        :style="{ color: filter(deviceRunningStateFilter(item.newRunningState).type).color }">{{
                                             deviceRunningStateFilter(item.newRunningState).text }}</span>
                                 </div>
                             </div>
@@ -27,7 +27,7 @@
                                 <div class="flex-y-center text-26px text-hex-575757">
                                     审核状态：<span class="text-hex-409EFF text-28px">待审核</span>
                                 </div>
-                                <nut-button type='primary' class="jx-button" @click="dialog.open(item.id)">审核</nut-button>
+                                <nut-button  type='primary' class="jx-button" @click="dialog.open(item.id)">审核</nut-button>
                             </div>
                             <div class="mt-18px">
                                 <image v-for="image in handleImages(item.imagesPath)" class="m-x-5px w-160px h-160px"
@@ -68,7 +68,7 @@
 <script setup lang="ts">
 import { DeviceCheckRecord, fetchDeviceCheckRecords, updateDeviceCheckRecords } from "~/api/device"
 import { useDidShow } from '@tarojs/taro';
-import { deviceRunningStateFilter } from '~/filter'
+import { deviceRunningStateFilter, dateFilter } from '~/filter'
 import { filter } from '~/utils'
 import Taro from "@tarojs/taro";
 const state = reactive({

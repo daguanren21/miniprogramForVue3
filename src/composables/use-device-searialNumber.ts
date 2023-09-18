@@ -34,6 +34,7 @@ export const useDeviceBySearialNumber = (form) => {
             }
             searialNumber.show = true
         } catch (error) {
+            form.id = null
             toast && Taro.showToast({
                 icon: 'none',
                 title: error

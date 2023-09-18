@@ -32,7 +32,7 @@
             </div>
             <div class="flex-y-center justify-between">
                 <div class="flex-y-center text-hex-333 text-30px ml-17px">
-                    共有 <span class="text-hex-FF7A2A text-36px">{{ total }}</span> 个设备正在维护
+                    共有 <span class="text-hex-FF7A2A text-36px">{{ total }}</span> 台设备
                 </div>
                 <div class="flex-y-center" @click="toDeviceInstall">
                     <jx-icon value="device-add" color="#FF7A2A" :size="14"></jx-icon>

@@ -7,16 +7,16 @@
           <nut-searchbar class="jx-search" v-model="searchValue" @search="handleSearch" placeholder="请输入地址">
             <template v-slot:rightin>
               <nut-button type='primary' @click="handleSearch"
-                style="width:130rpx;height:75rpx;white-space: nowrap;">搜索</nut-button>
+                style="width:100rpx;height:75rpx;white-space: nowrap;">搜索</nut-button>
             </template>
           </nut-searchbar>
         </div>
         <div class="absolute top-135px right-20px">
           <div @click="handleNearby">
-            <image class="w-133px h-133px" src="../../assets/images/index/附近aed.png"></image>
+            <image class="w-100px h-100px" src="../../assets/images/index/附近aed.png"></image>
           </div>
           <div @click="helpVisible = true" class="mt-17px">
-            <image class="w-133px h-133px" src="../../assets/images/index/帮助.png"></image>
+            <image class="w-100px h-100px" src="../../assets/images/index/帮助.png"></image>
           </div>
         </div>
         <div @click="moveToLocation" class="absolute bottom-20px right-30px">

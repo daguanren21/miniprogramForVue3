@@ -14,7 +14,7 @@ const RESPONSE_INFO_MARKERID_PREFIX = "response"
 import normalSelectImage from '~/assets/images/device_normal.png'
 import { fetchLatelyDevices, fetchRegionDeviceInfo } from '~/api/device';
 import { useQQMapSdk } from '~/composables/use-qqmap-sdk';
-import { fetchDeviceCoordinate, updateVolunteerLocation } from '~/api/common';
+import {  updateVolunteerLocation } from '~/api/common';
 export function useSwitchModel() {
     const { notify, state } = useNotify('danger')
     let { getNewLocation } = useMapLocation()
@@ -257,7 +257,7 @@ export function useMap(lat: Ref<number>, lng: Ref<number>) {
         } catch (error) {
             await Taro.stopLocationUpdate()
             console.error('更新定位失败')
-            return Promise.reject('更新定位失败')
+            return Promise.reject('请确认是否开启定位')
         }
     }
     const renderCallForHelp = (record: VolunteerRecord) => {
@@ -274,7 +274,6 @@ export function useMap(lat: Ref<number>, lng: Ref<number>) {
 
     }
     const renderVolunteer = (responseInfos: ReceivedInfo[]) => {
-
         unique(responseInfos.map(v => {
             let iconPath = ''
             if (v.rescueResponseTaskType == 'FETCH_AED') {

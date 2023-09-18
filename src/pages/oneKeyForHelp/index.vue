@@ -12,10 +12,9 @@
                 <div class="w-full bg-hex-fff rounded-20px p-25px box-border mt-25px">
                     <h2 class="text-30px text-hex-E9483F font-bold">温馨提示：</h2>
                     <div class="mt-15px line-height-48px">
-                        <p class="text-24px text-hex-E9483F">正常模式仅用于紧急情况使用，体验、培训、试用等请试用演练模式。</p>
-                        <p class="text-24px text-hex-E9483F"> 1、非紧急情况下请勿擅自取出AED设备</p>
-                        <p class="text-24px text-hex-E9483F">2、您呼救的信息会同步发送给周边急救志愿者 </p>
-                        <p class="text-24px text-hex-E9483F">3、启动呼救后，可提供120快速拨通入口</p>
+                        <p class="text-24px text-hex-E9483F">正常模式仅用于紧急情况使用，体验、培训、试用等请使用演练模式。</p>
+                        <p class="text-24px text-hex-E9483F">1、您呼救的信息会同步发送给周边急救志愿者 </p>
+                        <p class="text-24px text-hex-E9483F">2、启动呼救后，可提供120快速拨通入口</p>
                     </div>
                 </div>
                 <div class="w-full  mt-32px">
@@ -113,7 +112,7 @@
                                     <jx-icon value="aed" color="#04BAFE"></jx-icon>
                                     <span class="ml-5px text-30px text-hex-04BAFE">AED志愿者</span>
                                 </div>
-                                <div class="flex-y-center" @click="responseModal.open('FETCH_AED')">
+                                <div class="flex-y-center" v-show="volunteer.fetchAedReceiverCount" @click="responseModal.open('FETCH_AED')">
                                     <span class="text-26px text-hex-9B9B9B mr-5px">查看</span>
                                     <jx-icon value="right-arrow" color="#9B9B9B" :size="13"></jx-icon>
                                 </div>
@@ -131,7 +130,7 @@
                                     <jx-icon value="cpr" color="#1ED137"></jx-icon>
                                     <span class="ml-5px text-30px text-hex-1ED137">CPR志愿者</span>
                                 </div>
-                                <div class="flex-y-center" @click="responseModal.open('CPR')">
+                                <div class="flex-y-center"  v-show="volunteer.cprReceiverCount" @click="responseModal.open('CPR')">
                                     <span class="text-26px text-hex-9B9B9B mr-5px">查看</span>
                                     <jx-icon value="right-arrow" color="#9B9B9B" :size="13"></jx-icon>
                                 </div>
@@ -293,6 +292,7 @@ useDidShow(async () => {
         resume()
     } else {
         pause()
+       
     }
 })
 useDidHide(() => {
@@ -316,8 +316,11 @@ const oneKeyForHelp = async () => {
                 title: '附近未发现志愿者',
                 duration: 4000
             })
+            pause()
+        } else {
+            resume()
+
         }
-        resume()
     } catch (error) {
         Taro.showToast({
             icon: 'none',
@@ -337,6 +340,7 @@ const finishForHelp = async () => {
         })
         setTimeout(async () => {
             await getRescueInfo()
+            markers.value=[]
             pause()
         }, 1000)
     } catch (error) {

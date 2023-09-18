@@ -1,3 +1,3 @@
 export default definePageConfig({
-    navigationBarTitleText:'急救学堂'
+    navigationBarTitleText:'急救课堂'
 })

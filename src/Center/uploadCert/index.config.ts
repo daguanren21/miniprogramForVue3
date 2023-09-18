@@ -1,3 +1,3 @@
 export default definePageConfig({
-    navigationBarTitleText:'证书上传'
+    navigationBarTitleText:'上传证书'
 })

@@ -37,6 +37,9 @@ useDidShow(async () => {
 })
 </script>
 <style lang="scss">
+rich-text{
+    word-break: break-all;
+}
 .news_wrap {
     height: 100%;
     padding: 48px 50px 0 50px;

@@ -72,7 +72,7 @@ export const deviceRunningStateFilter = (key: 'UNKNOWN' | 'NORMAL' | 'ABNORMAL' 
         text: string
     } = {
         type: 'default',
-        text: ''
+        text: '未知'
     }
     switch (key) {
         case 'UNKNOWN':
@@ -106,7 +106,7 @@ export const batteryStateFilter = (key: 'UNKNOWN' | 'NORMAL' | 'POWER_LOW' | 'PO
         text: string
     } = {
         type: 'default',
-        text: ''
+        text: '未知'
     }
     switch (key) {
         case 'UNKNOWN':
@@ -139,7 +139,7 @@ export const deviceNetworkStateFilter = (key: 'UNKNOWN' | 'ONLINE' | 'OFFLINE' |
         text: string
     } = {
         type: 'default',
-        text: ''
+        text: '未知'
     }
     switch (key) {
         case 'UNKNOWN':
@@ -173,7 +173,7 @@ export const positionStateFilter = (key: 'UNKNOWN' | 'IN_POSITION' | 'OUT_OF_POS
         text: string
     } = {
         type: 'default',
-        text: ''
+        text: '未知'
     }
     switch (key) {
         case 'UNKNOWN':
@@ -203,7 +203,7 @@ export const qualityAssuranceStateFilter = (key: 'UNKNOWN' | 'IN' | 'OUT') => {
         text: string
     } = {
         type: 'default',
-        text: ''
+        text: '未知'
     }
     switch (key) {
         case 'UNKNOWN':
@@ -234,7 +234,7 @@ export const checkStateFilter = (key: Filter.CheckState) => {
         text: string
     } = {
         type: 'default',
-        text: ''
+        text: '未知'
     }
     switch (key) {
         case 'UNKNOWN':
@@ -264,7 +264,7 @@ export const certificateStateFilter = (key: 'EXPIRED' | 'UNKNOWN' | 'VALID') => 
         text: string
     } = {
         type: 'default',
-        text: ''
+        text: '未知'
     }
     switch (key) {
         case 'UNKNOWN':

@@ -48,7 +48,7 @@
         </div>
         <div>
             <nut-cell style="margin: 0;background:transparent">
-                <nut-button type="primary" style="width:80%;margin: auto;" @click="toCenter('uploadCert')">证书上传</nut-button>
+                <nut-button type="primary" style="width:80%;margin: auto;" @click="toCenter('uploadCert')">上传证书</nut-button>
             </nut-cell>
         </div>
         <nut-popup position="bottom" closeable round :style="{ height: '43%' }" v-model:visible="dialog.show">
