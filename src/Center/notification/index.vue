@@ -11,6 +11,7 @@
                                 <div class="flex-y-center">
                                     <image class="w-61px h-61px" src="../../assets/images/center/消息.png"></image>
                                     <p class="text-30px font-bold text-hex-333 ml-17px">{{ item.eventTypeName }}</p>
+                                    <jx-dot class="ml-15px" :state="messageLevelFilter(item.level)" />
                                 </div>
                                 <div @click="handleRemark(item)"
                                     class="flex-center rounded-10px bg-hex-EA2E1E text-hex-fff text-26px w-119px h-47px">
@@ -33,6 +34,7 @@
 import Taro, { getCurrentPages } from '@tarojs/taro';
 import { useDidShow } from '@tarojs/taro';
 import { Message, fetchUnreadMessages, updateReadMarks } from "~/api/user";
+import { messageLevelFilter } from '~/filter/index'
 const state = reactive({
     content: [] as Message[],
     totalCount: 0,

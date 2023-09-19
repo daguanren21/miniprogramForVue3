@@ -33,7 +33,7 @@ export const useMapLocation = (options: { isNeedAddress: boolean } = {
             })
             state.address = address
         }
-
+        Taro.offLocationChange(_locationChangeFn)
         Taro.stopLocationUpdate()
     }
     useDidShow(async () => {

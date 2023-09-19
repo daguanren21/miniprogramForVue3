@@ -13,8 +13,7 @@
                     <div>
                         <div class="flex-y-center">
                             <div class="text-30px font-bold text-hex-333">{{ noDataFilter(item.serialNumber) }}</div>
-                            <div
-                                :style="{color:filter(deviceRunningStateFilter(item.runningState).type).color,backgroundColor:filter(deviceRunningStateFilter(item.runningState).type).bgColor,borderColor:filter(deviceRunningStateFilter(item.runningState).type).color}"
+                            <div :style="{ color: filter(deviceRunningStateFilter(item.runningState).type).color, backgroundColor: filter(deviceRunningStateFilter(item.runningState).type).bgColor, borderColor: filter(deviceRunningStateFilter(item.runningState).type).color }"
                                 class="ml-30px text-hex-32B44B bg-hex-E0F4E4 b-1px b-hex-32B44B text-center rounded-5px text-26px w-82px h-40px line-height-40px">
                                 {{ deviceRunningStateFilter(item.runningState).text }}</div>
                         </div>
@@ -22,9 +21,10 @@
                             {{ noDataFilter(item.address) }}
                         </div>
                     </div>
-                    <div class="flex-col items-center" @click.stop="showMapNavigation(item)">
+                    <div class="flex-col items-center ml-15px" @click.stop="showMapNavigation(item)">
                         <jx-icon value="navigation" color="#2595E8" :size="20"></jx-icon>
-                        <div class="text-24px text-hex-2595E8 mt-15px">距您{{ distanceFilter(item.distance) }}</div>
+                        <div class="text-24px text-hex-2595E8 mt-15px break-keep">距您{{ distanceFilter(item.distance) }}
+                        </div>
                     </div>
                 </div>
             </div>

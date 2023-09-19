@@ -96,7 +96,35 @@ export const deviceRunningStateFilter = (key: 'UNKNOWN' | 'NORMAL' | 'ABNORMAL' 
     }
     return state
 }
-
+/**
+ * @description 消息等级
+ */
+export const messageLevelFilter = (key: 'COMMON' | 'WARNING' | 'SERIOUS') => {
+    let state: {
+        type: DotType,
+        text: string
+    } = {
+        type: 'default',
+        text: '一般'
+    }
+    switch (key) {
+        case 'COMMON':
+            state.type = 'default'
+            state.text = '一般'
+            break;
+        case 'SERIOUS':
+            state.type = 'error'
+            state.text = '紧急'
+            break;
+        case 'WARNING':
+            state.type = 'warning'
+            state.text = '预警'
+            break;
+        default:
+            break;
+    }
+    return state
+}
 /**
  * @description 电池状态
  */

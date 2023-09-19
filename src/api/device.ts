@@ -13,9 +13,12 @@ const api = {
 export interface DeviceMap {
     deployedAreaLatitude: number;
     deployedAreaLongitude: number;
+    level: number | null;
+    name: string | null;
     id: number
 }
 export function fetchRegionDevices(data: {
+    level: number,
     minLat: number,
     maxLat: number,
     minLng: number,

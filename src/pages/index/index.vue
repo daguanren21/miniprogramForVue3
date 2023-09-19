@@ -2,12 +2,13 @@
   <view class="home">
     <div class="main">
       <map class="wh-full" :markers="markers" @markertap="markertap" @callouttap="markertap" @regionchange="regionchange"
-        :longitude="centerLng" :latitude="centerLat" :scale="scale" id="indexMap" :show-location="true" :showScale="true">
+        :longitude="centerLng" :latitude="centerLat" :scale="mapScale" id="indexMap" :show-location="true"
+        :showScale="false">
         <div class="quick_search">
           <nut-searchbar class="jx-search" v-model="searchValue" @search="handleSearch" placeholder="请输入地址">
             <template v-slot:rightin>
               <nut-button type='primary' @click="handleSearch"
-                style="width:100rpx;height:75rpx;white-space: nowrap;">搜索</nut-button>
+                style="width:120rpx;height:75rpx;white-space: nowrap;margin-left: 40rpx;">搜索</nut-button>
             </template>
           </nut-searchbar>
         </div>
@@ -19,7 +20,7 @@
             <image class="w-100px h-100px" src="../../assets/images/index/帮助.png"></image>
           </div>
         </div>
-        <div @click="moveToLocation" class="absolute bottom-20px right-30px">
+        <div @click="moveToLocation" class="absolute bottom-120px right-30px">
           <jx-icon value="myLoc" color="#fa2c19" :size="30"></jx-icon>
         </div>
         <div class="absolute bottom-0 w-full">
@@ -65,11 +66,6 @@
           </div>
         </div>
       </div>
-
-      <!-- <div class="absolute" style="top: -40rpx;">
-        <image class="w-165px h-91px" src="../../assets/images/index/夹子.png"></image>
-      </div> -->
-
     </nut-overlay>
   </view>
 </template>
@@ -82,13 +78,13 @@ import { fetchLatelyDevices } from '~/api/device';
 import Taro from '@tarojs/taro';
 const helpVisible = ref(false)
 //获取地图实例
-const mapState = reactive({
-  scale: 13,
-})
-const { scale } = toRefs(mapState)
+
 //地图获取最新位置
 const { lat: centerLat, lng: centerLng } = useMapLocation({ isNeedAddress: false })
-const { renderMarkerDevices, getSuggestion, deviceSelectId, regionchange, markers, markertap, deviceInfo, deviceVisible, moveToLocation } = useQQMapSdk()
+const { renderMarkerDevices, mapScale, getSuggestion, deviceSelectId, regionchange, markers, markertap, deviceInfo, deviceVisible, moveToLocation } = useQQMapSdk((lat, lng) => {
+  centerLat.value = lat
+  centerLng.value = lng
+})
 // 搜索
 const searchValue = ref('')
 const searchAreaList = ref<Index.Suggestion[]>([])
@@ -119,21 +115,23 @@ const changeMapCenter = (location: Pick<Index.Suggestion, 'location'>['location'
 const nearby = reactive({
   visible: false,
   list: [] as Index.DeviceInfo[],
-  distance: 100 // 默认为10km
+  distance: 10 // 默认为10km
 })
 //打开Modal并查询附近设备
 async function handleNearby() {
-  let res = await fetchLatelyDevices({
-    distance: nearby.distance,
-    latFrom: centerLat.value,
-    lngFrom: centerLng.value
-  })
-  nearby.list = res
-  if (nearby.list.length > 0) {
-    nearby.visible = true
-  } else {
+  try {
+    let res = await fetchLatelyDevices({
+      distance: nearby.distance,
+      latFrom: centerLat.value,
+      lngFrom: centerLng.value
+    })
+    nearby.list = res
+    if (nearby.list.length > 0) {
+      nearby.visible = true
+    }
+  } catch (error) {
     Taro.showToast({
-      title: '附近' + nearby.distance + '公里没有设备',
+      title: error,
       icon: 'none'
     })
   }

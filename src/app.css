@@ -43,7 +43,12 @@ page{
 .nut-textarea__textarea {
     text-align: left !important;
 }
-
+.nut-button--disabled{
+    opacity:0.5 !important;
+}
+.nut-cell{
+    word-break: break-all !important;
+}
 .jx-form-item {
     padding:51px 0 51px 51px;
     border-bottom: 1px solid #DBDBDB;

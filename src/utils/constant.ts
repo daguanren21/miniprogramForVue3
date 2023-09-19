@@ -1,13 +1,6 @@
-//services服务
-const enum Server {
-    DEVELOPMENT = 'https://aedms2g.test.jousing.cn/services/',
-    LOCAL = 'http://192.168.1.170:8080/services/',
-    PRODUCTION = 'https://www.jousing.cn/'
-}
-//Gateway服务
 const enum Gateway {
     DEVELOPMENT = 'https://aedms2g.test.jousing.cn/',
-    LOCAL = 'http://192.168.1.170:8080/',
+    LOCAL = 'http://192.168.1.171:8080/',
     PRODUCTION = 'https://www.jousing.cn/'
 }
 const enum MapKey {
@@ -15,7 +8,7 @@ const enum MapKey {
     PRODUCTION = 'WMFBZ-DT3WS-JF7OW-63T53-2KLKV-57BIG'
 }
 //配置请求路径
-export const baseUrl = Server.DEVELOPMENT
+export const baseUrl = Gateway.DEVELOPMENT + 'services/'
 export const gatewayUrl = Gateway.DEVELOPMENT
 //配置map jssdk key
 export const qqMapKey = MapKey.DEVELOPMENT
@@ -49,3 +42,15 @@ export const phoneAndFixPattern = /^1\d{10}$|^(0\d{2,3}-?|\(0\d{2,3}\))?[1-9]\d{
 export const phonePattern = /^1\d{10}$/
 //邮箱校验
 export const emailPattern = /^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)*@[a-zA-Z0-9_-]+(\.[a-zA-Z_-]+)+$/
+
+export const mapGlobalConfigParams = {
+    proviceLevelScaleFrom: 4,
+    proviceLevelScaleTo: 6,
+    cityLevelScaleFrom: 6,
+    cityLevelScaleTo: 9,
+    regionLevelScaleFrom: 9,
+    regionLevelScaleTo: 12,
+    pointLevelScaleFrom: 12,
+    pointLevelScaleTo: 20,
+  }
+  

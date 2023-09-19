@@ -116,7 +116,6 @@ const emits = defineEmits<{
     change: [value: number]
 }>()
 watch(() => props.search, (val) => {
-    console.log(val)
     loadData()
 }, {
     deep: true

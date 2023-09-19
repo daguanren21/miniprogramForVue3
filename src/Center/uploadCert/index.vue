@@ -87,7 +87,7 @@
                         否则会影响证书能否通过审核。
                     </div>
                 </div>
-                <nut-button type="primary" style="width:80%;margin: auto;" @click="confirm">上传</nut-button>
+                <nut-button type="primary" style="width:80%;margin: auto;" @click="confirm">上传证书</nut-button>
             </div>
 
         </nut-cell>
@@ -160,13 +160,17 @@ const confirm = async () => {
         notify('证书结束时间不能为空！')
         return
     }
-    if (!dayjs(form.certificateReleaseDate).isBefore(form.certificateExpireDate)) {
-        notify('开始时间不能大于结束时间！')
-        return
+    if (form.certificateExpireDate !== form.certificateReleaseDate) {
+        if (!dayjs(form.certificateExpireDate).isAfter(form.certificateReleaseDate)) {
+            notify('结束时间应该大于开始时间！')
+            return
+        }
     }
+
     if (!form.frontImagePath) {
         notify('证书正面照片不能为空')
         return
+
     }
     if (!form.backImagePath) {
         notify('证书背面照片不能为空')

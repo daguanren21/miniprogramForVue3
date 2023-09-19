@@ -36,7 +36,7 @@
                 </div>
                 <div class="flex-y-center" @click="toDeviceInstall">
                     <jx-icon value="device-add" color="#FF7A2A" :size="14"></jx-icon>
-                    <span class="ml-10px text-30px text-hex-FF7A2A">设备新增</span>
+                    <span class="ml-10px text-30px text-hex-FF7A2A">新增设备</span>
                 </div>
             </div>
         </div>
@@ -208,8 +208,9 @@ const { region } = useDeviceRegion((options) => {
     form.value.regionId = options.regionId;
 }, false)
 const submit = () => {
-    let { runningState, positionState, hasRescueData, mobile, placeId, brandId, installDateBegin, installDateEnd } = form.value
+    let { keyword,runningState, positionState, hasRescueData, mobile, placeId, brandId, installDateBegin, installDateEnd } = form.value
     let [provinceId, cityId, districtId] = form.value.regionId
+    searchParams.value.keyword =keyword
     searchParams.value.provinceId = provinceId ? provinceId.toString() : '';
     searchParams.value.cityId = cityId ? cityId.toString() : '';
     searchParams.value.districtId = districtId ? districtId.toString() : '';

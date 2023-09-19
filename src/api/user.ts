@@ -59,7 +59,7 @@ export interface Message {
     expired: boolean;
     hasRead: boolean;
     id: number;
-    level: string;
+    level: Filter.MessageLevel;
     linkUrl: string;
 }
 export function fetchUnreadMessages(data: { page: number, size: number }): Promise<{

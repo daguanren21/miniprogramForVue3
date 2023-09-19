@@ -14,10 +14,10 @@
                         <nut-radio label="ABNORMAL">异常</nut-radio>
                     </nut-radio-group>
                 </nut-form-item>
-                <nut-form-item class="jx-form-item" label="维护详情" required>
+                <nut-form-item class="jx-form-item" label="维护内容" required>
                     <nut-textarea :border="false" :autosize="{
                         minHeight: 80
-                    }" placeholder="请输入维护详情" v-model="form.content" limit-show max-length="200" />
+                    }" placeholder="请输入维护内容" v-model="form.content" limit-show max-length="200" />
                 </nut-form-item>
                 <nut-form-item label="现场图片" required>
                     <nut-uploader :media-type="['image']" @delete="deleteFiles" :file-list="_fileList" :url="uploadUrl"

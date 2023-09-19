@@ -257,7 +257,7 @@ watch(() => manage.deviceInfo, (value) => {
 }, {
     immediate: true
 })
-
+const auth = useAuthStore()
 //保存设备信息
 async function save() {
     Object.keys(form).forEach(i => {
@@ -274,6 +274,7 @@ async function save() {
             title: '设备信息已完善'
         })
         setTimeout(() => {
+            auth.updateTabName('management')
             Taro.switchTab({
                 url: '/pages/management/index'
             })

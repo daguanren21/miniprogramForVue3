@@ -56,6 +56,8 @@ declare namespace Filter {
   type RoleType = 'CONFIGURATION' | 'FACTORY' | 'MAINTENANCE' | 'REGION' | 'SYSTEM' | 'WECHAT'
   /** @description 审核状态 */
   type AuditState = 'PROCESSING' | 'REJECT' | 'PASS'
+  /** @description 消息等级 */
+  type MessageLevel = 'COMMON' | 'WARNING' | 'SERIOUS'
 }
 declare namespace Index {
   type ObjLimit1<T, K extends keyof T> = {
@@ -149,6 +151,7 @@ declare namespace Manage {
    * @description 设备详情
    */
   interface DeviceInfo extends DeviceList {
+    assetNumber: string;
     batteryInvalidDate: string;
     batteryPower: string;
     batteryRemainingPower: string;

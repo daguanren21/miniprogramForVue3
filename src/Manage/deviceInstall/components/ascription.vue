@@ -123,6 +123,9 @@ watch(() => manage.deviceInfo, (value) => {
 
 //跳转到单位搜索页面
 function toPage(type: string) {
+    Object.keys(JSON.parse(JSON.stringify(form))).forEach(v => {
+        manage.deviceInfo[v] = form[v]
+    })
     Taro.redirectTo({
         url: '/Manage/institutionSearch/index?type=' + type
     })

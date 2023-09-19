@@ -57,10 +57,14 @@
                     </nut-form-item>
                     <nut-form-item class="jx-form-item" label="晕倒原因">
                         <nut-textarea :border="false" :autosize="{
-                            minHeight: 80
+                            maxHeight: 80
                         }" placeholder="请输入晕倒原因" v-model="form.patientEventTrigger" limit-show max-length="200" />
                     </nut-form-item>
-
+                    <nut-form-item class="jx-form-item" label="抢救地址">
+                        <nut-textarea :border="false" :autosize="{
+                            maxHeight: 80
+                        }" placeholder="请输入晕倒原因" v-model="form.address" limit-show max-length="200" />
+                    </nut-form-item>
                 </nut-cell-group>
             </nut-form>
         </div>
@@ -105,6 +109,7 @@ const form = reactive({
     patientUnderlyingDisease: '',
     rescueBeginTime: '',
     rescueEndTime: '',
+    address:'',
     successfulRescued: 'true',
 })
 //时间操作
@@ -145,7 +150,7 @@ const confirm = async () => {
         return
     }
     if (!dayjs(form.rescueBeginTime).isBefore(form.rescueEndTime)) {
-        notify('开始时间不能大于结束时间！')
+        notify('结束时间应该大于开始时间！')
         return
     }
     try {

@@ -9,6 +9,7 @@ export const useDeviceRegion = (cb: (form: {
     deployedLongitude: number
 }) => void, isOpenLocation: boolean = true) => {
     const lastArea = ref<any>()
+    const areas = ref<any>([])
     const region = reactive({
         visible: false,
         lazyLoad: async (node: any, resolve: (children: any) => void) => {
@@ -29,6 +30,7 @@ export const useDeviceRegion = (cb: (form: {
             let _args = args[0].filter(v => v)
             // let regionId = _args.map(v => v.value)
             // let regionName = _args.map(v => v.text).join('/')
+            areas.value = _args
             let item = _args[_args.length - 1]
             lastArea.value = item
         },
@@ -36,15 +38,30 @@ export const useDeviceRegion = (cb: (form: {
             region.visible = false
         },
         confirm() {
-            if (!lastArea.value) {
-                region.visible = false
-                return
+            if (isOpenLocation) {
+                if (!lastArea.value) {
+                    region.visible = false
+                    return
+                }
+
+                chooseLocation({
+                    latitude: lastArea.value.lat,
+                    longitude: lastArea.value.lng,
+                })
+            } else {
+                if (areas.value.length) {
+                    region.visible = false
+                    cb({
+                        regionName: areas.value.map(v => v.text).join('/'),
+                        regionId: areas.value.map(v => v.id),
+                        address: '',
+                        deployedLatitude: areas.value[areas.value.length - 1].lat,
+                        deployedLongitude: areas.value[areas.value.length - 1].lng,
+                    })
+                }
+
             }
 
-            chooseLocation({
-                latitude: lastArea.value.lat,
-                longitude: lastArea.value.lng,
-            })
         }
     })
     //定位（拉起微信自带页面）
