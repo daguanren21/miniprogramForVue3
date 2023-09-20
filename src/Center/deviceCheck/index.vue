@@ -27,10 +27,11 @@
                                 <div class="flex-y-center text-26px text-hex-575757">
                                     审核状态：<span class="text-hex-409EFF text-28px">待审核</span>
                                 </div>
-                                <nut-button  type='primary' class="jx-button" @click="dialog.open(item.id)">审核</nut-button>
+                                <nut-button type='primary' class="jx-button" @click="dialog.open(item.id)">审核</nut-button>
                             </div>
                             <div class="mt-18px">
-                                <image v-for="image in handleImages(item.imagesPath)" class="m-x-5px w-160px h-160px"
+                                <image @click="preview(handleImages(item.imagesPath))"
+                                    v-for="image in handleImages(item.imagesPath)" class="m-x-5px w-160px h-160px"
                                     :src="image">
                                 </image>
                             </div>
@@ -69,7 +70,7 @@
 import { DeviceCheckRecord, fetchDeviceCheckRecords, updateDeviceCheckRecords } from "~/api/device"
 import { useDidShow } from '@tarojs/taro';
 import { deviceRunningStateFilter, dateFilter } from '~/filter'
-import { filter } from '~/utils'
+import { filter, preview, handleImages } from '~/utils/index'
 import Taro from "@tarojs/taro";
 const state = reactive({
     content: [] as DeviceCheckRecord[],
@@ -123,10 +124,6 @@ const fetchData = async () => {
     if (state.page === state.totalPage) {
         nomore.value = true
     }
-}
-//处理图片
-function handleImages(images) {
-    return images ? images.split(';').filter(v => v) : []
 }
 async function loadData() {
     let res = await fetchDeviceCheckRecords({

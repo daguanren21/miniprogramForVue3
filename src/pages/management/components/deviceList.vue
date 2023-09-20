@@ -129,7 +129,11 @@ async function loadData() {
     refreshing.value = false
     nomore.value = false
     state.page = 1
+    Taro.showLoading({
+        title: '数据加载中'
+    })
     let { content, totalCount, totalPage } = await getManageList()
+    Taro.hideLoading()
     console.log('列表数据', content)
     state.content = content
     state.totalCount = totalCount

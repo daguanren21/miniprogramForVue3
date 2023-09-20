@@ -2,7 +2,8 @@
     <div class="manage_detail" v-if="info">
         <div class="d_header bg-hex-fff">
             <div class="image_wrap">
-                <div class="image" :key="index + 'manageImage'" v-for="(item, index) in getImages(info.deployedImagePath)">
+                <div @click="preview(handleImages(info.deployedImagePath))" class="image" :key="index + 'manageImage'"
+                    v-for="(item, index) in getImages(info.deployedImagePath)">
                     <image :src="item" v-if="item"></image>
                     <image v-else src="../../assets/images/index/默认图.jpg"></image>
                 </div>
@@ -11,7 +12,7 @@
             <div class="flex-y-center justify-between mb-20px">
                 <div class="flex-y-center">
                     <jx-icon value="address" color="#797979" :size="14"></jx-icon>
-                    <div class="ml-15px text-26px text-hex-797979">{{ noDataFilter(info.address) }}</div>
+                    <div class="ml-15px text-26px text-hex-797979 break-all">{{ noDataFilter(info.address) }}</div>
                 </div>
                 <div @click.stop="showMapNavigation(info)">
                     <jx-icon value="navigation" color="#2595E8" :size="20"></jx-icon>
@@ -56,6 +57,11 @@
                     <div class="ml-11px text-30px text-hex-333">基本信息</div>
                 </div>
                 <div class="bg-hex-fff w-720px m-auto rounded-20px">
+                     <nut-cell title="资产编号">
+                        <template v-slot:link>
+                            <span>{{ noDataFilter(info.assetNumber) }}</span>
+                        </template>
+                    </nut-cell>
                     <nut-cell title="型号">
                         <template v-slot:link>
                             <span>{{ noDataFilter(info.model) }}</span>
@@ -94,7 +100,31 @@
                             <jx-dot :state="deviceRunningStateFilter(info.runningState)" />
                         </template>
                     </nut-cell>
+                    <nut-cell title="自检状态">
+                        <template v-slot:icon>
+                            <div class="w-48px h-48px bg-hex-E6EFFF rounded-10px flex-center">
+                                <jx-icon value="run" color="#409EFF"></jx-icon>
+                            </div>
+                        </template>
+                        <template v-slot:link>
+                            <jx-dot :state="deviceRunningStateFilter(info.selfTestResult)" />
+                        </template>
+                    </nut-cell>
                     <nut-cell title="电池状态">
+                        <template v-slot:icon>
+                            <div class="w-48px h-48px bg-hex-E6EFFF rounded-10px flex-center">
+                                <jx-icon value="battery" color="#409EFF"></jx-icon>
+                            </div>
+                        </template>
+                        <template v-slot:link>
+                            <text class="mr-30px">{{
+                               noDataFilter(dateFilter(info.batteryInvalidDate, "YYYY-MM-DD"))
+                            }}</text>
+
+                            <jx-dot :state="batteryStateFilter(info.batteryState)" />
+                        </template>
+                    </nut-cell>
+                    <nut-cell title="电池电量">
                         <template v-slot:icon>
                             <div class="w-48px h-48px bg-hex-E6EFFF rounded-10px flex-center">
                                 <jx-icon value="battery" color="#409EFF"></jx-icon>
@@ -106,9 +136,9 @@
                                 ? info.batteryRemainingPower
                                 : noDataFilter(info.batteryRemainingPower)
                             }}</text>
-                            <jx-dot :state="batteryStateFilter(info.batteryState)" />
                         </template>
                     </nut-cell>
+
                     <nut-cell title="电极片状态">
                         <template v-slot:icon>
                             <div class="w-48px h-48px bg-hex-E6EFFF rounded-10px flex-center">
@@ -117,7 +147,7 @@
                         </template>
                         <template v-slot:link>
                             <text class="mr-30px">{{
-                                dateFilter(info.electrodeInvalidDate, "YYYY-MM-DD")
+                                noDataFilter(dateFilter(info.electrodeInvalidDate, "YYYY-MM-DD"))
                             }}</text>
                             <jx-dot :state="deviceRunningStateFilter(info.electrodeState)" />
                         </template>
@@ -150,7 +180,7 @@
                         </template>
                         <template v-slot:link>
                             <text class="mr-30px">{{
-                                dateFilter(info.qualityAssuranceDate, "YYYY-MM-DD")
+                               noDataFilter(dateFilter(info.qualityAssuranceDate, "YYYY-MM-DD"))
                             }}</text>
                             <jx-dot :state="qualityAssuranceStateFilter(info.qualityAssuranceState)" />
                         </template>
@@ -197,7 +227,8 @@
                             <span>{{ devicePublicFilter(info.publicType) }}</span>
                         </template>
                     </nut-cell>
-                    <nut-cell v-if="info.publicType === 'HALF' || info.publicType === 'PUBLIC'" title="开放日" @click="makePhoneCall(info.contactPhone)">
+                    <nut-cell v-if="info.publicType === 'HALF' || info.publicType === 'PUBLIC'" title="开放日"
+                        @click="makePhoneCall(info.contactPhone)">
                         <template v-slot:link>
                             <span>{{ showWeekDays(info.workDay) }}</span>
                         </template>
@@ -266,7 +297,7 @@ defineOptions({
     name: 'manageDeviceInfo'
 })
 import { useRouter, useDidShow } from '@tarojs/taro'
-import { getImages, showWeekDays } from '~/utils/index'
+import { getImages, showWeekDays, preview, handleImages } from '~/utils/index'
 import { devicePublicFilter, dateFilter, deviceRunningStateFilter, deviceNetworkStateFilter, positionStateFilter, qualityAssuranceStateFilter, batteryStateFilter, noDataFilter } from '~/filter/index'
 import { useQQMapSdk } from '~/composables/use-qqmap-sdk';
 import Taro from '@tarojs/taro';

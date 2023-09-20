@@ -9,20 +9,21 @@
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item class="jx-form-item" label="放电次数" required>
-                    <nut-input :border="false" v-model="form.dischargeCount" placeholder="请输入放电次数" type="digit">
+                    <nut-input class="nut-input-text" :border="false" v-model="form.dischargeCount" placeholder="请输入放电次数"
+                        type="digit">
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item class="jx-form-item" required label="抢救开始时间">
-                    <nut-input :border="false" v-model="form.rescueBeginTime" @click="datePop.open('rescueBeginTime')"
-                        readonly placeholder="请选择开始时间" type="text">
+                    <nut-input class="nut-input-text" :border="false" v-model="form.rescueBeginTime"
+                        @click="datePop.open('rescueBeginTime')" readonly placeholder="请选择开始时间" type="text">
                         <template #right>
                             <jx-icon value="select" color="#6A6F71" :size="14"> </jx-icon>
                         </template>
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item class="jx-form-item" required label="抢救结束时间">
-                    <nut-input :border="false" v-model="form.rescueEndTime" @click="datePop.open('rescueEndTime')"
-                        placeholder="请选择结束时间" readonly type="text">
+                    <nut-input class="nut-input-text" :border="false" v-model="form.rescueEndTime"
+                        @click="datePop.open('rescueEndTime')" placeholder="请选择结束时间" readonly type="text">
                         <template #right>
                             <jx-icon value="select" color="#6A6F71" :size="14"> </jx-icon>
                         </template>
@@ -33,6 +34,12 @@
                         <nut-radio label="true">是</nut-radio>
                         <nut-radio label="false">否</nut-radio>
                     </nut-radio-group>
+                </nut-form-item>
+                <nut-form-item class="jx-form-item" label="抢救地址" required>
+                    <nut-textarea :border="false" :autosize="{
+                            minHeight: 200
+                        }" placeholder="请输入抢救地址" v-model="form.address" limit-show
+                        max-length="200" />
                 </nut-form-item>
                 <nut-cell-group title="患者信息" v-if="form.useRescued === 'true'">
                     <nut-form-item class="jx-form-item" label="是否救活">
@@ -57,14 +64,10 @@
                     </nut-form-item>
                     <nut-form-item class="jx-form-item" label="晕倒原因">
                         <nut-textarea :border="false" :autosize="{
-                            maxHeight: 80
+                            minHeight: 200
                         }" placeholder="请输入晕倒原因" v-model="form.patientEventTrigger" limit-show max-length="200" />
                     </nut-form-item>
-                    <nut-form-item class="jx-form-item" label="抢救地址">
-                        <nut-textarea :border="false" :autosize="{
-                            maxHeight: 80
-                        }" placeholder="请输入晕倒原因" v-model="form.address" limit-show max-length="200" />
-                    </nut-form-item>
+
                 </nut-cell-group>
             </nut-form>
         </div>
@@ -109,7 +112,7 @@ const form = reactive({
     patientUnderlyingDisease: '',
     rescueBeginTime: '',
     rescueEndTime: '',
-    address:'',
+    address: '',
     successfulRescued: 'true',
 })
 //时间操作
@@ -151,6 +154,10 @@ const confirm = async () => {
     }
     if (!dayjs(form.rescueBeginTime).isBefore(form.rescueEndTime)) {
         notify('结束时间应该大于开始时间！')
+        return
+    }
+    if (!form.address) {
+        notify('抢救地址不能为空！')
         return
     }
     try {

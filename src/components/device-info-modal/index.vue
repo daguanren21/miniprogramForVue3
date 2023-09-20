@@ -1,7 +1,7 @@
 <template>
     <!-- @vue-ignore -->
-    <nut-popup position="bottom" closeable round @click-close-icon="emit('close')" :style="{ height: '530rpx' }"
-        :visible="show">
+    <nut-popup position="bottom" @click-overlay="emit('close')" closeable round @click-close-icon="emit('close')"
+        :style="{ height: '530rpx',overflow: 'hidden' }" :visible="show">
         <div class="relative">
             <slot name="left"></slot>
             <div class="text-center text-30px text-hex-1f1f1f font-bold mt-42px">设备详情</div>

@@ -20,7 +20,7 @@
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item class="jx-form-item" label="质保有效期">
-                    <nut-input :border="false" class="nut-input-text" v-model="form.qualityAssuranceDate" readonly
+                    <nut-input clearable :showClearIcon="true" :border="false" class="nut-input-text" v-model="form.qualityAssuranceDate" readonly
                         @click="handleChangeDate('qualityAssuranceDate')" placeholder="请选择质保有效期" type="text">
                         <template #right>
                             <jx-icon value="select" color="#6A6F71" :size="14"> </jx-icon>
@@ -28,14 +28,14 @@
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item class="jx-form-item" label="设备状态">
-                    <nut-input :border="false" class="nut-input-text" v-model="form.runningStateName" readonly
+                    <nut-input clearable :border="false" class="nut-input-text" v-model="form.runningStateName" readonly
                         @click="handleChangeSelect('runningState')" placeholder="请选择设备状态" type="text">
                         <template #right>
                             <jx-icon value="select" color="#6A6F71" :size="14"> </jx-icon>
                         </template>
                     </nut-input>
                 </nut-form-item>
-                <nut-form-item  class="jx-form-item" label="网络状态">
+                <nut-form-item class="jx-form-item" label="网络状态">
                     <nut-input :border="false" class="nut-input-text" v-model="form.deviceNetworkStateName" readonly
                         @click="handleChangeSelect('deviceNetworkState')" placeholder="请选择网络状态" type="text">
                         <template #right>
@@ -43,9 +43,9 @@
                         </template>
                     </nut-input>
                 </nut-form-item>
-                <nut-form-item  class="jx-form-item" label="移动设备">
-                    <nut-input :border="false" class="nut-input-text" v-model="form.mobileName" @click="handleChangeSelect('mobile')"
-                        readonly placeholder="请选择是否是移动设备" type="text">
+                <nut-form-item class="jx-form-item" label="移动设备">
+                    <nut-input :border="false" class="nut-input-text" v-model="form.mobileName"
+                        @click="handleChangeSelect('mobile')" readonly placeholder="请选择是否是移动设备" type="text">
                         <template #right>
                             <jx-icon value="select" color="#6A6F71" :size="14"> </jx-icon>
                         </template>
@@ -103,32 +103,38 @@ const options = {
         text: '否',
         value: "false"
     }],
-    deviceNetworkState: [{
-        text: '未知',
-        value: "UNKNOWN"
-    }, {
-        text: '联网',
-        value: "ONLINE"
-    }, {
-        text: '未联网',
-        value: "OFFLINE"
-    }, {
-        text: '网络波动',
-        value: "UNSTABLE"
-    }],
-    runningState: [{
-        text: '未知',
-        value: "UNKNOWN"
-    }, {
-        text: '正常',
-        value: "NORMAL"
-    }, {
-        text: '异常',
-        value: "ABNORMAL"
-    }, {
-        text: '预警',
-        value: "WARNING"
-    }]
+    deviceNetworkState: [
+        //     {
+        //     text: '未知',
+        //     value: "UNKNOWN"
+        // }, 
+        {
+            text: '联网',
+            value: "ONLINE"
+        }, {
+            text: '未联网',
+            value: "OFFLINE"
+        },
+        // {
+        //     text: '网络波动',
+        //     value: "UNSTABLE"
+        // }
+    ],
+    runningState: [
+        //     {
+        //     text: '未知',
+        //     value: "UNKNOWN"
+        // }, 
+        {
+            text: '正常',
+            value: "NORMAL"
+        }, {
+            text: '异常',
+            value: "ABNORMAL"
+        }, {
+            text: '预警',
+            value: "WARNING"
+        }]
 }
 watch(() => manage.deviceInfo, (value) => {
     form.mobile = value.mobile.toString() || "false"

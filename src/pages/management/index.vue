@@ -1,5 +1,6 @@
 <template>
     <div class="home bg-hex-#F5F5F5">
+        <nut-notify :type="message.type" v-model:visible="message.show" :msg="message.desc" />
         <div class="operate bg-hex-fff p-x-25px pb-23px">
             <!-- <nut-row type="flex" align="center">
                 <nut-col :span="13">
@@ -22,7 +23,7 @@
                     placeholder="请输入编号、地址">
                     <template v-slot:rightin>
                         <nut-button type='primary' @click="handleSearch"
-                            style="width:130rpx;height:75rpx;white-space: nowrap;">搜索</nut-button>
+                            style="width:120rpx;height:75rpx;white-space: nowrap;margin-left: 30rpx;">搜索</nut-button>
                     </template>
                 </nut-searchbar>
                 <div class="flex-y-center" @click="visible = true">
@@ -99,6 +100,7 @@
                     <nut-form-item class="jx-form-item" label="位置状态">
                         <nut-radio-group direction="horizontal" v-model="form.positionState">
                             <nut-radio label="">全部</nut-radio>
+                            <nut-radio label="UNKNOWN">未知</nut-radio>
                             <nut-radio label="IN_POSITION">在位</nut-radio>
                             <nut-radio label="OUT_OF_POSITION">偏移</nut-radio>
                         </nut-radio-group>
@@ -157,6 +159,9 @@ import Taro from '@tarojs/taro';
 import deviceList from './components/deviceList.vue';
 import { useDeviceRegion } from '~/composables/use-device-region';
 import { fetchDeviceBrands, fetchDevicePlaces } from '~/api/common';
+import dayjs from 'dayjs'
+import { useNotify } from '~/composables/use-notify';
+const { state: message, notify } = useNotify('danger')
 const manage = useManageStore()
 const total = ref(0)
 function toDeviceInstall() {
@@ -207,10 +212,11 @@ const { region } = useDeviceRegion((options) => {
     form.value.regionName = options.regionName;
     form.value.regionId = options.regionId;
 }, false)
+
 const submit = () => {
-    let { keyword,runningState, positionState, hasRescueData, mobile, placeId, brandId, installDateBegin, installDateEnd } = form.value
+    let { keyword, runningState, positionState, hasRescueData, mobile, placeId, brandId, installDateBegin, installDateEnd } = form.value
     let [provinceId, cityId, districtId] = form.value.regionId
-    searchParams.value.keyword =keyword
+    searchParams.value.keyword = keyword
     searchParams.value.provinceId = provinceId ? provinceId.toString() : '';
     searchParams.value.cityId = cityId ? cityId.toString() : '';
     searchParams.value.districtId = districtId ? districtId.toString() : '';
@@ -220,6 +226,12 @@ const submit = () => {
     searchParams.value.mobile = mobile;
     searchParams.value.placeId = placeId
     searchParams.value.brandId = brandId;
+    if (installDateBegin !== installDateEnd) {
+        if (!dayjs(installDateEnd).isAfter(installDateBegin)) {
+            notify('结束时间应该大于开始时间！')
+            return
+        }
+    }
     searchParams.value.installDateBegin = installDateBegin;
     searchParams.value.installDateEnd = installDateEnd;
     isLoading.value = true

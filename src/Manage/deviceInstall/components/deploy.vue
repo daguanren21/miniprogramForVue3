@@ -4,24 +4,24 @@
         <div class="flex-1 overflow-auto">
             <nut-form :model-value="form" ref="ruleForm">
                 <nut-form-item class="jx-form-item" label="安装时间" required>
-                    <nut-input :border="false" class="nut-input-text" v-model="form.installDate" readonly @click="installDate.change"
-                        placeholder="请选择时间" type="text">
+                    <nut-input :border="false" class="nut-input-text" v-model="form.installDate" readonly
+                        @click="installDate.change" placeholder="请选择时间" type="text">
                         <template #right>
                             <jx-icon value="select" color="#6A6F71" :size="14"> </jx-icon>
                         </template>
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item class="jx-form-item" label="安装场所" required>
-                    <nut-input :border="false" class="nut-input-text" v-model="form.placeName" readonly @click="handleChangePlace"
-                        placeholder="请选择安装场所" type="text">
+                    <nut-input :border="false" class="nut-input-text" v-model="form.placeName" readonly
+                        @click="handleChangePlace" placeholder="请选择安装场所" type="text">
                         <template #right>
                             <jx-icon value="select" color="#6A6F71" :size="14"> </jx-icon>
                         </template>
                     </nut-input>
                 </nut-form-item>
-                <nut-form-item class="jx-form-item"  label="安装区域" required>
-                    <nut-input :border="false" class="nut-input-text" v-model="form.regionName" placeholder="请选择区域" type="text" readonly
-                        @click="region.visible = true">
+                <nut-form-item class="jx-form-item" label="安装区域" required>
+                    <nut-input :border="false" class="nut-input-text" v-model="form.regionName" placeholder="请选择区域"
+                        type="text" readonly @click="region.visible = true">
                         <template #right>
                             <jx-icon @click.stop="chooseLocation" value="address" color="#4088FF" :size="18"> </jx-icon>
                         </template>
@@ -231,8 +231,10 @@ function _next() {
 <style lang="scss">
 .example {
     margin-bottom: 13px;
+    padding-left: 32px;
 
     .title {
+        margin-bottom:15px;
         font-size: 26px;
         font-weight: 400;
         color: #b4b4b5;

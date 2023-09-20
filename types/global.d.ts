@@ -134,6 +134,7 @@ declare namespace Manage {
     id: number;
     serialNumber: string;
     runningState: Filter.RunningState;
+    selfTestResult:Filter.RunningState;
     qualityAssuranceState: Filter.QualityAssuranceState;
     positionState: Filter.PositionState;
     installDate: string;

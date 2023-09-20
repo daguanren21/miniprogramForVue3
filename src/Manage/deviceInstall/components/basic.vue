@@ -4,8 +4,11 @@
         <div class="flex-1">
             <nut-form :model-value="form" ref="ruleForm">
                 <nut-form-item class="jx-form-item" label="品牌" required>
-                    <nut-input :border="false" class="nut-input-text" v-model="form.brandName" readonly
-                        @click="handleChangeBrand" placeholder="请选择品牌" type="text">
+                    <nut-input :disabled="!!form.id" :border="false" class="nut-input-text" v-model="form.brandName"
+                        readonly @click="() => {
+                            if (form.id) return
+                            handleChangeBrand()
+                        }" placeholder="请选择品牌" type="text">
                         <template #right>
                             <jx-icon value="select" color="#6A6F71" :size="14"> </jx-icon>
                         </template>
@@ -17,13 +20,18 @@
                     </nut-popup>
                 </nut-form-item>
                 <nut-form-item class="jx-form-item" label="设备编号" required>
-                    <nut-input :border="false" v-model="form.serialNumber" class="nut-input-text" placeholder="请输入设备编号"
-                        type="text" max-length="30">
+                    <nut-input :disabled="!!form.id" :border="false" v-model="form.serialNumber" class="nut-input-text"
+                        placeholder="请输入设备编号" type="text" max-length="30">
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item class="jx-form-item" label="设备型号">
                     <nut-input :border="false" max-length="30" class="nut-input-text" v-model="form.model"
                         placeholder="请输入设备型号" type="text">
+                    </nut-input>
+                </nut-form-item>
+                <nut-form-item class="jx-form-item" label="资产编号">
+                    <nut-input :border="false" v-model="form.assetNumber" class="nut-input-text" placeholder="请输入资产编号"
+                        type="text" max-length="30">
                     </nut-input>
                 </nut-form-item>
             </nut-form>
@@ -40,6 +48,7 @@
 </template>
 
 <script setup lang="ts">
+import Taro from '@tarojs/taro';
 import { fetchDeviceBrands } from '~/api/common';
 import { useStep } from '~/composables/use-device-install'
 import { useNotify } from '~/composables/use-notify';
@@ -55,6 +64,7 @@ const emits = defineEmits<{
 }>()
 const form = reactive({
     id: 0 as number | null,
+    assetNumber: '',
     serialNumber: '',
     model: '',
     brandName: '',
@@ -62,8 +72,18 @@ const form = reactive({
 })
 const { next, selectPop, columns } = useStep(props, emits, form)
 watch(() => manage.deviceInfo, (value) => {
+    if(value.id){
+        Taro.setNavigationBarTitle({
+            title:'完善设备信息'
+        })
+    }else{
+        Taro.setNavigationBarTitle({
+            title:'新增设备'
+        })
+    }
     form.id = value.id || null
     form.serialNumber = value.serialNumber
+    form.assetNumber = value.assetNumber
     form.brandName = value.brandName
     form.model = value.model
     form.brandId = value.brandId ? value.brandId.toString() : ''

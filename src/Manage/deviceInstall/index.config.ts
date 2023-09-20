@@ -1,3 +1,3 @@
 export default definePageConfig({
-    navigationBarTitleText:'设备引导'
+    navigationBarTitleText:'完善设备信息'
 })

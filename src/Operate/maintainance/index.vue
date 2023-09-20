@@ -69,7 +69,7 @@ const confirm = async () => {
         return
     }
     if (!content) {
-        notify('维护详情不能为空！')
+        notify('维护内容不能为空！')
         return
     }
     if (!_fileList.length) {

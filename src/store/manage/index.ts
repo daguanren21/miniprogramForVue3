@@ -6,6 +6,7 @@ export const useManageStore = defineStore('manage', {
         deviceInfo: {
             id: 0,
             address: '',
+            assetNumber:'',
             batteryInvalidDate: '',
             brandId: 0,
             configInstitutionId: 0,
@@ -30,7 +31,7 @@ export const useManageStore = defineStore('manage', {
             runningState: '',
             serialNumber: '',
             unitName: '',
-            workDay: ''
+            workDay: '1;2;3;4;5;6;7'
         } as any as Manage.DeviceInfo
     }),
     actions: {

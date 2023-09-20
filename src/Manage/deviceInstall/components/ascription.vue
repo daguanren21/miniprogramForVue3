@@ -26,7 +26,7 @@
                 </nut-form-item>
                 <nut-form-item class="jx-form-item" label="设备联系人" required>
                     <nut-input :border="false" class="nut-input-text" max-length="30" v-model="form.contactName"
-                        placeholder="请输入联系人" type="text">
+                        placeholder="请输入设备联系人" type="text">
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item class="jx-form-item" label="号码格式" required>
@@ -35,12 +35,12 @@
                         <nut-radio label="1">固定号码</nut-radio>
                     </nut-radio-group>
                 </nut-form-item>
-                <nut-form-item class="jx-form-item" label="设备联系电话" required>
+                <nut-form-item class="jx-form-item" label="设备联系方式" required>
                     <nut-input :border="false" v-if="form.phoneType === '0'" max-length="11" class="nut-input-text"
-                        v-model="form.contactPhone" placeholder="请输入联系电话" type="number">
+                        v-model="form.contactPhone" placeholder="请输入设备联系方式" type="number">
                     </nut-input>
                     <nut-input :border="false" v-else class="nut-input-text" v-model="form.contactPhone"
-                        placeholder="请输入联系电话" type="number">
+                        placeholder="请输入设备联系方式" type="number">
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item class="jx-form-item" label="出资人">

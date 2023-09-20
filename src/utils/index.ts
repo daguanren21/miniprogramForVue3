@@ -1,3 +1,4 @@
+import Taro from "@tarojs/taro"
 import { DotType } from "~/filter"
 
 export const weekDays = {
@@ -21,9 +22,10 @@ export const weekShowDays = {
 /**
  * @description workday格式化
  */
+
 export const showWeekDays = (workDay: string) => {
     return workDay ? '周' + workDay
-        .split(';')
+        .split(';').sort()
         .map((v) => weekShowDays[v])
         .join('、') : ''
 }
@@ -38,12 +40,20 @@ export const getImages = (deployedImageUrl: string, len: number = 4) => {
     }
     return images
 }
-
+export function handleImages(images) {
+    return images ? images.split(';').filter(v => v) : []
+}
+export const preview = (images) => {
+    //处理图片
+    Taro.previewImage({
+        urls: images
+    })
+}
 export const filter = (type: DotType) => {
     let state = {
-        color:'',
-        bgColor:'',
-        borderColor:'',
+        color: '',
+        bgColor: '',
+        borderColor: '',
     }
     switch (type) {
         case 'success':
