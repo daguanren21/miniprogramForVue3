@@ -1,7 +1,7 @@
 <template>
     <!-- @vue-ignore -->
     <nut-popup position="bottom" @click-overlay="emit('close')" closeable round @click-close-icon="emit('close')"
-        :style="{ height: '530rpx',overflow: 'hidden' }" :visible="show">
+        :style="{ height: '600rpx' }" :visible="show">
         <div class="relative">
             <slot name="left"></slot>
             <div class="text-center text-30px text-hex-1f1f1f font-bold mt-42px">设备详情</div>
@@ -50,7 +50,7 @@
                     <div class="p-y-15px pl-32px box-border flex-1" style="border-left: 1rpx solid #DADADA"
                         v-if="detail.publicType == 'HALF'">
                         <div class="text-24px text-hex-8E8E8E">开放时间</div>
-                        <div class="mt-13px text-28px text-hex-333">{{ detail.publicTime }}</div>
+                        <div class="mt-13px text-28px text-hex-333 break-all">{{ detail.publicTime }}</div>
                     </div>
                 </div>
             </div>

@@ -39,7 +39,7 @@
                     <nut-input :border="false" v-if="form.phoneType === '0'" max-length="11" class="nut-input-text"
                         v-model="form.contactPhone" placeholder="请输入设备联系方式" type="number">
                     </nut-input>
-                    <nut-input :border="false" v-else class="nut-input-text" v-model="form.contactPhone"
+                    <nut-input :border="false" v-else class="nut-input-text" v-model="form.contactPhone" max-length="20" 
                         placeholder="请输入设备联系方式" type="number">
                     </nut-input>
                 </nut-form-item>

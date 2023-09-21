@@ -24,7 +24,7 @@
                         placeholder="请输入设备编号" type="text" max-length="30">
                     </nut-input>
                 </nut-form-item>
-                <nut-form-item class="jx-form-item" label="设备型号">
+                <nut-form-item class="jx-form-item" label="型号">
                     <nut-input :border="false" max-length="30" class="nut-input-text" v-model="form.model"
                         placeholder="请输入设备型号" type="text">
                     </nut-input>

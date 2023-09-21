@@ -13,10 +13,8 @@
                                     <p class="text-30px font-bold text-hex-333 ml-17px">{{ item.eventTypeName }}</p>
                                     <jx-dot class="ml-15px" :state="messageLevelFilter(item.level)" />
                                 </div>
-                                <div @click="handleRemark(item)"
-                                    class="flex-center rounded-10px bg-hex-EA2E1E text-hex-fff text-26px w-119px h-47px">
-                                    标记已读
-                                </div>
+                                <nut-button  class="jx-button"  type="primary"
+                                            @click="handleRemark(item)">标记已读</nut-button>
                             </div>
                             <div class="text-26px text-hex-#333 mt-28px break-all">{{ item.content }}</div>
                         </div>

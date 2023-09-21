@@ -42,19 +42,19 @@
                         max-length="200" />
                 </nut-form-item>
                 <nut-cell-group title="患者信息" v-if="form.useRescued === 'true'">
-                    <nut-form-item class="jx-form-item" label="是否救活">
+                    <nut-form-item class="jx-form-item" label="救助成功">
                         <nut-radio-group direction="horizontal" v-model="form.successfulRescued">
                             <nut-radio label="true">是</nut-radio>
                             <nut-radio label="false">否</nut-radio>
                         </nut-radio-group>
                     </nut-form-item>
-                    <nut-form-item class="jx-form-item" label="性别">
+                    <nut-form-item class="jx-form-item" label="患者性别">
                         <nut-radio-group direction="horizontal" v-model="form.patientSex">
                             <nut-radio label="1">男</nut-radio>
                             <nut-radio label="2">女</nut-radio>
                         </nut-radio-group>
                     </nut-form-item>
-                    <nut-form-item class="jx-form-item" label="年龄">
+                    <nut-form-item class="jx-form-item" label="患者年龄">
                         <nut-input :border="false" v-model="form.patientAge" placeholder="请输入年龄" type="digit" />
                     </nut-form-item>
                     <nut-form-item class="jx-form-item" label="基础病">
@@ -172,6 +172,7 @@ const confirm = async () => {
             rescueBeginTime: form.rescueBeginTime ? form.rescueBeginTime + ':00' : '',
             rescueEndTime: form.rescueEndTime ? form.rescueEndTime + ':00' : '',
             successfulRescued: isResued ? form.successfulRescued === 'false' ? false : true : null,
+            address:form.address 
         })
         Taro.showToast({
             icon: 'none',

@@ -42,7 +42,7 @@
                 <div class="ml-11px text-30px text-hex-333">课程简介</div>
             </div>
             <div class="mt-24px w-full bg-hex-fff rounded-20px p-42px box-border">
-                <div class="text-28px text-hex-525252" v-if="info.introduction">
+                <div class="text-28px text-hex-525252 break-all" v-if="info.introduction">
                     <text v-html="info.introduction"></text>
                 </div>
                 <div class="text-28px text-hex-525252" v-else>
@@ -50,55 +50,6 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="c_pad course_info_header flex">
-            <view class="h-l">
-                <image style="height: 100%; width: 100%" :src="info.imagePath"></image>
-            </view>
-            <div class="h-r">
-                <view class="title">{{ info.name }}</view>
-                <view class="m">
-                    <view class="m-col" style="flex: 0.5">
-                        <view class="top">总课时 </view>
-                        <view class="num">{{ info.classHour }}h </view>
-                    </view>
-                    <view class="line"> </view>
-                    <view class="m-col">
-                        <view class="top">课程人数 </view>
-                        <view class="num"> {{ noDataFilter(info.personNumber) }}</view>
-                    </view>
-                </view>
-            </div>
-        </div>
-
-        <view class="detail c_pad">
-            <view class="title">课程信息</view>
-            <view class="col">
-                <view class="label">联系人： </view>
-                <view class="content">{{ info.userName }} </view>
-            </view>
-            <view class="col" @tap="makePhoneCall(info.phoneNumber)">
-                <view class="label"> 联系电话： </view>
-                <view class="content" style="color: #1890ff">{{ info.phoneNumber }}
-                </view>
-            </view>
-            <view class="col">
-                <view class="label"> 价格： </view>
-                <view class="content">{{ noDataFilter(info.price) }} </view>
-            </view>
-            <view class="col" v-if="info.url">
-                <view class="label"> 报名网址： </view>
-                <view class="content">{{ noDataFilter(info.url) }} </view>
-            </view>
-        </view>
-        <view class="detail c_pad">
-            <view class="title">课程简介</view>
-            <view class="info" v-if="info.introduction">
-                <text v-html="info.introduction"></text>
-            </view>
-            <view class="info" v-else>
-                {{ noDataFilter(info.introduction) }}
-            </view>
-        </view> -->
     </view>
 </template>
 

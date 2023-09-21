@@ -51,7 +51,7 @@
                 <div class="flex-col items-center">
                     <jx-icon class="top-16px" style="position: absolute;" value="tab-rescue" color="#EC4A41"
                         :size="46"></jx-icon>
-                    <span class="bottom-16px  text-24px text-hex-EC4A41" style="position: absolute;">一键呼救</span>
+                    <span class="bottom-16px  text-24px"  :style="{ color: activeTab === 'oneKeyForHelp' ? '#EC4A41' : '#ACB6D0' }" style="position: absolute;">一键呼救</span>
                 </div>
             </nut-col>
             <nut-col @click="tabSwitch('college', 3)">

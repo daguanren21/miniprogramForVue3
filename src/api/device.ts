@@ -343,6 +343,7 @@ export function updateDeviceRescueData(data: {
     rescueBeginTime: string;
     rescueEndTime: string;
     successfulRescued: boolean | null;
+    address:string
 }): Promise<void> {
     return request({
         url: api.manage + 'rescue-data',

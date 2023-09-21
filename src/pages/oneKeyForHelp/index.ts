@@ -14,7 +14,7 @@ const RESPONSE_INFO_MARKERID_PREFIX = "response"
 import normalSelectImage from '~/assets/images/device_normal.png'
 import { fetchLatelyDevices, fetchRegionDeviceInfo } from '~/api/device';
 import { useQQMapSdk } from '~/composables/use-qqmap-sdk';
-import {  updateVolunteerLocation } from '~/api/common';
+import { updateVolunteerLocation } from '~/api/common';
 export function useSwitchModel() {
     const { notify, state } = useNotify('danger')
     let { getNewLocation } = useMapLocation()
@@ -43,10 +43,19 @@ export function useSwitchModel() {
                         })
                         dynamicForm.show = false
                     } catch (error) {
-                        Taro.showToast({
-                            icon: 'none',
-                            title: error
-                        })
+                        console.log(error)
+                        if (typeof error === 'string'){
+                            Taro.showToast({
+                                icon: 'none',
+                                title: error
+                            })
+                        }else{
+                            Taro.showToast({
+                                icon: 'none',
+                                title: error.errMsg
+                            })
+                        }
+                            
                     }
                 } else {
                     console.log(errors[0].message);
@@ -263,7 +272,7 @@ export function useMap(lat: Ref<number>, lng: Ref<number>) {
     const renderCallForHelp = (record: VolunteerRecord) => {
         unique([{
             id: record.id,
-            realId:record.id,
+            realId: record.id,
             markerType: RESUCE_MARKERID_PREFIX,
             latitude: record.latitude,
             longitude: record.longitude,

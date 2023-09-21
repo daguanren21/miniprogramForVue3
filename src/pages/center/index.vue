@@ -9,12 +9,12 @@
                 </div>
                 <div class="ml-21px w-400px">
                     <div class="flex-y-center mb-41px">
-                        <div class="text-36px text-hex-#333 font-bold break-all flex-1">
-                            <text v-if="accountInfo.nickName">{{ accountInfo.nickName }}</text>
+                        <div class="text-36px text-hex-#333 font-bold break-all">
+                            <div v-if="accountInfo.nickName" class="w-200px">{{ accountInfo.nickName }}</div>
                             <open-data v-else type="userNickName"></open-data>
                         </div>
                         <div
-                            class="bg-hex-3A3A3B flex-1 text-24px min-h-40px p-x-10px box-border line-height-40px ml-48px text-hex-fff text-center">
+                            class="bg-hex-3A3A3B text-24px min-h-40px p-x-10px box-border line-height-40px ml-28px text-hex-fff text-center">
                             {{ accountInfo.roleName }}
                         </div>
                     </div>

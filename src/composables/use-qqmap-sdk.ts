@@ -152,6 +152,7 @@ export const useQQMapSdk = (cb?: (lat: number, lng: number) => void) => {
     //渲染设备点位
     const renderMarkerDevices = () => {
         let devices = deviceList.value
+        markers.value = []
         if (devices.length) {
             let deviceMarkers = devices.map(device => {
                 let isSelect = device.id === deviceSelectId.value
@@ -183,8 +184,6 @@ export const useQQMapSdk = (cb?: (lat: number, lng: number) => void) => {
                 }
             })
             markers.value = deviceMarkers
-        } else {
-            markers.value = []
         }
 
     }

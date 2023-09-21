@@ -93,14 +93,14 @@
                     <div @click="handleNearBy" class="mb-20px">
                         <image v-if="showDevices" class="w-130px h-130px" src="../../assets/images/callHelp/隐藏AED.png">
                         </image>
-                        <image v-else class="w-130px h-130px" src="../../assets/images/callHelp/显示AED.png"></image>
+                        <image v-else class="w-100px h-100px" src="../../assets/images/callHelp/显示AED.png"></image>
                     </div>
                     <div @click="makePhoneCall('120')" class="mb-30px">
-                        <image class="w-130px h-130px" src="../../assets/images/callHelp/求助120.png">
+                        <image class="w-100px h-100px" src="../../assets/images/callHelp/求助120.png">
                         </image>
                     </div>
                     <div @click="finishForHelp" class="mb-20px">
-                        <image class="w-130px h-130px" src="../../assets/images/callHelp/结束呼救.png"></image>
+                        <image class="w-100px h-100px" src="../../assets/images/callHelp/结束呼救.png"></image>
                     </div>
                 </div>
                 <div class="absolute bottom-0 rounded-20px bg-hex-fff h-422px w-full">

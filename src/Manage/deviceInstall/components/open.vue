@@ -1,7 +1,7 @@
 <template>
     <div class="flex-col wh-full overflow-hidden">
         <nut-notify :type="message.type" v-model:visible="message.show" :msg="message.desc" />
-        <div class="flex-1">
+        <div class="flex-1 overflow-auto">
             <nut-form :model-value="form" ref="ruleForm">
                 <nut-form-item class="jx-form-item" label="开放方式">
                     <nut-input :border="false" class="nut-input-text" @click="publicType.open"
@@ -21,10 +21,10 @@
                             <nut-input :border="false" class="nut-input-text" input-align="center" v-model="item.end"
                                 readonly @click="publicTime.change('end', index)" placeholder="请选择结束时间" type="text">
                             </nut-input>
-                            <nut-button size="small" plain type='primary' @click="active(index)"> {{ item.active ? '禁用' :
-                                '激活' }}</nut-button>
-                            <nut-button size="small" style="margin-left: 10rpx;" plain type='primary'
-                                @click="restore(index)"> 还原</nut-button>
+                            <nut-button size="small" plain type='primary' v-show="form.publicTime.length - 1 === index"
+                                @click="add">新增</nut-button>
+                            <nut-button size="small" style="margin-left: 10rpx;" v-show="form.publicTime.length > 1" plain
+                                type='primary' @click="remove(index)">删除</nut-button>
                         </div>
                     </nut-form-item>
                 </template>
@@ -98,7 +98,7 @@ const emits = defineEmits<{
 
 const form = reactive({
     publicType: '',
-    publicTime: [{ start: '08:00', end: '12:00', active: true }, { start: '12:00', end: '18:00', active: true }, { start: '18:00', end: '23:59', active: true }],
+    publicTime: [{ start: '00:00', end: '23:59' }],
     workDay: '',
     description: '',
 })
@@ -208,52 +208,64 @@ const publicType = reactive({
 })
 const { prev } = useStep(props, emits, form)
 const manage = useManageStore()
-const hours = ref([[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], [12, 13, 14, 15, 16, 17, 18], [18, 19, 20, 21, 22, 23]])
-const _publicTime = ref([{ start: '08:00', end: '12:00', active: true }, { start: '12:00', end: '18:00', active: true }, { start: '18:00', end: '23:59', active: true }])
-const _initPublicTime = ref([{ start: '08:00', end: '12:00', active: true }, { start: '12:00', end: '18:00', active: true }, { start: '18:00', end: '23:59', active: true }])
-const restore = (index: number) => {
-    console.log(JSON.parse(JSON.stringify(_initPublicTime.value[index])))
-    form.publicTime[index] = JSON.parse(JSON.stringify(_initPublicTime.value[index]))
+const _publicTime = ref([{ start: '00:00', end: '23:59' }])
+// const restore = (index: number) => {
+//     console.log(JSON.parse(JSON.stringify(_initPublicTime.value[index])))
+//     form.publicTime[index] = JSON.parse(JSON.stringify(_initPublicTime.value[index]))
+// }
+// const active = (index: number) => {
+//     form.publicTime[index].active = !form.publicTime[index].active
+// }
+const remove = (index: number) => {
+    form.publicTime.splice(index, 1);
 }
-const active = (index: number) => {
-    form.publicTime[index].active = !form.publicTime[index].active
+const add = () => {
+    form.publicTime.push({
+        start: "00:00",
+        end: "23:59",
+    })
 }
 watch(() => manage.deviceInfo, (value) => {
-    form.publicType = value.publicType || 'PUBLIC'
-    let time = value.publicTime ? value.publicTime.split(';').map(v => {
-        let [start, end] = v.split('-')
-        return {
-            start,
-            end,
-            active: true
-        }
-    }) : null
-    function analysisTime(time: { start: string, end: string, active: boolean }[]) {
-        //存储真实值
-        let arr: number[] = []
-        let temTime: { start: string, end: string, active: boolean }[] = []
-        time.forEach(i => {
-            let index = hours.value.findIndex((hour: number[]) => hour.includes(Number(i.start.split(':')[0])) && hour.includes(Number(i.end.split(':')[0])))
-            index >= 0 && arr.push(index)
-        })
-        //初始值
-        let initArr = toRaw(_publicTime.value).map((v, index) => {
-            return !arr.includes(index)
-        })
-        initArr.forEach((bol, index) => {
-            if (bol) {
-                toRaw(_publicTime.value)[index].active = false
-                temTime[index] = toRaw(_publicTime.value)[index]
+    let deviceInfo = JSON.parse(JSON.stringify(value))
+    form.publicType = deviceInfo.publicType || 'PUBLIC'
+    publicType.text = publicType.columns.find(i => i.value === deviceInfo.publicType)?.text || ''
+    let time: any
+    if (Array.isArray(deviceInfo.publicTime)) {
+        time = deviceInfo.publicTime
+    } else {
+        time = deviceInfo.publicTime ? deviceInfo.publicTime.split(';').map(v => {
+            let [start, end] = v.split('-')
+            return {
+                start,
+                end,
             }
-        })
-        arr.forEach((i, index) => temTime[i] = time[index])
-        return JSON.parse(JSON.stringify(temTime))
+        }) : null
     }
-    form.publicTime = time ? analysisTime(time) : _publicTime.value
-    _initPublicTime.value = time ? analysisTime(time) : _publicTime.value
+
+    // function analysisTime(time: { start: string, end: string, active: boolean }[]) {
+    //     //存储真实值
+    //     let arr: number[] = []
+    //     let temTime: { start: string, end: string, active: boolean }[] = []
+    //     time.forEach(i => {
+    //         let index = hours.value.findIndex((hour: number[]) => hour.includes(Number(i.start.split(':')[0])) && hour.includes(Number(i.end.split(':')[0])))
+    //         index >= 0 && arr.push(index)
+    //     })
+    //     //初始值
+    //     let initArr = toRaw(_publicTime.value).map((v, index) => {
+    //         return !arr.includes(index)
+    //     })
+    //     initArr.forEach((bol, index) => {
+    //         if (bol) {
+    //             toRaw(_publicTime.value)[index].active = false
+    //             temTime[index] = toRaw(_publicTime.value)[index]
+    //         }
+    //     })
+    //     arr.forEach((i, index) => temTime[i] = time[index])
+    //     return JSON.parse(JSON.stringify(temTime))
+    // }
+    form.publicTime = time || _publicTime.value
     form.workDay = value.workDay
     form.description = value.description
-    publicType.text = publicType.columns.find(i => i.value === form.publicType)?.text || ''
 }, {
     immediate: true
 })
@@ -262,7 +274,7 @@ const auth = useAuthStore()
 async function save() {
     Object.keys(form).forEach(i => {
         if (i === 'publicTime') {
-            manage.$state.deviceInfo[i] = form.publicTime.filter(v => v.active).map(v => v.start + '-' + v.end).join(';')
+            manage.$state.deviceInfo[i] = form.publicTime.map(v => v.start + '-' + v.end).join(';')
         } else {
             manage.$state.deviceInfo[i] = form[i]
         }

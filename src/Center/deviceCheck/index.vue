@@ -1,5 +1,6 @@
 <template>
     <div class="h-full bg-hex-f7f7f7">
+        <nut-notify :type="message.type" v-model:visible="message.show" :msg="message.desc" />
         <div class="h-full overflow-hidden" v-if="state.totalPage">
             <jx-scroll-view class="x-scroll-view" :refreshing="refreshing" :nomore="nomore"
                 @pulldownrefresh="_onPullDownRefresh" @loadmore="_onLoadmore" @scroll="_onScroll">
@@ -29,11 +30,11 @@
                                 </div>
                                 <nut-button type='primary' class="jx-button" @click="dialog.open(item.id)">审核</nut-button>
                             </div>
-                            <div class="mt-18px">
-                                <image @click="preview(handleImages(item.imagesPath))"
-                                    v-for="image in handleImages(item.imagesPath)" class="m-x-5px w-160px h-160px"
-                                    :src="image">
-                                </image>
+                            <div class="mt-18px flex-y-center">
+                                <div @click="preview(handleImages(item.imagesPath))"
+                                    v-for="image in handleImages(item.imagesPath)" class="m-x-5px w-160px h-160px">
+                                    <image :src="image" class="wh-full"></image>
+                                </div>
                             </div>
                         </div>
                     </template>
@@ -47,7 +48,7 @@
             <div class="text-center text-30px text-hex-1f1f1f font-bold mt-42px">异常设备审核</div>
             <div class="w-full flex-col items-center">
                 <nut-form :model-value="form" ref="ruleForm">
-                    <nut-form-item label="审核类型" required>
+                    <nut-form-item label="审核状态" required>
                         <nut-radio-group direction="horizontal" v-model="form.state">
                             <nut-radio label="APPROVE">通过</nut-radio>
                             <nut-radio label="REJECT">拒绝</nut-radio>
@@ -55,7 +56,7 @@
                     </nut-form-item>
                     <nut-form-item required>
                         <div class="w-684px h-256px jx-textarea">
-                            <nut-textarea placeholder="请输入审核原因" v-model="form.remarks" limit-show max-length="200" />
+                            <nut-textarea placeholder="请输入审核意见" v-model="form.remarks" limit-show max-length="200" />
                         </div>
                     </nut-form-item>
                 </nut-form>
@@ -72,6 +73,8 @@ import { useDidShow } from '@tarojs/taro';
 import { deviceRunningStateFilter, dateFilter } from '~/filter'
 import { filter, preview, handleImages } from '~/utils/index'
 import Taro from "@tarojs/taro";
+import { useNotify } from "~/composables/use-notify";
+const { state: message, notify } = useNotify('danger')
 const state = reactive({
     content: [] as DeviceCheckRecord[],
     totalCount: 0,
@@ -87,6 +90,10 @@ const dialog = reactive({
     show: false,
     confirm: async () => {
         try {
+            if (!form.remarks) {
+                notify('审核原因不能为空！')
+                return
+            }
             await updateDeviceCheckRecords(form)
             dialog.show = false
             setTimeout(() => {

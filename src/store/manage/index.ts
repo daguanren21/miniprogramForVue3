@@ -25,7 +25,7 @@ export const useManageStore = defineStore('manage', {
             model: '',
             placeId: 0,
             publicTime: '',
-            publicType: '',
+            publicType: 'PUBLIC',
             qualityAssuranceDate: '',
             regionId: [],
             runningState: '',
