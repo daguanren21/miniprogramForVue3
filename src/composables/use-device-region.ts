@@ -90,7 +90,7 @@ export const useDeviceRegion = (cb: (form: {
             cb({
                 regionName: _name,
                 regionId: _id,
-                address: locRes ? locRes.address : address,
+                address,
                 deployedLatitude: locRes ? locRes.latitude : option.latitude,
                 deployedLongitude: locRes ? locRes.longitude : option.longitude
             })

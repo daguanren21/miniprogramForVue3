@@ -18,7 +18,6 @@ export const useDeviceBySearialNumber = (form) => {
         }
     })
     async function getDeviceBySerialNumber(toast: boolean = true) {
-        debugger
         if (!form.serialNumber) return
         try {
             Taro.showLoading({

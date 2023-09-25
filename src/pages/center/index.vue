@@ -78,7 +78,7 @@
                                 <p class="mt-19px text-28px font-bold">设备清单</p>
                             </div>
                         </nut-col>
-                        <nut-col :span="12" @click="toCenter('notification')" v-if="roleType && roleType === 'WECHAT'">
+                        <nut-col :span="12" @click="toCenter('cert')" v-if="roleType && roleType === 'WECHAT'">
                             <div class="flex-col  items-center ">
                                 <image class="w-110px h-87px" src="../../assets/images/center/设备清单.png"></image>
                                 <p class="mt-19px text-28px font-bold">证书管理</p>

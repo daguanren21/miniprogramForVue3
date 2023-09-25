@@ -76,7 +76,7 @@ function tabSwitch(name, index) {
         })
         return
     }
-    if (!user.accountInfo.activated && (name === 'management' || name === 'center')) {
+    if (auth.authInfo.id_token && !user.accountInfo.activated && (name === 'management' || name === 'center')) {
         Taro.showToast({
             icon: 'none',
             title: '用户被禁用，请联系管理员激活',
