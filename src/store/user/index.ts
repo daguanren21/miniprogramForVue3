@@ -3,6 +3,10 @@ import { fetchAccountInfo } from '~/api/user'
 
 export const useAccountInfo = defineStore('account', {
     state: () => ({
+        userCenter: {
+            lat: 31.258518,
+            lng: 120.739311,
+        },
         accountInfo: {
             certificateNumber: 0,
             roleName: '',

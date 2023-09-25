@@ -11,8 +11,17 @@
                         </template>
                     </nut-input>
                 </nut-form-item>
+                <nut-form-item class="jx-form-item" required label="开放日"
+                    v-if="form.publicType == 'PUBLIC' || form.publicType == 'HALF'">
+                    <nut-input :border="false" class="nut-input-text" readonly @click="workDay.open"
+                        :model-value="workDay.text" placeholder="请选择开放日" type="text">
+                        <template #right>
+                            <jx-icon value="select" color="#6A6F71" :size="14"> </jx-icon>
+                        </template>
+                    </nut-input>
+                </nut-form-item>
                 <template v-for="(item, index) in form.publicTime">
-                    <nut-form-item class="jx-form-item" :label="index === 0 ? '开放时间' : ''" v-if="form.publicType == 'HALF'">
+                    <nut-form-item class="jx-form-item" :label="'开放时间'" v-if="form.publicType == 'HALF'">
                         <div class="flex-center">
                             <nut-input :border="false" class="nut-input-text" input-align="center" v-model="item.start"
                                 readonly @click="publicTime.change('start', index)" placeholder="请选择开始时间" type="text">
@@ -29,15 +38,6 @@
                     </nut-form-item>
                 </template>
 
-                <nut-form-item class="jx-form-item" required label="开放日"
-                    v-if="form.publicType == 'PUBLIC' || form.publicType == 'HALF'">
-                    <nut-input :border="false" class="nut-input-text" readonly @click="workDay.open"
-                        :model-value="workDay.text" placeholder="请选择开放日" type="text">
-                        <template #right>
-                            <jx-icon value="select" color="#6A6F71" :size="14"> </jx-icon>
-                        </template>
-                    </nut-input>
-                </nut-form-item>
                 <nut-form-item label="备注">
                     <nut-textarea :autosize="{
                         minHeight: 80
@@ -46,7 +46,7 @@
             </nut-form>
             <!-- 开放时间 -->
             <nut-popup position="bottom" v-model:visible="publicTime.show">
-                <nut-date-picker :min-date="minDate" :max-date="maxDate" v-model="publicTime.value" title="时间选择"
+                <nut-date-picker v-model="publicTime.value" title="时间选择"
                     type="hour-minute" @confirm="publicTime.confirm"></nut-date-picker>
             </nut-popup>
             <!-- 开放日 -->
@@ -102,9 +102,9 @@ const form = reactive({
     workDay: '',
     description: '',
 })
-const rangeDate = reactive([{ min: new Date(2023, 8, 17, 0, 0), max: new Date(2023, 8, 17, 12, 59) }, { min: new Date(2023, 8, 17, 12, 0), max: new Date(2023, 8, 17, 18, 59) }, { min: new Date(2023, 8, 17, 18, 0), max: new Date(2023, 8, 17, 23, 59) }])
-const minDate = ref(new Date(2023, 8, 17, 0, 0))
-const maxDate = ref(new Date(2023, 8, 17, 12, 0))
+// const rangeDate = reactive([{ min: new Date(2023, 8, 17, 0, 0), max: new Date(2023, 8, 17, 12, 59) }, { min: new Date(2023, 8, 17, 12, 0), max: new Date(2023, 8, 17, 18, 59) }, { min: new Date(2023, 8, 17, 18, 0), max: new Date(2023, 8, 17, 23, 59) }])
+// const minDate = ref(new Date(2023, 8, 17, 0, 0))
+// const maxDate = ref(new Date(2023, 8, 17, 12, 0))
 //开放时间相关操作
 const publicTime = reactive({
     show: false,
@@ -119,8 +119,8 @@ const publicTime = reactive({
         publicTime.show = false
     },
     change: (type: string, index: number) => {
-        minDate.value = rangeDate[index].min
-        maxDate.value = rangeDate[index].max
+        // minDate.value = rangeDate[index].min
+        // maxDate.value = rangeDate[index].max
         publicTime.type = type
         publicTime.index = index
         let date = form.publicTime[index][type]
@@ -286,10 +286,15 @@ async function save() {
             title: '设备信息已完善'
         })
         setTimeout(() => {
-            auth.updateTabName('management')
-            Taro.switchTab({
-                url: '/pages/management/index'
-            })
+            if (manage.deviceInfo.id) {
+                Taro.navigateBack()
+            } else {
+                auth.updateTabName('management')
+                Taro.switchTab({
+                    url: '/pages/management/index'
+                })
+            }
+
         }, 1000);
 
     } catch (error) {

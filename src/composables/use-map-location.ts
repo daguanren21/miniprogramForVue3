@@ -18,6 +18,10 @@ export const useMapLocation = (options: { isNeedAddress: boolean } = {
     const _locationChangeFn = async function (res) {
         state.lat = res.latitude;
         state.lng = res.longitude;
+        account.userCenter.lat=res.latitude;
+        account.userCenter.lng=res.longitude;
+        Taro.offLocationChange(_locationChangeFn)
+        Taro.stopLocationUpdate()
         if (state.number !== 0) return
         state.number = state.number + 1
         if (account.accountInfo.volunteer) {
@@ -33,8 +37,7 @@ export const useMapLocation = (options: { isNeedAddress: boolean } = {
             })
             state.address = address
         }
-        Taro.offLocationChange(_locationChangeFn)
-        Taro.stopLocationUpdate()
+        
     }
     useDidShow(async () => {
         try {

@@ -18,21 +18,22 @@ export const useDeviceBySearialNumber = (form) => {
         }
     })
     async function getDeviceBySerialNumber(toast: boolean = true) {
+        debugger
         if (!form.serialNumber) return
         try {
+            Taro.showLoading({
+                title: '加载中',
+                mask: true
+            })
             let res = await fetchDevicesBySearialNumber(form.serialNumber)
+            setTimeout(() => { Taro.hideLoading() }, 1000)
             deviceList.value = res
             if (deviceList.value.length === 1) {
-                Taro.showLoading({
-                    title: '加载中',
-                    mask: true
-                })
                 form.id = res[0].deviceId
-                await manage.getDeviceInfo(res[0].deviceId)
-                setTimeout(() => { Taro.hideLoading() }, 1000)
                 return
             }
             searialNumber.show = true
+           
         } catch (error) {
             form.id = null
             toast && Taro.showToast({

@@ -16,11 +16,11 @@
                                 <div class="text-hex-575757">设备变化：</div>
                                 <div class="flex-y-center  text-28px">
                                     <span
-                                        :style="{ color: filter(deviceRunningStateFilter(item.oldRunningState).type).color }">{{
+                                        :style="{ color: filter(deviceRunningStateFilter(item.oldRunningState).type).borderColor }">{{
                                             deviceRunningStateFilter(item.oldRunningState).text }}</span>
                                     <jx-icon class="p-x-10px" value="center-arrow" color="#3C3C3C"></jx-icon>
                                     <span
-                                        :style="{ color: filter(deviceRunningStateFilter(item.newRunningState).type).color }">{{
+                                        :style="{ color: filter(deviceRunningStateFilter(item.newRunningState).type).borderColor }">{{
                                             deviceRunningStateFilter(item.newRunningState).text }}</span>
                                 </div>
                             </div>
@@ -91,7 +91,7 @@ const dialog = reactive({
     confirm: async () => {
         try {
             if (!form.remarks) {
-                notify('审核原因不能为空！')
+                notify('审核意见不能为空！')
                 return
             }
             await updateDeviceCheckRecords(form)

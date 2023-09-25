@@ -45,7 +45,7 @@
             </div>
             <div class="text-hex-797979 text-24px mr-29px" @click="goToList('BUSINESS')" v-if="busCount > 2">查看更多</div>
         </div>
-        <div class="p-x-29px p-y-33px flex-y-center flex-col min-h-400px">
+        <div class="p-x-29px p-y-33px flex-y-center flex-col">
             <div v-if="busList.length">
                 <div class="bg-hex-fff rounded-20px  w-650px flex-y-center  mb-20px" @click="goToInfo(item.id)"
                     v-for="item in busList" :key="item.id">
@@ -83,7 +83,7 @@
             </div>
             <div class="text-hex-797979 text-24px mr-29px" @click="goToList('OTHER')" v-if="otherCount > 2">查看更多</div>
         </div>
-        <div class="p-x-29px p-y-33px flex-y-center flex-col min-h-400px">
+        <div class="p-x-29px p-y-33px flex-y-center flex-col">
             <div v-if="otherList.length">
                 <div class="bg-hex-fff rounded-20px  w-650px flex-y-center  mb-20px" @click="goToInfo(item.id)"
                     v-for="item in otherList" :key="item.id">

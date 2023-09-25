@@ -44,6 +44,8 @@
                     </div>
                 </div>
             </div>
+            <nut-dialog title="呼救提示" content="请确认现场是否发生了真实的救援事件？" :visible="normalVisible" @cancel="normalVisible = false"
+                @ok="oneKeyForHelp" />
             <nut-dialog title="演练人员列表" :visible="dynamicForm.show" @cancel="dynamicForm.show = false"
                 @ok="dynamicForm.confirm">
                 <nut-form :model-value="dynamicForm" ref="dynamicRefForm">
@@ -91,7 +93,7 @@
 
                 <div class="absolute top-20px right-30px">
                     <div @click="handleNearBy" class="mb-20px">
-                        <image v-if="showDevices" class="w-130px h-130px" src="../../assets/images/callHelp/隐藏AED.png">
+                        <image v-if="showDevices" class="w-100px h-100px" src="../../assets/images/callHelp/隐藏AED.png">
                         </image>
                         <image v-else class="w-100px h-100px" src="../../assets/images/callHelp/显示AED.png"></image>
                     </div>
@@ -112,7 +114,8 @@
                                     <jx-icon value="aed" color="#04BAFE"></jx-icon>
                                     <span class="ml-5px text-30px text-hex-04BAFE">AED志愿者</span>
                                 </div>
-                                <div class="flex-y-center" v-show="volunteer.fetchAedReceiverCount" @click="responseModal.open('FETCH_AED')">
+                                <div class="flex-y-center" v-show="volunteer.fetchAedReceiverCount"
+                                    @click="responseModal.open('FETCH_AED')">
                                     <span class="text-26px text-hex-9B9B9B mr-5px">查看</span>
                                     <jx-icon value="right-arrow" color="#9B9B9B" :size="13"></jx-icon>
                                 </div>
@@ -130,7 +133,8 @@
                                     <jx-icon value="cpr" color="#1ED137"></jx-icon>
                                     <span class="ml-5px text-30px text-hex-1ED137">CPR志愿者</span>
                                 </div>
-                                <div class="flex-y-center"  v-show="volunteer.cprReceiverCount" @click="responseModal.open('CPR')">
+                                <div class="flex-y-center" v-show="volunteer.cprReceiverCount"
+                                    @click="responseModal.open('CPR')">
                                     <span class="text-26px text-hex-9B9B9B mr-5px">查看</span>
                                     <jx-icon value="right-arrow" color="#9B9B9B" :size="13"></jx-icon>
                                 </div>
@@ -164,8 +168,8 @@
                     </nut-cell>
                 </div>
             </nut-dialog>
-            <nut-popup position="bottom" round :style="{ height: '43%' }" closeable
-                @click-close-icon="responseModal.show = false" :visible="responseModal.show">
+            <nut-popup position="bottom" round :style="{ height: '43%' }" @click-overlay="responseModal.show = false"
+                closeable @click-close-icon="responseModal.show = false" :visible="responseModal.show">
                 <div class="text-center text-30px text-hex-1f1f1f font-bold mt-20px">{{ responseModal.title }}</div>
                 <nut-row class="mt-40px p-x-60px">
                     <nut-col v-for="item in responseModal.list" :span="8">
@@ -230,7 +234,8 @@
 
             </nut-popup>
             <nut-popup position="bottom" round :style="{ height: '40%' }" closeable
-                @click-close-icon="rescueModal.show = false" :visible="rescueModal.show">
+                @click-overlay="rescueModal.show = false" @click-close-icon="rescueModal.show = false"
+                :visible="rescueModal.show">
                 <div class="text-center text-30px text-hex-1f1f1f font-bold mt-42px">呼救信息</div>
                 <div class="flex-y-center p-30px" style="border-bottom:1rpx solid #EBEBEB">
                     <div class="flex-1  flex-y-center">
@@ -292,14 +297,19 @@ useDidShow(async () => {
         resume()
     } else {
         pause()
-       
+
     }
 })
 useDidHide(() => {
     pause()
 })
 const { checkOpenLocation } = useLogin()
+const normalVisible = ref(false)
 const oneKeyForHelp = async () => {
+    if (rescueType.value === 'EMERGENT' && !normalVisible.value) {
+        normalVisible.value = !normalVisible.value
+        return false
+    }
     try {
         let locRes = await checkOpenLocation()
         console.log('地理位置信息', locRes)
@@ -309,7 +319,11 @@ const oneKeyForHelp = async () => {
             address: address.value,
             rescueType: rescueType.value
         })
+        normalVisible.value = false
         let res = await getRescueInfo()
+        Taro.setNavigationBarTitle({
+            title: rescueType.value === 'EMERGENT' ? '正常模式' : '演练模式'
+        })
         if (res.allVolunteerCount === 0) {
             Taro.showToast({
                 icon: 'none',
@@ -340,7 +354,10 @@ const finishForHelp = async () => {
         })
         setTimeout(async () => {
             await getRescueInfo()
-            markers.value=[]
+            Taro.setNavigationBarTitle({
+                title: '一键呼救'
+            })
+            markers.value = []
             pause()
         }, 1000)
     } catch (error) {

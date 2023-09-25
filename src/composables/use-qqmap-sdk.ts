@@ -156,7 +156,7 @@ export const useQQMapSdk = (cb?: (lat: number, lng: number) => void) => {
         if (devices.length) {
             let deviceMarkers = devices.map(device => {
                 let isSelect = device.id === deviceSelectId.value
-                return !device.name ? {
+                return !device.level ? {
                     id: device.id,
                     deviceId: device.id,
                     level: device.level,
@@ -167,8 +167,8 @@ export const useQQMapSdk = (cb?: (lat: number, lng: number) => void) => {
                     height: isSelect ? 55 : 50
                 } : {
                     id: device.id,
-                    latitude: device.deployedAreaLatitude,
-                    longitude: device.deployedAreaLongitude,
+                    latitude: device.areaLatitude,
+                    longitude: device.areaLongitude,
                     level: device.level,
                     width: 50,
                     height: 50,
@@ -188,6 +188,8 @@ export const useQQMapSdk = (cb?: (lat: number, lng: number) => void) => {
 
     }
     //点击设备点查看详情
+    const account = useAccountInfo()
+    const { userCenter } = storeToRefs(account)
     const markertap = async (e: { detail: { markerId: number } }) => {
         let deviceId = e.detail.markerId
         deviceSelectId.value = deviceId
@@ -204,7 +206,7 @@ export const useQQMapSdk = (cb?: (lat: number, lng: number) => void) => {
                     cb && cb(latitude, longitude)
                 }
             } else {
-                let { latitude, longitude } = await getCenterLocation()
+                // let { latitude, longitude } = await getCenterLocation()
                 markers.value = markers.value.map(i => {
                     let isSelect = i.id === deviceId
                     return {
@@ -217,8 +219,8 @@ export const useQQMapSdk = (cb?: (lat: number, lng: number) => void) => {
                 })
                 let res = await fetchRegionDeviceInfo({
                     deviceId,
-                    latFrom: latitude,
-                    lngFrom: longitude
+                    latFrom: userCenter.value.lat,
+                    lngFrom: userCenter.value.lng,
                 })
                 deviceInfo.value = res
                 deviceVisible.value = true

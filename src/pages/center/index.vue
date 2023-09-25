@@ -181,7 +181,7 @@
                 </div>
             </div>
             <div class="absolute flex-col items-center w-full" style="top:50%;transform: translateY(-50%);">
-                <p class="text-30px text-hex-181818 mb-30px">您需要先授权才可成为志愿者</p>
+                <p class="text-30px text-hex-181818 mb-30px">您需要先授权才可查看</p>
                 <nut-button @getphonenumber="getPhoneNumber"
                     style="width:142rpx;height: 62rpx; line-height: 62rpx; text-align: center;background:rgb(53,200,84);border-radius: 20rpx;word-break: keep-all;"
                     type="primary" open-type="getPhoneNumber">授权</nut-button>

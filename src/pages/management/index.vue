@@ -198,7 +198,8 @@ let searchObj = {
     installDateEnd: '',
     provinceId: '',
     cityId: '',
-    districtId: ''
+    districtId: '',
+    streetId:''
 }
 let form = ref({ ...formObj })
 let searchParams = ref({
@@ -215,11 +216,12 @@ const { region } = useDeviceRegion((options) => {
 
 const submit = () => {
     let { keyword, runningState, positionState, hasRescueData, mobile, placeId, brandId, installDateBegin, installDateEnd } = form.value
-    let [provinceId, cityId, districtId] = form.value.regionId
+    let [provinceId, cityId, districtId,streetId] = form.value.regionId
     searchParams.value.keyword = keyword
     searchParams.value.provinceId = provinceId ? provinceId.toString() : '';
     searchParams.value.cityId = cityId ? cityId.toString() : '';
     searchParams.value.districtId = districtId ? districtId.toString() : '';
+    searchParams.value.streetId = streetId ? streetId.toString() : '';
     searchParams.value.runningState = runningState;
     searchParams.value.positionState = positionState;
     searchParams.value.hasRescueData = hasRescueData;

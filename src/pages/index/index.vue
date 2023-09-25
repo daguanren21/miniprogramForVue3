@@ -16,11 +16,11 @@
           <div @click="handleNearby">
             <image class="w-100px h-100px" src="../../assets/images/index/附近aed.png"></image>
           </div>
-          <div @click="helpVisible = true" class="mt-17px">
+          <!-- <div @click="helpVisible = true" class="mt-17px">
             <image class="w-100px h-100px" src="../../assets/images/index/帮助.png"></image>
-          </div>
+          </div> -->
         </div>
-        <div @click="moveToLocation" class="absolute bottom-120px right-30px">
+        <div @click="moveToLocation" class="absolute bottom-200px right-30px">
           <jx-icon value="myLoc" color="#fa2c19" :size="30"></jx-icon>
         </div>
         <div class="absolute bottom-0 w-full">
@@ -80,6 +80,8 @@ const helpVisible = ref(false)
 //获取地图实例
 
 //地图获取最新位置
+const account = useAccountInfo()
+const { userCenter } = storeToRefs(account)
 const { lat: centerLat, lng: centerLng } = useMapLocation({ isNeedAddress: false })
 const { renderMarkerDevices, mapScale, getSuggestion, deviceSelectId, regionchange, markers, markertap, deviceInfo, deviceVisible, moveToLocation } = useQQMapSdk((lat, lng) => {
   centerLat.value = lat
@@ -122,8 +124,8 @@ async function handleNearby() {
   try {
     let res = await fetchLatelyDevices({
       distance: nearby.distance,
-      latFrom: centerLat.value,
-      lngFrom: centerLng.value
+      latFrom: userCenter.value.lat,
+      lngFrom: userCenter.value.lng,
     })
     nearby.list = res
     if (nearby.list.length > 0) {

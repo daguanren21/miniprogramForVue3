@@ -36,10 +36,9 @@
                     </nut-radio-group>
                 </nut-form-item>
                 <nut-form-item class="jx-form-item" label="抢救地址" required>
-                    <nut-textarea :border="false" :autosize="{
-                            minHeight: 200
-                        }" placeholder="请输入抢救地址" v-model="form.address" limit-show
-                        max-length="200" />
+                    <nut-textarea :border="false" class="nut-input-text" :autosize="{
+                        minHeight: 200
+                    }" placeholder="请输入抢救地址" v-model="form.address" limit-show max-length="200" />
                 </nut-form-item>
                 <nut-cell-group title="患者信息" v-if="form.useRescued === 'true'">
                     <nut-form-item class="jx-form-item" label="救助成功">
@@ -55,15 +54,16 @@
                         </nut-radio-group>
                     </nut-form-item>
                     <nut-form-item class="jx-form-item" label="患者年龄">
-                        <nut-input :border="false" v-model="form.patientAge" placeholder="请输入年龄" type="digit" />
+                        <nut-input :border="false" class="nut-input-text" v-model="form.patientAge" placeholder="请输入年龄"
+                            type="digit" />
                     </nut-form-item>
                     <nut-form-item class="jx-form-item" label="基础病">
-                        <nut-input :border="false" max-length="50" v-model="form.patientUnderlyingDisease"
-                            placeholder="请输入基础疾病" type="text">
+                        <nut-input :border="false" class="nut-input-text" max-length="50"
+                            v-model="form.patientUnderlyingDisease" placeholder="请输入基础疾病" type="text">
                         </nut-input>
                     </nut-form-item>
                     <nut-form-item class="jx-form-item" label="晕倒原因">
-                        <nut-textarea :border="false" :autosize="{
+                        <nut-textarea :border="false" class="nut-input-text" :autosize="{
                             minHeight: 200
                         }" placeholder="请输入晕倒原因" v-model="form.patientEventTrigger" limit-show max-length="200" />
                     </nut-form-item>
@@ -115,6 +115,15 @@ const form = reactive({
     address: '',
     successfulRescued: 'true',
 })
+const analysisDateTime = (date: string) => {
+    if (date) {
+        let dateTime = date.split(' ')
+        let [year, month, day] = dateTime[0].split('-')
+        let [hour, minute] = dateTime[1].split(':')
+        return new Date(Number(year), Number(month) - 1, Number(day), Number(hour), Number(minute))
+    }
+    return ''
+}
 //时间操作
 const datePop = reactive({
     show: false,
@@ -122,7 +131,7 @@ const datePop = reactive({
     value: new Date(Date.now()),
     open: (key: string) => {
         datePop.key = key
-        datePop.value = form[key] || new Date(Date.now())
+        datePop.value = analysisDateTime(form[key]) || new Date(Date.now())
         datePop.show = true
     },
     confirm: ({ selectedValue, selectedOptions }) => {
@@ -172,7 +181,7 @@ const confirm = async () => {
             rescueBeginTime: form.rescueBeginTime ? form.rescueBeginTime + ':00' : '',
             rescueEndTime: form.rescueEndTime ? form.rescueEndTime + ':00' : '',
             successfulRescued: isResued ? form.successfulRescued === 'false' ? false : true : null,
-            address:form.address 
+            address: form.address
         })
         Taro.showToast({
             icon: 'none',

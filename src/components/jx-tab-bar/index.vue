@@ -1,37 +1,7 @@
 <template>
-    <div class="h-160rpx w-full jx-tabbar relative overflow-hidden">
-        <!-- <nut-tabbar class="h-160rpx w-full jx-tabbar" @tab-switch="tabSwitch" v-model="activeTab">
-            <nut-tabbar-item name="index" tab-title="首页">
-                <template #icon>
-                    <jx-icon value="tab-home" :style="{ color: activeTab === 'index' ? '#3367E9' : '#ACB6D0' }"></jx-icon>
-                </template>
-            </nut-tabbar-item>
-            <nut-tabbar-item name="management" tab-title="运维管理">
-                <template #icon>
-                    <jx-icon value="tab-manage"
-                        :style="{ color: activeTab === 'management' ? '#3367E9' : '#ACB6D0' }"></jx-icon>
-                </template>
-            </nut-tabbar-item>
-            <nut-tabbar-item name="oneKeyForHelp" tab-title="一键呼救">
-                <template #icon>
-                    <jx-icon value="tab-rescue" color="#EC4A41" size="46"></jx-icon>
-                </template>
-            </nut-tabbar-item>
-            <nut-tabbar-item name="college" tab-title="急救课堂">
-                <template #icon>
-                    <jx-icon value="tab-college"
-                        :style="{ color: activeTab === 'college' ? '#3367E9' : '#ACB6D0' }"></jx-icon>
-                </template>
-            </nut-tabbar-item>
-            <nut-tabbar-item name="center" tab-title="个人中心">
-                <template #icon>
-                    <jx-icon value="tab-person"
-                        :style="{ color: activeTab === 'center' ? '#3367E9' : '#ACB6D0' }"></jx-icon>
-                </template>
-            </nut-tabbar-item>
-        </nut-tabbar> -->
-        <nut-row type="flex" class="mt-54px mb-20px h-full">
-            <nut-col @click="tabSwitch('index', 0)">
+    <div class="h-160rpx w-full jx-tabbar relative overflow-hidden ">
+        <nut-row type="flex" class="h-full flex " style="align-items: flex-end;">
+            <nut-col @click="tabSwitch('index', 0)" class="mb-20px">
                 <div class="flex-col items-center">
                     <jx-icon value="tab-home" :style="{ color: activeTab === 'index' ? '#3367E9' : '#ACB6D0' }"
                         :size="22"></jx-icon>
@@ -39,7 +9,7 @@
                         :style="{ color: activeTab === 'index' ? '#3367E9' : '#ACB6D0' }">首页</div>
                 </div>
             </nut-col>
-            <nut-col @click="tabSwitch('management', 1)">
+            <nut-col @click="tabSwitch('management', 1)" class="mb-20px">
                 <div class="flex-col items-center">
                     <jx-icon value="tab-manage" :style="{ color: activeTab === 'management' ? '#3367E9' : '#ACB6D0' }"
                         :size="22"></jx-icon>
@@ -51,10 +21,12 @@
                 <div class="flex-col items-center">
                     <jx-icon class="top-16px" style="position: absolute;" value="tab-rescue" color="#EC4A41"
                         :size="46"></jx-icon>
-                    <span class="bottom-16px  text-24px"  :style="{ color: activeTab === 'oneKeyForHelp' ? '#EC4A41' : '#ACB6D0' }" style="position: absolute;">一键呼救</span>
+                    <span class="bottom-20px  text-24px"
+                        :style="{ color: activeTab === 'oneKeyForHelp' ? '#EC4A41' : '#ACB6D0' }"
+                        style="position: absolute;">一键呼救</span>
                 </div>
             </nut-col>
-            <nut-col @click="tabSwitch('college', 3)">
+            <nut-col @click="tabSwitch('college', 3)" class="mb-20px">
                 <div class="flex-col items-center">
                     <jx-icon value="tab-college" :style="{ color: activeTab === 'college' ? '#3367E9' : '#ACB6D0' }"
                         :size="22"></jx-icon>
@@ -62,7 +34,7 @@
                         :style="{ color: activeTab === 'college' ? '#3367E9' : '#ACB6D0' }">急救课堂</div>
                 </div>
             </nut-col>
-            <nut-col @click="tabSwitch('center', 4)">
+            <nut-col @click="tabSwitch('center', 4)" class="mb-20px">
                 <div class="flex-col items-center">
                     <jx-icon value="tab-person" :style="{ color: activeTab === 'center' ? '#3367E9' : '#ACB6D0' }"
                         :size="22"></jx-icon>
@@ -95,10 +67,19 @@ const activeTab = computed({
 
 function tabSwitch(name, index) {
     console.log(index)
+
     if (name === 'management' && (!roleType.value || roleType.value === 'WECHAT')) {
         Taro.showToast({
             icon: 'none',
             title: '暂无访问权限',
+            duration: 4000
+        })
+        return
+    }
+    if (!user.accountInfo.activated && (name === 'management' || name === 'center')) {
+        Taro.showToast({
+            icon: 'none',
+            title: '用户被禁用，请联系管理员激活',
             duration: 4000
         })
         return
@@ -120,6 +101,8 @@ function tabSwitch(name, index) {
 
 <style lang="scss">
 .jx-tabbar {
+    display: flex;
+    align-items: flex-end !important;
     background: url(../../assets/images/center/底部背景.png) no-repeat;
     background-size: 100% 100%;
 }

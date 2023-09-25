@@ -57,7 +57,7 @@
                     <div class="ml-11px text-30px text-hex-333">基本信息</div>
                 </div>
                 <div class="bg-hex-fff w-720px m-auto rounded-20px">
-                     <nut-cell title="资产编号">
+                    <nut-cell title="资产编号">
                         <template v-slot:link>
                             <span>{{ noDataFilter(info.assetNumber) }}</span>
                         </template>
@@ -80,6 +80,16 @@
                     <nut-cell title="安装场所">
                         <template v-slot:link>
                             <span>{{ noDataFilter(info.placeName) }}</span>
+                        </template>
+                    </nut-cell>
+                    <nut-cell title="安装时间">
+                        <template v-slot:link>
+                            <span>{{ noDataFilter(dateFilter(info.installDate, "YYYY-MM-DD")) }}</span>
+                        </template>
+                    </nut-cell>
+                    <nut-cell title="描述">
+                        <template v-slot:link>
+                            <span>{{ noDataFilter(info.description) }}</span>
                         </template>
                     </nut-cell>
                 </div>
@@ -118,7 +128,7 @@
                         </template>
                         <template v-slot:link>
                             <text class="mr-30px">{{
-                               noDataFilter(dateFilter(info.batteryInvalidDate, "YYYY-MM-DD"))
+                                noDataFilter(dateFilter(info.batteryInvalidDate, "YYYY-MM-DD"))
                             }}</text>
 
                             <jx-dot :state="batteryStateFilter(info.batteryState)" />
@@ -131,7 +141,7 @@
                             </div>
                         </template>
                         <template v-slot:link>
-                            <text class="mr-30px">{{
+                            <text>{{
                                 info.batteryRemainingPower
                                 ? info.batteryRemainingPower
                                 : noDataFilter(info.batteryRemainingPower)
@@ -180,7 +190,7 @@
                         </template>
                         <template v-slot:link>
                             <text class="mr-30px">{{
-                               noDataFilter(dateFilter(info.qualityAssuranceDate, "YYYY-MM-DD"))
+                                noDataFilter(dateFilter(info.qualityAssuranceDate, "YYYY-MM-DD"))
                             }}</text>
                             <jx-dot :state="qualityAssuranceStateFilter(info.qualityAssuranceState)" />
                         </template>

@@ -11,6 +11,8 @@ const api = {
  * @returns 
  */
 export interface DeviceMap {
+    areaLongitude:number;
+    areaLatitude:number;
     deployedAreaLatitude: number;
     deployedAreaLongitude: number;
     level: number | null;

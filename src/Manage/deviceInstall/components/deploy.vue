@@ -36,7 +36,7 @@
                     </nut-popup>
 
                 </nut-form-item>
-                <nut-form-item class="jx-form-item" label="详细地址">
+                <nut-form-item class="jx-form-item" label="安装地址" required>
                     <!-- <jx-icon @click="addressTip" value="help" color="#ccc" class="absolute left--80 top-8" :size="15">
                     </jx-icon> -->
                     <nut-textarea :border="false" :autosize="{
@@ -214,6 +214,10 @@ function _next() {
     }
     if (!form.regionId.length) {
         notify('安装区域不能为空！')
+        return
+    }
+    if (!form.address) {
+        notify('安装地址不能为空！')
         return
     }
     if (!form.deployedImagePath) {

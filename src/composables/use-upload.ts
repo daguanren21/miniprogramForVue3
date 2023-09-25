@@ -46,6 +46,7 @@ export function useUpload(form, key = 'deployedImagePath') {
                 if (response.statusCode === 201) {
                     let data = JSON.parse(response.data)
                     options.onSuccess?.(response, options);
+                    debugger
                     _fileList.push({
                         uid: new Date().getTime(),
                         name: new Date().getTime() + '.png',

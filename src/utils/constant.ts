@@ -47,7 +47,7 @@ export const mapGlobalConfigParams = {
     proviceLevelScaleFrom: 4,
     proviceLevelScaleTo: 6,
     cityLevelScaleFrom: 6,
-    cityLevelScaleTo: 9,
+    cityLevelScaleTo: 12,
     regionLevelScaleFrom: 9,
     regionLevelScaleTo: 12,
     pointLevelScaleFrom: 12,

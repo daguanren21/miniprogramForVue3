@@ -1,6 +1,6 @@
 <template>
     <div>
-        <nut-popup position="bottom" closeable round @click-close-icon="emits('close')" :style="{ height: '60%' }"
+        <nut-popup position="bottom" @click-overlay="emits('close')" closeable round @click-close-icon="emits('close')" :style="{ height: '60%' }"
             :visible="visible">
             <div class="text-center text-30px text-hex-1f1f1f font-bold mt-42px">附近AED列表</div>
             <div @click="emits('change', item)" class="p-40px flex-y-center box-border"

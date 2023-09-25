@@ -19,13 +19,13 @@ export const devicePublicFilter = (key: "PUBLIC" | "HALF" | "NEVER" | "BUSINESS_
     let str = ""
     switch (key) {
         case DevicePublicType.PUBLIC:
-            str = "全开放"
+            str = "公开"
             break;
         case DevicePublicType.HALF:
-            str = "半开放"
+            str = "半公开"
             break;
         case DevicePublicType.NEVER:
-            str = "不开放"
+            str = "不公开"
             break;
         case DevicePublicType.BUSINESS_HOURS:
             str = "营业时间"
