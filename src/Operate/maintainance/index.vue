@@ -37,7 +37,7 @@
         </nut-popup>
         <nut-cell>
             <nut-button type="primary" :disabled="!form.id" class="m-auto" style="width:80%;margin: auto;"
-                @click="confirm">提交</nut-button>
+                @click="confirm" :loading="loading">提交</nut-button>
         </nut-cell>
     </div>
 </template>
@@ -47,6 +47,7 @@ import Taro from '@tarojs/taro';
 import { useRouter } from '@tarojs/taro';
 import { updateMaintainRecords } from '~/api/device';
 import { useDeviceBySearialNumber } from '~/composables/use-device-searialNumber';
+import useLoading from '~/composables/use-loading';
 import { useNotify } from '~/composables/use-notify';
 import { useUpload } from '~/composables/use-upload';
 const route = useRouter()
@@ -61,6 +62,7 @@ const form = reactive({
 const { uploadUrl, beforeXhrUpload, deleteFiles, _fileList } = useUpload(form)
 const { searialNumber, getDeviceBySerialNumber, deviceList } = useDeviceBySearialNumber(form)
 const { state: message, notify } = useNotify('danger')
+const { loading, startLoading, endLoading } = useLoading()
 //提交 
 const confirm = async () => {
     const { serialNumber, content } = form
@@ -77,6 +79,7 @@ const confirm = async () => {
         return
     }
     try {
+        startLoading()
         await updateMaintainRecords({
             deviceId: form.id,
             content: form.content,
@@ -88,11 +91,13 @@ const confirm = async () => {
             title: '维护记录已提交'
         })
         setTimeout(() => {
+            endLoading()
             Taro.navigateBack({
                 delta: 1
             })
         }, 1000)
     } catch (error) {
+        endLoading()
         notify(error)
     }
 

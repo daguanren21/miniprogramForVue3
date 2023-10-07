@@ -54,7 +54,7 @@
                             <image class="w-160px h-160px" src="../../assets/images/normal.jpg"></image>
                             <div class="text-26px text-hex-333 flex-y-center">
                                 <jx-icon value="cert-check" color="#21CF3C" :size="14"> </jx-icon>
-                                标准{{backList.length,frontList.length}}
+                                标准{{ backList.length, frontList.length }}
                             </div>
                         </div>
                         <div class="flex-col items-center ml-14px">
@@ -87,7 +87,7 @@
                         否则会影响证书能否通过审核。
                     </div>
                 </div>
-                <nut-button type="primary" style="width:80%;margin: auto;" @click="confirm">上传证书</nut-button>
+                <nut-button type="primary" style="width:80%;margin: auto;" @click="confirm" :loading="loading">上传证书</nut-button>
             </div>
 
         </nut-cell>
@@ -106,6 +106,7 @@ import dayjs from 'dayjs'
 import { useNotify } from '~/composables/use-notify';
 import { useUpload } from '~/composables/use-upload';
 import { dateFilter } from '~/filter'
+import useLoading from '~/composables/use-loading';
 const router = useRouter()
 const account = useAccountInfo()
 // const frontRef = ref<any>(null)
@@ -142,6 +143,7 @@ watch(() => backList, (value) => {
 }, {
     deep: true,
 })
+const { loading, startLoading, endLoading } = useLoading()
 const confirm = async () => {
     console.log(frontList)
     if (!form.certificateName) {
@@ -180,6 +182,7 @@ const confirm = async () => {
     form.backImagePath = backList.length ? backList[0].url : ''
     try {
         let id = Number(form.id)
+        startLoading()
         if (id) {
             await updateVolunteerCerts(form as any)
             Taro.showToast({
@@ -195,11 +198,13 @@ const confirm = async () => {
         }
 
         setTimeout(() => {
+            endLoading()
             Taro.navigateBack({
                 delta: 1
             })
         }, 1000)
     } catch (error) {
+        endLoading()
         notify(error)
         return
     }

@@ -112,13 +112,14 @@ export const useQQMapSdk = (cb?: (lat: number, lng: number) => void) => {
         }
     })
     //地图缩放查询设备
-    const { proviceLevelScaleTo, cityLevelScaleFrom, cityLevelScaleTo, pointLevelScaleFrom } = mapGlobalConfigParams
+    const { proviceLevelScaleTo, cityLevelScaleFrom, cityLevelScaleTo, regionLevelScaleFrom, pointLevelScaleFrom, pointLevelScaleTo } = mapGlobalConfigParams
 
     const regionchange = async (e: { type: string }) => {
         if (e.type === 'end') {
             let regionRes = await getRegion()
             let { scale } = await getScale(mapCtx)
             console.log('scale', scale)
+            mapScale.value = scale
             let level = 1
             if (scale < proviceLevelScaleTo) {
                 level = 1
@@ -163,15 +164,15 @@ export const useQQMapSdk = (cb?: (lat: number, lng: number) => void) => {
                     latitude: device.deployedAreaLatitude,
                     longitude: device.deployedAreaLongitude,
                     iconPath: isSelect ? normalSelectImage : normalImage,
-                    width: isSelect ? 55 : 50,
-                    height: isSelect ? 55 : 50
+                    width: isSelect ? 32 : 28,
+                    height: isSelect ? 40 : 35
                 } : {
                     id: device.id,
-                    latitude: device.areaLatitude,
-                    longitude: device.areaLongitude,
+                    latitude: device.level === 2 ? device.deployedAreaLatitude : device.areaLatitude,
+                    longitude: device.level === 2 ? device.deployedAreaLongitude : device.areaLongitude,
                     level: device.level,
-                    width: 50,
-                    height: 50,
+                    width: 40,
+                    height: 40,
                     callout: {
                         content: device.name,
                         color: "#ffffff",
@@ -191,18 +192,20 @@ export const useQQMapSdk = (cb?: (lat: number, lng: number) => void) => {
     const account = useAccountInfo()
     const { userCenter } = storeToRefs(account)
     const markertap = async (e: { detail: { markerId: number } }) => {
+        console.log('markerTap', mapScale.value)
         let deviceId = e.detail.markerId
         deviceSelectId.value = deviceId
         let devices = markers.value.filter(v => v.id === deviceId)
+        console.log('markerTap', devices[0])
         if (devices.length) {
             let { level, latitude, longitude } = devices[0]
             if (level) {
                 if (level === 1) {
-                    mapScale.value = cityLevelScaleFrom
+                    mapScale.value = regionLevelScaleFrom
                     cb && cb(latitude, longitude)
                 }
                 if (level === 2) {
-                    mapScale.value = pointLevelScaleFrom
+                    mapScale.value = pointLevelScaleFrom + 1
                     cb && cb(latitude, longitude)
                 }
             } else {
@@ -211,8 +214,8 @@ export const useQQMapSdk = (cb?: (lat: number, lng: number) => void) => {
                     let isSelect = i.id === deviceId
                     return {
                         ...i,
-                        width: isSelect ? 55 : 50,
-                        height: isSelect ? 55 : 50,
+                        width: isSelect ? 32 : 28,
+                        height: isSelect ? 40 : 35,
                         iconPath: isSelect ? normalSelectImage : normalImage
 
                     }

@@ -1,5 +1,5 @@
 <template>
-    <div class="h-160rpx w-full jx-tabbar relative overflow-hidden ">
+    <div class="h-160rpx w-full jx-tabbar relative overflow-hidden">
         <nut-row type="flex" class="h-full flex " style="align-items: flex-end;">
             <nut-col @click="tabSwitch('index', 0)" class="mb-20px">
                 <div class="flex-col items-center">
@@ -51,23 +51,29 @@ import Taro from '@tarojs/taro'
 defineOptions({
     name: 'JxTabBar'
 })
+// const tabList = ref([{
+//     name: '首页',
+//     value: 'index',
+// }, {
+//     name: '运维管理',
+//     value: 'management',
+// }, {
+//     name: '一键呼救',
+//     value: 'oneKeyForHelp',
+// }, {
+//     name: '急救课堂',
+//     value: 'college',
+// }, {
+//     name: '个人中心',
+//     value: 'center',
+// }])
 const auth = useAuthStore()
-const user = useAccountInfo()
-
+const user = useAccountInfo()   
 const roleType = computed(() => user.accountInfo.roleType)
-const activeTab = computed({
-    get() {
-        return auth.tabName
-    },
-    set(value) {
-        auth.updateTabName(value)
-        return true
-    }
-})
-
+const activeTab = computed(() => auth.tabName)
+console.log(activeTab.value)
 function tabSwitch(name, index) {
     console.log(index)
-
     if (name === 'management' && (!roleType.value || roleType.value === 'WECHAT')) {
         Taro.showToast({
             icon: 'none',

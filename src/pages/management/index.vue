@@ -155,7 +155,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import Taro from '@tarojs/taro';
+import Taro, { useDidShow } from '@tarojs/taro';
 import deviceList from './components/deviceList.vue';
 import { useDeviceRegion } from '~/composables/use-device-region';
 import { fetchDeviceBrands, fetchDevicePlaces } from '~/api/common';
@@ -199,7 +199,7 @@ let searchObj = {
     provinceId: '',
     cityId: '',
     districtId: '',
-    streetId:''
+    streetId: ''
 }
 let form = ref({ ...formObj })
 let searchParams = ref({
@@ -216,7 +216,7 @@ const { region } = useDeviceRegion((options) => {
 
 const submit = () => {
     let { keyword, runningState, positionState, hasRescueData, mobile, placeId, brandId, installDateBegin, installDateEnd } = form.value
-    let [provinceId, cityId, districtId,streetId] = form.value.regionId
+    let [provinceId, cityId, districtId, streetId] = form.value.regionId
     searchParams.value.keyword = keyword
     searchParams.value.provinceId = provinceId ? provinceId.toString() : '';
     searchParams.value.cityId = cityId ? cityId.toString() : '';
@@ -324,6 +324,11 @@ const datePop = reactive({
         form.value[datePop.key] = date.join('-') + '' + time.join(':')
         datePop.show = false
     }
+})
+useDidShow(() => {
+    Taro.setNavigationBarTitle({
+        title: '运维管理'
+    })
 })
 </script>
 

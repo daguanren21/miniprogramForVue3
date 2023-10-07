@@ -44,8 +44,8 @@
                     </div>
                 </div>
             </div>
-            <nut-dialog title="呼救提示" content="请确认现场是否发生了真实的救援事件？" :visible="normalVisible" @cancel="normalVisible = false"
-                @ok="oneKeyForHelp" />
+            <nut-dialog title="呼救提示" content="请您确认是否要启动系统急救呼救？如误报需要您承担由此产生的后果及责任。" :visible="normalVisible"
+                @cancel="normalVisible = false" @ok="oneKeyForHelp" />
             <nut-dialog title="演练人员列表" :visible="dynamicForm.show" @cancel="dynamicForm.show = false"
                 @ok="dynamicForm.confirm">
                 <nut-form :model-value="dynamicForm" ref="dynamicRefForm">
@@ -292,6 +292,9 @@ const { pause, resume } = useIntervalFn(async () => {
     await getRescueInfo()
 }, 5000)
 useDidShow(async () => {
+    Taro.setNavigationBarTitle({
+        title: '一键呼救'
+    })
     let res = await getRescueInfo()
     if (res.record && res.record.id) {
         resume()

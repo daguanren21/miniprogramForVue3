@@ -3,6 +3,11 @@
         <nut-notify :type="message.type" v-model:visible="message.show" :msg="message.desc" />
         <div class="flex-1">
             <nut-form :model-value="form" ref="ruleForm">
+                <nut-form-item class="jx-form-item" label="资产编号">
+                    <nut-input :border="false" v-model="form.assetNumber" class="nut-input-text" placeholder="请输入资产编号"
+                        type="text" max-length="30">
+                    </nut-input>
+                </nut-form-item>
                 <nut-form-item class="jx-form-item" label="品牌" required>
                     <nut-input :disabled="!!form.id" :border="false" class="nut-input-text" v-model="form.brandName"
                         readonly @click="() => {
@@ -29,11 +34,7 @@
                         placeholder="请输入设备型号" type="text">
                     </nut-input>
                 </nut-form-item>
-                <nut-form-item class="jx-form-item" label="资产编号">
-                    <nut-input :border="false" v-model="form.assetNumber" class="nut-input-text" placeholder="请输入资产编号"
-                        type="text" max-length="30">
-                    </nut-input>
-                </nut-form-item>
+
             </nut-form>
         </div>
         <!-- <nut-popup position="bottom" closeable round :style="{ height: '60%' }" v-model:visible="searialNumber.show">
@@ -72,13 +73,13 @@ const form = reactive({
 })
 const { next, selectPop, columns } = useStep(props, emits, form)
 watch(() => manage.deviceInfo, (value) => {
-    if(value.id){
+    if (value.id) {
         Taro.setNavigationBarTitle({
-            title:'完善设备信息'
+            title: '完善设备信息'
         })
-    }else{
+    } else {
         Taro.setNavigationBarTitle({
-            title:'新增设备'
+            title: '新增设备'
         })
     }
     form.id = value.id || null

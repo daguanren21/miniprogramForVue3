@@ -31,7 +31,7 @@
             </nut-form-item>
         </nut-form>
         <nut-cell style="margin:0;background:transparent">
-            <nut-button type="primary" class="m-auto" style="width:80%;margin: auto;" @click="confirm">修改</nut-button>
+            <nut-button type="primary" class="m-auto" style="width:80%;margin: auto;" @click="confirm" :loading="loading">修改</nut-button>
         </nut-cell>
     </div>
 </template>
@@ -39,6 +39,7 @@
 <script setup lang="ts">
 import Taro from '@tarojs/taro'
 import { updateAccountInfo } from '~/api/user';
+import useLoading from '~/composables/use-loading';
 
 // import Taro from '@tarojs/taro';
 import { useNotify } from '~/composables/use-notify';
@@ -87,6 +88,7 @@ const getAvatar = (e) => {
 }
 const { state: message, notify } = useNotify('danger')
 const user = useAccountInfo()
+const { loading, startLoading, endLoading } = useLoading()
 const confirm = async () => {
     if (!form.imageUrl) {
         notify('头像不能为空！')
@@ -109,6 +111,7 @@ const confirm = async () => {
         return
     }
     try {
+        startLoading()
         await updateAccountInfo(form as any)
         Taro.showToast({
             icon: 'none',
@@ -118,11 +121,13 @@ const confirm = async () => {
             }
         })
         setTimeout(() => {
+            endLoading()
             Taro.navigateBack({
                 delta: 1
             })
         }, 1000)
     } catch (error) {
+        endLoading()
         notify(error);
         return
     }

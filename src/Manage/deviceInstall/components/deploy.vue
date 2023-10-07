@@ -23,7 +23,7 @@
                     <nut-input :border="false" class="nut-input-text" v-model="form.regionName" placeholder="请选择区域"
                         type="text" readonly @click="region.visible = true">
                         <template #right>
-                            <jx-icon @click.stop="chooseLocation" value="address" color="#4088FF" :size="18"> </jx-icon>
+                            <jx-icon @click.stop="chooseLocation" value="address" color="#4088FF" :size="24"> </jx-icon>
                         </template>
                     </nut-input>
                     <nut-popup round closeable @close="region.closeRegion" position="bottom" title="地址选择"

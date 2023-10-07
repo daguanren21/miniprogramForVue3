@@ -19,6 +19,7 @@
     </div>
 </template>
 <script setup lang="ts">
+import Taro, { useDidShow } from '@tarojs/taro';
 import courseList from './components/courseList/index.vue'
 import knowLedgeList from './components/knowLedgeList/index.vue'
 import knowledge_active from '~/assets/images/volunteer/knowledge_active.png'
@@ -52,7 +53,11 @@ const changeTab = (index) => {
     let tab = tabList.value[tabIndex.value].key
     componentTab.value = tab === 'knowLedgeList' ? knowLedgeList : courseList
 }
-
+useDidShow(() => {
+    Taro.setNavigationBarTitle({
+        title: '急救课堂'
+    })
+})
 </script>
 
 <style lang="scss"></style>

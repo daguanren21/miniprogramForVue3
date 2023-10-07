@@ -20,8 +20,9 @@
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item class="jx-form-item" label="质保有效期">
-                    <nut-input clearable :showClearIcon="true" :border="false" class="nut-input-text" v-model="form.qualityAssuranceDate" readonly
-                        @click="handleChangeDate('qualityAssuranceDate')" placeholder="请选择质保有效期" type="text">
+                    <nut-input clearable :showClearIcon="true" :border="false" class="nut-input-text"
+                        v-model="form.qualityAssuranceDate" readonly @click="handleChangeDate('qualityAssuranceDate')"
+                        placeholder="请选择质保有效期" type="text">
                         <template #right>
                             <jx-icon value="select" color="#6A6F71" :size="14"> </jx-icon>
                         </template>
@@ -137,7 +138,7 @@ const options = {
         }]
 }
 watch(() => manage.deviceInfo, (value) => {
-    form.mobile = value.mobile.toString() || "false"
+    form.mobile = value.mobile ? value.mobile.toString() : "false"
     form.runningState = value.runningState || 'NORMAL'
     form.deviceNetworkState = value.deviceNetworkState || 'ONLINE'
     form.qualityAssuranceDate = dateFilter(value.qualityAssuranceDate, 'YYYY-MM-DD')

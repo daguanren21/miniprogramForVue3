@@ -108,7 +108,7 @@
                                 <div class="flex-col items-center">
                                     <image class="w-51px h-49px" src="../../assets/images/center/录入.png">
                                     </image>
-                                    <p class="mt-19px text-28px font-bold">录入</p>
+                                    <p class="mt-19px text-28px font-bold">新增</p>
                                 </div>
                             </nut-col>
                             <nut-col :span="6" @click="toOperate('inspection')">
@@ -269,12 +269,18 @@ const checkCount = ref(0)
 const exceptionCount = ref(0)
 //获取未读消息数量
 useDidShow(async () => {
+    Taro.setNavigationBarTitle({
+        title: '个人中心'
+    })
     let { unreadCount: unread, certificatesCount: certificate } = await fetchUnreadCount()
-    let { checkCount: check, exceptionCount: exception } = await fetcheDevicesCount()
-    unreadCount.value = unread
+    if (!(accountInfo.value.roleType === 'WECHAT' || !accountInfo.value.roleType)) {
+        let { checkCount: check, exceptionCount: exception } = await fetcheDevicesCount()
+        checkCount.value = check
+        exceptionCount.value = exception
+    }
     certificatesCount.value = certificate
-    checkCount.value = check
-    exceptionCount.value = exception
+    unreadCount.value = unread
+
 
 })
 </script>

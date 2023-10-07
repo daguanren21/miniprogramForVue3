@@ -3,9 +3,9 @@
         <nut-notify :type="message.type" v-model:visible="message.show" :msg="message.desc" />
         <div class="flex-1 overflow-auto">
             <nut-form :model-value="form" ref="ruleForm">
-                <nut-form-item class="jx-form-item" label="开放方式">
+                <nut-form-item class="jx-form-item" label="开放类型">
                     <nut-input :border="false" class="nut-input-text" @click="publicType.open"
-                        :model-value="publicType.text" readonly placeholder="请选择开放方式" type="text">
+                        :model-value="publicType.text" readonly placeholder="请选择开放类型" type="text">
                         <template #right>
                             <jx-icon value="select" color="#6A6F71" :size="14"> </jx-icon>
                         </template>
@@ -67,7 +67,7 @@
             </nut-popup>
             <!-- 开放方式 -->
             <nut-popup position="bottom" v-model:visible="publicType.show">
-                <nut-picker v-model="publicType.value" :columns="publicType.columns" title="请选择开放方式"
+                <nut-picker v-model="publicType.value" :columns="publicType.columns" title="请选择开放类型"
                     @confirm="publicType.confirm" @cancel="publicType.show = false">
                 </nut-picker>
             </nut-popup>
@@ -75,7 +75,7 @@
         <div class="flex-center h-120px">
             <nut-button size="mini" plain type="primary" style="width:192rpx;height: 70rpx;" @click="prev">上一步</nut-button>
             <nut-button size="mini" style="width:450rpx;height: 70rpx;margin-left:20rpx" type="primary"
-                @click="confirm">保存</nut-button>
+                @click="confirm" :loading="loading">保存</nut-button>
         </div>
     </div>
 </template>
@@ -84,6 +84,7 @@
 import Taro from '@tarojs/taro';
 import { saveDevices } from '~/api/device';
 import { useStep } from '~/composables/use-device-install';
+import useLoading from '~/composables/use-loading';
 import { useNotify } from '~/composables/use-notify';
 import { workDayOptions } from '~/utils/constant'
 defineOptions({
@@ -111,7 +112,7 @@ const publicTime = reactive({
     value: new Date(2023, 8, 17, 8, 0),
     index: 0,
     type: "start",
-    confirm: ({ selectedValue, selectedOptions }) => {
+    confirm: ({ selectedValue }) => {
         console.log(selectedValue)
         let type = publicTime.type
         let index = publicTime.index
@@ -270,6 +271,7 @@ watch(() => manage.deviceInfo, (value) => {
     immediate: true
 })
 const auth = useAuthStore()
+const { loading, startLoading, endLoading } = useLoading()
 //保存设备信息
 async function save() {
     Object.keys(form).forEach(i => {
@@ -280,12 +282,14 @@ async function save() {
         }
     })
     try {
+        startLoading()
         await saveDevices(manage.deviceInfo as any)
         Taro.showToast({
             icon: 'none',
             title: '设备信息已完善'
         })
         setTimeout(() => {
+            endLoading()
             if (manage.deviceInfo.id) {
                 Taro.navigateBack()
             } else {
@@ -298,6 +302,7 @@ async function save() {
         }, 1000);
 
     } catch (error) {
+        endLoading()
         notify(error)
         return
     }

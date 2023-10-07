@@ -40,7 +40,7 @@
                 <div class="text-center text-30px text-hex-1f1f1f font-bold mt-42px">搜索结果</div>
                 <div class="p-x-40px box-border">
                     <div class="p-y-40px box-border" style="border-bottom:1rpx solid #dadada" v-for="item in deviceList"
-                    @click="searialNumber.confirm(item)">
+                        @click="searialNumber.confirm(item)">
                         <div class="text-30px font-bold text-hex-333">{{ item.serialNumber }}</div>
                         <div class="mt-20px text-26px text-hex-797979">{{ item.brandName }}</div>
                     </div>
@@ -48,8 +48,8 @@
             </nut-popup>
         </div>
         <nut-cell>
-            <nut-button type="primary" :disabled="!form.id" class="m-auto" style="width:80%;margin: auto;"
-                @click="confirm">提交</nut-button>
+            <nut-button type="primary" :disabled="!form.id" class="m-auto" style="width:80%;margin: auto;" @click="confirm"
+                :loading="loading">提交</nut-button>
         </nut-cell>
     </div>
 </template>
@@ -59,6 +59,7 @@ import Taro from '@tarojs/taro';
 import { useRouter } from '@tarojs/taro';
 import { updateRegularInspectionRecords } from '~/api/device';
 import { useDeviceBySearialNumber } from '~/composables/use-device-searialNumber';
+import useLoading from '~/composables/use-loading';
 import { useNotify } from '~/composables/use-notify';
 import { useUpload } from '~/composables/use-upload';
 const route = useRouter()
@@ -74,6 +75,8 @@ const form = reactive({
 const { uploadUrl, beforeXhrUpload, deleteFiles, _fileList } = useUpload(form)
 const { searialNumber, deviceList, getDeviceBySerialNumber } = useDeviceBySearialNumber(form)
 const { state: message, notify } = useNotify('danger')
+
+const { loading, startLoading, endLoading } = useLoading()
 //提交 
 const confirm = async () => {
     const { serialNumber, content } = form
@@ -90,6 +93,7 @@ const confirm = async () => {
         return
     }
     try {
+        startLoading()
         await updateRegularInspectionRecords({
             deviceId: form.id,
             electrodeState: form.electrodeState,
@@ -103,11 +107,13 @@ const confirm = async () => {
             title: '巡检记录已提交'
         })
         setTimeout(() => {
+            endLoading()
             Taro.navigateBack({
                 delta: 1
             })
         }, 1000)
     } catch (error) {
+        endLoading()
         notify(error)
     }
 

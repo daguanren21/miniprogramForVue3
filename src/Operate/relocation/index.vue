@@ -34,7 +34,7 @@
                         <nut-input :border="false" class="nut-input-text" v-model="form.regionName" placeholder="请选择区域"
                             type="text" readonly @click="region.visible = true">
                             <template #right>
-                                <jx-icon @click.stop="chooseLocation" value="address" color="#4088FF" :size="18"> </jx-icon>
+                                <jx-icon @click.stop="chooseLocation" value="address" color="#4088FF" :size="24"> </jx-icon>
                             </template>
                         </nut-input>
                         <nut-popup round closeable @close="region.closeRegion" position="bottom" title="地址选择"
@@ -47,7 +47,7 @@
                         </nut-popup>
 
                     </nut-form-item>
-                    <nut-form-item class="jx-form-item" label="详细地址">
+                    <nut-form-item class="jx-form-item" label="安装地址" required>
                         <!-- <jx-icon @click="addressTip" value="help" color="#ccc" class="absolute left--80 top-8" :size="15">
                     </jx-icon> -->
                         <nut-textarea :border="false" :autosize="{
@@ -64,7 +64,7 @@
         </div>
         <nut-cell>
             <nut-button :disabled="!form.id" type="primary" class="m-auto" style="width:80%;margin: auto;"
-                @click="confirm">提交</nut-button>
+                @click="confirm" :loading="loading">提交</nut-button>
         </nut-cell>
         <nut-popup position="bottom" closeable round :style="{ height: '60%' }" v-model:visible="searialNumber.show">
             <div class="text-center text-30px text-hex-1f1f1f font-bold mt-42px">搜索结果</div>
@@ -91,6 +91,7 @@ import { fetchDevicePlaces } from '~/api/common';
 import { updatePosition, deleteDevice } from '~/api/device';
 import { useDeviceRegion } from '~/composables/use-device-region';
 import { useDeviceBySearialNumber } from '~/composables/use-device-searialNumber';
+import useLoading from '~/composables/use-loading';
 import { useNotify } from '~/composables/use-notify';
 import { useUpload } from '~/composables/use-upload';
 const route = useRouter()
@@ -149,7 +150,7 @@ const { chooseLocation, region } = useDeviceRegion((options) => {
     form.deployedLatitude = options.deployedLatitude;
     form.deployedLongitude = options.deployedLongitude
 })
-
+const { loading, startLoading, endLoading } = useLoading()
 //提交 
 const confirm = async () => {
     const { serialNumber, type, deleteReason } = form
@@ -176,12 +177,17 @@ const confirm = async () => {
             notify('安装区域不能为空！')
             return
         }
+        if (!form.address) {
+            notify('安装地址不能为空！')
+            return
+        }
         if (!_fileList.length) {
             notify('现场图片至少上传一张！')
             return
         }
     }
     try {
+        startLoading()
         if (type === 'relocation') {
             await updatePosition({
                 deviceId: form.id,
@@ -197,6 +203,7 @@ const confirm = async () => {
                 title: '设备位置已变更！',
             })
             setTimeout(() => {
+                endLoading()
                 Taro.navigateBack({
                     delta: 1
                 })
@@ -212,6 +219,7 @@ const confirm = async () => {
                 title: '设备已移除！',
             })
             setTimeout(() => {
+                endLoading()
                 auth.updateTabName('management')
                 Taro.switchTab({
                     url: '/pages/management/index'
@@ -220,6 +228,7 @@ const confirm = async () => {
         }
 
     } catch (error) {
+        endLoading()
         notify(error)
     }
 

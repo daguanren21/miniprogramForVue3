@@ -34,7 +34,7 @@
         </div>
         <nut-cell>
             <nut-button :disabled="!form.id" type="primary" class="m-auto" style="width:80%;margin: auto;"
-                @click="confirm">提交</nut-button>
+                @click="confirm" :loading="loading">提交</nut-button>
         </nut-cell>
         <nut-popup position="bottom" closeable round :style="{ height: '60%' }" v-model:visible="searialNumber.show">
             <div class="text-center text-30px text-hex-1f1f1f font-bold mt-42px">搜索结果</div>
@@ -59,6 +59,7 @@ import Taro from '@tarojs/taro';
 import { useRouter } from '@tarojs/taro';
 import { updateDevicePart } from '~/api/device';
 import { useDeviceBySearialNumber } from '~/composables/use-device-searialNumber';
+import useLoading from '~/composables/use-loading';
 import { useNotify } from '~/composables/use-notify';
 const route = useRouter()
 const form = reactive({
@@ -70,6 +71,7 @@ const form = reactive({
 })
 const { getDeviceBySerialNumber, searialNumber, deviceList } = useDeviceBySearialNumber(form)
 const { state: message, notify } = useNotify('danger')
+const { loading, startLoading, endLoading } = useLoading()
 const datePop = reactive({
     show: false,
     key: '',
@@ -108,6 +110,7 @@ const confirm = async () => {
     try {
         type === 'battery' && (form.electrodeInvalidDate = "")
         type === 'electrode' && (form.batteryInvalidDate = "")
+        startLoading()
         await updateDevicePart({
             deviceId: form.id,
             batteryInvalidDate: form.batteryInvalidDate,
@@ -118,11 +121,13 @@ const confirm = async () => {
             title: `更换${type === 'battery' ? '电池' : '电极片'}成功！`
         })
         setTimeout(() => {
+            endLoading()
             Taro.navigateBack({
                 delta: 1
             })
         }, 1000)
     } catch (error) {
+        endLoading()
         notify(error)
     }
 

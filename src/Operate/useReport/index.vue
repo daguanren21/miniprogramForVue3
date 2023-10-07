@@ -73,7 +73,7 @@
         </div>
         <nut-cell>
             <nut-button type="primary" :disabled="!form.id" class="m-auto" style="width:80%;margin: auto;"
-                @click="confirm">提交</nut-button>
+                @click="confirm" :loading="loading">提交</nut-button>
         </nut-cell>
         <nut-popup position="bottom" closeable round :style="{ height: '60%' }" v-model:visible="searialNumber.show">
             <div class="text-center text-30px text-hex-1f1f1f font-bold mt-42px">搜索结果</div>
@@ -100,6 +100,7 @@ import { updateDeviceRescueData } from '~/api/device';
 import { useDeviceBySearialNumber } from '~/composables/use-device-searialNumber';
 import { useNotify } from '~/composables/use-notify';
 import dayjs from 'dayjs'
+import useLoading from '~/composables/use-loading';
 const route = useRouter()
 const form = reactive({
     id: route.params.id || '',
@@ -145,6 +146,7 @@ const datePop = reactive({
 })
 const { getDeviceBySerialNumber, searialNumber, deviceList } = useDeviceBySearialNumber(form)
 const { state: message, notify } = useNotify('danger')
+const { loading, startLoading, endLoading } = useLoading()
 //提交 
 const confirm = async () => {
     const { serialNumber, useRescued } = form
@@ -170,6 +172,7 @@ const confirm = async () => {
         return
     }
     try {
+        startLoading()
         await updateDeviceRescueData({
             deviceId: form.id,
             dischargeCount: Number(form.dischargeCount),
@@ -188,11 +191,13 @@ const confirm = async () => {
             title: '使用上报已提交！'
         })
         setTimeout(() => {
+            endLoading()
             Taro.navigateBack({
                 delta: 1
             })
         }, 1000)
     } catch (error) {
+        endLoading()
         notify(error)
     }
 

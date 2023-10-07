@@ -60,8 +60,8 @@
                         </div>
                     </nut-form-item>
                 </nut-form>
-                <nut-button type='info' style="width: 550rpx;height:73rpx;font-size: 30rpx;"
-                    @click="dialog.confirm">审核</nut-button>
+                <nut-button type='info' style="width: 550rpx;height:73rpx;font-size: 30rpx;" @click="dialog.confirm"
+                    :loading="loading">审核</nut-button>
             </div>
         </nut-popup>
     </div>
@@ -74,6 +74,7 @@ import { deviceRunningStateFilter, dateFilter } from '~/filter'
 import { filter, preview, handleImages } from '~/utils/index'
 import Taro from "@tarojs/taro";
 import { useNotify } from "~/composables/use-notify";
+import useLoading from "~/composables/use-loading";
 const { state: message, notify } = useNotify('danger')
 const state = reactive({
     content: [] as DeviceCheckRecord[],
@@ -86,6 +87,7 @@ const form = reactive({
     remarks: '',
     state: 'APPROVE' as Filter.CheckState
 })
+const { loading, startLoading, endLoading } = useLoading()
 const dialog = reactive({
     show: false,
     confirm: async () => {
@@ -94,16 +96,19 @@ const dialog = reactive({
                 notify('审核意见不能为空！')
                 return
             }
+            startLoading()
             await updateDeviceCheckRecords(form)
-            dialog.show = false
             setTimeout(() => {
                 Taro.showToast({
                     icon: 'none',
                     title: `审核${form.state === 'APPROVE' ? '通过' : '拒绝'}`
                 })
+                endLoading()
+                dialog.show = false
                 fetchData()
             }, 1000)
         } catch (error) {
+            endLoading()
             Taro.showToast({
                 icon: 'none',
                 title: error

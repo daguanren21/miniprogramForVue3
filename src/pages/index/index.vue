@@ -75,7 +75,7 @@ import { useMapLocation } from '~/composables/use-map-location';
 import { useQQMapSdk } from '~/composables/use-qqmap-sdk';
 import nearbyDevices from './components/nearby-devices/index.vue'
 import { fetchLatelyDevices } from '~/api/device';
-import Taro from '@tarojs/taro';
+import Taro, { useDidShow } from '@tarojs/taro';
 const helpVisible = ref(false)
 //获取地图实例
 
@@ -97,8 +97,10 @@ const handleSearch = async () => {
     searchAreaList.value = data
     suggestionVisible.value = true
   } else {
-    // TODO:补充提示
-    console.log("数据为空")
+    Taro.showToast({
+      icon:'none',
+      title:'暂无该地址信息'
+    })
   }
 }
 //关闭弹窗并且取消设备选中效果
@@ -139,17 +141,24 @@ async function handleNearby() {
   }
 }
 //选中附近AED改变地图中心
+// const { pointLevelScaleTo } = mapGlobalConfigParams
 function changeNearByCenter(item: Index.DeviceInfo) {
+  // centerLat.value = item.deployedAreaLatitude
+  // centerLng.value = item.deployedAreaLongitude
+  // mapScale.value = pointLevelScaleTo
   //弹出设备详情
   markertap({
     detail: {
       markerId: item.id
     }
   })
-  // centerLat.value = item.deployedAreaLatitude
-  // centerLng.value = item.deployedAreaLongitude
-}
 
+}
+useDidShow(()=>{
+  Taro.setNavigationBarTitle({
+        title: '首页'
+    })
+})
 </script>
 
 <style lang="scss">
