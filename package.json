@@ -55,9 +55,11 @@
     "@vueuse/core": "^10.3.0",
     "dayjs": "^1.11.9",
     "lodash": "^4.17.21",
+    "mp-html": "^2.4.2",
     "pinia": "^2.1.4",
     "qqmap-wx-jssdk": "^1.0.0",
-    "vue": "^3.3.4"
+    "vue": "^3.3.4",
+    "wxparse-vue3": "^1.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.8.0",

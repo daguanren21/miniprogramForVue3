@@ -46,8 +46,8 @@
             </nut-form>
             <!-- 开放时间 -->
             <nut-popup position="bottom" v-model:visible="publicTime.show">
-                <nut-date-picker v-model="publicTime.value" title="时间选择"
-                    type="hour-minute" @confirm="publicTime.confirm"></nut-date-picker>
+                <nut-date-picker v-model="publicTime.value" title="时间选择" type="hour-minute"
+                    @confirm="publicTime.confirm"></nut-date-picker>
             </nut-popup>
             <!-- 开放日 -->
             <nut-popup position="bottom" v-model:visible="workDay.show">
@@ -74,8 +74,8 @@
         </div>
         <div class="flex-center h-120px">
             <nut-button size="mini" plain type="primary" style="width:192rpx;height: 70rpx;" @click="prev">上一步</nut-button>
-            <nut-button size="mini" style="width:450rpx;height: 70rpx;margin-left:20rpx" type="primary"
-                @click="confirm" :loading="loading">保存</nut-button>
+            <nut-button size="mini" style="width:450rpx;height: 70rpx;margin-left:20rpx" type="primary" @click="confirm"
+                :loading="loading">保存</nut-button>
         </div>
     </div>
 </template>
@@ -286,7 +286,7 @@ async function save() {
         await saveDevices(manage.deviceInfo as any)
         Taro.showToast({
             icon: 'none',
-            title: '设备信息已完善'
+            title: manage.deviceInfo.id ? '完善设备信息成功!' : '添加设备信息成功！'
         })
         setTimeout(() => {
             endLoading()

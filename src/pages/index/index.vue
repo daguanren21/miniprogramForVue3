@@ -98,8 +98,8 @@ const handleSearch = async () => {
     suggestionVisible.value = true
   } else {
     Taro.showToast({
-      icon:'none',
-      title:'暂无该地址信息'
+      icon: 'none',
+      title: '暂无该地址信息'
     })
   }
 }
@@ -143,21 +143,27 @@ async function handleNearby() {
 //选中附近AED改变地图中心
 // const { pointLevelScaleTo } = mapGlobalConfigParams
 function changeNearByCenter(item: Index.DeviceInfo) {
-  // centerLat.value = item.deployedAreaLatitude
-  // centerLng.value = item.deployedAreaLongitude
-  // mapScale.value = pointLevelScaleTo
-  //弹出设备详情
-  markertap({
-    detail: {
-      markerId: item.id
-    }
+  centerLat.value = item.deployedAreaLatitude
+  centerLng.value = item.deployedAreaLongitude
+  Taro.showLoading({
+    title: '数据加载中'
   })
+  setTimeout(() => {
+    //弹出设备详情
+    markertap({
+      detail: {
+        markerId: item.id
+      }
+    })
+    Taro.hideLoading()
+  }, 1000)
+  // mapScale.value = pointLevelScaleTo
 
 }
-useDidShow(()=>{
+useDidShow(() => {
   Taro.setNavigationBarTitle({
-        title: '首页'
-    })
+    title: '首页'
+  })
 })
 </script>
 

@@ -68,6 +68,9 @@ dependencies:
   lodash:
     specifier: ^4.17.21
     version: 4.17.21
+  mp-html:
+    specifier: ^2.4.2
+    version: 2.4.2
   pinia:
     specifier: ^2.1.4
     version: 2.1.4(typescript@4.1.2)(vue@3.3.4)
@@ -77,6 +80,9 @@ dependencies:
   vue:
     specifier: ^3.3.4
     version: 3.3.4
+  wxparse-vue3:
+    specifier: ^1.0.2
+    version: 1.0.2
 
 devDependencies:
   '@babel/core':
@@ -11527,6 +11533,10 @@ packages:
   /mobile-detect@1.4.5:
     resolution: {integrity: sha512-yc0LhH6tItlvfLBugVUEtgawwFU2sIe+cSdmRJJCTMZ5GEJyLxNyC/NIOAOGk67Fa8GNpOttO3Xz/1bHpXFD/g==}
 
+  /mp-html@2.4.2:
+    resolution: {integrity: sha512-MSfJh5ckuaI2uibeO4qiUl2e/j5fpXy6cmW/ZzSkb+U3rTJfMSNzODqrDwG0YWOd8BVI+tD9/jLZiBhJbMupUg==}
+    dev: false
+
   /mri@1.2.0:
     resolution: {integrity: sha512-tzzskb3bG8LvYGFF/mDTpq3jpI6Q9wc3LEmBaghu+DdCssd1FakN7Bc0hVNmEyGq1bq3RgfkCb3cmQLpNPOroA==}
     engines: {node: '>=4'}
@@ -16066,6 +16076,10 @@ packages:
       utf-8-validate:
         optional: true
     dev: true
+
+  /wxparse-vue3@1.0.2:
+    resolution: {integrity: sha512-9CUKzl2qnFaHHS3nl5CXx9E1JSnaK3W+8+3+OAg+LoiZvMBmJojWSJv/1oZCgwh3fw2d/iAh1wF2nC70JFK8IQ==}
+    dev: false
 
   /x-is-string@0.1.0:
     resolution: {integrity: sha512-GojqklwG8gpzOVEVki5KudKNoq7MbbjYZCbyWzEz7tyPA7eleiE0+ePwOWQQRb5fm86rD3S8Tc0tSFf3AOv50w==}

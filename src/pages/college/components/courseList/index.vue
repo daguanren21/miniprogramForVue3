@@ -5,7 +5,7 @@
                 <div class="ml-30px w-8px h-36px bg-hex-409EFF rounded-4px"></div>
                 <div class="ml-11px text-30px text-hex-333">120急救培训</div>
             </div>
-            <div class="text-hex-797979 text-24px mr-29px" @click="goToList('FIRST_AID_120')" v-if="firstAidCount > 2">查看更多
+            <div class="text-hex-409EFF text-24px mr-29px" @click="goToList('FIRST_AID_120')" v-if="firstAidCount > 2">查看更多
             </div>
         </div>
         <div class="p-x-29px p-y-33px flex-y-center flex-col">
@@ -44,7 +44,7 @@
                 <div class="ml-30px w-8px h-36px bg-hex-409EFF rounded-4px"></div>
                 <div class="ml-11px text-30px text-hex-333">红十字会培训</div>
             </div>
-            <div class="text-hex-797979 text-24px mr-29px" @click="goToList('RED_CROSS')" v-if="redCrossCount > 2">查看更多
+            <div class="text-hex-409EFF text-24px mr-29px" @click="goToList('RED_CROSS')" v-if="redCrossCount > 2">查看更多
             </div>
         </div>
         <div class="p-x-29px p-y-33px flex-y-center flex-col">
@@ -84,7 +84,7 @@
                 <div class="ml-30px w-8px h-36px bg-hex-409EFF rounded-4px"></div>
                 <div class="ml-11px text-30px text-hex-333">AHA认证培训</div>
             </div>
-            <div class="text-hex-797979 text-24px mr-29px" @tap="goToList('AHA')" v-if="ahaCount > 2">查看更多</div>
+            <div class="text-hex-409EFF text-24px mr-29px" @tap="goToList('AHA')" v-if="ahaCount > 2">查看更多</div>
         </div>
         <div class="p-x-29px p-y-33px flex-y-center flex-col">
             <div v-if="hahList.length">
@@ -123,7 +123,7 @@
                 <div class="ml-30px w-8px h-36px bg-hex-409EFF rounded-4px"></div>
                 <div class="ml-11px text-30px text-hex-333">其他课程</div>
             </div>
-            <div class="text-hex-797979 text-24px mr-29px" @click="goToList('OTHER')" v-if="otherCount > 2">查看更多</div>
+            <div class="text-hex-409EFF text-24px mr-29px" @click="goToList('OTHER')" v-if="otherCount > 2">查看更多</div>
         </div>
         <div class="p-x-29px p-y-33px flex-y-center flex-col">
             <div v-if="otherList.length">

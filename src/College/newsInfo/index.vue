@@ -9,7 +9,7 @@
             </div>
         </view>
         <view class="content mt-74px">
-            <rich-text :nodes="info.content" space="nbsp"></rich-text>
+            <wxParse :content="info.content" />
         </view>
     </view>
 </template>
@@ -17,6 +17,7 @@
 import { useDidShow, useRouter } from "@tarojs/taro";
 import { News, fetchNewsInfo, updateNews } from "~/api/user";
 import { dateFilter } from "~/filter"
+import wxParse from 'wxparse-vue3'
 const router = useRouter()
 const info = ref<News>({
     content: '',
@@ -33,13 +34,19 @@ useDidShow(async () => {
     let id = router.params.id || ''
     let res = await fetchNewsInfo(Number(id))
     await updateNews(Number(id))
+    res.content = res.content.replace(/&nbsp;/g,'\xa0')
     info.value = res
 })
 </script>
 <style lang="scss">
-rich-text{
+.wxParse {
+    font-size: 28px !important;
+}
+
+rich-text {
     word-break: break-all;
 }
+
 .news_wrap {
     height: 100%;
     padding: 48px 50px 0 50px;

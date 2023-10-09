@@ -9,13 +9,13 @@
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item class="jx-form-item" label="品牌" required>
-                    <nut-input :disabled="!!form.id" :border="false" class="nut-input-text" v-model="form.brandName"
+                    <nut-input :disabled="!!form.id" :style="{ 'color': !!form.id ? '#ccc' : '#000' }" :border="false" class="nut-input-text" v-model="form.brandName"
                         readonly @click="() => {
                             if (form.id) return
                             handleChangeBrand()
                         }" placeholder="请选择品牌" type="text">
                         <template #right>
-                            <jx-icon value="select" color="#6A6F71" :size="14"> </jx-icon>
+                            <jx-icon value="select" :color="!!form.id ? '#ccc' : '#6A6F71'" :size="14"> </jx-icon>
                         </template>
                     </nut-input>
                     <nut-popup position="bottom" v-model:visible="selectPop.show">
@@ -25,8 +25,9 @@
                     </nut-popup>
                 </nut-form-item>
                 <nut-form-item class="jx-form-item" label="设备编号" required>
-                    <nut-input :disabled="!!form.id" :border="false" v-model="form.serialNumber" class="nut-input-text"
-                        placeholder="请输入设备编号" type="text" max-length="30">
+                    <nut-input :disabled="!!form.id" :style="{ 'color': !!form.id ? '#ccc' : '#000' }" :border="false"
+                        v-model="form.serialNumber" class="nut-input-text" placeholder="请输入设备编号" type="text"
+                        max-length="30">
                     </nut-input>
                 </nut-form-item>
                 <nut-form-item class="jx-form-item" label="型号">
@@ -34,7 +35,6 @@
                         placeholder="请输入设备型号" type="text">
                     </nut-input>
                 </nut-form-item>
-
             </nut-form>
         </div>
         <!-- <nut-popup position="bottom" closeable round :style="{ height: '60%' }" v-model:visible="searialNumber.show">

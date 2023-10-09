@@ -6,7 +6,7 @@
                 <div @click="toCollege('newsInfo', item.id)" v-for="item in state.content"
                     class="flex-y-center w-680px h-263px  rounded-20px relative shadow-sm bg-hex-fff m-auto mb-28px">
                     <div class="w-178px h-237px rounded-20px">
-                        <image class="wh-full" :src="item.titleImagePath"></image>
+                        <image class="wh-full" mode="aspectFit" :src="item.titleImagePath"></image>
                     </div>
                     <div class="flex-1 overflow-hidden mr-38px ml-22px">
                         <div class="text-28px text-hex-333 font-500  mb-25px line-clamp-1 break-all">

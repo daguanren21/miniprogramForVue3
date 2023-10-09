@@ -13,7 +13,7 @@
                     <image v-else class="h-125px w-125px" src="../../assets/images/index/默认图.jpg"></image>
                 </div>
                 <div class="flex-1 flex-y-center justify-between">
-                    <div>
+                    <div class="mr-15px">
                         <div class="flex-y-center">
                             <div class="text-30px font-bold text-hex-333">{{ noDataFilter(detail.serialNumber) }}</div>
                             <div :style="{ color: filter(deviceRunningStateFilter(detail.runningState).type).color, backgroundColor: filter(deviceRunningStateFilter(detail.runningState).type).bgColor, borderColor: filter(deviceRunningStateFilter(detail.runningState).type).color }"
@@ -26,7 +26,7 @@
                     </div>
                     <div class="flex-col items-center" @click.stop="showMapNavigation(detail)">
                         <jx-icon value="navigation" color="#2595E8" :size="20"></jx-icon>
-                        <div class="text-24px text-hex-2595E8 mt-15px">距您{{ distanceFilter(detail.distance) }}</div>
+                        <div class="text-24px text-hex-2595E8 mt-15px break-keep">距您{{ distanceFilter(detail.distance) }}</div>
                     </div>
                 </div>
             </div>
