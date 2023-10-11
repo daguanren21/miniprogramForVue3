@@ -35,6 +35,7 @@
                     <nut-uploader :media-type="['image']" @delete="deleteFiles" :file-list="_fileList" :url="uploadUrl"
                         :before-xhr-upload="beforeXhrUpload" maximum="4"></nut-uploader>
                 </nut-form-item>
+                <div class="text-hex-FC0909 text-24px p-x-32px">注意：请确保上传现场图片能体现出设备现场情况，以便于我们更好地识别和解决问题</div>
             </nut-form>
             <nut-popup position="bottom" closeable round :style="{ height: '60%' }" v-model:visible="searialNumber.show">
                 <div class="text-center text-30px text-hex-1f1f1f font-bold mt-42px">搜索结果</div>

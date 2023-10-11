@@ -3,11 +3,11 @@
         <nut-notify :type="message.type" v-model:visible="message.show" :msg="message.desc" />
         <div class="flex-1">
             <nut-form :model-value="form" ref="ruleForm">
-                <nut-form-item class="jx-form-item" label="资产编号">
+                <!-- <nut-form-item class="jx-form-item" label="资产编号">
                     <nut-input :border="false" v-model="form.assetNumber" class="nut-input-text" placeholder="请输入资产编号"
                         type="text" max-length="30">
                     </nut-input>
-                </nut-form-item>
+                </nut-form-item> -->
                 <nut-form-item class="jx-form-item" label="品牌" required>
                     <nut-input :disabled="!!form.id" :style="{ 'color': !!form.id ? '#ccc' : '#000' }" :border="false" class="nut-input-text" v-model="form.brandName"
                         readonly @click="() => {
@@ -65,7 +65,6 @@ const emits = defineEmits<{
 }>()
 const form = reactive({
     id: 0 as number | null,
-    assetNumber: '',
     serialNumber: '',
     model: '',
     brandName: '',
@@ -84,7 +83,6 @@ watch(() => manage.deviceInfo, (value) => {
     }
     form.id = value.id || null
     form.serialNumber = value.serialNumber
-    form.assetNumber = value.assetNumber
     form.brandName = value.brandName
     form.model = value.model
     form.brandId = value.brandId ? value.brandId.toString() : ''

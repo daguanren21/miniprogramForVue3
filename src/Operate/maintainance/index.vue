@@ -8,12 +8,12 @@
                         class="nut-input-text" placeholder="请输入设备编号" type="text">
                     </nut-input>
                 </nut-form-item>
-                <nut-form-item class="jx-form-item" label="运行状态" required>
+                <!-- <nut-form-item class="jx-form-item" label="运行状态" required>
                     <nut-radio-group direction="horizontal" v-model="form.runningState">
                         <nut-radio label="NORMAL">正常</nut-radio>
                         <nut-radio label="ABNORMAL">异常</nut-radio>
                     </nut-radio-group>
-                </nut-form-item>
+                </nut-form-item> -->
                 <nut-form-item class="jx-form-item" label="维护内容" required>
                     <nut-textarea :border="false" :autosize="{
                         minHeight: 80
@@ -23,6 +23,7 @@
                     <nut-uploader :media-type="['image']" @delete="deleteFiles" :file-list="_fileList" :url="uploadUrl"
                         :before-xhr-upload="beforeXhrUpload" maximum="4"></nut-uploader>
                 </nut-form-item>
+                <div class="text-hex-FC0909 text-24px p-x-32px">注意：请确保上传现场图片能体现出设备现场情况，以便于我们更好地识别和解决问题</div>
             </nut-form>
         </div>
         <nut-popup position="bottom" closeable round :style="{ height: '60%' }" v-model:visible="searialNumber.show">
@@ -54,7 +55,7 @@ const route = useRouter()
 const form = reactive({
     id: route.params.id || '',
     serialNumber: route.params.serialNumber || '',
-    runningState: "NORMAL" as Filter.RunningState,
+    // runningState: "NORMAL" as Filter.RunningState,
     content: "",
     deployedImagePath: "",
 })
@@ -83,7 +84,7 @@ const confirm = async () => {
         await updateMaintainRecords({
             deviceId: form.id,
             content: form.content,
-            runningState: form.runningState,
+            // runningState: form.runningState,
             imagesPath: _fileList.map(v => v.url).join(';')
         })
         Taro.showToast({

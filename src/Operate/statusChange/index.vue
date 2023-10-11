@@ -18,6 +18,7 @@
                     <nut-uploader :media-type="['image']" @delete="deleteFiles" :file-list="_fileList" :url="uploadUrl"
                         :before-xhr-upload="beforeXhrUpload" maximum="4"></nut-uploader>
                 </nut-form-item>
+                <div class="text-hex-FC0909 text-24px p-x-32px">注意：请确保上传现场图片能体现出设备现场情况，以便于我们更好地识别</div>
             </nut-form>
         </div>
         <nut-popup position="bottom" closeable round :style="{ height: '60%' }" v-model:visible="searialNumber.show">

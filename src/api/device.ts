@@ -253,7 +253,7 @@ export function updateRegularInspectionRecords(data: {
 export function updateMaintainRecords(data: {
     deviceId: number | string,
     content: string,
-    runningState: Filter.RunningState,
+    // runningState: Filter.RunningState,
     imagesPath: string
 }): Promise<void> {
     return request({
