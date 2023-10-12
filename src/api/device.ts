@@ -183,6 +183,9 @@ export interface DeviceExceptionRecord {
     brandName: string;
     deviceId: number;
     exceptionReason: string;
+    batteryInvalidDate:string;
+    electrodeInvalidDate:string;
+    exceptionCode:number;
     exceptionTime: string;
     handleTime: string;
     id: number;
