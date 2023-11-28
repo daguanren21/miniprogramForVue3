@@ -1,5 +1,7 @@
-import Taro from "@tarojs/taro";
+import Taro, { getCurrentInstance } from "@tarojs/taro";
+import { fetchDeviceInfoByAssetNumber } from "~/api/device";
 import { fetchWxLogin } from "~/api/login";
+import { parseDeviceSnFromUrl } from "~/utils";
 export const useLogin = () => {
     //检查系统是否需要更新
     function checkProgramNeedUpdate() {
@@ -85,6 +87,7 @@ export const useLogin = () => {
         const wxLoginRes = await Taro.login()
         //获取小程序的appId
         const accountInfo = Taro.getAccountInfoSync()
+        debugger
         //获取后台用户的token
         try {
             Taro.showLoading({
@@ -99,8 +102,33 @@ export const useLogin = () => {
             if (auth.authInfo.id_token) {
                 await user.getAccountInfo()
             }
-            setTimeout(() => {
+            setTimeout(async () => {
                 Taro.hideLoading()
+                let options = getCurrentInstance().router?.params
+                if (options && options.q) {
+                    const decodedUri = decodeURIComponent(options.q as string);
+                    //解析获取资产编号
+                    let assetNumber = parseDeviceSnFromUrl(decodedUri)
+                    if (!assetNumber) {
+                        Taro.showToast({
+                            icon: 'none',
+                            title: '错误的二维码信息'
+                        })
+                    } else {
+                        try {
+                            let res = await fetchDeviceInfoByAssetNumber(assetNumber)
+                            Taro.navigateTo({
+                                url: '/Manage/deviceInfo/index?id=' + res.id
+                            })
+                        } catch (error) {
+                            Taro.showToast({
+                                icon: 'none',
+                                title: error
+                            })
+                        }
+
+                    }
+                }
             }, 500)
             return Promise.resolve('登录成功！')
         } catch (error) {

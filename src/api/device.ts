@@ -11,8 +11,8 @@ const api = {
  * @returns 
  */
 export interface DeviceMap {
-    areaLongitude:number;
-    areaLatitude:number;
+    areaLongitude: number;
+    areaLatitude: number;
     deployedAreaLatitude: number;
     deployedAreaLongitude: number;
     level: number | null;
@@ -51,7 +51,22 @@ export function fetchRegionDeviceInfo(data: {
         method: Method.GET
     })
 }
-
+/**
+ * 根据资产编号详情
+ * @param deviceId:最小纬度
+ * @param latFrom:用户所在纬度
+ * @param lngFrom:用户所在经度
+ * @returns 
+ */
+export function fetchDeviceInfoByAssetNumber(assetNumber: string): Promise<Manage.DeviceInfo> {
+    return request({
+        url: api.manage + 'devices/by-assetNumber',
+        data: {
+            assetNumber
+        },
+        method: Method.GET
+    })
+}
 /**
  * 查询附近的AED
  * @param distance 距离
@@ -183,9 +198,9 @@ export interface DeviceExceptionRecord {
     brandName: string;
     deviceId: number;
     exceptionReason: string;
-    batteryInvalidDate:string;
-    electrodeInvalidDate:string;
-    exceptionCode:number;
+    batteryInvalidDate: string;
+    electrodeInvalidDate: string;
+    exceptionCode: number;
     exceptionTime: string;
     handleTime: string;
     id: number;
@@ -348,7 +363,7 @@ export function updateDeviceRescueData(data: {
     rescueBeginTime: string;
     rescueEndTime: string;
     successfulRescued: boolean | null;
-    address:string
+    address: string
 }): Promise<void> {
     return request({
         url: api.manage + 'rescue-data',

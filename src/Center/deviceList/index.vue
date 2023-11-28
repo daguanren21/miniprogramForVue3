@@ -364,7 +364,7 @@ const handleModal = reactive({
     }
   },
   open: (item: DeviceExceptionRecord) => {
-    handleModal.form.id = item.id;
+    handleModal.form.id = item.repairRecordId;
     handleModal.form.batteryInvalidDate = dateFilter(
       item.batteryInvalidDate,
       "YYYY-MM-DD"

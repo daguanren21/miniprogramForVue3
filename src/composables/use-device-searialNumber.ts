@@ -1,5 +1,6 @@
 import Taro from "@tarojs/taro"
-import { DeviceBySearialNumber, fetchDevicesBySearialNumber } from "~/api/device"
+import { DeviceBySearialNumber, fetchDeviceInfoByAssetNumber, fetchDevicesBySearialNumber } from "~/api/device"
+import { parseDeviceSn } from "~/utils"
 
 export const useDeviceBySearialNumber = (form) => {
     const manage = useManageStore()
@@ -32,7 +33,7 @@ export const useDeviceBySearialNumber = (form) => {
                 return
             }
             searialNumber.show = true
-           
+
         } catch (error) {
             form.id = null
             toast && Taro.showToast({
@@ -41,9 +42,33 @@ export const useDeviceBySearialNumber = (form) => {
             })
         }
     }
+    const scanAssetNumber = async () => {
+        try {
+            let { result: code } = await Taro.scanCode({ scanType: ['barCode', 'qrCode', 'datamatrix', 'pdf417'] })
+            let assetNumber = parseDeviceSn(code)
+            if (!assetNumber) {
+                Taro.showToast({
+                    icon: 'none',
+                    title: '错误的二维码信息'
+                })
+            }
+            let res = await fetchDeviceInfoByAssetNumber(assetNumber)
+            form.id = res.id
+            form.serialNumber = res.serialNumber
+            manage.deviceInfo = res
+        } catch (error) {
+            Taro.showToast({
+                icon: 'none',
+                title: error
+            })
+        }
+
+    }
     return {
         deviceList,
         searialNumber,
-        getDeviceBySerialNumber
+        getDeviceBySerialNumber,
+        scanAssetNumber
     }
 }
+

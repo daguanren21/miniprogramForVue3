@@ -89,3 +89,31 @@ export function removeHTMLTag(str) {
     str = str.replace(/&nbsp;/ig, '');//去掉&nbsp;
     return str;
 }
+export const parseDeviceSn = qrCode => {
+    if (!qrCode) {
+        return ''
+    }
+    if (qrCode.indexOf("?") != -1) {
+        return parseDeviceSnFromUrl(qrCode)
+    } else {
+        return qrCode
+    }
+}
+export const parseDeviceSnFromUrl = url => {
+    if (!url) {
+        return ''
+    }
+    let parameterStrIndex = url.indexOf("?")
+    if (parameterStrIndex == -1) {
+        return ''
+    }
+    let parameterStr = url.substring(parameterStrIndex + 1)
+    let parameterArr = parameterStr.split("&")
+    if (parameterArr.length <= 0) {
+        return ''
+    }
+    if (parameterArr[0].indexOf('assetNumber=') == -1) {
+        return ''
+    }
+    return (parameterArr[0].split('='))[1]
+}
