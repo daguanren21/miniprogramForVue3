@@ -87,7 +87,7 @@ export const useLogin = () => {
         const wxLoginRes = await Taro.login()
         //获取小程序的appId
         const accountInfo = Taro.getAccountInfoSync()
-        debugger
+        
         //获取后台用户的token
         try {
             Taro.showLoading({

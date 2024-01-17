@@ -52,5 +52,58 @@ export const mapGlobalConfigParams = {
     regionLevelScaleTo: 12,
     pointLevelScaleFrom: 12,
     pointLevelScaleTo: 20,
-  }
-  
+}
+
+export const educationalLevels = [{
+    text: '未知',
+    value: 'UNKNOWN'
+}, {
+    text: '小学',
+    value: 'PRIMARY_SCHOOL'
+}, {
+    text: '初中',
+    value: 'MIDDLE_SCHOOL'
+}, {
+    text: '高中',
+    value: 'HIGH_SCHOOL'
+}, {
+    text: '专科',
+    value: 'JUNIOR_COLLEGE'
+}, {
+    text: '本科',
+    value: 'UNDERGRADUATE'
+}, {
+    text: '研究生',
+    value: 'POST_GRADUATE'
+}, {
+    text: '博士',
+    value: 'DOCTORAL'
+}]
+export const industryTypes = [{
+    text: '其他',
+    value: 'OTHER'
+}, {
+    text: '政府',
+    value: 'GOVERNMENT'
+}, {
+    text: '教育',
+    value: 'EDUCATION'
+}, {
+    text: '体育',
+    value: 'SPORT'
+}, {
+    text: '医疗',
+    value: 'MEDICAL'
+}, {
+    text: '金融',
+    value: 'FINANCE'
+}, {
+    text: '交通',
+    value: 'TRAFFIC'
+}, {
+    text: '企业',
+    value: 'ENTERPRISE'
+}, {
+    text: '慈善/基金',
+    value: 'CHARITY'
+}]
