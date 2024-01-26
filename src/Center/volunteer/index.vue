@@ -5,6 +5,12 @@
             <nut-form-item class="jx-form-item" label="年龄" required>
                 <nut-input :border="false" type="digit" v-model="form.age" class="nut-input-text" placeholder="请输入年龄" />
             </nut-form-item>
+            <nut-form-item class="jx-form-item" label="性别">
+            <nut-radio-group direction="horizontal" v-model="form.gender">
+              <nut-radio label="MALE">男</nut-radio>
+              <nut-radio label="FEMALE">女</nut-radio>
+            </nut-radio-group>
+          </nut-form-item>
             <nut-form-item class="jx-form-item" label="教育" required>
                 <nut-input :border="false" class="nut-input-text"
                     :model-value="educationalLevels.find(i => i.value === form.educationalLevel)?.text || ''" readonly
@@ -86,6 +92,7 @@ let form = reactive({
     id: null,
     name: "",
     age: '',
+    gender:'',
     educationalLevel: 'UNKNOWN',
     industryType: 'OTHER',
     phoneNumber: "",
