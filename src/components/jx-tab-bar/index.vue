@@ -1,7 +1,8 @@
 <template>
     <div class="h-160rpx w-full jx-tabbar relative overflow-hidden">
+        <!-- <div class="w-full jx-tabbar relative overflow-hidden"> -->
         <nut-row type="flex" class="h-full flex " style="align-items: flex-end;">
-            <nut-col @click="tabSwitch('index', 0)" class="mb-20px">
+            <nut-col @click="tabSwitch('index', 0)">
                 <div class="flex-col items-center">
                     <jx-icon value="tab-home" :style="{ color: activeTab === 'index' ? '#3367E9' : '#ACB6D0' }"
                         :size="22"></jx-icon>
@@ -9,7 +10,7 @@
                         :style="{ color: activeTab === 'index' ? '#3367E9' : '#ACB6D0' }">首页</div>
                 </div>
             </nut-col>
-            <nut-col @click="tabSwitch('management', 1)" class="mb-20px">
+            <nut-col @click="tabSwitch('management', 1)">
                 <div class="flex-col items-center">
                     <jx-icon value="tab-manage" :style="{ color: activeTab === 'management' ? '#3367E9' : '#ACB6D0' }"
                         :size="22"></jx-icon>
@@ -26,7 +27,7 @@
                         style="position: absolute;">一键呼救</span>
                 </div>
             </nut-col>
-            <nut-col @click="tabSwitch('college', 3)" class="mb-20px">
+            <nut-col @click="tabSwitch('college', 3)">
                 <div class="flex-col items-center">
                     <jx-icon value="tab-college" :style="{ color: activeTab === 'college' ? '#3367E9' : '#ACB6D0' }"
                         :size="22"></jx-icon>
@@ -34,7 +35,7 @@
                         :style="{ color: activeTab === 'college' ? '#3367E9' : '#ACB6D0' }">急救课堂</div>
                 </div>
             </nut-col>
-            <nut-col @click="tabSwitch('center', 4)" class="mb-20px">
+            <nut-col @click="tabSwitch('center', 4)">
                 <div class="flex-col items-center">
                     <jx-icon value="tab-person" :style="{ color: activeTab === 'center' ? '#3367E9' : '#ACB6D0' }"
                         :size="22"></jx-icon>
@@ -68,7 +69,7 @@ defineOptions({
 //     value: 'center',
 // }])
 const auth = useAuthStore()
-const user = useAccountInfo()   
+const user = useAccountInfo()
 const roleType = computed(() => user.accountInfo.roleType)
 const activeTab = computed(() => auth.tabName)
 console.log(activeTab.value)
@@ -90,14 +91,22 @@ function tabSwitch(name, index) {
         })
         return
     }
-    if (name === 'oneKeyForHelp' && !roleType.value) {
+    if (name === 'oneKeyForHelp') {
         Taro.showToast({
             icon: 'none',
-            title: '暂无访问权限',
+            title: '该地区暂未开放一键呼救功能',
             duration: 4000
         })
         return
     }
+    // if (name === 'oneKeyForHelp' && !roleType.value) {
+    //     Taro.showToast({
+    //         icon: 'none',
+    //         title: '暂无访问权限',
+    //         duration: 4000
+    //     })
+    //     return
+    // }
     auth.updateTabName(name)
     Taro.switchTab({
         url: `/pages/${name}/index`
@@ -109,6 +118,8 @@ function tabSwitch(name, index) {
 .jx-tabbar {
     display: flex;
     align-items: flex-end !important;
+    padding: 15px 0;
+    //background-color: #fff;
     background: url(../../assets/images/center/底部背景.png) no-repeat;
     background-size: 100% 100%;
 }

@@ -12,7 +12,7 @@
             </template>
           </nut-searchbar>
         </div>
-        <div class="absolute top-135px right-20px">
+        <div class="absolute bottom-180px right-20px">
           <div @click="handleNearby">
             <image class="w-100px h-100px" src="../../assets/images/index/附近aed.png"></image>
           </div>
@@ -20,7 +20,7 @@
             <image class="w-100px h-100px" src="../../assets/images/index/帮助.png"></image>
           </div> -->
         </div>
-        <div @click="moveToLocation" class="absolute bottom-200px right-30px">
+        <div @click="moveToLocation" class="absolute bottom-120px right-30px">
           <jx-icon value="myLoc" color="#fa2c19" :size="30"></jx-icon>
         </div>
         <div class="absolute bottom-0 w-full">

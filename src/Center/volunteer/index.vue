@@ -2,16 +2,16 @@
     <div class="wh-full  flex-col bg-hex-fff">
         <nut-notify :type="message.type" v-model:visible="message.show" :msg="message.desc" />
         <nut-form class="flex-1 overflow-auto" :model-value="form" ref="ruleForm">
-            <nut-form-item class="jx-form-item" label="年龄" required>
+            <!-- <nut-form-item class="jx-form-item" label="年龄" required>
                 <nut-input :border="false" type="digit" v-model="form.age" class="nut-input-text" placeholder="请输入年龄" />
             </nut-form-item>
             <nut-form-item class="jx-form-item" label="性别">
-            <nut-radio-group direction="horizontal" v-model="form.gender">
-              <nut-radio label="MALE">男</nut-radio>
-              <nut-radio label="FEMALE">女</nut-radio>
-            </nut-radio-group>
-          </nut-form-item>
-            <nut-form-item class="jx-form-item" label="教育" required>
+                <nut-radio-group direction="horizontal" v-model="form.gender">
+                    <nut-radio label="MALE">男</nut-radio>
+                    <nut-radio label="FEMALE">女</nut-radio>
+                </nut-radio-group>
+            </nut-form-item> -->
+            <!-- <nut-form-item class="jx-form-item" label="教育" required>
                 <nut-input :border="false" class="nut-input-text"
                     :model-value="educationalLevels.find(i => i.value === form.educationalLevel)?.text || ''" readonly
                     @click="handleChangeEdu" placeholder="请选择教育" type="text">
@@ -28,7 +28,7 @@
                         <jx-icon value="select" color="#6A6F71" :size="14"> </jx-icon>
                     </template>
                 </nut-input>
-            </nut-form-item>
+            </nut-form-item> -->
             <nut-form-item class="jx-form-item" label="接受求救时间" required>
                 <div class="flex-center">
                     <nut-input :border="false" class="nut-input-text" input-align="center"
@@ -70,11 +70,11 @@
             <nut-date-picker v-model="receiveHelpTime.value" title="时间选择" type="hour-minute"
                 @cancel="receiveHelpTime.show = false" @confirm="receiveHelpTime.confirm"></nut-date-picker>
         </nut-popup>
-        <nut-popup position="bottom" v-model:visible="volunteerBasic.show">
+        <!-- <nut-popup position="bottom" v-model:visible="volunteerBasic.show">
             <nut-picker v-model="volunteerBasic.value" :columns="volunteerBasic.columns" @confirm="volunteerBasic.confirm"
                 @cancel="volunteerBasic.show = false">
             </nut-picker>
-        </nut-popup>
+        </nut-popup> -->
     </div>
 </template>
 
@@ -84,17 +84,17 @@ import { fetchVolunteerInfo } from '~/api/user';
 import { registerVolunteer } from '~/api/user';
 import { useDeviceRegion } from '~/composables/use-device-region';
 import useLoading from '~/composables/use-loading';
-import { educationalLevels, industryTypes } from '~/utils/constant'
+// import { educationalLevels, industryTypes } from '~/utils/constant'
 // import Taro from '@tarojs/taro';
 import { useNotify } from '~/composables/use-notify';
 const account = useAccountInfo()
 let form = reactive({
     id: null,
     name: "",
-    age: '',
-    gender:'',
-    educationalLevel: 'UNKNOWN',
-    industryType: 'OTHER',
+    // age: '',
+    // gender: '',
+    // educationalLevel: 'UNKNOWN',
+    // industryType: 'OTHER',
     phoneNumber: "",
     regionName: '',
     email: "",
@@ -113,41 +113,41 @@ watch(() => account.accountInfo, (val) => {
 }, {
     immediate: true
 })
-const volunteerBasic = reactive({
-    type: '',
-    show: false,
-    value: [] as any[],
-    columns: [] as any[],
-    confirm: ({ selectedValue, selectedOptions }) => {
-        console.log(selectedValue, selectedOptions)
-        if (volunteerBasic.type === 'edu') {
-            form.educationalLevel = selectedOptions[0].value
-        } else {
-            form.industryType = selectedOptions[0].value
-        }
-        setTimeout(() => {
-            volunteerBasic.show = false
-        }, 500)
-    }
-})
-function handleChangeEdu() {
-    volunteerBasic.type = 'edu'
-    volunteerBasic.columns = educationalLevels
-    form.educationalLevel = form.educationalLevel || volunteerBasic.columns[0].value
-    setTimeout(() => {
-        volunteerBasic.value = [form.educationalLevel]
-        volunteerBasic.show = true
-    }, 500)
-}
-function handleChangeInd() {
-    volunteerBasic.type = 'ind'
-    volunteerBasic.columns = industryTypes
-    form.industryType = form.industryType || volunteerBasic.columns[0].value
-    setTimeout(() => {
-        volunteerBasic.value = [form.industryType]
-        volunteerBasic.show = true
-    }, 500)
-}
+// const volunteerBasic = reactive({
+//     type: '',
+//     show: false,
+//     value: [] as any[],
+//     columns: [] as any[],
+//     confirm: ({ selectedValue, selectedOptions }) => {
+//         console.log(selectedValue, selectedOptions)
+//         // if (volunteerBasic.type === 'edu') {
+//         //     form.educationalLevel = selectedOptions[0].value
+//         // } else {
+//         //     form.industryType = selectedOptions[0].value
+//         // }
+//         setTimeout(() => {
+//             volunteerBasic.show = false
+//         }, 500)
+//     }
+// })
+// function handleChangeEdu() {
+//     volunteerBasic.type = 'edu'
+//     volunteerBasic.columns = educationalLevels
+//     form.educationalLevel = form.educationalLevel || volunteerBasic.columns[0].value
+//     setTimeout(() => {
+//         volunteerBasic.value = [form.educationalLevel]
+//         volunteerBasic.show = true
+//     }, 500)
+// }
+// function handleChangeInd() {
+//     volunteerBasic.type = 'ind'
+//     volunteerBasic.columns = industryTypes
+//     form.industryType = form.industryType || volunteerBasic.columns[0].value
+//     setTimeout(() => {
+//         volunteerBasic.value = [form.industryType]
+//         volunteerBasic.show = true
+//     }, 500)
+// }
 const { chooseLocation, region } = useDeviceRegion((options) => {
     form.regionName = options.regionName;
     form.regionId = options.regionId;

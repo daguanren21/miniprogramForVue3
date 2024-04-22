@@ -12,11 +12,11 @@
                     v-model="form.certificateNumber" placeholder="请输入证书编号" type="text">
                 </nut-input>
             </nut-form-item>
-            <nut-form-item class="jx-form-item" label="颁发机构" required>
+            <!-- <nut-form-item class="jx-form-item" label="颁发机构" required>
                 <nut-input :border="false" max-length="30" class="nut-input-text" input-align="center"
                     v-model="form.awardingBody" placeholder="请输入颁发机构" type="text">
                 </nut-input>
-            </nut-form-item>
+            </nut-form-item> -->
             <nut-form-item class="jx-form-item" label="有效时间" required>
                 <div class="flex-center">
                     <nut-input :border="false" class="nut-input-text" readonly input-align="center"
@@ -160,10 +160,10 @@ const confirm = async () => {
         notify('证书编号不能为空！')
         return
     }
-    if (!form.awardingBody) {
-        notify('颁发机构不能为空！')
-        return
-    }
+    // if (!form.awardingBody) {
+    //     notify('颁发机构不能为空！')
+    //     return
+    // }
     if (!form.certificateReleaseDate) {
         notify('证书开始时间不能为空！')
         return

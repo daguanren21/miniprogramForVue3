@@ -1,7 +1,7 @@
 const enum Gateway {
     DEVELOPMENT = 'https://aedms2g.test.jousing.cn/',
     LOCAL = 'http://192.168.1.171:8080/',
-    PRODUCTION = 'https://www.jousing.cn/'
+    PRODUCTION = 'https://www.aedms.cn/'
 }
 const enum MapKey {
     DEVELOPMENT = 'CPPBZ-E6UK6-GLBSK-EKWLH-4GLG6-C4FZF',
@@ -11,7 +11,7 @@ const enum MapKey {
 export const baseUrl = Gateway.DEVELOPMENT + 'services/'
 export const gatewayUrl = Gateway.DEVELOPMENT
 //配置map jssdk key
-export const qqMapKey = MapKey.DEVELOPMENT
+export const qqMapKey = MapKey.PRODUCTION
 //工作日
 export const workDayOptions = [{
     value: '1',
