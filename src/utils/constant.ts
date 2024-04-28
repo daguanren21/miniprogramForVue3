@@ -1,6 +1,6 @@
 const enum Gateway {
-    DEVELOPMENT = 'https://aedms2g.test.jousing.cn/',
-    LOCAL = 'http://192.168.1.171:8080/',
+    DEVELOPMENT = 'https://device.demo.aedms.cn/',
+    LOCAL = 'http://192.168.10.125:8080/',
     PRODUCTION = 'https://www.aedms.cn/'
 }
 const enum MapKey {
@@ -8,8 +8,8 @@ const enum MapKey {
     PRODUCTION = 'WMFBZ-DT3WS-JF7OW-63T53-2KLKV-57BIG'
 }
 //配置请求路径
-export const baseUrl = Gateway.DEVELOPMENT + 'services/'
-export const gatewayUrl = Gateway.DEVELOPMENT
+export const baseUrl = Gateway.PRODUCTION + 'services/'
+export const gatewayUrl = Gateway.PRODUCTION
 //配置map jssdk key
 export const qqMapKey = MapKey.PRODUCTION
 //工作日

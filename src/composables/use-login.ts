@@ -36,6 +36,7 @@ export const useLogin = () => {
     //检查系统是否开启定位
     function checkOpenLocation() {
         return new Promise((resolve, reject) => {
+            
             Taro.getSetting({
                 success: (res) => {
                     let authSetting = res.authSetting
@@ -43,29 +44,38 @@ export const useLogin = () => {
                         // 已授权
                         resolve(res)
                     } else {
-                        Taro.showModal({
-                            title: '授权提示',
-                            content: '您未开启地理位置授权',
-                            success: res => {
-                                if (res.confirm) {
-                                    Taro.openSetting({
-                                        success: async (res) => {
-                                            let authSetting = res.authSetting
-                                            if (authSetting['scope.userLocation']) {
-                                                // 已授权
-                                                resolve(res)
-                                            } else {
-                                                reject('未开启地理位置失败！')
-                                            }
-                                        },
-                                        fail: (error) => {
-                                            reject(error)
+                        Taro.authorize({
+                            scope:'scope.userLocation',
+                            success(){
+                                resolve(res)
+                            },
+                            fail(){
+                                Taro.showModal({
+                                    title: '授权提示',
+                                    content: '您未开启地理位置授权',
+                                    success: res => {
+                                        if (res.confirm) {
+                                            Taro.openSetting({
+                                                success: async (resSet) => {
+                                                    let authSetting = resSet.authSetting
+                                                    if (authSetting['scope.userLocation']) {
+                                                        // 已授权
+                                                        resolve(resSet)
+                                                    } else {
+                                                        reject('未开启地理位置失败！')
+                                                    }
+                                                },
+                                                fail: (error) => {
+                                                    reject(error)
+                                                }
+                                            })
                                         }
-                                    })
-                                }
+                                    }
+        
+                                })
                             }
-
                         })
+                      
                     }
                 },
                 fail: (error) => {

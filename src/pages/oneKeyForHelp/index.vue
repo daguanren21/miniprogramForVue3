@@ -20,9 +20,9 @@
                 <div class="w-full  mt-32px">
                     <div class="h-84px tab-box">
                         <div class="tab-item " @click="() => {
-                            rescueType = 'EMERGENT'
-                            dynamicForm.show = false
-                        }" :class="{ 'normal': rescueType === 'EMERGENT' }">
+            rescueType = 'EMERGENT'
+            dynamicForm.show = false
+        }" :class="{ 'normal': rescueType === 'EMERGENT' }">
                             <div class="flex-center flex-col h-full">
                                 <span>正常模式</span>
                                 <div v-if="rescueType === 'EMERGENT'"
@@ -32,7 +32,8 @@
                         <div class="tab-item" @click="model.confirm" :class="{ 'test': rescueType === 'DRILL' }">
                             <div class="flex-center flex-col h-full">
                                 <span>演练模式</span>
-                                <div v-if="rescueType === 'DRILL'" class="mt-12px w-36px h-8px rounded-4px bg-hex-409EFF">
+                                <div v-if="rescueType === 'DRILL'"
+                                    class="mt-12px w-36px h-8px rounded-4px bg-hex-409EFF">
                                 </div>
                             </div>
                         </div>
@@ -51,7 +52,8 @@
                 <nut-form :model-value="dynamicForm" ref="dynamicRefForm">
                     <nut-form-item required class="jx-form-item"
                         :rules="[{ required: true, message: '请填写联系方式' }, { regex: phonePattern, message: '手机格式不正确' }]"
-                        :key="index" :prop="'phoneList.' + index + '.tel'" v-for="(item, index) in dynamicForm.phoneList">
+                        :key="index" :prop="'phoneList.' + index + '.tel'"
+                        v-for="(item, index) in dynamicForm.phoneList">
                         <nut-input :border=false class="nut-input-text" v-model="item.tel" :max-length="11"
                             :placeholder="'请输入联系方式'" type="number" />
                     </nut-form-item>
@@ -59,7 +61,8 @@
                         注：演练人员最多添加4人，不支持添加本人
                     </div>
                     <nut-cell>
-                        <nut-button size="small" style="margin-right: 10px" @click="dynamicForm.methods.add">添加</nut-button>
+                        <nut-button size="small" style="margin-right: 10px"
+                            @click="dynamicForm.methods.add">添加</nut-button>
                         <nut-button size="small" style="margin-right: 10px"
                             @click="dynamicForm.methods.remove">删除</nut-button>
                     </nut-cell>
@@ -88,8 +91,8 @@
             <jx-tab-bar></jx-tab-bar>
         </div>
         <div class="h-full overflow-hidden" v-else>
-            <map class="wh-full" :markers="markers" @markertap="markertap" :longitude="lng" :latitude="lat" :scale="scale"
-                id="helpMap" :show-location="true" :showScale="true">
+            <map class="wh-full" :markers="markers" @markertap="markertap" :longitude="lng" :latitude="lat"
+                :scale="scale" id="helpMap" :show-location="true" :showScale="true">
 
                 <div class="absolute top-20px right-30px">
                     <div @click="handleNearBy" class="mb-20px">
@@ -122,9 +125,9 @@
                             </div>
                             <div class="mt-35px text-26px text-hex-3E3E3E flex-y-center">
                                 已通知最近的<span class="text-30px text-hex-FF5216">{{ volunteer.fetchAedReceiverCount
-                                }}</span>
+                                    }}</span>
                                 名志愿者，有<span class="text-30px text-hex-FF5216">{{ volunteer.aedAgreeCount
-                                }}</span>名接受了您的呼救
+                                    }}</span>名接受了您的呼救
                             </div>
                         </div>
                         <div class="pt-40px">
@@ -142,7 +145,7 @@
                             <div class="mt-35px text-26px text-hex-3E3E3E flex-y-center">
                                 已通知最近的<span class="text-30px text-hex-FF5216">{{ volunteer.cprReceiverCount }}</span>
                                 名志愿者，有<span class="text-30px text-hex-FF5216">{{ volunteer.cprAgreeCount
-                                }}</span>名接受了您的呼救
+                                    }}</span>名接受了您的呼救
                             </div>
                         </div>
                     </div>
@@ -160,7 +163,7 @@
                     <nut-cell>
                         <div class="flex-y-center">联系电话:<span style="color: #1890ff"
                                 @click="makePhoneCall(selectedResponseInfo.receiverPhone)">{{
-                                    selectedResponseInfo.receiverPhone }}</span></div>
+            selectedResponseInfo.receiverPhone }}</span></div>
                     </nut-cell>
                     <nut-cell>
                         <div>响应状态:{{ helpSeekedVolunteerResponseTypeFilter(selectedResponseInfo.rescueResponseState) }}
@@ -179,7 +182,7 @@
                                     :color="responseModal.filter(item.rescueResponseState).color"></jx-icon>
                                 <span class="ml-6px text-26px"
                                     :style="{ color: responseModal.filter(item.rescueResponseState).color }">{{
-                                        responseModal.filter(item.rescueResponseState).text }}</span>
+            responseModal.filter(item.rescueResponseState).text }}</span>
                             </div>
                             <div class="mt-14px mb-25px w-125px h-125px rounded-full b-1px b-solid"
                                 :style="{ borderColor: responseModal.filter(item.rescueResponseState).color }">
@@ -189,7 +192,8 @@
                                 </image>
                             </div>
                             <div class="flex-y-center flex-col">
-                                <p class="text-26px text-hex-333 line-clamp-1 break-all mb-10px">{{ item.receiverName }}</p>
+                                <p class="text-26px text-hex-333 line-clamp-1 break-all mb-10px">{{ item.receiverName }}
+                                </p>
                                 <jx-icon @click="makePhoneCall(item.receiverPhone)" v-if="item.receiverPhone"
                                     value="tab-rescue" color="#2F75FF" :size="20"></jx-icon>
                             </div>
@@ -204,8 +208,9 @@
                 <div class="flex-y-center p-30px" style="border-bottom:1rpx solid #EBEBEB">
                     <div class="flex-1 flex-y-center">
                         <jx-icon color="#FF0000" value="call-helper"></jx-icon>
-                        <span class="ml-25px text-hex-474747 text-30px line-clamp-1 break-all">{{ volunteer?.record?.address
-                        }}</span>
+                        <span class="ml-25px text-hex-474747 text-30px line-clamp-1 break-all">{{
+            volunteer?.record?.address
+        }}</span>
                     </div>
                     <div class="flex-col items-center">
                         <jx-icon class="ml-20px" value="navigation" color="#2595E8" :size="20"></jx-icon>
@@ -240,8 +245,9 @@
                 <div class="flex-y-center p-30px" style="border-bottom:1rpx solid #EBEBEB">
                     <div class="flex-1  flex-y-center">
                         <jx-icon color="#FF0000" value="call-helper"></jx-icon>
-                        <span class="ml-25px text-hex-474747 text-30px line-clamp-1 break-all">{{ volunteer?.record?.address
-                        }}</span>
+                        <span class="ml-25px text-hex-474747 text-30px line-clamp-1 break-all">{{
+            volunteer?.record?.address
+        }}</span>
                     </div>
                     <div class="flex-col items-center" @click="rescueModal.confrim">
                         <jx-icon class="ml-20px" value="navigation" color="#2595E8" :size="20"></jx-icon>
@@ -309,6 +315,16 @@ useDidHide(() => {
 const { checkOpenLocation } = useLogin()
 const normalVisible = ref(false)
 const oneKeyForHelp = async () => {
+    //TODO: 暂时性修改
+    if (rescueType.value === 'EMERGENT') {
+        Taro.showToast({
+            icon: 'none',
+            title: '当前区域未开放',
+            duration: 4000
+        })
+        return false
+    }
+    //@ts-expect-error
     if (rescueType.value === 'EMERGENT' && !normalVisible.value) {
         normalVisible.value = !normalVisible.value
         return false
@@ -325,6 +341,7 @@ const oneKeyForHelp = async () => {
         normalVisible.value = false
         let res = await getRescueInfo()
         Taro.setNavigationBarTitle({
+            //@ts-expect-error
             title: rescueType.value === 'EMERGENT' ? '正常模式' : '演练模式'
         })
         if (res.allVolunteerCount === 0) {

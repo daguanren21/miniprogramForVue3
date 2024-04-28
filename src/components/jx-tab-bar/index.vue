@@ -91,22 +91,22 @@ function tabSwitch(name, index) {
         })
         return
     }
-    if (name === 'oneKeyForHelp') {
-        Taro.showToast({
-            icon: 'none',
-            title: '该地区暂未开放一键呼救功能',
-            duration: 4000
-        })
-        return
-    }
-    // if (name === 'oneKeyForHelp' && !roleType.value) {
+    // if (name === 'oneKeyForHelp') {
     //     Taro.showToast({
     //         icon: 'none',
-    //         title: '暂无访问权限',
+    //         title: '该地区暂未开放一键呼救功能',
     //         duration: 4000
     //     })
     //     return
     // }
+    if (name === 'oneKeyForHelp' && !roleType.value) {
+        Taro.showToast({
+            icon: 'none',
+            title: '暂无访问权限',
+            duration: 4000
+        })
+        return
+    }
     auth.updateTabName(name)
     Taro.switchTab({
         url: `/pages/${name}/index`
