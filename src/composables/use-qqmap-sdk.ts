@@ -119,7 +119,7 @@ export const useQQMapSdk = (cb?: (lat: number, lng: number) => void) => {
             let regionRes = await getRegion()
             let { scale } = await getScale(mapCtx)
             console.log('scale', scale)
-            mapScale.value = scale
+            
             let level = 1
             if (scale < proviceLevelScaleTo) {
                 level = 1
@@ -201,11 +201,11 @@ export const useQQMapSdk = (cb?: (lat: number, lng: number) => void) => {
             let { level, latitude, longitude } = devices[0]
             if (level) {
                 if (level === 1) {
-                    mapScale.value = regionLevelScaleFrom
+                    mapScale.value = regionLevelScaleFrom + Math.random() * 1
                     cb && cb(latitude, longitude)
                 }
                 if (level === 2) {
-                    mapScale.value = pointLevelScaleFrom + 1
+                    mapScale.value = pointLevelScaleFrom + 1 + Math.random() * 1
                     cb && cb(latitude, longitude)
                 }
             } else {

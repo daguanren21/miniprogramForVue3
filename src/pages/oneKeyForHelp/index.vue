@@ -287,6 +287,9 @@ import { useQQMapSdk } from '~/composables/use-qqmap-sdk';
 import { phonePattern } from '~/utils/constant'
 import { distanceFilter, helpSeekedVolunteerResponseTypeFilter, volunteerResponseTaskFilter } from '~/filter'
 import { useLogin } from '~/composables/use-login';
+Taro.showShareMenu({
+  withShareTicket: true
+})
 let { lat, lng, address } = useMapLocation()
 const { state: message, rescueType, model, dynamicForm, dynamicRefForm } = useSwitchModel()
 const { volunteerRescueModal, getRescueInfo, deviceModal, handleDeviceInfoClose, recordId, scale, markertap, responseModal, markers, selectedResponseInfo, volunteer, rescueModal, rescueDistance, getNearbyDevices, renderDeviceMarkers } = useMap(lat, lng)

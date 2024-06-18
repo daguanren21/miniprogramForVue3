@@ -22,23 +22,26 @@
 import Taro, { useDidShow } from '@tarojs/taro';
 import courseList from './components/courseList/index.vue'
 import knowLedgeList from './components/knowLedgeList/index.vue'
-import knowledge_active from '~/assets/images/volunteer/knowledge_active.png'
-import knowledge from '~/assets/images/volunteer/knowledge.png'
+// import knowledge_active from '~/assets/images/volunteer/knowledge_active.png'
+// import knowledge from '~/assets/images/volunteer/knowledge.png'
 import rescue from '~/assets/images/volunteer/rescue.png'
 import rescue_active from '~/assets/images/volunteer/rescue_active.png'
-const componentTab = shallowRef(knowLedgeList)
+Taro.showShareMenu({
+    withShareTicket: true
+})
+const componentTab = shallowRef(courseList)
 const tabList = ref<{
     key: string,
     text: string,
     icon_active: string,
     icon: string,
 }[]>([
-    {
-        key: 'knowLedgeList',
-        icon: knowledge,
-        icon_active: knowledge_active,
-        text: '急救知识库'
-    },
+    // {
+    //     key: 'knowLedgeList',
+    //     icon: knowledge,
+    //     icon_active: knowledge_active,
+    //     text: '急救知识库'
+    // },
     {
         key: 'courseList',
         icon: rescue,
@@ -46,7 +49,7 @@ const tabList = ref<{
         text: '我要学急救'
     },
 ])
-const tabIndex = ref<number>(0)
+const tabIndex = ref<number>(1)
 
 const changeTab = (index) => {
     tabIndex.value = index

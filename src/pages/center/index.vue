@@ -197,6 +197,9 @@ import Taro, { useDidShow } from '@tarojs/taro';
 import { fetcheDevicesCount } from '~/api/device';
 import { fetchOneKeyLogin } from '~/api/login';
 import { fetchUnreadCount } from '~/api/user';
+Taro.showShareMenu({
+  withShareTicket: true
+})
 const account = useAccountInfo()
 let { accountInfo } = storeToRefs(account)
 const auth = useAuthStore()

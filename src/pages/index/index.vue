@@ -76,6 +76,9 @@ import { useQQMapSdk } from '~/composables/use-qqmap-sdk';
 import nearbyDevices from './components/nearby-devices/index.vue'
 import { fetchLatelyDevices } from '~/api/device';
 import Taro, { useDidShow } from '@tarojs/taro';
+Taro.showShareMenu({
+  withShareTicket: true
+})
 const helpVisible = ref(false)
 //获取地图实例
 
