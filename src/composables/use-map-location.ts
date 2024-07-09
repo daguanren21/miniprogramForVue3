@@ -10,16 +10,18 @@ export const useMapLocation = (options: { isNeedAddress: boolean } = {
     const { checkOpenLocation } = useLogin()
     //默认公司地址
     const state = reactive({
-        lat: 31.258518,
-        lng: 120.739311,
+        defaultLat: 30.296175,
+        defaultLng: 120.166335,
+        lat: 0,
+        lng: 0,
         address: '',
         number: 0
     })
     const _locationChangeFn = async function (res) {
-        state.lat = res.latitude;
-        state.lng = res.longitude;
-        account.userCenter.lat=res.latitude;
-        account.userCenter.lng=res.longitude;
+        state.lat = res.latitude 
+        state.lng = res.longitude
+        account.userCenter.lat = res.latitude;
+        account.userCenter.lng = res.longitude;
         Taro.offLocationChange(_locationChangeFn)
         Taro.stopLocationUpdate()
         if (state.number !== 0) return
@@ -37,7 +39,7 @@ export const useMapLocation = (options: { isNeedAddress: boolean } = {
             })
             state.address = address
         }
-        
+
     }
     useDidShow(async () => {
         try {

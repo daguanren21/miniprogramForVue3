@@ -1,17 +1,24 @@
-const enum Gateway {
-    DEVELOPMENT = 'https://device.demo.aedms.cn/',
-    LOCAL = 'http://192.168.10.125:8080/',
-    PRODUCTION = 'https://www.aedms.cn/'
+import Taro from "@tarojs/taro";
+const Gateway = {
+  DEVELOP: 'https://device.demo.aedms.cn/',
+  TRIAL: 'https://device.demo.aedms.cn/',
+  RELEASE: 'https://www.aedms.cn/'
 }
-const enum MapKey {
-    DEVELOPMENT = 'CPPBZ-E6UK6-GLBSK-EKWLH-4GLG6-C4FZF',
-    PRODUCTION = 'WMFBZ-DT3WS-JF7OW-63T53-2KLKV-57BIG'
+const MapKey = {
+  DEVELOP: 'CPPBZ-E6UK6-GLBSK-EKWLH-4GLG6-C4FZF',
+  TRIAL: 'CPPBZ-E6UK6-GLBSK-EKWLH-4GLG6-C4FZF',
+  RELEASE: 'WMFBZ-DT3WS-JF7OW-63T53-2KLKV-57BIG'
 }
+
+const envVersion = Taro.getAccountInfoSync().miniProgram.envVersion;
+type Tserver = 'DEVELOP' | 'TRIAL' | 'RELEASE';
+console.log("envVersion", envVersion)
+const serverName = (envVersion || 'develop').toLocaleUpperCase() as Tserver
 //配置请求路径
-export const baseUrl = Gateway.PRODUCTION + 'services/'
-export const gatewayUrl = Gateway.PRODUCTION
+export const baseUrl = Gateway[serverName] + 'services/'
+export const gatewayUrl = Gateway[serverName]
 //配置map jssdk key
-export const qqMapKey = MapKey.PRODUCTION
+export const qqMapKey = MapKey[serverName]
 //工作日
 export const workDayOptions = [{
     value: '1',

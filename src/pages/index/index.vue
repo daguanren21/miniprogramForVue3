@@ -1,9 +1,9 @@
 <template>
   <view class="home">
     <div class="main">
-      <map class="wh-full" :markers="markers" @markertap="markertap" @callouttap="markertap" @regionchange="regionchange"
-        :longitude="centerLng" :latitude="centerLat" :scale="mapScale" id="indexMap" :show-location="true"
-        :showScale="false">
+      <map class="wh-full" :markers="markers" @markertap="markertap" @callouttap="markertap"
+        @regionchange="regionchange" :longitude="centerLng || defaultLng" :latitude="centerLat || defaultLat"
+        :scale="mapScale" id="indexMap" :show-location="true" :showScale="false">
         <div class="quick_search">
           <nut-searchbar class="jx-search" v-model="searchValue" @search="handleSearch" placeholder="请输入地址">
             <template v-slot:rightin>
@@ -85,7 +85,7 @@ const helpVisible = ref(false)
 //地图获取最新位置
 const account = useAccountInfo()
 const { userCenter } = storeToRefs(account)
-const { lat: centerLat, lng: centerLng } = useMapLocation({ isNeedAddress: false })
+const { lat: centerLat, lng: centerLng, defaultLat, defaultLng } = useMapLocation({ isNeedAddress: false })
 const { renderMarkerDevices, mapScale, getSuggestion, deviceSelectId, regionchange, markers, markertap, deviceInfo, deviceVisible, moveToLocation } = useQQMapSdk((lat, lng) => {
   centerLat.value = lat
   centerLng.value = lng

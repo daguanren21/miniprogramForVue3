@@ -261,7 +261,12 @@ export const useQQMapSdk = (cb?: (lat: number, lng: number) => void) => {
             phoneNumber: phoneNumber
         })
     }
-
+    //预览图片
+    const previewImage= (imageUrls:string)=>{
+        Taro.previewImage({
+            urls:imageUrls.split(';'),
+        })
+    }
     return {
         getSuggestion,
         getRegion,
@@ -276,6 +281,7 @@ export const useQQMapSdk = (cb?: (lat: number, lng: number) => void) => {
         moveToLocation,
         openLocation,
         makePhoneCall,
-        mapScale
+        mapScale,
+        previewImage
     }
 }

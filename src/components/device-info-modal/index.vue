@@ -9,7 +9,8 @@
         <div v-if="detail" class="pb-17px" @click="emit('toPage')">
             <div class="p-40px flex-y-center box-border">
                 <div class="mr-16px h-125px w-125px">
-                    <image v-if="detail.brandLogo" class="h-125px w-125px" :src="detail.brandLogo"></image>
+                    <image v-if="detail.deployedImagePath" @tap.stop="previewImage(detail.deployedImagePath)" class="h-125px w-125px" :src="detail.deployedImagePath.split(';')[0]"></image>
+                    <image v-else-if="detail.brandLogo" class="h-125px w-125px" :src="detail.brandLogo"></image>
                     <image v-else class="h-125px w-125px" src="../../assets/images/index/默认图.jpg"></image>
                 </div>
                 <div class="flex-1 flex-y-center justify-between">
@@ -75,7 +76,7 @@ const emit = defineEmits<{
     close,
     toPage
 }>()
-let { openLocation } = useQQMapSdk()
+let { openLocation,previewImage } = useQQMapSdk()
 const showMapNavigation = async (info: Index.DeviceInfo) => {
     let { address, deployedAreaLatitude: lat, deployedAreaLongitude: lng } = info
     try {

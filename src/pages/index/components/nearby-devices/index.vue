@@ -3,10 +3,11 @@
         <nut-popup position="bottom" @click-overlay="emits('close')" closeable round @click-close-icon="emits('close')" :style="{ maxHeight: '60%' }"
             :visible="visible">
             <div class="text-center text-30px text-hex-1f1f1f font-bold mt-42px">附近AED列表</div>
-            <div @click="emits('change', item)" class="p-40px flex-y-center box-border"
+            <div @click.stop="emits('change', item)" class="p-40px flex-y-center box-border"
                 style="border-bottom: 1rpx solid #dadada;padding: 40rpx;" v-for="item in list">
                 <div class="mr-16px h-125px w-125px">
-                    <image v-if="item.brandLogo" class="h-125px w-125px" :src="item.brandLogo"></image>
+                    <image v-if="item.deployedImagePath" @tap.stop="previewImage(item.deployedImagePath)" class="h-125px w-125px" :src="item.deployedImagePath.split(';')[0]"></image>
+                    <image v-else-if="item.brandLogo" class="h-125px w-125px" :src="item.brandLogo"></image>
                     <image v-else class="h-125px w-125px" src="../../../../assets/images/index/默认图.jpg"></image>
                 </div>
                 <div class="flex-1 flex-y-center justify-between">
@@ -67,7 +68,7 @@ const state = reactive({
 //     })
 //     state.show = true
 // }
-let { openLocation } = useQQMapSdk()
+let { openLocation,previewImage } = useQQMapSdk()
 const showMapNavigation = async (info: Index.DeviceInfo) => {
     let { address, deployedAreaLatitude: lat, deployedAreaLongitude: lng } = info
     try {
